@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///Users/elenavinar/Code/Apps/Notion/notion-front/src/app/page.tsx"],"sourcesContent":["export default function Home() {\n  return <div>Home page</div>\n}\n"],"names":["Home"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBAAO,ocAAC;kBAAI;;;;;;AACd"}}]
+}
