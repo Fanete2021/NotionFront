@@ -41,7 +41,7 @@ Frontend приложения построен на **Next.js**, **TypeScript** 
 ## State Management
 
 - TanStack Query
-- Zustand
+- Redux Toolkit
 
 ## UI
 
