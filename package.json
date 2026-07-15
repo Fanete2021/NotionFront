@@ -9,6 +9,8 @@
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "16.2.10",
@@ -35,5 +37,8 @@
     "typescript": "^5",
     "vite": "^8.1.4",
     "vitest": "^4.1.10"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "typescript": "^5"
   }
 }
