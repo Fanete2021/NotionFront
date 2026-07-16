@@ -1,0 +1,47 @@
+.h1 {
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 56px;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 32px;
+}
+
+.h3 {
+  font-size: 32px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.h4 {
+  font-size: 26px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.text-regular {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 14px;
+}
+
+.text-medium {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 14px;
+}
+
+.label {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 13px;
+}
+
+.caption {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 12px;
+}
