@@ -1,31 +1,126 @@
-.button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--color-primary);
-  color: var(--color-text);
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
+.Button {
+    cursor: pointer;
+    color: var(--color-primary);
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        color: gray;
+
+        .addonLeft svg {
+            color: blue;
+        }
+    }
 }
 
-.button:hover {
-  opacity: 0.9;
+.withAddon {
+    padding: 0 16px;
 }
 
-.primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
+.addonLeft {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+
+    svg,
+    img,
+    span {
+        color: black;
+    }
 }
 
-.secondary{
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-black);
-  color: var(--color-text);
+.clear {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+    border-radius: 10px;
 }
 
-.xs { padding: 4px 8px; font-size: 12px; }
-.s  { padding: 6px 12px; font-size: 14px; }
-.md { padding: 10px 16px; font-size: 16px; }
-.lg { padding: 14px 24px; font-size: 18px; }
+.filled {
+    background-color: var(--color-primary);
+    border: none;
+    outline: none;
+    border-radius: 8px;
+
+    &.normal {
+        background-color: black;
+        color: white;
+    }
+    &.error {
+        background-color: red;
+        color: white;
+    }
+    &.success {
+        background-color: green;
+        color: white;
+    }
+}
+
+.outline {
+    background: none;
+    border-radius: 10px;
+
+    &:hover {
+        border: 2px solid var(--color-primary);
+    }
+
+    &.normal {
+        border: 2px solid black;
+    }
+
+    &.error {
+        border: 2px solid red;
+    }
+
+    &.success {
+        border: 2px solid green;
+    }
+}
+
+.square {
+    padding: 0;
+}
+
+.xss {
+    padding: 4px 8px;
+    font-size: 11px;
+
+    &.square {
+        padding: 0;
+    }
+}
+.xs {
+    padding: 6px 10px;
+    font-size: 12px;
+
+    &.square {
+        padding: 0;
+    }
+}
+.s {
+    padding: 10px 12px;
+    font-size: 13px;
+}
+.md {
+    padding: 10px 16px;
+    font-size: 14px;
+}
+.ml {
+    padding: 12px 18px;
+    font-size: 15px;
+}
+.lg {
+    padding: 14px 24px;
+    font-size: 16px;
+}
+
+.disabled {
+    opacity: 0.5;
+}
+
+.fullWidth {
+    width: 100%;
+}
