@@ -3,7 +3,7 @@
   border: none;
   border-radius: 6px;
   background-color: var(--color-primary);
-  color: white;
+  color: var(--color-text);
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -13,3 +13,19 @@
 .button:hover {
   opacity: 0.9;
 }
+
+.primary {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+.secondary{
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-black);
+  color: var(--color-text);
+}
+
+.xs { padding: 4px 8px; font-size: 12px; }
+.s  { padding: 6px 12px; font-size: 14px; }
+.md { padding: 10px 16px; font-size: 16px; }
+.lg { padding: 14px 24px; font-size: 18px; }
