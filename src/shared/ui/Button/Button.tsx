@@ -50,7 +50,7 @@ export const Button = (props: ButtonProps) => {
     return (
         <button
             type="button"
-            className={classNames(styles.Button, mods, [
+            className={classNames(styles.button, mods, [
                 styles[variant],
                 styles[size],
                 styles[color],
