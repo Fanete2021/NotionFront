@@ -4,9 +4,9 @@ import styles from "./Button.module.css";
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
-export type ButtonVariant = "clear" | "outline" | "filled";
-export type ButtonColor = "normal" | "success" | "error";
-export type ButtonSize = "xss" | "xs" | "s" | "md" | "ml" | "lg";
+export type ButtonVariant = "outline" | "filled";
+export type ButtonColor = "normal" | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -12,20 +12,14 @@ const meta = {
         // Объект с пропсами компонента
         onClick: fn(),
         children: "Нажми на меня",
-        variant: "clear",
-        size: "md",
+        variant: "outline",
+        size: "sm",
     },
 } satisfies Meta<typeof Button>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
-
-export const Clear: Story = {
-    args: {
-        variant: "clear",
-    },
-};
 
 export const Filled: Story = {
     args: {
@@ -39,33 +33,15 @@ export const Outline: Story = {
     },
 };
 
-export const ButtonXss: Story = {
+export const ButtonSm: Story = {
     args: {
-        size: "xss",
-    },
-};
-
-export const ButtonXs: Story = {
-    args: {
-        size: "xs",
-    },
-};
-
-export const ButtonS: Story = {
-    args: {
-        size: "s",
+        size: "sm",
     },
 };
 
 export const ButtonMd: Story = {
     args: {
         size: "md",
-    },
-};
-
-export const ButtonMl: Story = {
-    args: {
-        size: "ml",
     },
 };
 
@@ -85,12 +61,14 @@ export const Square: Story = {
 
 export const Disabled: Story = {
     args: {
+        variant: 'outline',
         disabled: true,
     },
 };
 
 export const WithAddon: Story = {
     args: {
+        variant: 'filled',
         children: "addon",
         addonLeft: ">",
     },

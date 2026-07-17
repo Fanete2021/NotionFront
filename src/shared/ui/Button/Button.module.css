@@ -1,22 +1,13 @@
 .Button {
     cursor: pointer;
-    color: var(--color-primary);
-    padding: 6px 16px;
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    &:hover {
-        color: gray;
-
-        .addonLeft svg {
-            color: blue;
-        }
-    }
 }
 
 .withAddon {
-    padding: 0 16px;
+    padding: 0 2px;
 }
 
 .addonLeft {
@@ -40,22 +31,35 @@
 }
 
 .filled {
-    background-color: var(--color-primary);
+    background-color: #6366f1;
     border: none;
     outline: none;
-    border-radius: 8px;
+
+    &:hover {
+        background-color: #4f52dd;
+
+        .addonLeft svg {
+            color: #ffffff;
+        }
+    }
+
+    &:active {
+        background-color: #4346c8;
+    }
+
+    &:disabled {
+        background-color: #d1d5db;
+        opacity: 0.5;
+    }
 
     &.normal {
-        background-color: black;
-        color: white;
+        background-color: #6366f1;
+        color: #ffffff;
     }
-    &.error {
-        background-color: red;
-        color: white;
-    }
-    &.success {
-        background-color: green;
-        color: white;
+
+    &.danger {
+        background-color: #ef4444;
+        color: #ffffff;
     }
 }
 
@@ -64,61 +68,59 @@
     border-radius: 10px;
 
     &:hover {
-        border: 2px solid var(--color-primary);
+        border: 1px solid #9ca3af;
+        color: #111827;
+    }
+
+    &:active {
+        border: 1px solid #d1d5db;
+        color: #111827;
+        background-color: #f3f4f6;
+    }
+
+    &:disabled {
+        border: #e5e7eb;
+        color: #111827;
+        background-color: #f9fafb;
+        opacity: 0.5;
     }
 
     &.normal {
-        border: 2px solid black;
+        border: 1px solid #d1d5db;
+        color: #374151;
     }
 
-    &.error {
-        border: 2px solid red;
-    }
-
-    &.success {
-        border: 2px solid green;
+    &.danger {
+        border: 1px solid #ef4444;
+        color: #ef4444;
     }
 }
 
 .square {
     padding: 0;
+    width: 40px;
+    height: 40px;
 }
 
-.xss {
-    padding: 4px 8px;
-    font-size: 11px;
-
-    &.square {
-        padding: 0;
-    }
-}
-.xs {
-    padding: 6px 10px;
+.sm {
     font-size: 12px;
+    line-height: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
 
-    &.square {
-        padding: 0;
-    }
-}
-.s {
-    padding: 10px 12px;
-    font-size: 13px;
-}
 .md {
-    padding: 10px 16px;
     font-size: 14px;
-}
-.ml {
-    padding: 12px 18px;
-    font-size: 15px;
-}
-.lg {
-    padding: 14px 24px;
-    font-size: 16px;
+    line-height: 20px;
+    padding: 10px 16px;
+    border-radius: 8px;
 }
 
-.disabled {
-    opacity: 0.5;
+.lg {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 14px 24px;
+    border-radius: 10px;
 }
 
 .fullWidth {
