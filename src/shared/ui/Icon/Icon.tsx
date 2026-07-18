@@ -1,5 +1,5 @@
 import cn from "classnames";
-import styles from "./Icon.module.scss";
+import styles from "./Icon.module.css";
 
 type SvgProps = Omit<React.SVGProps<SVGSVGElement>, "onClick">;
 
