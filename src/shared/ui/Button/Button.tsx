@@ -1,4 +1,4 @@
-"use client"; // <-- Эта строка обязательна для интерактивных компонентов
+"use client";
 
 import styles from "./Button.module.css";
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
@@ -11,17 +11,22 @@ type Mods = Record<string, boolean | string | undefined>;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;
-    // Тема кнопки. Определяет стиль (в рамке, без стилей, заливка цветом)
-    variant?: ButtonVariant;
-    // Флаг, определяющий квадратная кнопка или нет
-    square?: boolean;
-    // Размер кнопки
-    size?: ButtonSize;
     disabled?: boolean;
     children?: ReactNode;
+    color?: ButtonColor;
+
+    // Тема кнопки. Определяет стиль (в рамке, без стилей, заливка цветом)
+    variant?: ButtonVariant;
+
+    // Флаг, определяющий квадратная кнопка или нет
+    square?: boolean;
+
+    // Размер кнопки
+    size?: ButtonSize;
+
     // Увеличивает кнопку на всю свободную ширину
     fullWidth?: boolean;
-    color?: ButtonColor;
+
     // Добавляет элемент слева
     addonLeft?: ReactNode;
 }

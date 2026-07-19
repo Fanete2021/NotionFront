@@ -5,11 +5,10 @@ import { Button } from "@shared/ui/Button/Button";
 import "@shared/styles/global.css";
 
 const meta = {
-    title: "shared/Button", // Наименование компонента, которое будет отображаться в storybook
-    component: Button, // Название компонента для которого делается story
-    tags: ["autodocs"], // Тег для автоматической документации компонента
+    title: "shared/Button",
+    component: Button,
+    tags: ["autodocs"],
     args: {
-        // Объект с пропсами компонента
         onClick: fn(),
         children: "Нажми на меня",
         variant: "outline",
