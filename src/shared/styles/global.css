@@ -3,9 +3,9 @@
   --color-text: #1a1a1a;
   --color-primary: #0070f3;
 
-  --laptop-width: 1440.98;
-  --tablet-width: 1024.98;
-  --mobile-width: 390.98;
+  --laptop-width: 1440;
+  --tablet-width: 1024;
+  --mobile-width: 390;
 }
 
 body {

@@ -47,7 +47,7 @@
   line-height: 16px;
 }
 
-@media (width <= 1440.98) {
+@media (width <= 1440) {
   .h1 {
     font-size: 40px;
     line-height: 52px;
@@ -69,7 +69,7 @@
   }
 }
 
-@media (width <= 1024.98) {
+@media (width <= 1024) {
   .h1 {
     font-size: 32px;
     line-height: 42px;
@@ -91,7 +91,7 @@
   }
 }
 
-@media (width <= 390.98) {
+@media (width <= 390) {
   .h1 {
     font-size: 26px;
     line-height: 36px;
