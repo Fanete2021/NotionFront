@@ -1,3 +1,4 @@
+cat > .dockerignore << 'EOF'
 node_modules
 .next
 .git
@@ -8,3 +9,5 @@ docker-compose.yml
 .vscode
 .idea
 *.log
+pnpm-workspace.yaml
+EOF
