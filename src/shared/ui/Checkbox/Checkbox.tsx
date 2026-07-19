@@ -5,9 +5,7 @@ import styles from './Checkbox.module.css'
 import React from "react";
 import classNames from "classnames";
 
-type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root> & {
-  children?: React.ReactNode;
-};
+type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root>;
 
 export const Checkbox = ({children, className, ...props}: CheckboxProps) => {
   return (

@@ -35,3 +35,15 @@ export const DisabledChecked: Story = {
     defaultChecked: true,
   },
 };
+
+export const Required: Story = {
+  args: {
+    required: true,
+  },
+};
+
+export const ReadOnly: Story = {
+  args: {
+    readOnly: true,
+  },
+};
