@@ -1,0 +1,13 @@
+cat > .dockerignore << 'EOF'
+node_modules
+.next
+.git
+.env*
+Dockerfile
+.dockerignore
+docker-compose.yml
+.vscode
+.idea
+*.log
+pnpm-workspace.yaml
+EOF
