@@ -14,12 +14,6 @@
     display: flex;
     align-items: center;
     margin-right: 8px;
-
-    svg,
-    img,
-    span {
-        color: black;
-    }
 }
 
 .clear {
@@ -37,10 +31,6 @@
 
     &:hover {
         background-color: #4f52dd;
-
-        .addonLeft svg {
-            color: #ffffff;
-        }
     }
 
     &:active {
