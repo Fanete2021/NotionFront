@@ -1,0 +1,29 @@
+:root {
+  /* COLORS */
+
+  /* brand */
+  --color-primary: #6366F1;
+  --color-primary-rgb: 99, 102, 241;
+  --color-primary-alfa: rgba(99, 102, 241, 0.08);
+  --color-telegram: #2596BE;
+  --color-telegram-rgb: 37, 150, 190;
+
+  /* semantic */
+  --color-success: #10B981;
+  --color-success-rgb: 16, 185, 129;
+  --color-warning: #F59E0B;
+  --color-warning-rgb: 245, 158, 11;
+  --color-danger: #EF4444;
+  --color-danger-rgb: 239, 68, 68;
+  --color-info: #2563EB;
+  --color-info-rgb: 37, 99, 235;
+
+  /* neutrals */
+  --color-text-primary: #111827;
+  --color-text-body: #374151;
+  --color-text-muted: #6B7280;
+  --color-border-strong: #D1D5DB;
+  --color-border-base: #E5E7EB;
+  --color-bg-muted: #F3F4F6;
+  --color-bg-surface: #F9FAFB;
+}
