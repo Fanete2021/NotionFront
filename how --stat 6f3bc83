@@ -1,0 +1,16 @@
+[33mcommit b94f539cacbaa018b17e8caae524ecebfb1c9be5[m
+Author: Hikaru <nikita.belyaev.05@mail.ru>
+Date:   Sun Jul 19 12:44:41 2026 +0300
+
+    Добавил кнкомпонент Checkbox + stories
+
+ lint-staged.config.js                        |   1 [32m+[m
+ package.json                                 |  10 [32m+[m[31m-[m
+ pnpm-lock.yaml                               | 301 [32m+++++++++++++++++++[m[31m--------[m
+ pnpm-workspace.yaml                          |   2 [32m+[m
+ src/shared/assets/icons/checkbox-checked.svg |   3 [32m+[m
+ src/shared/ui/Checkbox/Checkbox.module.css   |  55 [32m+++++[m
+ src/shared/ui/Checkbox/Checkbox.stories.tsx  |  37 [32m++++[m
+ src/shared/ui/Checkbox/Checkbox.tsx          |  43 [32m++++[m
+ src/shared/ui/Checkbox/index.ts              |   1 [32m+[m
+ 9 files changed, 361 insertions(+), 92 deletions(-)

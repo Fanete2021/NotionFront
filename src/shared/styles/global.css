@@ -2,6 +2,9 @@
   --color-bg: #ffffff;
   --color-text: #1a1a1a;
   --color-primary: #0070f3;
+
+  --tablet-width: 1439;
+  --mobile-width: 1023;
 }
 
 body {
