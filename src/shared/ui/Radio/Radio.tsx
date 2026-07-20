@@ -3,14 +3,13 @@
 import styles from './Radio.module.css';
 import React from "react";
 
-type RadioProps = React.ComponentProps<"input"> & {
+type RadioProps = Omit<React.ComponentProps<"input">, "type"> & {
   label?: React.ReactNode;
 };
 
 export const Radio = ({
   label,
   className,
-  type: _type,
   ...props
 }: RadioProps) => {
   const radioClasses = [
