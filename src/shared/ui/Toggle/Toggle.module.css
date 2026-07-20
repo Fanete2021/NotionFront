@@ -1,15 +1,16 @@
 .container {
+    box-sizing: border-box;
     display: inline-block;
     cursor: pointer;
     width: 44px;
     height: 24px;
     border-radius: 12px;
-    padding: 2px;
+    padding: 4px;
     transition: background-color 0.2s ease;
     outline: none;
 }
 
-.contaner:focus-visible {
+.container:focus-visible {
     outline: 2px solid #6366f1;
     outline-offset: 2px;
 }
@@ -34,17 +35,21 @@
     opacity: 0.7;
 }
 
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .thumb {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease;
 }
 
 .thumbOff {
-    transform: translateXS(0);
+    transform: translateX(0);
 }
 
 .thumbOn {

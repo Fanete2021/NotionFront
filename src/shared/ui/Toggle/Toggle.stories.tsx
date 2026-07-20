@@ -1,15 +1,16 @@
-import { fn } from 'storybook/test';
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { fn } from "storybook/test";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
-import { Toggle } from '@/shared/ui/Toggle/Toggle';
+import { Toggle } from "@/shared/ui/Toggle/Toggle";
 
 const meta = {
-    title: 'Toggle',
+    title: "Toggle",
     component: Toggle,
-    tags: ['autodocs'],
+    tags: ["autodocs"],
     args: {
         onToggle: fn(),
-        state: 'off',
+        checked: false,
+        disabled: false,
     },
 } satisfies Meta<typeof Toggle>;
 
@@ -18,24 +19,28 @@ type Story = StoryObj<typeof meta>;
 
 export const Off: Story = {
     args: {
-        state: 'off',
+        checked: false,
+        disabled: false,
     },
 };
 
 export const On: Story = {
     args: {
-        state: 'on',
+        checked: true,
+        disabled: false,
     },
 };
 
 export const OffDisabled: Story = {
     args: {
-        state: 'offDisabled',
+        checked: false,
+        disabled: true,
     },
 };
 
 export const OnDisabled: Story = {
-    args : {
-        state: 'onDisabled',
+    args: {
+        checked: true,
+        disabled: true,
     },
 };
