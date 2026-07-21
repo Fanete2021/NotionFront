@@ -1,0 +1,18 @@
+.card {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+
+  &[data-variant='outlined'] {
+    border: 1px solid var(--color-border-base);
+  }
+
+  &[data-selected='true'] {
+    border: 1px solid var(--color-primary);
+  }
+
+  &[data-variant='elevated'] {
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+  }
+}
+
