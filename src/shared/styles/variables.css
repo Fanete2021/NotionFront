@@ -1,0 +1,23 @@
+:root {
+  /* COLORS */
+
+  /* brand */
+  --color-primary: #6366F1;
+  --color-primary-light: #6366F114;
+  --color-telegram: #2596BE;
+
+  /* semantic */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #2563EB;
+
+  /* neutrals */
+  --color-text-primary: #111827;
+  --color-text-body: #374151;
+  --color-text-muted: #6B7280;
+  --color-border-strong: #D1D5DB;
+  --color-border-base: #E5E7EB;
+  --color-bg-muted: #F3F4F6;
+  --color-bg-surface: #F9FAFB;
+}
