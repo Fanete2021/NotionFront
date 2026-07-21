@@ -4,6 +4,7 @@ import {Checkbox as BaseCheckbox} from '@base-ui/react/checkbox';
 import styles from './Checkbox.module.css'
 import React from "react";
 import classNames from "classnames";
+import {CheckIcon} from "@shared/ui/Checkbox/CheckIcon";
 
 type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root>;
 
@@ -20,22 +21,5 @@ export const Checkbox = ({children, className, ...props}: CheckboxProps) => {
       </BaseCheckbox.Root>
       {children}
     </label>
-  );
-}
-
-const CheckIcon = (props: React.ComponentProps<'svg'>) => {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 12 12"
-      fill="none"
-      stroke="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M9.64645 2.64645C9.84171 2.45118 10.1582 2.45118 10.3535 2.64645C10.5487 2.84171 10.5487 3.15822 10.3535 3.35348L4.85348 8.85348C4.65822 9.04874 4.34171 9.04874 4.14645 8.85348L1.64645 6.35348C1.45118 6.15822 1.45118 5.84171 1.64645 5.64645C1.84171 5.45118 2.15822 5.45118 2.35348 5.64645L4.49996 7.79293L9.64645 2.64645Z"/>
-    </svg>
   );
 }
