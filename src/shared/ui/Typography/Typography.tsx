@@ -11,6 +11,9 @@ const variantMap = {
   'text-regular': 'p',
   label: 'label',
   caption: 'span',
+  'text-alt': 'p',
+  'text-micro': 'label',
+  'text-avatar': 'span'
 } as const;
 
 type TypographyVariant = keyof typeof variantMap;
@@ -25,7 +28,7 @@ export const Typography = ({
    className,
    children,
    ...props
-  }: TypographyProps) => {
+ }: TypographyProps) => {
 
   const Comp = variantMap[variant];
 

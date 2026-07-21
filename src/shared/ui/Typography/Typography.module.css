@@ -16,10 +16,9 @@
   line-height: 32px;
 }
 
-
 .h4 {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 22px;
   line-height: 26px;
 }
 
@@ -45,34 +44,54 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
+  color: #6B7280;
 }
 
-@media (width <= 1440) {
+.text-alt {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.text-micro {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #6B7280;
+}
+
+.text-avatar {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+}
+
+@media (max-width: 1439px) {
   .h1 {
-    font-size: 40px;
-    line-height: 52px;
+    font-size: 32px;
+    line-height: 40px;
   }
 
   .h2 {
-    font-size: 28px;
-    line-height: 36px;
+    font-size: 26px;
+    line-height: 34px;
   }
 
   .h3 {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 24px;
+    line-height: 32px;
   }
 
   .h4 {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 24px;
   }
 }
 
-@media (width <= 1024) {
+@media (max-width: 1023px) {
   .h1 {
     font-size: 32px;
-    line-height: 42px;
+    line-height: 40px;
   }
 
   .h2 {
@@ -81,34 +100,12 @@
   }
 
   .h3 {
-    font-size: 20px;
-    line-height: 28px;
-  }
-
-  .h4 {
-    font-size: 14px;
-    line-height: 20px;
-  }
-}
-
-@media (width <= 390) {
-  .h1 {
-    font-size: 26px;
-    line-height: 36px;
-  }
-
-  .h2 {
     font-size: 22px;
     line-height: 30px;
   }
 
-  .h3 {
-    font-size: 18px;
-    line-height: 24px;
-  }
-
   .h4 {
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 18px;
+    line-height: 22px;
   }
 }

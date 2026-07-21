@@ -72,3 +72,24 @@ export const Caption:Story = {
     children: 'Timestamps, badges, auxiliary information'
   }
 }
+
+export const BodyAlt:Story = {
+  args: {
+    variant: 'text-alt',
+    children: 'Subtitles, alt body text, hero descriptions'
+  }
+}
+
+export const Micro:Story = {
+  args: {
+    variant: 'text-micro',
+    children: 'Micro labels, sidebar sections, shortcuts'
+  }
+}
+
+export const Avatar:Story = {
+  args: {
+    variant: 'text-avatar',
+    children: 'AK'
+  }
+}

@@ -2,10 +2,6 @@
   --color-bg: #ffffff;
   --color-text: #1a1a1a;
   --color-primary: #0070f3;
-
-  --laptop-width: 1440;
-  --tablet-width: 1024;
-  --mobile-width: 390;
 }
 
 body {
