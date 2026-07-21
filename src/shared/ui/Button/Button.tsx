@@ -1,32 +1,71 @@
-"use client"; // <-- Эта строка обязательна для интерактивных компонентов
+"use client";
 
-import styles from './Button.module.css';
-import React from "react";
+import styles from "./Button.module.css";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
+import classNames from "classnames";
 
-type ButtonProps = React.ComponentProps<"button"> & {
-  variant?: 'primary' | 'secondary';
-  size?: 'xs' | 's' | 'md' | 'lg';
-  children?: React.ReactNode;
-};
+export type ButtonVariant = "outline" | "filled";
+export type ButtonColor = "normal" | 'danger';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+type Mods = Record<string, boolean | string | undefined>;
 
-export const Button = ({
-   children,
-   className,
-   variant = 'primary',
-   size = 'md',
-   onClick,
-   ...props
- }: ButtonProps) => {
-  const buttonClasses = [
-    styles.button,
-    styles[variant],
-    styles[size],
-    className
-  ].filter(Boolean).join(' ');
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    className?: string;
+    disabled?: boolean;
+    children?: ReactNode;
+    color?: ButtonColor;
 
-  return (
-    <button className={buttonClasses} onClick={onClick} {...props}>
-      {children}
-    </button>
-  );
+    // Тема кнопки. Определяет стиль (в рамке, без стилей, заливка цветом)
+    variant?: ButtonVariant;
+
+    // Флаг, определяющий квадратная кнопка или нет
+    square?: boolean;
+
+    // Размер кнопки
+    size?: ButtonSize;
+
+    // Увеличивает кнопку на всю свободную ширину
+    fullWidth?: boolean;
+
+    // Добавляет элемент слева
+    addonLeft?: ReactNode;
+}
+
+export const Button = (props: ButtonProps) => {
+    const {
+        className,
+        children,
+        variant = "outline",
+        square,
+        disabled,
+        fullWidth,
+        size = "md",
+        addonLeft,
+        color = "normal",
+        ...otherProps
+    } = props;
+
+    const mods: Mods = {
+        [styles.square]: square,
+        [styles.disabled]: disabled,
+        [styles.fullWidth]: fullWidth,
+        [styles.withAddon]: Boolean(addonLeft),
+    };
+
+    return (
+        <button
+            type="button"
+            className={classNames(styles.button, mods, [
+                styles[variant],
+                styles[size],
+                styles[color],
+                className,
+            ])}
+            disabled={disabled}
+            {...otherProps}
+        >
+            {addonLeft && <div className={styles.addonLeft}>{addonLeft}</div>}
+            {children}
+        </button>
+    );
 };
