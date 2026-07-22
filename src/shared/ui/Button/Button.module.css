@@ -1,31 +1,118 @@
 .button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--color-primary);
-  color: var(--color-text);
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.button:hover {
-  opacity: 0.9;
+.withAddon {
+    padding: 0 2px;
 }
 
-.primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
+.addonLeft {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
 }
 
-.secondary{
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-black);
-  color: var(--color-text);
+.clear {
+    padding: 0;
+    border: none;
+    background: none;
+    outline: none;
+    border-radius: 10px;
 }
 
-.xs { padding: 4px 8px; font-size: 12px; }
-.s  { padding: 6px 12px; font-size: 14px; }
-.md { padding: 10px 16px; font-size: 16px; }
-.lg { padding: 14px 24px; font-size: 18px; }
+.filled {
+    background-color: #6366f1;
+    border: none;
+    outline: none;
+
+    &:hover {
+        background-color: #4f52dd;
+    }
+
+    &:active {
+        background-color: #4346c8;
+    }
+
+    &:disabled {
+        background-color: #d1d5db;
+        opacity: 0.5;
+    }
+
+    &.normal {
+        background-color: #6366f1;
+        color: #ffffff;
+    }
+
+    &.danger {
+        background-color: #ef4444;
+        color: #ffffff;
+    }
+}
+
+.outline {
+    background: none;
+    border-radius: 10px;
+
+    &:hover {
+        border: 1px solid #9ca3af;
+        color: #111827;
+    }
+
+    &:active {
+        border: 1px solid #d1d5db;
+        color: #111827;
+        background-color: #f3f4f6;
+    }
+
+    &:disabled {
+        border: #e5e7eb;
+        color: #111827;
+        background-color: #f9fafb;
+        opacity: 0.5;
+    }
+
+    &.normal {
+        border: 1px solid #d1d5db;
+        color: #374151;
+    }
+
+    &.danger {
+        border: 1px solid #ef4444;
+        color: #ef4444;
+    }
+}
+
+.square {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.sm {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.md {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.lg {
+    font-size: 16px;
+    line-height: 24px;
+    padding: 14px 24px;
+    border-radius: 10px;
+}
+
+.fullWidth {
+    width: 100%;
+}

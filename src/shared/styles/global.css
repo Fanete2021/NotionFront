@@ -1,18 +1,14 @@
-:root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-primary: #0070f3;
+@import './variables.css';
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
   line-height: 1.6;
-}
-
-* {
-  box-sizing: border-box;
 }
