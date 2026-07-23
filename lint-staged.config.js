@@ -3,6 +3,8 @@
  * @type {import('lint-staged').Configuration}
  */
 
-export default {
-  '*.{js,jsx,ts,tsx}': ['eslint --fix'], // Пока не добавили prettier проверяется только eslint
-}
+const config = {
+  '*.{js,jsx,ts,tsx,mjs,cjs}': ['eslint --fix', 'prettier --write'],
+};
+
+export default config;

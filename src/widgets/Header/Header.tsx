@@ -1,7 +1,7 @@
-"use client"; // <-- Обязательно для компонентов, создающих обработчики событий
+'use client'; // <-- Обязательно для компонентов, создающих обработчики событий
 
-import { Button } from '@shared/ui/Button';
 import styles from './Header.module.css';
+import { Button } from '@shared/ui/Button';
 
 export const Header = () => {
   return (
