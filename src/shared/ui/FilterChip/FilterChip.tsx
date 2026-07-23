@@ -2,6 +2,7 @@
 
 import styles from './FilterChip.module.css';
 import React from "react";
+import classNames from "classnames";
 
 type FilterChipColor =
   | 'primary'
@@ -11,12 +12,20 @@ type FilterChipColor =
   | 'info'
   | 'neutral';
 
-type FilterChipProps = {
+type FilterChipProps = React.ComponentProps<'span'> & {
   label: React.ReactNode;
   color?: FilterChipColor;
   appearance?: 'filter' | 'add';
   showRemove?: boolean;
-  className?: string;
+};
+
+const colorClassName: Record<FilterChipColor, string> = {
+  primary: styles.colorPrimary,
+  success: styles.colorSuccess,
+  warning: styles.colorWarning,
+  danger: styles.colorDanger,
+  info: styles.colorInfo,
+  neutral: styles.colorNeutral,
 };
 
 export const FilterChip = ({
@@ -25,22 +34,12 @@ export const FilterChip = ({
   appearance = 'filter',
   showRemove = false,
   className,
+  ...props
 }: FilterChipProps) => {
-  const colorClassName = {
-    primary: styles.colorPrimary,
-    success: styles.colorSuccess,
-    warning: styles.colorWarning,
-    danger: styles.colorDanger,
-    info: styles.colorInfo,
-    neutral: styles.colorNeutral,
-  }[color];
-
-  const filterChipClasses = [styles.filterChip, colorClassName, className]
-    .filter(Boolean)
-    .join(' ');
+  const filterChipClasses = classNames(styles.filterChip, colorClassName[color], className)
 
   return (
-    <span className={filterChipClasses}>
+    <span className={filterChipClasses} {...props}>
       {appearance === 'add' ? (
         <span className={styles.addPlus}>+</span>
       ) : (
