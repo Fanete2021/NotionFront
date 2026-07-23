@@ -6,10 +6,9 @@ import classNames from "classnames";
 
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-type AvatarProps = {
+type AvatarProps = React.ComponentPropsWithoutRef<"div"> & {
   name: string;
   size?: AvatarSize;
-  className?: string;
 };
 
 const getInitials = (name: string, size: AvatarSize) => {
@@ -34,12 +33,14 @@ const getInitials = (name: string, size: AvatarSize) => {
   return result
 }
 
-
 export const Avatar = (props: AvatarProps) => {
-  const { name, size = "md", className } = props;
+  const { name, size = "md", className, ...rest } = props;
 
   return (
-    <div className={classNames(styles.avatar, styles[size], className)}>
+    <div
+      className={classNames(styles.avatar, styles[size], className)}
+      {...rest}
+    >
       {getInitials(name, size)}
     </div>
   );

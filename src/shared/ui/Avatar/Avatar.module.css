@@ -4,7 +4,7 @@
   justify-content: center;
   border-radius: 50%;
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-white);
   font-weight: 400;
   flex-shrink: 0;
   overflow: hidden;
