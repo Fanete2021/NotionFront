@@ -1,5 +1,5 @@
 import { InputHTMLAttributes, ReactNode, useState } from "react";
-import styles from "./Input.module.scss";
+import styles from "./Input.module.css";
 import cn from "classnames";
 import { Typography } from "@/shared/ui/Typography";
 
@@ -65,7 +65,7 @@ export const Input = (props: InputProps) => {
         [styles.withAddonLeft]: Boolean(addonLeft),
         [styles.withAddonRight]: Boolean(addonRight),
         [styles[size]]: true,
-        [styles.filled]: Boolean(value),
+        [styles.filled]: value !== undefined && value !== '',
     };
 
     const input = (

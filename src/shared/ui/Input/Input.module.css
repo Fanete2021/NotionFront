@@ -78,7 +78,10 @@
     flex-shrink: 0;
 
     svg, img {
+        color: var(--color-text-body);
         display: block;
+        width: 16px;
+        height: 16px;
     }
 }
 
