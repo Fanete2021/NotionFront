@@ -7,5 +7,6 @@ node_modules
 .loki/report.json
 /reports/unit
 .next
+*.tsbuildinfo
 *storybook.log
 pnpm-workspace.yaml
