@@ -1,5 +1,5 @@
 import { fn } from "storybook/test";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Input } from "./Input";
 import SearchIcon from '../../assets/icons/search.svg';
 import EyeIcon from "../../assets/icons/eye.svg";
