@@ -1,5 +1,5 @@
 import {Typography, TypographyProps} from "@shared/ui/Typography/Typography";
-import type {Meta, StoryObj} from "@storybook/nextjs-vite";
+import type {Meta, StoryObj} from "@storybook/nextjs";
 
 const defaultArgs: TypographyProps = {
   variant: 'text-regular',
