@@ -1,10 +1,12 @@
 /build
 node_modules
+.pnpm-store/
 .idea
 /storybook-static
 .loki/report.html
 .loki/report.json
 /reports/unit
 .next
+*.tsbuildinfo
 *storybook.log
 pnpm-workspace.yaml
