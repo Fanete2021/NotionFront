@@ -4,7 +4,7 @@ import {Checkbox as BaseCheckbox} from '@base-ui/react/checkbox';
 import styles from './Checkbox.module.css'
 import React from "react";
 import classNames from "classnames";
-import {CheckIcon} from "@shared/ui/Checkbox/CheckIcon";
+import CheckIcon from '@shared/assets/icons/checkbox-checked.svg';
 
 type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root>;
 
