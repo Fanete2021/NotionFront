@@ -1,5 +1,5 @@
 import { fn } from "storybook/test";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { Button } from "@shared/ui/Button/Button";
 import "@shared/styles/global.css";
