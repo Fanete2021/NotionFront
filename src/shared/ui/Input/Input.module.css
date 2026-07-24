@@ -1,0 +1,90 @@
+.inputWrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 11px 14px;
+    border: 1px solid var(--color-border-strong);
+    width: 100%;
+    transition: border-color 0.2s ease;
+    background: #ffffff;
+    gap: 8px;
+
+    &.filled {
+        border-color: var(--color-border-strong);
+    }
+
+    &.focused {
+        border-color: var(--color-primary);
+        border-width: 2px;
+        color: var(--color-primary);
+    }
+
+    &.error {
+        border-color: var(--color-danger);
+        border-width: 2px;
+        color: var(--color-text-primary);
+    }
+
+    &.disabled {
+        border-color: var(--color-border-base);
+        background-color: var(--color-bg-surface);
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &.s {
+        font-size: 13px;
+    }
+
+    &.m {
+        font-size: 14px;
+    }
+}
+
+.input {
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--color-text-primary);
+    background: none;
+    font-size: inherit;
+    padding: 0;
+
+    &::placeholder {
+        color: #9CA3AF;
+    }
+
+    .disabled & {
+        color: #9CA3AF;
+        cursor: not-allowed;
+    }
+}
+
+.errorLabel {
+    color: var(--color-danger);
+    margin-top: 2px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.addonLeft, .addonRight {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    svg, img {
+        color: var(--color-text-body);
+        display: block;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.addonRight {
+    padding-right: 2px;
+}
