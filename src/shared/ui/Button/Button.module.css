@@ -25,7 +25,7 @@
 }
 
 .filled {
-    background-color: #6366f1;
+    background-color: var(--color-primary);
     border: none;
     outline: none;
 
@@ -38,17 +38,17 @@
     }
 
     &:disabled {
-        background-color: #d1d5db;
+        background-color: var(--color-border-strong);
         opacity: 0.5;
     }
 
     &.normal {
-        background-color: #6366f1;
+        background-color: var(--color-primary);
         color: #ffffff;
     }
 
     &.danger {
-        background-color: #ef4444;
+        background-color: var(--color-danger);
         color: #ffffff;
     }
 }
@@ -58,31 +58,31 @@
     border-radius: 10px;
 
     &:hover {
-        border: 1px solid #9ca3af;
-        color: #111827;
+        border: 1px solid var(--color-placeholder);
+        color: var(--color-text-body);
     }
 
     &:active {
-        border: 1px solid #d1d5db;
-        color: #111827;
-        background-color: #f3f4f6;
+        border: 1px solid var(--color-border-strong);
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-muted);
     }
 
     &:disabled {
-        border: #e5e7eb;
-        color: #111827;
-        background-color: #f9fafb;
+        border: var(--color-border-base);
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-surface);
         opacity: 0.5;
     }
 
     &.normal {
-        border: 1px solid #d1d5db;
-        color: #374151;
+        border: 1px solid var(--color-border-strong);
+        color: var(--color-text-body);
     }
 
     &.danger {
-        border: 1px solid #ef4444;
-        color: #ef4444;
+        border: 1px solid var(--color-danger);
+        color: var(--color-danger);
     }
 }
 
