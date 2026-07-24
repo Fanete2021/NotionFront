@@ -1,0 +1,81 @@
+.label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #1F2937;
+}
+
+.label:has(.checkbox[data-checked]) {
+  color: #6B7280;
+}
+
+.label:has(.checkbox[data-disabled]) {
+  color: #6B7280;
+}
+
+.checkbox {
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px;
+  background-color: white;
+  color: white;
+  cursor: pointer;
+
+  &:hover:not([data-disabled]):not([data-checked]) {
+    border-color: #9CA3AF;
+    background-color: #F9FAFB;
+  }
+
+  &[data-checked]:hover:not([data-disabled]) {
+    background-color: #4F46E5;
+  }
+
+  &:not([data-disabled]):not([data-checked]):active {
+    background-color: #E5E7EB;
+  }
+
+  &[data-checked]:not([data-disabled]):active {
+    background-color: #4338CA;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #6366F1;
+    outline-offset: 2px;
+  }
+
+  &[data-checked] {
+    background-color: #6366F1;
+    color: white;
+  }
+
+  &[data-disabled] {
+    cursor: not-allowed;
+    background-color: #F3F4F6;
+    border-color: #E5E7EB;
+  }
+
+  &[data-required] {
+    border-color: #F59E0B;
+  }
+
+  &[data-required][data-checked] {
+    border-color: #E5E7EB;
+  }
+}
+
+.indicator {
+  display: flex;
+
+  &[data-unchecked] {
+    display: none;
+  }
+}
