@@ -1,0 +1,1 @@
+export {AuthPromo} from './ui/AuthPromo';
