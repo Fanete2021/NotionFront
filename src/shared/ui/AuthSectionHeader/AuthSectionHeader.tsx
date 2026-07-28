@@ -15,13 +15,16 @@ export const AuthSectionHeader = (props: SectionHeaderProps) => {
   const titleVariant = variant === 'promo' ? 'h1' : 'h2';
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header}
+            data-variant={variant}
+    >
       <Typography variant={titleVariant}
                   className={styles.title}
       >
         {title}
       </Typography>
       <Typography
+        className={styles.description}
         variant='text-regular'
       >
         {description}

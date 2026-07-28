@@ -1,0 +1,15 @@
+.textDivider {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.line {
+  width: 195px;
+  height: 1px;
+  background-color: var(--color-divider-addon);
+}
+
+.text {
+  color: var(--color-divider-text);
+}

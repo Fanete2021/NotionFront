@@ -1,0 +1,14 @@
+.promo {
+  background-color: var(--color-bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 80px 140px;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  max-width: 560px;
+}

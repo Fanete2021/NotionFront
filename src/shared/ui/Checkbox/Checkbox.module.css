@@ -20,8 +20,8 @@
   box-sizing: border-box;
   display: flex;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
+  width: var(--checkbox-size, 20px);
+  height: var(--checkbox-size, 20px);
   align-items: center;
   justify-content: center;
   border: 1px solid #D1D5DB;
