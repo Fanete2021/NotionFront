@@ -1,5 +1,5 @@
 export {TextDivider} from './ui/TextDivider/TextDivider';
 
-export {AuthSocial} from './ui/AuthSocial/AuthSocial';
+export {AuthNavigationHint} from './ui/AuthNavigationHint/AuthNavigationHint';
 
-export {AuthNavigationHint} from '@features/Auth/ui/AuthNavigationHint/AuthNavigationHint';
+export {AuthSectionHeader} from './ui/AuthSectionHeader/AuthSectionHeader';

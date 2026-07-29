@@ -6,7 +6,7 @@
 }
 
 .item {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--color-advantage-text);
   position: relative;
   padding-left: 20px;
   &:before {

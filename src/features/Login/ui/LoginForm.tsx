@@ -1,10 +1,12 @@
-import styles from './LoginForm.module.css';
 import {Input} from "@shared/ui/Input";
-import Letter from '@shared/assets/icons/letter.svg';
-import Lock from '@shared/assets/icons/lock.svg';
 import {Checkbox} from "@shared/ui/Checkbox";
 import {Typography} from "@shared/ui/Typography";
+import {Button} from "@shared/ui/Button";
+import Letter from '@shared/assets/icons/letter.svg';
+import Lock from '@shared/assets/icons/lock.svg';
+import Eye from "@shared/assets/icons/eye.svg";
 import Link from 'next/link';
+import styles from './LoginForm.module.css';
 
 export const LoginForm = () => {
   return (
@@ -16,7 +18,9 @@ export const LoginForm = () => {
       />
       <Input
         label='Пароль'
+        type='password'
         addonLeft={<Lock/>}
+        addonRight={<Eye/>}
         placeholder='••••••••••••'
       />
       <div className={styles.actions}>
@@ -26,14 +30,22 @@ export const LoginForm = () => {
             Запомнить меня
           </Typography>
         </div>
-        <Link href='/reset' >
+        <Link href='/reset' className={styles.forgotPasswordLink}>
           <Typography variant='text-medium'
-                      className={styles.forgotPasswordLink}
+                      className={styles.forgotPasswordText}
           >
             Забыли пароль?
           </Typography>
         </Link>
       </div>
+      <Button
+        className={styles.submitForm}
+        type='submit'
+        variant='filled'
+        fullWidth
+      >
+        Войти
+      </Button>
     </form>
   );
 };

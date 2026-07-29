@@ -1,6 +1,6 @@
 .authPanel{
   display: flex;
   flex-direction: column;
-  row-gap: 32px;
+  row-gap: 28px;
   padding: 180px 96px;
 }

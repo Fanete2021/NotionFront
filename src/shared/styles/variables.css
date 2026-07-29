@@ -33,6 +33,7 @@
   --color-panel-auth-description: #6B7280;
 
   --color-advantage-circle: #FFFFFFCC;
+  --color-advantage-text: #FFFFFFD9;
 
   --color-tab-base: #FFFFFF73;
   --color-tab-active: #FFFFFFD9;
@@ -55,6 +56,10 @@
   --color-bg-github-button:#1F2937;
   --color-github-icon: #ffffff;
   --color-google-icon: #1F2937;
+
+  --color-logo-white: #ffffff;
+  --color-app-grade: #FFFFFFB2;
+  --color-grade-star: #FBBF24;
 
   /* fonts */
   --font-sans: 'Inter';

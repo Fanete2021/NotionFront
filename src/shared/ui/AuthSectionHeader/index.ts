@@ -1,1 +1,0 @@
-export {AuthSectionHeader} from './AuthSectionHeader';
