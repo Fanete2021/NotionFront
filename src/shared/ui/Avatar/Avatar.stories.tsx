@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/nextjs";
 
 import { Avatar } from "@shared/ui/Avatar";
 import "@shared/styles/global.css";

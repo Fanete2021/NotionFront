@@ -1,13 +1,18 @@
 .button {
-    cursor: pointer;
-    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.fullWidth {
+    width: 100%;
 }
 
 .withAddon {
-    padding: 0 2px;
+    padding-inline: 2px;
 }
 
 .addonLeft {
@@ -18,16 +23,20 @@
 
 .clear {
     padding: 0;
+
     border: none;
-    background: none;
     outline: none;
-    border-radius: 10px;
+    background: transparent;
+
+    color: var(--color-text-body);
 }
 
 .filled {
-    background-color: var(--color-primary);
     border: none;
     outline: none;
+
+    background-color: var(--color-primary);
+    color: #ffffff;
 
     &:hover {
         background-color: #4f52dd;
@@ -44,32 +53,29 @@
 
     &.normal {
         background-color: var(--color-primary);
-        color: #ffffff;
     }
 
     &.danger {
         background-color: var(--color-danger);
-        color: #ffffff;
     }
 }
 
 .outline {
-    background: none;
-    border-radius: 10px;
+    background: transparent;
 
     &:hover {
-        border: 1px solid var(--color-placeholder);
+        border-color: var(--color-placeholder);
         color: var(--color-text-body);
     }
 
     &:active {
-        border: 1px solid var(--color-border-strong);
+        border-color: var(--color-border-strong);
         color: var(--color-text-primary);
         background-color: var(--color-bg-muted);
     }
 
     &:disabled {
-        border: var(--color-border-base);
+        border-color: var(--color-border-base);
         color: var(--color-text-primary);
         background-color: var(--color-bg-surface);
         opacity: 0.5;
@@ -86,33 +92,41 @@
     }
 }
 
-.square {
-    padding: 0;
-    width: 40px;
-    height: 40px;
-}
-
 .sm {
     font-size: 12px;
     line-height: 16px;
-    padding: 8px 12px;
-    border-radius: 6px;
 }
 
 .md {
     font-size: 14px;
     line-height: 20px;
-    padding: 10px 16px;
-    border-radius: 8px;
 }
 
 .lg {
     font-size: 16px;
     line-height: 24px;
+}
+
+.filled.sm,
+.outline.sm {
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.filled.md,
+.outline.md {
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.filled.lg,
+.outline.lg {
     padding: 14px 24px;
     border-radius: 10px;
 }
 
-.fullWidth {
-    width: 100%;
+.square {
+    width: 40px;
+    height: 40px;
+    padding: 0;
 }
