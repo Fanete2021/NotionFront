@@ -2,25 +2,30 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import styles from "./SidebarItem.module.css";
 import { SidebarItem as SidebarItemType } from "../../model/types/sidebar";
-import { Button } from "@/shared/ui/Button";
-import { usePathname } from "next/navigation";
 import { Typography } from "@/shared/ui/Typography";
+import { Button } from "@/shared/ui/Button";
 import ChevronRightIcon from "@/shared/assets/icons/chevron-right-2.svg";
 import ChevronDownIcon from "@/shared/assets/icons/chevron-down.svg";
-import classNames from "classnames";
 import PlusIcon from "@/shared/assets/icons/plus.svg";
+import { SidebarIcon } from "./SidebarIcon/SidebarIcon";
 
 interface Props {
     item: SidebarItemType;
     level?: number;
 }
 
+const BASE_PADDING = 16;
+const LEVEL_OFFSET = 8;
+const CHILD_LINK_OFFSET = 37;
+
 export function SidebarItem({ item, level = 0 }: Props) {
-    const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
-    const paddingLeft = 8 + level * 12;
+    const [isOpen, setIsOpen] = useState(false);
+    const isActive = pathname === item.href;
+    const padding = BASE_PADDING + level * LEVEL_OFFSET;
 
     if (item.type === "divider") {
         return <div className={styles.divider} />;
@@ -30,13 +35,11 @@ export function SidebarItem({ item, level = 0 }: Props) {
         return (
             <div className={styles.section}>
                 <div className={styles.sectionHeader}>
-                    <Typography variant="label">{item.title}</Typography>
+                    <Typography className={styles.title} variant="label">
+                        {item.title}
+                    </Typography>
 
-                    <Button
-                        className={styles.plusButton}
-                        color="normal"
-                        variant="clear"
-                    >
+                    <Button variant="clear" className={styles.plusButton}>
                         <SidebarIcon
                             icon={PlusIcon}
                             className={styles.plusIcon}
@@ -44,83 +47,83 @@ export function SidebarItem({ item, level = 0 }: Props) {
                     </Button>
                 </div>
 
-                <div>
-                    {item.children?.map((child) => (
-                        <SidebarItem
-                            key={child.id}
-                            item={child}
-                            level={level}
-                        />
-                    ))}
-                </div>
+                {item.children?.map((child) => (
+                    <SidebarItem key={child.id} item={child} level={level} />
+                ))}
             </div>
         );
     }
 
-    const hasChildren = item.children && item.children.length > 0;
-
-    const isActive = pathname === item.href;
-
-    if (hasChildren) {
+    if (item.type === "group") {
         return (
             <div className={styles.group}>
-                <div className={styles.groupHeader} style={{ paddingLeft }}>
-                    {isOpen ? (
-                        <SidebarIcon
-                            icon={ChevronDownIcon}
-                            onClick={() => setIsOpen((prev) => !prev)}
-                            className={styles.arrow}
-                        />
-                    ) : (
-                        <SidebarIcon
-                            icon={ChevronRightIcon}
-                            onClick={() => setIsOpen((prev) => !prev)}
-                            className={styles.arrow}
+                <div
+                    className={styles.groupHeader}
+                    style={{
+                        paddingInlineStart: padding,
+                    }}
+                >
+                    <SidebarIcon
+                        icon={isOpen ? ChevronDownIcon : ChevronRightIcon}
+                        className={styles.arrow}
+                        onClick={() => setIsOpen((prev) => !prev)}
+                    />
+
+                    {item.icon && <SidebarIcon icon={item.icon} />}
+
+                    {item.color && (
+                        <span
+                            className={styles.colorDot}
+                            style={{
+                                backgroundColor: item.color,
+                            }}
                         />
                     )}
 
-                    <SidebarIcon icon={item.icon} />
-
-                    <Typography variant="label">{item.title}</Typography>
+                    <Typography className={styles.title} variant="label">
+                        {item.title}
+                    </Typography>
 
                     <Button
-                        size="sm"
                         variant="clear"
+                        size="sm"
                         className={styles.moreBtn}
                     >
                         •••
                     </Button>
                 </div>
 
-                {isOpen && (
-                    <div
-                        className={styles.children}
-                        style={{ paddingLeft: paddingLeft + 16 }}
-                    >
-                        {item.children?.map((child) => (
-                            <SidebarItem
-                                key={child.id}
-                                item={child}
-                                level={level + 1}
-                            />
-                        ))}
-                    </div>
-                )}
+                {isOpen &&
+                    item.children?.map((child) => (
+                        <SidebarItem
+                            key={child.id}
+                            item={child}
+                            level={level + 1}
+                        />
+                    ))}
             </div>
         );
     }
+
+    const isDeepChild = level >= 2;
 
     return (
         <Link
             href={item.href ?? "#"}
             className={`${styles.link} ${isActive ? styles.active : ""}`}
-            style={{ paddingLeft }}
+            style={{
+                paddingInlineStart: isDeepChild
+                    ? padding + CHILD_LINK_OFFSET
+                    : padding,
+            }}
         >
-            {level > 0 ? <SidebarIcon className={styles.arrow} /> : ""}
+            {!isDeepChild && level > 0 && (
+                <span className={styles.arrowPlaceholder} />
+            )}
 
-            <SidebarIcon icon={item.icon} />
+            {!isDeepChild && item.icon && <SidebarIcon icon={item.icon} />}
 
-            {item.color && (
+            {!isDeepChild && item.color && (
                 <span
                     className={styles.colorDot}
                     style={{
@@ -129,30 +132,9 @@ export function SidebarItem({ item, level = 0 }: Props) {
                 />
             )}
 
-            <Typography variant="label">{item.title}</Typography>
+            <Typography className={styles.title} variant="label">
+                {item.title}
+            </Typography>
         </Link>
-    );
-}
-
-function SidebarIcon({
-    icon,
-    className,
-    onClick,
-}: {
-    icon?: SidebarItemType["icon"];
-    className?: string;
-    onClick?: () => void;
-}) {
-    if (!icon) {
-        return null;
-    }
-
-    const Icon = icon;
-
-    return (
-        <Icon
-            className={classNames(styles.icon, className)}
-            onClick={onClick}
-        />
     );
 }

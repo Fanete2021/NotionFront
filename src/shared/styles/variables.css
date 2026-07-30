@@ -22,7 +22,15 @@
   --color-bg-muted: #F3F4F6;
   --color-bg-surface: #F9FAFB;
 
+  /* sidebar */
+  --color-sidebar-item-active: #EEF2FF;
+  --color-sidebar-item-active-text: #6366F1;
+  --color-sidebar-logo-bg: #6366F1;
+  --color-sidebar-avatar-bg: #6366F1;
+
+  /* project */
+  --color-project-default: #6366F1;
+
   /* other */
   --color-text-avatar: #ffffff;
-
 }

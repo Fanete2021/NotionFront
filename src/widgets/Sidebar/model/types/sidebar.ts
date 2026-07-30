@@ -1,6 +1,6 @@
 import { ComponentType, SVGProps } from "react";
 
-export type SidebarItemType = 'link' | 'group' | 'section' | 'divider';
+export type SidebarItemType = "link" | "group" | "section" | "divider";
 
 export interface SidebarItem {
     id: string;

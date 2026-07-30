@@ -8,10 +8,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 4px 0 8px;
-
-    color: #98a2b3;
+    color: var(--color-placeholder);
     width: 100%;
     font-size: 11px;
     letter-spacing: 0.04em;
@@ -27,59 +25,65 @@
 .link,
 .groupHeader {
     width: 100%;
-    min-height: 27px;
-
-    box-sizing: border-box;
+    height: 28px;
 
     display: flex;
     align-items: center;
     gap: 8px;
 
-    border: 0;
+    padding: 0 8px;
+
     border-radius: 6px;
-
-    color: #344054;
-
-    font-size: 13px;
 
     text-decoration: none;
 
-    padding: 6px 8px;
+    color: var(--color-text-body);
+
     margin-bottom: 4px;
 }
 
 .link:hover,
 .groupHeader:hover {
-    background: #f9fafb;
+    background: var(--color-bg-surface);
 }
 
 .link.active {
-    background: #eef2ff;
-    color: #635bff;
+    background: var(--color-sidebar-item-active);
+    color: var(--color-sidebar-item-active-text);
 }
 
 .groupHeader {
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    padding: 0;
-
     .moreBtn {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-left: auto;
-        cursor: pointer;
         color: var(--color-placeholder);
-        letter-spacing: 2;
+        letter-spacing: 2px;
     }
 }
 
 .icon {
     width: 16px;
+    height: 16px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+.arrow {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
 .title {
+    flex: 1;
+    min-width: 0;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -93,9 +97,7 @@
 .colorDot {
     width: 8px;
     height: 8px;
-
     flex-shrink: 0;
-
     border-radius: 50%;
 }
 
@@ -108,10 +110,12 @@
 
 .group {
     width: 100%;
-    .groupHeader {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
     padding-right: 4px;
+}
+
+.arrowPlaceholder {
+    width: 12px;
+    height: 12px;
+
+    flex-shrink: 0;
 }

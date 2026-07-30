@@ -1,10 +1,10 @@
 import { SidebarItem } from "@/widgets/Sidebar/model/types/sidebar";
-import HomeIcon from '@/shared/assets/icons/home.svg';
-import DocsIcon from '@/shared/assets/icons/docs.svg';
-import CalendarIcon from '@/shared/assets/icons/calendar.svg';
-import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import GearIcon from '@/shared/assets/icons/gear_icon.svg';
-import PageIcon from '@/shared/assets/icons/page.svg';
+import HomeIcon from "@/shared/assets/icons/home.svg";
+import DocsIcon from "@/shared/assets/icons/docs.svg";
+import CalendarIcon from "@/shared/assets/icons/calendar.svg";
+import TrashIcon from "@/shared/assets/icons/trash-2.svg";
+import GearIcon from "@/shared/assets/icons/gear_icon.svg";
+import PageIcon from "@/shared/assets/icons/page.svg";
 
 export const sidebarItems: SidebarItem[] = [
     {
@@ -32,7 +32,7 @@ export const sidebarItems: SidebarItem[] = [
                 id: "product",
                 title: "Продукт",
                 type: "group",
-                icon: HomeIcon,
+                color: "var(--color-project-default)",
                 children: [
                     {
                         id: "design-system",
@@ -45,7 +45,6 @@ export const sidebarItems: SidebarItem[] = [
                                 title: "Компоненты",
                                 type: "link",
                                 href: "/projects/design-system/components",
-                                active: false,
                             },
                             {
                                 id: "colors",
@@ -71,23 +70,20 @@ export const sidebarItems: SidebarItem[] = [
                         href: "/projects/planning",
                         icon: CalendarIcon,
                     },
-
-                    {
-                        id: "clients",
-                        title: "Клиенты",
-                        type: "link",
-                        href: "/clients",
-                        color: "green",
-                    },
-
-                    {
-                        id: "finance",
-                        title: "Финансы",
-                        type: "link",
-                        href: "/finance",
-                        color: "orange",
-                    },
                 ],
+            },
+            {
+                id: "clients",
+                title: "Клиенты",
+                type: "group",
+                color: "green",
+            },
+
+            {
+                id: "finance",
+                title: "Финансы",
+                type: "group",
+                color: "orange",
             },
         ],
     },
