@@ -1,0 +1,77 @@
+import styles from './CommentsSidebar.module.css';
+import { Typography } from '@shared/ui/Typography';
+import { Button } from '@shared/ui/Button';
+import CloseIcon from '@shared/assets/icons/x-close.svg';
+import { Avatar } from '@shared/ui/Avatar';
+
+const mockCommentCards = [
+  {
+    id: '1',
+    name: 'Женя Л.',
+    time: '1 час назад',
+    text: 'Стоит ли добавить пример состояния hover для варианта ghost кнопки? Думаю, это важно задокументировать.',
+  },
+  {
+    id: '2',
+    name: 'Марк Р.',
+    time: '30 мин назад',
+    text: 'Отличная идея, Женя — стоит ли прикрепить ссылку на Figma-компонент прямо в этом документе?',
+  },
+];
+
+type CommentsSidebarProps = {
+  onClose?: () => void;
+}
+
+export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
+  return (
+    <aside className={styles.root}>
+      <div className={styles.header}>
+        <Typography variant="text-medium">Комментарии</Typography>
+        <Button
+          onClick={onClose}
+          variant="outline"
+          size="sm"
+          square
+          aria-label="Закрыть"
+        >
+          <CloseIcon className={styles.icon} />
+        </Button>
+      </div>
+      <div className={styles.list}>
+        {mockCommentCards.map((comment) => (
+          <article key={comment.id} className={styles.card}>
+            <div className={styles.cardHead}>
+              <Avatar name={comment.name} size="sm" />
+              <div className={styles.meta}>
+                <Typography variant="label">{comment.name}</Typography>
+                <Typography variant="caption">{comment.time}</Typography>
+              </div>
+            </div>
+            <Typography variant="text-regular">{comment.text}</Typography>
+            <div className={styles.cardActions}>
+              <button type="button" className={styles.action}>
+                Ответить
+              </button>
+              <button type="button" className={styles.action}>
+                Решить
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div className={styles.footer}>
+        <textarea
+          className={styles.textarea}
+          placeholder="Добавить комментарий..."
+          rows={3}
+        />
+        <div className={styles.sendRow}>
+          <Button variant="filled" size="sm">
+            Отправить
+          </Button>
+        </div>
+      </div>
+    </aside>
+  )
+};

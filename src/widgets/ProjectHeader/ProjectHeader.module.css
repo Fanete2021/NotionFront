@@ -14,6 +14,21 @@
   color: var(--color-text-muted);
 }
 
+.nav > * {
+  margin: 0;
+}
+
+.navCurrent {
+  color: var(--color-text-primary);
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
 .actions {
   display: flex;
   align-items: center;
