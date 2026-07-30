@@ -27,6 +27,13 @@
   display: block;
 }
 
+.closeButton {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  padding: 0;
+}
+
 /* cardStyles */
 .card {
   padding: 16px 0;

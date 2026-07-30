@@ -10,11 +10,11 @@ type ProjectWorkspaceProps = {
 export const ProjectWorkspace = ({ children, sidebar, onCommentsClick }: ProjectWorkspaceProps) => {
   return (
     <div className={styles.root}>
-      <ProjectHeader  onCommentsClick={onCommentsClick}/>
-      <div className={styles.body}>
+      <div className={styles.main}>
+        <ProjectHeader onCommentsClick={onCommentsClick} />
         <div className={styles.content}>{children}</div>
-        {sidebar}
       </div>
+      {sidebar}
     </div>
-  )
+  );
 };

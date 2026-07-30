@@ -1,7 +1,7 @@
 import styles from './CommentsSidebar.module.css';
 import { Typography } from '@shared/ui/Typography';
 import { Button } from '@shared/ui/Button';
-import CloseIcon from '@shared/assets/icons/x-close.svg';
+import CloseIcon from '@shared/assets/icons/x-close-2.svg';
 import { Avatar } from '@shared/ui/Avatar';
 
 const mockCommentCards = [
@@ -27,12 +27,13 @@ export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
   return (
     <aside className={styles.root}>
       <div className={styles.header}>
-        <Typography variant="text-medium">Комментарии</Typography>
+        <Typography variant="text-regular">Комментарии</Typography>
         <Button
           onClick={onClose}
-          variant="outline"
+          variant="clear"
           size="sm"
           square
+          className={styles.closeButton}
           aria-label="Закрыть"
         >
           <CloseIcon className={styles.icon} />
