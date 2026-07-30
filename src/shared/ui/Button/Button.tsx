@@ -4,7 +4,7 @@ import styles from "./Button.module.css";
 import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
-export type ButtonVariant = "outline" | "filled";
+export type ButtonVariant = "outline" | "filled" | "clear";
 export type ButtonColor = "normal" | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
@@ -29,6 +29,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
     // Добавляет элемент слева
     addonLeft?: ReactNode;
+
+    // Без оступов
+    noPadding?: boolean;
 }
 
 export const Button = (props: ButtonProps) => {
