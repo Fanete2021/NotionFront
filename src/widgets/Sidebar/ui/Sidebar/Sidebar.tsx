@@ -9,7 +9,7 @@ import SearchIcon from "@/shared/assets/icons/search.svg";
 import { Typography } from "@/shared/ui/Typography";
 import { sidebarItems } from "@/widgets/Sidebar/ui/Sidebar/test.api";
 import PencilIcon from "@/shared/assets/icons/pencil.svg";
-import { UserProfile } from "@/widgets/Sidebar/ui/Sidebar/UserProfile/UserProfile";
+import { UserProfile } from "@/widgets/Sidebar/ui/UserProfile/UserProfile";
 
 interface SidebarProps {
     className?: string;
@@ -37,20 +37,6 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
                     className={styles.searchInput}
                     placeholder="Поиск страниц..."
                     addonLeft={<SearchIcon className={styles.icon} />}
-                    addonRight={
-                        <div className={styles.inputSymbols}>
-                            <Typography
-                                variant="text-micro"
-                                style={{
-                                    backgroundColor: "var(--color-bg-muted)",
-                                    padding: "2px 5px",
-                                    borderRadius: "4px",
-                                }}
-                            >
-                                ⌘K
-                            </Typography>
-                        </div>
-                    }
                     onChange={handleSearch}
                 />
 

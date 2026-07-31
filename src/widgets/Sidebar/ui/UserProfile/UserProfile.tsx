@@ -1,9 +1,14 @@
 import { Avatar } from '@/shared/ui/Avatar';
-import styles from '../Sidebar.module.css';
+import styles from '../Sidebar/Sidebar.module.css';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 
-export function UserProfile({ name, email }: { name: string; email: string }) {
+interface UserProfileProps {
+    name: string;
+    email: string;
+}
+
+export function UserProfile({ name, email }: UserProfileProps) {
     return (
         <div className={styles.profile}>
             <Avatar name={name} size="lg" className={styles.avatar} />
