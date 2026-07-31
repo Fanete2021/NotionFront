@@ -39,6 +39,7 @@ export const ProjectHeader = ({ onCommentsClick }: ProjectHeaderProps) => {
               key={user.id}
               name={user.name}
               size="sm"
+              fontWeight={700}
               className={user.className}
             />
           ))}

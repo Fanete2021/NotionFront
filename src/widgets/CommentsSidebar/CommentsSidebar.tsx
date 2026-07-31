@@ -10,12 +10,14 @@ const mockCommentCards = [
     name: 'Женя Л.',
     time: '1 час назад',
     text: 'Стоит ли добавить пример состояния hover для варианта ghost кнопки? Думаю, это важно задокументировать.',
+    avatarClassName: styles.avatarGreen,
   },
   {
     id: '2',
     name: 'Марк Р.',
     time: '30 мин назад',
     text: 'Отличная идея, Женя — стоит ли прикрепить ссылку на Figma-компонент прямо в этом документе?',
+    avatarClassName: styles.avatarOrange,
   },
 ];
 
@@ -43,20 +45,27 @@ export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
         {mockCommentCards.map((comment) => (
           <article key={comment.id} className={styles.card}>
             <div className={styles.cardHead}>
-              <Avatar name={comment.name} size="sm" />
+              <Avatar
+                name={comment.name}
+                size="sm"
+                fontWeight={700}
+                className={comment.avatarClassName}
+              />
               <div className={styles.meta}>
                 <Typography variant="label">{comment.name}</Typography>
                 <Typography variant="caption">{comment.time}</Typography>
               </div>
             </div>
-            <Typography variant="text-regular">{comment.text}</Typography>
+            <Typography variant="text-medium" className={styles.cardText}>
+              {comment.text}
+            </Typography>
             <div className={styles.cardActions}>
-              <button type="button" className={styles.action}>
+              <Button variant="clear" className={styles.action}>
                 Ответить
-              </button>
-              <button type="button" className={styles.action}>
+              </Button>
+              <Button variant="clear" className={styles.action}>
                 Решить
-              </button>
+              </Button>
             </div>
           </article>
         ))}
@@ -68,7 +77,7 @@ export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
           rows={3}
         />
         <div className={styles.sendRow}>
-          <Button variant="filled" size="sm">
+          <Button variant="filled" size="sm" className={styles.sendButton}>
             Отправить
           </Button>
         </div>

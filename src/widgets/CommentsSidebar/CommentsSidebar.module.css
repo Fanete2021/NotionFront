@@ -18,7 +18,7 @@
 .list {
   flex: 1;
   overflow-y: auto;
-  padding: 0 16px;
+  padding: 0;
 }
 
 .icon {
@@ -36,8 +36,13 @@
 
 /* cardStyles */
 .card {
-  padding: 16px 0;
+  padding: 16px;
   border-bottom: 1px solid var(--color-border-base);
+  background: var(--color-card);
+}
+
+.card:last-child {
+  border-bottom: none;
 }
 
 .cardHead {
@@ -47,9 +52,21 @@
   margin-bottom: 8px;
 }
 
+.cardHead .avatarGreen {
+  background-color: var(--color-success);
+}
+
+.cardHead .avatarOrange {
+  background-color: var(--color-warning);
+}
+
 .meta {
   display: flex;
   flex-direction: column;
+}
+
+.cardText {
+  color: var(--color-comment-text);
 }
 
 .cardActions {
@@ -58,13 +75,15 @@
   margin-top: 8px;
 }
 
-.action {
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
+.cardActions .action {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.cardActions .action:hover {
   color: var(--color-primary);
-  font: inherit;
 }
 
 /* footerStyles */
@@ -81,13 +100,30 @@
   padding: 12px;
   border: 1px solid var(--color-border-base);
   border-radius: 8px;
-  resize: vertical;
-  font: inherit;
-  background: #fff;
+  resize: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-comment-text);
+  background: var(--color-text-area);
+}
+
+.textarea::placeholder {
+  color: var(--color-placeholder);
+}
+
+.textarea:focus {
+  outline: none;
 }
 
 .sendRow {
   display: flex;
   justify-content: flex-end;
   margin-top: 12px;
+}
+
+.sendRow .sendButton {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
 }
