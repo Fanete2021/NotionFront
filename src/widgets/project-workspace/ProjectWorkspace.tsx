@@ -1,4 +1,4 @@
-import { ProjectHeader } from '@widgets/ProjectHeader';
+import { ProjectHeader } from '@widgets/project-header';
 import styles from './ProjectWorkspace.module.css';
 
 type ProjectWorkspaceProps = {

@@ -2,8 +2,9 @@
 
 import { Typography } from '@shared/ui/Typography';
 import styles from './Project.module.css';
-import { ProjectWorkspace } from '@widgets/ProjectWorkspace';
-import { CommentsSidebar } from '@widgets/CommentsSidebar';
+import { ProjectWorkspace } from '@widgets/project-workspace';
+import { CommentsSidebar } from '@widgets/comments-sidebar';
+import { ProjectDocument } from '@widgets/project-document';
 import { useState } from 'react';
 
 export const ProjectPage = () => {
@@ -26,15 +27,7 @@ export const ProjectPage = () => {
           Последнее изменение: Алекс Ким · 2 часа назад
         </Typography>
 
-        <Typography variant="h2">Обзор</Typography>
-        <Typography variant="text-regular">
-          Здесь собраны базовые UI-компоненты дизайн-системы: кнопки, поля ввода и типографика.
-        </Typography>
-
-        <Typography variant="h2">Кнопки</Typography>
-        <Typography variant="text-regular">
-          Кнопка — основной элемент действий. Варианты: primary, secondary и ghost.
-        </Typography>
+        <ProjectDocument />
       </main>
     </ProjectWorkspace>
   )

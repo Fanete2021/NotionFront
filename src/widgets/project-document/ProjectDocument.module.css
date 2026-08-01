@@ -1,0 +1,130 @@
+.root {
+  min-width: 0;
+}
+
+.bubble {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-base);
+  background-color: var(--color-bubble);
+  box-shadow: 0 4px 12px var(--color-bubble-shadow);
+}
+
+.bubbleButton {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.bubbleButtonItalic {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.bubbleButtonUnderline {
+  text-decoration: underline;
+}
+
+.bubbleButtonCode {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.bubbleButtonActive {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.editor {
+  outline: none;
+}
+
+.editor :global(h1) {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 56px;
+  margin: 0 0 16px;
+}
+
+.editor :global(h2) {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  margin: 24px 0 12px;
+}
+
+.editor :global(h3) {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 20px 0 8px;
+}
+
+.editor :global(p) {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  margin: 0 0 12px;
+  color: var(--color-text-primary);
+}
+
+.editor :global(p:last-child) {
+  margin-bottom: 0;
+}
+
+.editor :global(strong) {
+  font-weight: 700;
+}
+
+.editor :global(em) {
+  font-style: italic;
+}
+
+.editor :global(u) {
+  text-decoration: underline;
+}
+
+.editor :global(code) {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-body);
+}
+
+@media (max-width: 1439px) {
+  .editor :global(h1) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .editor :global(h2) {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  .editor :global(h3) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .editor :global(h1) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .editor :global(h2) {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .editor :global(h3) {
+    font-size: 22px;
+    line-height: 30px;
+  }
+}
