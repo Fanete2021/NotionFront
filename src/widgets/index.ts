@@ -1,7 +1,7 @@
-export {LoginPromo} from './AuthPromo';
+export {LoginPromo} from './auth-promo';
 
-export {RegistrationPromo} from './AuthPromo';
+export {RegistrationPromo} from './auth-promo';
 
-export {LoginPanel} from './LoginPanel';
+export {LoginPanel} from './login-panel';
 
-export {RegistrationPanel} from './RegistrationPanel';
+export {RegistrationPanel} from './registration-panel';

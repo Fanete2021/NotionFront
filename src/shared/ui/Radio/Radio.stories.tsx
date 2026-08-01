@@ -4,7 +4,7 @@ import { Radio } from '@shared/ui/Radio';
 import '@shared/styles/global.css';
 
 const meta = {
-  title: 'Radio',
+  title: 'shared/Radio',
   component: Radio,
   tags: ['autodocs'],
   args: { name: 'demo', label: 'Option' },

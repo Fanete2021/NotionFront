@@ -107,6 +107,5 @@ export const Input = (props: InputProps) => {
             </div>
         );
     }
-
     return input;
 };

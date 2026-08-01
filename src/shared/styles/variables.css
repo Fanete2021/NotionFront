@@ -31,7 +31,6 @@
   --color-panel-auth-title: #1F2937;
   --color-promo-auth-description: #FFFFFFBF;
   --color-panel-auth-description: #6B7280;
-
   --color-advantage-circle: #FFFFFFCC;
   --color-advantage-text: #FFFFFFD9;
 
@@ -60,6 +59,11 @@
   --color-logo-white: #ffffff;
   --color-app-grade: #FFFFFFB2;
   --color-grade-star: #FBBF24;
+
+  /* Checkbox */
+  --color-checkbox-label: #1F2937;
+  --color-checkbox-checked:#6B7280;
+  --color-checkbox-disabled:#6B7280;
 
   /* fonts */
   --font-sans: 'Inter';
