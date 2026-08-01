@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import styles from "./Button.module.css";
-import React, { ButtonHTMLAttributes, ReactNode } from "react";
-import classNames from "classnames";
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
+import classNames from 'classnames';
+import styles from './Button.module.css';
 
 export type ButtonVariant = "outline" | "filled" | "clear";
 export type ButtonColor = "normal" | 'danger';
@@ -10,22 +10,22 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    className?: string;
-    disabled?: boolean;
-    children?: ReactNode;
-    color?: ButtonColor;
+  className?: string;
+  disabled?: boolean;
+  children?: ReactNode;
+  color?: ButtonColor;
 
-    // Тема кнопки. Определяет стиль (в рамке, без стилей, заливка цветом)
-    variant?: ButtonVariant;
+  // Тема кнопки. Определяет стиль (в рамке, без стилей, заливка цветом)
+  variant?: ButtonVariant;
 
-    // Флаг, определяющий квадратная кнопка или нет
-    square?: boolean;
+  // Флаг, определяющий квадратная кнопка или нет
+  square?: boolean;
 
-    // Размер кнопки
-    size?: ButtonSize;
+  // Размер кнопки
+  size?: ButtonSize;
 
-    // Увеличивает кнопку на всю свободную ширину
-    fullWidth?: boolean;
+  // Увеличивает кнопку на всю свободную ширину
+  fullWidth?: boolean;
 
     // Добавляет элемент слева
     addonLeft?: ReactNode;
@@ -35,40 +35,40 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = (props: ButtonProps) => {
-    const {
+  const {
+    className,
+    children,
+    variant = 'outline',
+    square,
+    disabled,
+    fullWidth,
+    size = 'md',
+    addonLeft,
+    color = 'normal',
+    ...otherProps
+  } = props;
+
+  const mods: Mods = {
+    [styles.square]: square,
+    [styles.disabled]: disabled,
+    [styles.fullWidth]: fullWidth,
+    [styles.withAddon]: Boolean(addonLeft),
+  };
+
+  return (
+    <button
+      type="button"
+      className={classNames(styles.button, mods, [
+        styles[variant],
+        styles[size],
+        styles[color],
         className,
-        children,
-        variant = "outline",
-        square,
-        disabled,
-        fullWidth,
-        size = "md",
-        addonLeft,
-        color = "normal",
-        ...otherProps
-    } = props;
-
-    const mods: Mods = {
-        [styles.square]: square,
-        [styles.disabled]: disabled,
-        [styles.fullWidth]: fullWidth,
-        [styles.withAddon]: Boolean(addonLeft),
-    };
-
-    return (
-        <button
-            type="button"
-            className={classNames(styles.button, mods, [
-                styles[variant],
-                styles[size],
-                styles[color],
-                className,
-            ])}
-            disabled={disabled}
-            {...otherProps}
-        >
-            {addonLeft && <div className={styles.addonLeft}>{addonLeft}</div>}
-            {children}
-        </button>
-    );
+      ])}
+      disabled={disabled}
+      {...otherProps}
+    >
+      {addonLeft && <div className={styles.addonLeft}>{addonLeft}</div>}
+      {children}
+    </button>
+  );
 };
