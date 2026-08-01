@@ -1,19 +1,19 @@
-import { fn } from "storybook/test";
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import { fn } from 'storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Button } from "@shared/ui/Button/Button";
-import "@shared/styles/global.css";
+import { Button } from '@shared/ui/Button/Button';
+import '@shared/styles/global.css';
 
 const meta = {
-    title: "shared/Button",
-    component: Button,
-    tags: ["autodocs"],
-    args: {
-        onClick: fn(),
-        children: "Нажми на меня",
-        variant: "outline",
-        size: "sm",
-    },
+  title: 'shared/Button',
+  component: Button,
+  tags: ['autodocs'],
+  args: {
+    onClick: fn(),
+    children: 'Нажми на меня',
+    variant: 'outline',
+    size: 'sm',
+  },
 } satisfies Meta<typeof Button>;
 
 export default meta;
@@ -21,61 +21,68 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Filled: Story = {
-    args: {
-        variant: "filled",
-    },
+  args: {
+    variant: 'filled',
+  },
 };
 
 export const Outline: Story = {
-    args: {
-        variant: "outline",
-    },
+  args: {
+    variant: 'outline',
+  },
 };
 
 export const ButtonSm: Story = {
-    args: {
-        size: "sm",
-    },
+  args: {
+    size: 'sm',
+  },
 };
 
 export const ButtonMd: Story = {
-    args: {
-        size: "md",
-    },
+  args: {
+    size: 'md',
+  },
 };
 
 export const ButtonLg: Story = {
-    args: {
-        size: "lg",
-    },
+  args: {
+    size: 'lg',
+  },
 };
 
 export const Square: Story = {
-    args: {
-        square: true,
-        variant: "outline",
-        children: "📌",
-    },
+  args: {
+    square: true,
+    variant: 'outline',
+    children: '📌',
+  },
 };
 
 export const Disabled: Story = {
-    args: {
-        variant: 'outline',
-        disabled: true,
-    },
+  args: {
+    variant: 'outline',
+    disabled: true,
+  },
 };
 
 export const WithAddon: Story = {
-    args: {
-        variant: 'filled',
-        children: "addon",
-        addonLeft: ">",
-    },
+  args: {
+    variant: 'filled',
+    children: 'addon',
+    addonLeft: '>',
+  },
 };
 
 export const FullWidth: Story = {
-    args: {
-        fullWidth: true,
-        variant: "filled",
-    },
+  args: {
+    fullWidth: true,
+    variant: 'filled',
+  },
+};
+
+export const Clear: Story = {
+  args: {
+    variant: 'clear',
+    children: '>',
+  },
 };
