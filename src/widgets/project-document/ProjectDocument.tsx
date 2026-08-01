@@ -26,7 +26,6 @@ export const ProjectDocument = () => {
     },
   });
 
-  // Подписка на marks: при смене выделения React перерисует кнопки
   const activeMarks = useEditorState({
     editor,
     selector: ({ editor: ed }) => ({
