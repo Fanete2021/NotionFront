@@ -22,6 +22,7 @@ services:
     environment:
       - NODE_ENV=development   # Режим разработки
       - WATCHPACK_POLLING=true # Фикс для работы hot-reload в Docker
+      - CI=true
 
     # Автоперезапуск контейнера при падении (кроме ручной остановки)
     restart: unless-stopped
