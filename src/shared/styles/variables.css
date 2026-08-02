@@ -66,6 +66,11 @@
 --color-button-danger-border: #EF4444;
 --color-button-danger-text: #EF4444;
 
+/* button success */
+--color-button-success-bg: #10B981;
+--color-button-success-border: #10B981;
+--color-button-success-text: #10B981;
+
   /* other */
   --color-text-avatar: #ffffff;
 }

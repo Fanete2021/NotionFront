@@ -56,7 +56,13 @@
     }
 
     &.danger {
-        background: var(--color-button-danger-bg);
+        background: color-mix(in srgb, var(--color-button-danger-bg) 40%, transparent);
+        color: var(--color-button-danger-text);
+    }
+
+    &.success {
+        background: color-mix(in srgb, var(--color-button-success-border) 40%, transparent);
+        color: var(--color-button-success-text);
     }
 }
 
@@ -87,8 +93,13 @@
     }
 
     &.danger {
-        border-color: var(--color-button-danger-border);
+        border: 1px solid color-mix(in srgb, var(--color-button-danger-border) 40%, transparent);
         color: var(--color-button-danger-text);
+    }
+
+    &.success {
+        border: 1px solid color-mix(in srgb, var(--color-button-success-border) 40%, transparent);
+        color: var(--color-button-success-text);
     }
 }
 

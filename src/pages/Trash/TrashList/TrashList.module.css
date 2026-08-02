@@ -1,0 +1,117 @@
+.wrapper {
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 30px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 300px;
+  height: 36px;
+
+  padding: 0 12px;
+
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+
+  color: #9ca3af;
+}
+
+.search {
+  width: 280px;
+  height: 34px;
+}
+
+.counter {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+  padding: 14px 30px;
+
+  text-align: left;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  color: #6b7280;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table thead th:nth-child(2) {
+  width: 170px;
+}
+
+.table thead th:nth-child(3) {
+  width: 170px;
+}
+
+.table thead th:last-child {
+  width: 220px;
+}
+
+.iconWrapper {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9fafb;
+  border-radius: 6px;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+
+  .refresh,
+  .delete {
+    padding: 4px 10px;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.actionIcon {
+  height: 13px;
+  width: 13px;
+}
+
+.page {
+  .info {
+    .label {
+      margin: 0;
+    }
+  }
+}
+
+.description {
+    color: #6b7280;
+}

@@ -1,0 +1,38 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 24px 30px 18px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.clearButton {
+  height: 36px;
+}
+
+.addon {
+  width: 14px;
+  height: 14px;
+}
+
+.description {
+  color: #6b7280;
+}
+
+.label {
+    margin: 0;
+}
