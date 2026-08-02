@@ -5,7 +5,7 @@ import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
 export type ButtonVariant = "outline" | "filled";
-export type ButtonColor = "normal" | 'danger';
+export type ButtonColor = "normal" | 'danger' | 'github';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 

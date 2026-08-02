@@ -1,8 +1,7 @@
 import styles from './PasswordVisibilityButton.module.css';
 import { ComponentPropsWithoutRef } from 'react';
 
-interface PasswordVisibilityButtonProps
-  extends Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick'> {
+interface PasswordVisibilityButtonProps extends Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick'> {
   isPasswordVisible: boolean;
   togglePasswordVisibility: () => void;
 }
