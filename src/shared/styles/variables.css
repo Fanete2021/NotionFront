@@ -29,5 +29,12 @@
   --color-bubble: #ffffff;
   --color-bubble-shadow: #11182714;
   --color-comment-text: #1F2937;
+  --color-page-emoji: #1F2937;
+  --color-header-icon-button: #6B7280;
+  --color-editor-text: #1F2937;
+  --color-comment-meta: #9CA3AF;
+
+  /* fonts */
+  --font-sans: 'Inter';
 
 }

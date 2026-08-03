@@ -52,7 +52,7 @@
   font-weight: 700;
   font-size: 32px;
   line-height: 40px;
-  margin: 24px 0 12px;
+  margin: 20px 0 8px;
 }
 
 .editor :global(h3) {
@@ -65,9 +65,9 @@
 .editor :global(p) {
   font-weight: 400;
   font-size: 14px;
-  line-height: 24px;
-  margin: 0 0 12px;
-  color: var(--color-text-primary);
+  line-height: 22px;
+  margin: 0;
+  color: var(--color-editor-text);
 }
 
 .editor :global(p:last-child) {

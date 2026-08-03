@@ -20,14 +20,23 @@ export const ProjectPage = () => {
       }
     >
       <main className={styles.main}>
-        <Typography variant="h1">
-          Дизайн-система — Компоненты
-        </Typography>
-        <Typography variant="caption">
-          Последнее изменение: Алекс Ким · 2 часа назад
-        </Typography>
+        <div className={styles.heading}>
+          <span className={styles.pageIcon} aria-hidden>
+            📐
+          </span>
+          <div className={styles.headingText}>
+            <Typography variant="h1" className={styles.title}>
+              Дизайн-система — Компоненты
+            </Typography>
+            <Typography variant="caption" className={styles.meta}>
+              Последнее изменение: Алекс Ким · 2 часа назад
+            </Typography>
+          </div>
+        </div>
 
-        <ProjectDocument />
+        <div className={styles.document}>
+          <ProjectDocument />
+        </div>
       </main>
     </ProjectWorkspace>
   )

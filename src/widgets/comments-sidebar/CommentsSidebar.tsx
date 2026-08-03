@@ -52,8 +52,12 @@ export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
                 className={comment.avatarClassName}
               />
               <div className={styles.meta}>
-                <Typography variant="label">{comment.name}</Typography>
-                <Typography variant="caption">{comment.time}</Typography>
+                <Typography variant="label" className={styles.cardName}>
+                  {comment.name}
+                </Typography>
+                <Typography variant="caption" className={styles.cardMeta}>
+                  {comment.time}
+                </Typography>
               </div>
             </div>
             <Typography variant="text-medium" className={styles.cardText}>

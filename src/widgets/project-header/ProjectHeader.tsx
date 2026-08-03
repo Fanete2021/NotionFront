@@ -7,9 +7,10 @@ import { Avatar } from '@shared/ui/Avatar';
 import ShareIcon from '@shared/assets/icons/share.svg';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
 import CommentIcon from '@shared/assets/icons/comment.svg';
-import ChevronRightIcon from '@shared/assets/icons/chevron-right.svg';
+import ChevronRightIcon from '@shared/assets/icons/chevron-right-2.svg';
 import ClockIcon from '@shared/assets/icons/clock.svg';
 import MoreIcon from '@shared/assets/icons/more.svg';
+import classNames from 'classnames';
 
 const mockAvatars = [
   { id: '1', name: 'Женя Л.', className: styles.avatarGreen },
@@ -39,25 +40,24 @@ export const ProjectHeader = ({ onCommentsClick }: ProjectHeaderProps) => {
               key={user.id}
               name={user.name}
               size="sm"
-              fontWeight={700}
-              className={user.className}
+              className={classNames(styles.avatar, user.className)}
             />
           ))}
+          <span className={styles.actionsDivider} />
         </div>
-        <span className={styles.actionsDivider} />
-        <Button variant="outline" size="sm" addonLeft={<ShareIcon className={styles.icon} />}>
+        <Button variant="outline" size="sm" className={styles.shareButton} addonLeft={<ShareIcon className={styles.icon} />}>
           Поделиться
         </Button>
         <Button variant="filled" size="sm" addonLeft={<GlobusIcon className={styles.icon} />}>
           Публикация
         </Button>
-        <Button variant="clear" size="sm" square aria-label="История">
+        <Button variant="clear" size="sm" square aria-label="История" className={styles.iconButton}>
           <ClockIcon className={styles.icon} />
         </Button>
-        <Button onClick={onCommentsClick} variant="clear" size="sm" square aria-label="Комментарии">
+        <Button onClick={onCommentsClick} variant="clear" size="sm" square aria-label="Комментарии" className={styles.iconButton}>
           <CommentIcon className={styles.icon} />
         </Button>
-        <Button variant="clear" size="sm" square aria-label="Ещё">
+        <Button variant="clear" size="sm" square aria-label="Ещё" className={styles.iconButton}>
           <MoreIcon className={styles.icon} />
         </Button>
       </div>

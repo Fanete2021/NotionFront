@@ -9,6 +9,6 @@ body {
   padding: 0;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-sans), sans-serif;
   line-height: 1.6;
 }

@@ -11,7 +11,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 16px;
   border-bottom: 1px solid var(--color-border-base);
 }
 
@@ -36,7 +38,7 @@
 
 /* cardStyles */
 .card {
-  padding: 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--color-border-base);
   background: var(--color-card);
 }
@@ -65,7 +67,19 @@
   flex-direction: column;
 }
 
+.cardName {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-comment-text);
+}
+
+.cardMeta {
+  font-weight: 500;
+  color: var(--color-comment-meta);
+}
+
 .cardText {
+  margin: 0;
   color: var(--color-comment-text);
 }
 
@@ -101,6 +115,7 @@
   border: 1px solid var(--color-border-base);
   border-radius: 8px;
   resize: none;
+  font-family: var(--font-sans), sans-serif;
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
@@ -119,7 +134,7 @@
 .sendRow {
   display: flex;
   justify-content: flex-end;
-  margin-top: 12px;
+  margin-top: 43px;
 }
 
 .sendRow .sendButton {
