@@ -10,7 +10,6 @@ import Eye from '@shared/assets/icons/eye.svg';
 import Link from 'next/link';
 import styles from './LoginForm.module.css';
 import { ROUTES } from '@shared/routes';
-import { usePasswordVisibility, PasswordVisibilityButton } from '@features/auth';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 interface LoginFormValues {
@@ -30,7 +29,6 @@ export const LoginForm = () => {
   });
   const onSubmit: SubmitHandler<LoginFormValues> = (data) => alert(data);
 
-  const { isPasswordVisible, toggleVisible } = usePasswordVisibility();
   return (
     <form onSubmit={handleSubmit(onSubmit)}
           className={styles.loginForm}>
@@ -53,10 +51,10 @@ export const LoginForm = () => {
       />
 
       <Controller
-        name='password'
+        name="password"
         rules={{ required: 'Введите пароль' }}
         control={control}
-        render={({field, fieldState}) => (
+        render={({ field, fieldState }) => (
           <Input
             name={field.name}
             value={field.value}
@@ -64,15 +62,11 @@ export const LoginForm = () => {
             onBlur={field.onBlur}
             error={fieldState.error?.message}
             label="Пароль"
-            type={isPasswordVisible ? 'text' : 'password'}
+            type="password"
             addonLeft={<Lock />}
+            showPasswordToggle
             addonRight={
-              <PasswordVisibilityButton
-                isPasswordVisible={isPasswordVisible}
-                togglePasswordVisibility={toggleVisible}
-              >
-                <Eye />
-              </PasswordVisibilityButton>
+              <Eye />
             }
             placeholder="••••••••••••"
           />

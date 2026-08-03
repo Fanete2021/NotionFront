@@ -1,6 +1,6 @@
 import styles from './LoginPromo.module.css';
 import {PromoAdvantages} from "@widgets/auth-promo/ui/promo-advantages/PromoAdvantages";
-import { AuthSectionHeader } from '@shared/auth';
+import { AuthSectionHeader } from '@shared/ui/auth';
 import { AppDemo } from './app-demo/AppDemo';
 
 export const LOGIN_ADVANTAGES = [

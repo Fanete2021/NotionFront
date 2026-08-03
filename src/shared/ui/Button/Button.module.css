@@ -1,20 +1,18 @@
 .button {
-  cursor: pointer;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    display: block;
-  }
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.fullWidth {
+    width: 100%;
 }
 
 .withAddon {
-  padding: 0 2px;
+    padding-inline: 2px;
 }
 
 .addonLeft {
@@ -24,21 +22,25 @@
 }
 
 .clear {
-  padding: 0;
-  border: none;
-  background: none;
-  outline: none;
-  border-radius: 10px;
+    padding: 0;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: var(--color-text-body);
 }
 
 .filled {
-  background-color: var(--color-primary);
-  border: none;
-  outline: none;
+    border: none;
+    outline: none;
 
-  &:hover {
-    background-color: #4f52dd;
-  }
+    background-color: var(--color-primary);
+    color: #ffffff;
+
+    &:hover {
+        background-color: #4f52dd;
+    }
 
   &:active {
     background-color: #4346c8;
@@ -49,38 +51,35 @@
     opacity: 0.5;
   }
 
-  &.normal {
-    background-color: var(--color-primary);
-    color: #ffffff;
-  }
+    &.normal {
+        background-color: var(--color-primary);
+    }
 
-  &.danger {
-    background-color: var(--color-danger);
-    color: #ffffff;
-  }
+    &.danger {
+        background-color: var(--color-danger);
+    }
 }
 
 .outline {
-  background: none;
-  border-radius: 10px;
+    background: transparent;
 
-  &:hover {
-    border: 1px solid var(--color-placeholder);
-    color: var(--color-text-body);
-  }
+    &:hover {
+        border-color: var(--color-placeholder);
+        color: var(--color-text-body);
+    }
 
-  &:active {
-    border: 1px solid var(--color-border-strong);
-    color: var(--color-text-primary);
-    background-color: var(--color-bg-muted);
-  }
+    &:active {
+        border-color: var(--color-border-strong);
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-muted);
+    }
 
-  &:disabled {
-    border: var(--color-border-base);
-    color: var(--color-text-primary);
-    background-color: var(--color-bg-surface);
-    opacity: 0.5;
-  }
+    &:disabled {
+        border-color: var(--color-border-base);
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-surface);
+        opacity: 0.5;
+    }
 
   &.normal {
     border: 1px solid var(--color-border-strong);
@@ -104,26 +103,40 @@
 }
 
 .sm {
-  font-size: 12px;
-  line-height: 16px;
-  padding: 8px 12px;
-  border-radius: 6px;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 .md {
-  font-size: 14px;
-  line-height: 20px;
-  padding: 10px 16px;
-  border-radius: 8px;
+    font-size: 14px;
+    line-height: 20px;
 }
 
 .lg {
-  font-size: 16px;
-  line-height: 24px;
-  padding: 14px 24px;
-  border-radius: 10px;
+    font-size: 16px;
+    line-height: 24px;
 }
 
-.fullWidth {
-  width: 100%;
+.filled.sm,
+.outline.sm {
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.filled.md,
+.outline.md {
+    padding: 10px 16px;
+    border-radius: 8px;
+}
+
+.filled.lg,
+.outline.lg {
+    padding: 14px 24px;
+    border-radius: 10px;
+}
+
+.square {
+    width: 40px;
+    height: 40px;
+    padding: 0;
 }

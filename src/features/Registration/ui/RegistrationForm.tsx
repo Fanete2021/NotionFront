@@ -9,7 +9,6 @@ import Person from '@shared/assets/icons/person.svg';
 import Lightning from '@shared/assets/icons/lightning.svg';
 import Eye from '@shared/assets/icons/eye.svg';
 import styles from './RegistrationForm.module.css';
-import { usePasswordVisibility, PasswordVisibilityButton } from '@features/auth';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 interface RegistrationFormValues {
@@ -34,10 +33,6 @@ export const RegistrationForm = () => {
     },
   });
   const onSubmit: SubmitHandler<RegistrationFormValues> = (data) => alert(data);
-  const { isPasswordVisible, toggleVisible } = usePasswordVisibility();
-
-  //Если честно не очень нравится громоздкая конструкция с Controller, поэтому я вынес бы это в отдельный компонент
-  //FormField
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -46,7 +41,7 @@ export const RegistrationForm = () => {
           name="name"
           control={control}
           rules={{ required: 'Введите Имя' }}
-          render={({field, fieldState}) => (
+          render={({ field, fieldState }) => (
             <Input
               name={field.name}
               value={field.value}
@@ -61,10 +56,10 @@ export const RegistrationForm = () => {
         />
 
         <Controller
-          name='surname'
+          name="surname"
           control={control}
-          rules={{required: 'Введите Фамилию'}}
-          render={({field, fieldState}) => (
+          rules={{ required: 'Введите Фамилию' }}
+          render={({ field, fieldState }) => (
             <Input
               name={field.name}
               value={field.value}
@@ -96,10 +91,10 @@ export const RegistrationForm = () => {
         )}
       />
       <Controller
-        name='password'
+        name="password"
         rules={{ required: 'Введите пароль' }}
         control={control}
-        render={({field, fieldState}) => (
+        render={({ field, fieldState }) => (
           <Input
             name={field.name}
             value={field.value}
@@ -107,25 +102,21 @@ export const RegistrationForm = () => {
             onBlur={field.onBlur}
             error={fieldState.error?.message}
             label="Пароль"
-            type={isPasswordVisible ? 'text' : 'password'}
+            type="password"
+            showPasswordToggle
             addonLeft={<Lock />}
             addonRight={
-              <PasswordVisibilityButton
-                isPasswordVisible={isPasswordVisible}
-                togglePasswordVisibility={toggleVisible}
-              >
-                <Eye />
-              </PasswordVisibilityButton>
+              <Eye />
             }
             placeholder="••••••••••••"
           />
         )}
       />
       <Controller
-        name='confirmPassword'
+        name="confirmPassword"
         control={control}
-        rules={{required: 'Подтвердите пароль'}}
-        render={({field, fieldState}) => (
+        rules={{ required: 'Подтвердите пароль' }}
+        render={({ field, fieldState }) => (
           <Input
             name={field.name}
             value={field.value}

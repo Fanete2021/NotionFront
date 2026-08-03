@@ -3,7 +3,7 @@ import Logo from '@shared/assets/icons/Logo Badge.svg';
 import {Typography} from "@shared/ui/Typography";
 import {AppReviews} from './ui/app-reviews/AppReviews';
 import {PromoAdvantages} from '../promo-advantages/PromoAdvantages';
-import { AuthSectionHeader } from '@shared/auth';
+import { AuthSectionHeader } from '@shared/ui/auth';
 
 export const REGISTRATION_ADVANTAGES = [
   'Кредитная карта не нужна',

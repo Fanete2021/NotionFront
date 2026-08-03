@@ -1,9 +1,9 @@
 import {RegistrationForm} from "@features/registration";
-import { AuthNavigationHint, AuthSectionHeader, TextDivider } from '@shared/auth';
-import { OAuthGoogle } from '@features/OAuthGoogle';
-import { OAuthGitHub } from '@features/OAuthGithub';
+import { AuthNavigationHint, AuthSectionHeader, TextDivider } from '@shared/ui/auth';
 import { ROUTES } from '@shared/routes';
 import styles from './RegistrationPanel.module.css'
+import { OAuthGoogle } from '@/features/o-auth-google';
+import { OAuthGitHub } from '@/features/o-auth-github';
 
 export const RegistrationPanel = () => {
   return (
