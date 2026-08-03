@@ -39,13 +39,13 @@ const columns: TableColumn<TrashItem>[] = [
   {
     key: 'deletedBy',
     title: 'Удалил',
-    width: 180,
+    width: 140,
   },
 
   {
     key: 'deletedAt',
     title: 'Дата удаления',
-    width: 180,
+    width: 130,
   },
 
   {
@@ -80,8 +80,8 @@ const columns: TableColumn<TrashItem>[] = [
 export const TrashList = () => {
   const [search, setSearch] = useState('');
 
-  const handleSearch = () => {
-    setSearch('');
+  const handleSearch = (text: string) => {
+    setSearch(text);
   };
 
   const filteredItems = useMemo(() => {
@@ -90,6 +90,7 @@ export const TrashList = () => {
       (item) => item.title.toLowerCase().includes(value) || item.path.toLowerCase().includes(value),
     );
   }, [search]);
+
   return (
     <section className={styles.wrapper}>
       <div className={styles.toolbar}>
@@ -98,12 +99,12 @@ export const TrashList = () => {
           type="text"
           placeholder="Поиск по удалённым страницам..."
           value={search}
-          onChange={handleSearch}
+          onChange={(text) => handleSearch(text)}
           addonLeft={<SearchIcon className={styles.icon} />}
         />
         <Typography variant="text-regular">{filteredItems.length} удалённые страницы</Typography>
       </div>
-      <Table columns={columns} data={filteredItems} rowKey={'id'} />
+      <Table columns={columns} data={filteredItems} rowKey={'id'} className={styles.table} />
     </section>
   );
 };

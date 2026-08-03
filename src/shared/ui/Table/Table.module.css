@@ -2,10 +2,7 @@
   width: 100%;
   overflow-x: auto;
 
-  background: var(--color-bg-primary, #fff);
-
-  border: 1px solid var(--color-border, #e5e7eb);
-  border-radius: 12px;
+  background: var(--color-table-bg);
 }
 
 .table {
@@ -16,24 +13,24 @@
 .headCell {
   padding: 14px 20px;
 
-  background: #fafafa;
+  background: var(--color-bg-surface);
 
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border-base);
 
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
 
-  color: #6b7280;
+  color: var(--color-text-muted);
 }
 
 .cell {
   padding: 16px 20px;
 
-  border-bottom: 1px solid #edf2f7;
+  border-bottom: 1px solid var(--color-border-base);
 
   font-size: 14px;
 
-  color: #111827;
+  color: var(--color-text-primary);
 
   vertical-align: middle;
 }
@@ -43,7 +40,7 @@
 }
 
 .row:hover {
-  background: #fafafa;
+  background: var(--color-bg-surface);
 }
 
 .row:last-child .cell {
@@ -67,5 +64,5 @@
 
   text-align: center;
 
-  color: #9ca3af;
+  color: var(--color-placeholder);
 }

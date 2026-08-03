@@ -2,74 +2,80 @@
   /* COLORS */
 
   /* brand */
-  --color-primary: #6366F1;
-  --color-primary-light: #6366F114;
-  --color-telegram: #2596BE;
+  --color-primary: #6366f1;
+  --color-primary-light: #6366f114;
+  --color-telegram: #2596be;
 
   /* semantic */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-danger: #EF4444;
-  --color-info: #2563EB;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #2563eb;
 
   /* neutrals */
   --color-text-primary: #111827;
   --color-text-body: #374151;
-  --color-text-muted: #6B7280;
-  --color-border-strong: #D1D5DB;
-  --color-placeholder: #9CA3AF;
-  --color-border-base: #E5E7EB;
-  --color-bg-muted: #F3F4F6;
-  --color-bg-surface: #F9FAFB;
+  --color-text-muted: #6b7280;
+  --color-border-strong: #d1d5db;
+  --color-placeholder: #9ca3af;
+  --color-border-base: #e5e7eb;
+  --color-bg-muted: #f3f4f6;
+  --color-bg-surface: #f9fafb;
 
   /* sidebar */
-  --color-sidebar-item-active: #EEF2FF;
-  --color-sidebar-item-active-text: #6366F1;
-  --color-sidebar-logo-bg: #6366F1;
-  --color-sidebar-avatar-bg: #6366F1;
+  --color-sidebar-item-active: #eef2ff;
+  --color-sidebar-item-active-text: #6366f1;
+  --color-sidebar-logo-bg: #6366f1;
+  --color-sidebar-avatar-bg: #6366f1;
   --color-sidebar-bg: #ffffff;
-  --color-sidebar-icon: #9CA3AF;
-  --color-sidebar-btn: #9CA3AF;
+  --color-sidebar-icon: #9ca3af;
+  --color-sidebar-btn: #9ca3af;
 
   /* project */
-  --color-project-default: #6366F1;
+  --color-project-default: #6366f1;
 
   /* button */
 
-/* filled */
---color-button-filled-bg: #6366F1;
---color-button-filled-bg-hover: #4F52DD;
---color-button-filled-bg-active: #4346C8;
---color-button-filled-text: #FFFFFF;
---color-button-filled-disabled-bg: #D1D5DB;
+  /* filled */
+  --color-button-filled-bg: #6366f1;
+  --color-button-filled-bg-hover: #4f52dd;
+  --color-button-filled-bg-active: #4346c8;
+  --color-button-filled-text: #ffffff;
+  --color-button-filled-disabled-bg: #d1d5db;
 
-/* outline */
---color-button-outline-border: #D1D5DB;
---color-button-outline-text: #374151;
+  /* outline */
+  --color-button-outline-border: #d1d5db;
+  --color-button-outline-text: #374151;
 
---color-button-outline-hover-border: #9CA3AF;
---color-button-outline-hover-text: #374151;
+  --color-button-outline-hover-border: #9ca3af;
+  --color-button-outline-hover-text: #374151;
 
---color-button-outline-active-border: #D1D5DB;
---color-button-outline-active-text: #111827;
---color-button-outline-active-bg: #F3F4F6;
+  --color-button-outline-active-border: #d1d5db;
+  --color-button-outline-active-text: #111827;
+  --color-button-outline-active-bg: #f3f4f6;
 
---color-button-outline-disabled-border: #E5E7EB;
---color-button-outline-disabled-text: #111827;
---color-button-outline-disabled-bg: #F9FAFB;
+  --color-button-outline-disabled-border: #e5e7eb;
+  --color-button-outline-disabled-text: #111827;
+  --color-button-outline-disabled-bg: #f9fafb;
 
-/* clear */
---color-button-clear-text: #374151;
+  /* clear */
+  --color-button-clear-text: #374151;
 
-/* button danger */
---color-button-danger-bg: #EF4444;
---color-button-danger-border: #EF4444;
---color-button-danger-text: #EF4444;
+  /* button danger */
+  --color-button-danger-bg: #ef4444;
+  --color-button-danger-border: #ef4444;
+  --color-button-danger-text: #ef4444;
 
-/* button success */
---color-button-success-bg: #10B981;
---color-button-success-border: #10B981;
---color-button-success-text: #10B981;
+  /* button success */
+  --color-button-success-bg: #10b981;
+  --color-button-success-border: #10b981;
+  --color-button-success-text: #10b981;
+
+  /*  Search Input  */
+  --color-search-icon: #9ca3af;
+
+  /*  Table  */
+  --color-table-bg: #ffffff;
 
   /* other */
   --color-text-avatar: #ffffff;
