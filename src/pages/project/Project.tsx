@@ -2,23 +2,12 @@
 
 import { Typography } from '@shared/ui/Typography';
 import styles from './Project.module.css';
-import { ProjectWorkspace } from '@widgets/project-workspace';
-import { CommentsSidebar } from '@widgets/comments-sidebar';
-import { ProjectDocument } from '@widgets/project-document';
-import { useState } from 'react';
+import { ProjectWorkspace } from '@widgets/project/workspace';
+import { ProjectDocument } from '@widgets/project/document';
 
 export const ProjectPage = () => {
-  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-
   return (
-    <ProjectWorkspace
-      onCommentsClick={() => setIsCommentsOpen((open) => !open)}
-      sidebar={
-        isCommentsOpen ? (
-          <CommentsSidebar onClose={() => setIsCommentsOpen(false)} />
-        ) : null
-      }
-    >
+    <ProjectWorkspace>
       <main className={styles.main}>
         <div className={styles.heading}>
           <span className={styles.pageIcon} aria-hidden>
@@ -33,11 +22,10 @@ export const ProjectPage = () => {
             </Typography>
           </div>
         </div>
-
         <div className={styles.document}>
           <ProjectDocument />
         </div>
       </main>
     </ProjectWorkspace>
-  )
+  );
 };

@@ -1,4 +1,4 @@
-import styles from './CommentsSidebar.module.css';
+import styles from './ProjectComments.module.css';
 import { Typography } from '@shared/ui/Typography';
 import { Button } from '@shared/ui/Button';
 import CloseIcon from '@shared/assets/icons/x-close-2.svg';
@@ -21,11 +21,11 @@ const mockCommentCards = [
   },
 ];
 
-type CommentsSidebarProps = {
+type ProjectCommentsProps = {
   onClose?: () => void;
-}
+};
 
-export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
+export const ProjectComments = ({ onClose }: ProjectCommentsProps) => {
   return (
     <aside className={styles.root}>
       <div className={styles.header}>
@@ -87,5 +87,5 @@ export const CommentsSidebar = ({ onClose }: CommentsSidebarProps) => {
         </div>
       </div>
     </aside>
-  )
+  );
 };
