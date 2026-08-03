@@ -2,7 +2,7 @@ import {Card} from "@shared/ui/Card/Card";
 import {Meta, StoryObj} from "@storybook/nextjs";
 
 const meta = {
-  title: 'Card',
+  title: 'shared/Card',
   component: Card,
   tags: ['autodocs'],
   args: {

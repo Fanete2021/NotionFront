@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import styles from './Button.module.css';
 
 export type ButtonVariant = "outline" | "filled" | "clear";
-export type ButtonColor = "normal" | 'danger';
+export type ButtonColor = "normal" | 'danger' | 'github';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 

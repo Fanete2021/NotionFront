@@ -16,9 +16,9 @@
 }
 
 .addonLeft {
-    display: flex;
-    align-items: center;
-    margin-right: 8px;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
 }
 
 .clear {
