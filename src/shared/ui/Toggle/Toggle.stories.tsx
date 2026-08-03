@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs";
 import { Toggle } from "@/shared/ui/Toggle/Toggle";
 
 const meta = {
-    title: "Toggle",
+    title: "shared/Toggle",
     component: Toggle,
     tags: ["autodocs"],
     args: {

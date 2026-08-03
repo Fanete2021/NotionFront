@@ -4,7 +4,7 @@ import { Avatar } from "@shared/ui/Avatar";
 import "@shared/styles/global.css";
 
 const meta = {
-  title: "Avatar",
+  title: "shared/Avatar",
   component: Avatar,
   tags: ["autodocs"],
   args: {
