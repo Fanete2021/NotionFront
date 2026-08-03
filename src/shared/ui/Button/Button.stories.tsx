@@ -79,3 +79,10 @@ export const FullWidth: Story = {
         variant: "filled",
     },
 };
+
+export const Clear: Story = {
+    args: {
+        variant: 'clear',
+        children: '>'
+    },
+};

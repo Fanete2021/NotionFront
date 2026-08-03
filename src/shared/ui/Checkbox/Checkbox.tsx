@@ -6,11 +6,13 @@ import React from "react";
 import classNames from "classnames";
 import CheckIcon from '@shared/assets/icons/checkbox-checked.svg';
 
-type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root>;
+type CheckboxProps = React.ComponentProps<typeof BaseCheckbox.Root> & {
+  labelClassName?:string;
+};
 
-export const Checkbox = ({children, className, ...props}: CheckboxProps) => {
+export const Checkbox = ({children, className, labelClassName,...props}: CheckboxProps) => {
   return (
-    <label className={styles.label}>
+    <label className={classNames(styles.label, labelClassName)}>
       <BaseCheckbox.Root
         className={classNames(styles.checkbox, className)}
         {...props}

@@ -1,0 +1,19 @@
+.textDivider {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.line {
+  min-width: 0;
+  flex: 1;
+  height: 1px;
+  background-color: var(--color-divider-addon);
+}
+
+.text {
+  color: var(--color-divider-text);
+  white-space: nowrap;
+  flex-shrink: 0;
+}

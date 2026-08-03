@@ -21,8 +21,50 @@
   --color-border-base: #E5E7EB;
   --color-bg-muted: #F3F4F6;
   --color-bg-surface: #F9FAFB;
+  --color-bg-dark: #0F172A;
 
   /* other */
   --color-text-avatar: #ffffff;
 
+  /* auth */
+  --color-promo-auth-title: #ffffff;
+  --color-panel-auth-title: #1F2937;
+  --color-promo-auth-description: #FFFFFFBF;
+  --color-panel-auth-description: #6B7280;
+  --color-advantage-circle: #FFFFFFCC;
+  --color-advantage-text: #FFFFFFD9;
+
+  --color-tab-base: #FFFFFF73;
+  --color-tab-active: #FFFFFFD9;
+  --color-bg-tab-active: #FFFFFF26;
+
+  --color-bg-demo: #FFFFFF0F;
+  --color-border-demo: #FFFFFF1F;
+
+  --color-circle-red: #EF4444B2;
+  --color-circle-yellow: #F59E0BB2;
+  --color-circle-green: #10B981B2;
+  --color-last-edited: #FFFFFF66;
+  --color-demo-task-text-checked: #FFFFFF8C;
+  --color-demo-task-text-base: #FFFFFF59;
+  --color-bg-checked-task: #FFFFFF0F;
+
+  --color-divider-addon: #E5E7EB;
+  --color-divider-text: #9CA3AF;
+
+  --color-bg-github-button:#1F2937;
+  --color-github-icon: #ffffff;
+  --color-google-icon: #1F2937;
+
+  --color-logo-white: #ffffff;
+  --color-app-grade: #FFFFFFB2;
+  --color-grade-star: #FBBF24;
+
+  /* Checkbox */
+  --color-checkbox-label: #1F2937;
+  --color-checkbox-checked:#6B7280;
+  --color-checkbox-disabled:#6B7280;
+
+  /* fonts */
+  --font-sans: 'Inter';
 }
