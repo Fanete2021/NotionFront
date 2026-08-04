@@ -4,8 +4,8 @@ import styles from './ProjectHeader.module.css';
 import { Button } from '@shared/ui/Button';
 import { Typography } from '@shared/ui/Typography';
 import { Avatar } from '@shared/ui/Avatar';
-import ShareIcon from '@shared/assets/icons/share.svg';
-import GlobusIcon from '@shared/assets/icons/globus.svg';
+import { ShareButton } from '@features/projects/sharing';
+import { ChangeVersionButton } from '@features/projects/change-version';
 import CommentIcon from '@shared/assets/icons/comment.svg';
 import ChevronRightIcon from '@shared/assets/icons/chevron-right-2.svg';
 import ClockIcon from '@shared/assets/icons/clock.svg';
@@ -45,12 +45,8 @@ export const ProjectHeader = ({ onCommentsClick }: ProjectHeaderProps) => {
           ))}
           <span className={styles.actionsDivider} />
         </div>
-        <Button variant="outline" size="sm" className={styles.shareButton} addonLeft={<ShareIcon className={styles.icon} />}>
-          Поделиться
-        </Button>
-        <Button variant="filled" size="sm" addonLeft={<GlobusIcon className={styles.icon} />}>
-          Публикация
-        </Button>
+        <ShareButton />
+        <ChangeVersionButton />
         <Button variant="clear" size="sm" square aria-label="История" className={styles.iconButton}>
           <ClockIcon className={styles.icon} />
         </Button>
