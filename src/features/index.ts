@@ -1,7 +1,7 @@
-export {LoginForm} from './login';
+export { LoginForm } from './Login';
 
-export {OAuthGitHub} from './o-auth-github';
+export { OAuthGitHub } from './o-auth-github';
 
-export {OAuthGoogle} from './o-auth-google';
+export { OAuthGoogle } from './o-auth-google';
 
-export {RegistrationForm} from './registration';
+export { RegistrationForm } from './Registration';
