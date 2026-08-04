@@ -16,9 +16,9 @@
 }
 
 .addonLeft {
-    display: flex;
-    align-items: center;
-    margin-right: 8px;
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
 }
 
 .clear {
@@ -42,14 +42,14 @@
         background-color: #4f52dd;
     }
 
-    &:active {
-        background-color: #4346c8;
-    }
+  &:active {
+    background-color: #4346c8;
+  }
 
-    &:disabled {
-        background-color: var(--color-border-strong);
-        opacity: 0.5;
-    }
+  &:disabled {
+    background-color: var(--color-border-strong);
+    opacity: 0.5;
+  }
 
     &.normal {
         background-color: var(--color-primary);
@@ -81,15 +81,19 @@
         opacity: 0.5;
     }
 
-    &.normal {
-        border: 1px solid var(--color-border-strong);
-        color: var(--color-text-body);
-    }
+  &.normal {
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text-body);
+  }
 
-    &.danger {
-        border: 1px solid var(--color-danger);
-        color: var(--color-danger);
-    }
+  &.danger {
+    border: 1px solid var(--color-danger);
+    color: var(--color-danger);
+  }
+}
+
+.github {
+  background-color: var(--color-bg-github-button)
 }
 
 .sm {

@@ -6,7 +6,7 @@ import EyeIcon from "../../assets/icons/eye.svg";
 import Image from "next/image";
 
 const meta = {
-    title: "Input",
+    title: "shared/Input",
     component: Input,
     tags: ["autodocs"],
     args: {
