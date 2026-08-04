@@ -37,8 +37,47 @@
   background-color: var(--color-primary-light);
 }
 
+.bubbleIcon {
+  width: 13px;
+  height: 13px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.colorPanel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.colorSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-base);
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+.colorSwatchDefault {
+  background: var(--color-card);
+}
+
+.colorSwatchActive {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 .editor {
   outline: none;
+}
+
+.editor :global(a) {
+  color: var(--color-info);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .editor :global(h1) {
