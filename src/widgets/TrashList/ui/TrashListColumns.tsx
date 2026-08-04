@@ -1,20 +1,14 @@
-'use client';
-
 import classNames from 'classnames';
-import { useMemo, useState } from 'react';
 import styles from './TrashList.module.css';
-import { TrashItem, trashItems } from '../mock.api';
-import SearchIcon from '@/shared/assets/icons/search.svg';
-import { Table } from '@/shared/ui/Table';
+import { TrashItem } from '@/widgets/TrashList/model/mock.api';
 import { TableColumn } from '@/shared/ui/Table/types';
 import PageIcon from '@/shared/assets/icons/page.svg';
 import RefreshIcon from '@/shared/assets/icons/refresh.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@/shared/ui/Button/Button';
 
-const columns: TableColumn<TrashItem>[] = [
+export const trashListColumns: TableColumn<TrashItem>[] = [
   {
     key: 'title',
     title: 'Страница',
@@ -76,35 +70,3 @@ const columns: TableColumn<TrashItem>[] = [
     ),
   },
 ];
-
-export const TrashList = () => {
-  const [search, setSearch] = useState('');
-
-  const handleSearch = (text: string) => {
-    setSearch(text);
-  };
-
-  const filteredItems = useMemo(() => {
-    const value = search.toLowerCase();
-    return trashItems.filter(
-      (item) => item.title.toLowerCase().includes(value) || item.path.toLowerCase().includes(value),
-    );
-  }, [search]);
-
-  return (
-    <section className={styles.wrapper}>
-      <div className={styles.toolbar}>
-        <Input
-          className={styles.search}
-          type="text"
-          placeholder="Поиск по удалённым страницам..."
-          value={search}
-          onChange={(text) => handleSearch(text)}
-          addonLeft={<SearchIcon className={styles.icon} />}
-        />
-        <Typography variant="text-regular">{filteredItems.length} удалённые страницы</Typography>
-      </div>
-      <Table columns={columns} data={filteredItems} rowKey={'id'} className={styles.table} />
-    </section>
-  );
-};
