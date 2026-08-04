@@ -51,12 +51,15 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
   const activeMarks = useEditorState({
     editor,
     selector: ({ editor: ed }) => ({
+      heading1: ed?.isActive('heading', { level: 1 }) ?? false,
+      heading2: ed?.isActive('heading', { level: 2 }) ?? false,
+      paragraph: ed?.isActive('paragraph') ?? false,
       bold: ed?.isActive('bold') ?? false,
       italic: ed?.isActive('italic') ?? false,
       underline: ed?.isActive('underline') ?? false,
       code: ed?.isActive('code') ?? false,
       link: ed?.isActive('link') ?? false,
-      color: (ed?.getAttributes('textStyle').color as string | undefined) ?? null,
+      color: (ed?.getAttributes('textStyle')?.color as string | undefined) ?? null,
     }),
   });
 
@@ -86,6 +89,45 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
     <div className={styles.root}>
       {editor && (
         <BubbleMenu editor={editor} className={styles.bubble}>
+          <Button
+            type="button"
+            variant="clear"
+            size="sm"
+            square
+            aria-label="Заголовок 1"
+            className={classNames(styles.bubbleButton, {
+              [styles.bubbleButtonActive]: activeMarks?.heading1,
+            })}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          >
+            H1
+          </Button>
+          <Button
+            type="button"
+            variant="clear"
+            size="sm"
+            square
+            aria-label="Заголовок 2"
+            className={classNames(styles.bubbleButton, {
+              [styles.bubbleButtonActive]: activeMarks?.heading2,
+            })}
+            onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          >
+            H2
+          </Button>
+          <Button
+            type="button"
+            variant="clear"
+            size="sm"
+            square
+            aria-label="Обычный текст"
+            className={classNames(styles.bubbleButton, {
+              [styles.bubbleButtonActive]: activeMarks?.paragraph,
+            })}
+            onClick={() => editor.chain().focus().setParagraph().run()}
+          >
+            Т
+          </Button>
           <Button
             type="button"
             variant="clear"
