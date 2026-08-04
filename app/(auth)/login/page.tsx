@@ -1,2 +1,1 @@
-export {LoginPage as default} from '@pages/login'
-
+export { LoginPage as default } from '@pages/Login';
