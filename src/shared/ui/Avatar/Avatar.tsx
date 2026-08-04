@@ -9,6 +9,7 @@ export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 type AvatarProps = React.ComponentPropsWithoutRef<"div"> & {
   name: string;
   size?: AvatarSize;
+  fontWeight?: React.CSSProperties["fontWeight"];
 };
 
 const getInitials = (name: string, size: AvatarSize) => {
@@ -34,11 +35,12 @@ const getInitials = (name: string, size: AvatarSize) => {
 }
 
 export const Avatar = (props: AvatarProps) => {
-  const { name, size = "md", className, ...rest } = props;
+  const { name, size = "md", fontWeight, className, style, ...rest } = props;
 
   return (
     <div
       className={classNames(styles.avatar, styles[size], className)}
+      style={fontWeight !== undefined ? { ...style, fontWeight } : style}
       {...rest}
     >
       {getInitials(name, size)}

@@ -96,12 +96,6 @@
   background-color: var(--color-bg-github-button)
 }
 
-.square {
-  padding: 0;
-  width: 40px;
-  height: 40px;
-}
-
 .sm {
     font-size: 12px;
     line-height: 16px;

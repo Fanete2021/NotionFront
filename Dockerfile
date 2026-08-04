@@ -22,5 +22,5 @@ COPY . .
 # Порт для dev-сервера Next.js
 EXPOSE 3000
 
-# Запуск: удаляем файл, который pnpm создаёт из-за бага, перед стартом
-CMD ["sh", "-c", "rm -f pnpm-workspace.yaml && pnpm dev"]
+# Запуск: подчистить yaml (баг pnpm), поставить deps из lockfile, поднять dev
+CMD ["sh", "-c", "rm -f pnpm-workspace.yaml && pnpm install --frozen-lockfile && pnpm dev"]
