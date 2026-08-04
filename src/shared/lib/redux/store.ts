@@ -1,7 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { sidebarReducer } from './reducers/sidebarReducer';
 
 const rootReducer = combineReducers({
-  // Сюда кладём все reducers которые импортируются из слайсов
+  sidebarReducer,
 });
 
 export const makeStore = () => {

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Typography, TypographyProps } from '@shared/ui/Typography/Typography';
 
 const defaultArgs: TypographyProps = {
