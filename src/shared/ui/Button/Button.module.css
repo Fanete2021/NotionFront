@@ -1,18 +1,18 @@
 .button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    cursor: pointer;
-    color: #ffffff;
+  cursor: pointer;
+  color: var(--color-button-filled-text);
 }
 
 .fullWidth {
-    width: 100%;
+  width: 100%;
 }
 
 .withAddon {
-    padding-inline: 2px;
+  padding-inline: 2px;
 }
 
 .addonLeft {
@@ -22,115 +22,115 @@
 }
 
 .clear {
-    padding: 0;
+  padding: 0;
 
-    border: none;
-    outline: none;
-    background: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
 
-    color: var(--color-text-body);
+  color: var(--color-button-clear-text);
 }
 
 .filled {
-    border: none;
-    outline: none;
+  border: none;
+  outline: none;
 
-    background-color: var(--color-primary);
-    color: #ffffff;
+  background: var(--color-button-filled-bg);
+  color: var(--color-button-filled-text);
 
-    &:hover {
-        background-color: #4f52dd;
-    }
+  &:hover {
+    background: var(--color-button-filled-bg-hover);
+  }
 
   &:active {
-    background-color: #4346c8;
+    background: var(--color-button-filled-bg-active);
   }
 
   &:disabled {
-    background-color: var(--color-border-strong);
+    background: var(--color-button-filled-disabled-bg);
     opacity: 0.5;
   }
 
-    &.normal {
-        background-color: var(--color-primary);
-    }
-
-    &.danger {
-        background-color: var(--color-danger);
-    }
-}
-
-.outline {
-    background: transparent;
-
-    &:hover {
-        border-color: var(--color-placeholder);
-        color: var(--color-text-body);
-    }
-
-    &:active {
-        border-color: var(--color-border-strong);
-        color: var(--color-text-primary);
-        background-color: var(--color-bg-muted);
-    }
-
-    &:disabled {
-        border-color: var(--color-border-base);
-        color: var(--color-text-primary);
-        background-color: var(--color-bg-surface);
-        opacity: 0.5;
-    }
-
   &.normal {
-    border: 1px solid var(--color-border-strong);
-    color: var(--color-text-body);
+    background: var(--color-button-filled-bg);
   }
 
   &.danger {
-    border: 1px solid var(--color-danger);
-    color: var(--color-danger);
+    background: var(--color-button-danger-bg);
+  }
+}
+
+.outline {
+  background: transparent;
+
+  &:hover {
+    border-color: var(--color-button-outline-hover-border);
+    color: var(--color-button-outline-hover-text);
+  }
+
+  &:active {
+    border-color: var(--color-button-outline-active-border);
+    color: var(--color-button-outline-active-text);
+    background: var(--color-button-outline-active-bg);
+  }
+
+  &:disabled {
+    border-color: var(--color-button-outline-disabled-border);
+    color: var(--color-button-outline-disabled-text);
+    background: var(--color-button-outline-disabled-bg);
+    opacity: 0.5;
+  }
+
+  &.normal {
+    border: 1px solid var(--color-button-outline-border);
+    color: var(--color-button-outline-text);
+  }
+
+  &.danger {
+    border: 1px solid var(--color-button-danger-border);
+    color: var(--color-button-danger-text);
   }
 }
 
 .github {
-  background-color: var(--color-bg-github-button)
+  background-color: var(--color-bg-github-button);
 }
 
 .sm {
-    font-size: 12px;
-    line-height: 16px;
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .md {
-    font-size: 14px;
-    line-height: 20px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .lg {
-    font-size: 16px;
-    line-height: 24px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .filled.sm,
 .outline.sm {
-    padding: 8px 12px;
-    border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
 }
 
 .filled.md,
 .outline.md {
-    padding: 10px 16px;
-    border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
 }
 
 .filled.lg,
 .outline.lg {
-    padding: 14px 24px;
-    border-radius: 10px;
+  padding: 14px 24px;
+  border-radius: 10px;
 }
 
 .square {
-    width: 40px;
-    height: 40px;
-    padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
 }

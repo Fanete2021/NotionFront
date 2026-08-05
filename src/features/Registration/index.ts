@@ -1,1 +1,1 @@
-export {RegistrationForm} from './ui/RegistrationForm';
+export { RegistrationPanel as RegistrationForm } from '@/widgets/registration-panel';
