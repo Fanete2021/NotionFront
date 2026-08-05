@@ -1,0 +1,22 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  list-style-type: none;
+}
+
+.item {
+  color: var(--color-advantage-text);
+  position: relative;
+  padding-left: 20px;
+  &:before {
+    position: absolute;
+    content: '';
+    top: 7px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-advantage-circle);
+  }
+}

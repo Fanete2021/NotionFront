@@ -7,7 +7,7 @@ const defaultArgs: TypographyProps = {
 };
 
 const meta = {
-  title: 'Typography',
+  title: 'shared/Typography',
   component: Typography,
   tags: ['autodocs'],
   args: defaultArgs,

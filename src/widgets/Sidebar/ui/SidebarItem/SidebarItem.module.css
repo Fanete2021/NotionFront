@@ -53,6 +53,8 @@
 }
 
 .groupHeader {
+    cursor: pointer;
+
     .moreBtn {
         width: 20px;
         height: 20px;
@@ -74,6 +76,24 @@
     justify-content: center;
 }
 
+.arrowButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    width: 16px;
+    height: 16px;
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
 .arrow {
     width: 12px;
     height: 12px;
@@ -87,6 +107,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .children {

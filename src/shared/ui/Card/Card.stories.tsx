@@ -1,20 +1,20 @@
-import {Card} from "@shared/ui/Card/Card";
-import {Meta, StoryObj} from "@storybook/nextjs";
+import { Meta, StoryObj } from '@storybook/nextjs';
+import { Card } from '@shared/ui/Card/Card';
 
 const meta = {
-  title: 'Card',
+  title: 'shared/Card',
   component: Card,
   tags: ['autodocs'],
   args: {
     selected: false,
     variant: 'outlined',
-    children: 'Card content'
-  }
+    children: 'Card content',
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -35,4 +35,3 @@ export const Elevated: Story = {
     variant: 'elevated',
   },
 };
-

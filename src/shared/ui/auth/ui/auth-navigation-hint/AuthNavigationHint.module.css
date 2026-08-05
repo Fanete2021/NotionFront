@@ -1,0 +1,21 @@
+.authHint {
+  display: flex;
+  gap: 4px;
+  align-self: center;
+  align-items: baseline;
+}
+
+.text {
+  color: var(--color-text-muted);
+}
+
+.link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

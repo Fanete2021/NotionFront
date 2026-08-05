@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import styles from './Button.module.css';
 
 export type ButtonVariant = 'outline' | 'filled' | 'clear';
-export type ButtonColor = 'normal' | 'danger' | 'success';
+export type ButtonColor = 'normal' | 'danger' | 'success' | 'github';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 
@@ -30,7 +30,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   // Добавляет элемент слева
   addonLeft?: ReactNode;
 
-  // Без оступов
+  // Без отступов
   noPadding?: boolean;
 }
 

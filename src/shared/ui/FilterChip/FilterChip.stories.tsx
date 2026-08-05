@@ -3,7 +3,7 @@ import { FilterChip } from '@shared/ui/FilterChip';
 import '@shared/styles/global.css';
 
 const meta = {
-  title: 'FilterChip',
+  title: 'shared/FilterChip',
   component: FilterChip,
   tags: ['autodocs'],
   args: {

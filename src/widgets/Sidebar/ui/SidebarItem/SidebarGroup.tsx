@@ -21,6 +21,7 @@ interface SidebarGroupProps {
 
 export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen((prev) => !prev);
 
   return (
     <div className={styles.group}>
@@ -29,12 +30,22 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         style={{
           paddingInlineStart: getPadding(level),
         }}
+        onClick={toggle}
       >
-        {isOpen ? (
-          <ChevronDownIcon className={styles.arrow} onClick={() => setIsOpen(false)} />
-        ) : (
-          <ChevronRightIcon className={styles.arrow} onClick={() => setIsOpen(true)} />
-        )}
+        <Button
+          variant="clear"
+          className={styles.arrowButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggle();
+          }}
+        >
+          {isOpen ? (
+            <ChevronDownIcon className={styles.arrow} />
+          ) : (
+            <ChevronRightIcon className={styles.arrow} />
+          )}
+        </Button>
 
         {item.icon && <item.icon className={styles.icon} />}
 
@@ -51,7 +62,15 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
           {item.title}
         </Typography>
 
-        <Button variant="clear" size="sm" className={styles.moreBtn}>
+        <Button
+          variant="clear"
+          size="sm"
+          className={styles.moreBtn}
+          onClick={(e) => {
+            e.stopPropagation();
+            // Handle more button click
+          }}
+        >
           •••
         </Button>
       </div>
