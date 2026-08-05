@@ -1,4 +1,4 @@
-import styles from './RegistrationPanel.module.css';
+import styles from '@widgets/registration-panel/ui/RegistrationPanel.module.css';
 import { RegistrationForm } from '@features/Registration';
 import { OAuthGoogle } from '@/features/o-auth-google';
 import { OAuthGitHub } from '@/features/o-auth-github';
