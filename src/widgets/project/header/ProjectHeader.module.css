@@ -1,0 +1,76 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+  box-sizing: border-box;
+  padding: 0 16px 0 24px;
+  border-bottom: 1px solid var(--color-border-base);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-muted);
+}
+
+.nav>* {
+  margin: 0;
+}
+
+.navCurrent {
+  color: var(--color-text-primary);
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.avatars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.avatars .avatar {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text-avatar);
+}
+
+.avatars .avatarGreen {
+  background-color: var(--color-success);
+}
+
+.avatars .avatarOrange {
+  background-color: var(--color-warning);
+}
+
+.actionsDivider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border-base);
+  margin: 0;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.header .iconButton {
+  color: var(--color-header-icon-button);
+}
