@@ -1,1 +1,1 @@
-export {OAuthGitHub} from './ui/OAuthGitHub';
+export { OAuthGitHub } from './ui/OAuthGitHub';

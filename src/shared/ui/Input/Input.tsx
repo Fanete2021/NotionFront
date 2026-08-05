@@ -1,8 +1,8 @@
 'use client';
 
 import { InputHTMLAttributes, ReactNode, useState } from 'react';
-import styles from './Input.module.css';
 import cn from 'classnames';
+import styles from './Input.module.css';
 import { Typography } from '@/shared/ui/Typography';
 import { usePasswordVisibility } from '@shared/ui/Input/lib/usePasswordVisibility';
 import { Button } from '@shared/ui/Button';
@@ -92,27 +92,21 @@ export const Input = (props: InputProps) => {
         {...otherProps}
       />
       {addonRight && (
-        <div className={styles.addonRight}
-        >
-          { type ==='password' && showPasswordToggle ? (
-            <Button onClick={toggleVisible}
-                    variant='clear'
-                    type="button"
-                    aria-label={
-                      isPasswordVisible
-                        ? 'Скрыть пароль'
-                        : 'Показать пароль'
-                    }
-                    aria-pressed={isPasswordVisible}
-                    onMouseDown={(event) => event.preventDefault()}
+        <div className={styles.addonRight}>
+          {type === 'password' && showPasswordToggle ? (
+            <Button
+              onClick={toggleVisible}
+              variant="clear"
+              type="button"
+              aria-label={isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль'}
+              aria-pressed={isPasswordVisible}
+              onMouseDown={(event) => event.preventDefault()}
             >
               {addonRight}
             </Button>
-          )
-            : (
-              addonRight
-            )
-          }
+          ) : (
+            addonRight
+          )}
         </div>
       )}
     </div>

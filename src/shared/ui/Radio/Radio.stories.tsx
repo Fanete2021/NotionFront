@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 export const Unselected: Story = {
   args: {
     label: 'Unselected',
-    value: 'unselected'
+    value: 'unselected',
   },
 };
 
@@ -25,7 +25,7 @@ export const Selected: Story = {
   args: {
     label: 'Selected',
     value: 'selected',
-    defaultChecked: true
+    defaultChecked: true,
   },
 };
 
@@ -33,6 +33,6 @@ export const Disabled: Story = {
   args: {
     label: 'Disabled',
     value: 'disabled',
-    disabled: true
+    disabled: true,
   },
 };

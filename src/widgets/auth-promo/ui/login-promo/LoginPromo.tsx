@@ -1,7 +1,7 @@
 import styles from './LoginPromo.module.css';
-import {PromoAdvantages} from "@widgets/auth-promo/ui/promo-advantages/PromoAdvantages";
-import { AuthSectionHeader } from '@shared/ui/auth';
+import { PromoAdvantages } from '@widgets/auth-promo/ui/promo-advantages/PromoAdvantages';
 import { AppDemo } from './app-demo/AppDemo';
+import { AuthSectionHeader } from '@shared/ui/auth';
 
 export const LOGIN_ADVANTAGES = [
   'Блочный редактор с богатым контентом',
@@ -14,14 +14,19 @@ export const LoginPromo = () => {
     <section className={styles.promo}>
       <div className={styles.content}>
         <AuthSectionHeader
-          title={<>Ваш второй мозг,<br/>для команд.</>}
-          description='Современное пространство для заметок, проектов и совместной работы. Создано с мыслью о простоте.'
-          variant='promo'
+          title={
+            <>
+              Ваш второй мозг,
+              <br />
+              для команд.
+            </>
+          }
+          description="Современное пространство для заметок, проектов и совместной работы. Создано с мыслью о простоте."
+          variant="promo"
         />
-        <PromoAdvantages advantages={LOGIN_ADVANTAGES}/>
-        <AppDemo/>
+        <PromoAdvantages advantages={LOGIN_ADVANTAGES} />
+        <AppDemo />
       </div>
     </section>
   );
 };
-

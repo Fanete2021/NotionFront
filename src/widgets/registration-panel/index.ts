@@ -1,1 +1,1 @@
-export {RegistrationPanel} from './ui/RegistrationPanel';
+export { RegistrationPanel } from './ui/RegistrationPanel';

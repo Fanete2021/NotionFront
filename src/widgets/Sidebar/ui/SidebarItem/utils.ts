@@ -3,13 +3,13 @@ const LEVEL_OFFSET = 8;
 const CHILD_LINK_OFFSET = 37;
 
 export function getPadding(level: number) {
-    return BASE_PADDING + level * LEVEL_OFFSET;
+  return BASE_PADDING + level * LEVEL_OFFSET;
 }
 
 export function getChildPadding(level: number) {
-    return getPadding(level) + CHILD_LINK_OFFSET;
+  return getPadding(level) + CHILD_LINK_OFFSET;
 }
 
 export function isDeepChild(level: number) {
-    return level >= 2;
+  return level >= 2;
 }

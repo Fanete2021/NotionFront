@@ -1,5 +1,5 @@
-import styles from "./SidebarItem.module.css";
+import styles from './SidebarItem.module.css';
 
 export function SidebarDivider() {
-    return <div className={styles.divider} />;
+  return <div className={styles.divider} />;
 }

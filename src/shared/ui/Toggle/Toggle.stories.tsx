@@ -1,46 +1,46 @@
-import { fn } from "storybook/test";
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import { fn } from 'storybook/test';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Toggle } from "@/shared/ui/Toggle/Toggle";
+import { Toggle } from '@/shared/ui/Toggle/Toggle';
 
 const meta = {
-    title: "shared/Toggle",
-    component: Toggle,
-    tags: ["autodocs"],
-    args: {
-        onToggle: fn(),
-        checked: false,
-        disabled: false,
-    },
+  title: 'shared/Toggle',
+  component: Toggle,
+  tags: ['autodocs'],
+  args: {
+    onToggle: fn(),
+    checked: false,
+    disabled: false,
+  },
 } satisfies Meta<typeof Toggle>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Off: Story = {
-    args: {
-        checked: false,
-        disabled: false,
-    },
+  args: {
+    checked: false,
+    disabled: false,
+  },
 };
 
 export const On: Story = {
-    args: {
-        checked: true,
-        disabled: false,
-    },
+  args: {
+    checked: true,
+    disabled: false,
+  },
 };
 
 export const OffDisabled: Story = {
-    args: {
-        checked: false,
-        disabled: true,
-    },
+  args: {
+    checked: false,
+    disabled: true,
+  },
 };
 
 export const OnDisabled: Story = {
-    args: {
-        checked: true,
-        disabled: true,
-    },
+  args: {
+    checked: true,
+    disabled: true,
+  },
 };

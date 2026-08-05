@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/nextjs";
+import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Avatar } from "@shared/ui/Avatar";
-import "@shared/styles/global.css";
+import { Avatar } from '@shared/ui/Avatar';
+import '@shared/styles/global.css';
 
 const meta = {
-  title: "shared/Avatar",
+  title: 'shared/Avatar',
   component: Avatar,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    name: "Жора Лучший",
-    size: "md",
+    name: 'Жора Лучший',
+    size: 'md',
   },
 } satisfies Meta<typeof Avatar>;
 
@@ -21,44 +21,44 @@ export const Default: Story = {};
 
 export const SingleInitial: Story = {
   args: {
-    name: "Anna",
-    size: "md",
+    name: 'Anna',
+    size: 'md',
   },
 };
 
 export const ExtraSmall: Story = {
   args: {
-    size: "xs",
+    size: 'xs',
   },
 };
 
 export const Small: Story = {
   args: {
-    size: "sm",
+    size: 'sm',
   },
 };
 
 export const Medium: Story = {
   args: {
-    size: "md",
+    size: 'md',
   },
 };
 
 export const Large: Story = {
   args: {
-    size: "lg",
+    size: 'lg',
   },
 };
 
 export const ExtraLarge: Story = {
   args: {
-    size: "xl",
+    size: 'xl',
   },
 };
 
 export const AllSizes: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
       <Avatar name="Жора Лучший" size="xs" />
       <Avatar name="Жора Лучший" size="sm" />
       <Avatar name="Жора Лучший" size="md" />

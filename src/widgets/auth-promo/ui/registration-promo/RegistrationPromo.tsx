@@ -1,8 +1,8 @@
 import styles from './RegistrationPromo.module.css';
+import { AppReviews } from './ui/app-reviews/AppReviews';
+import { PromoAdvantages } from '../promo-advantages/PromoAdvantages';
 import Logo from '@shared/assets/icons/Logo Badge.svg';
-import {Typography} from "@shared/ui/Typography";
-import {AppReviews} from './ui/app-reviews/AppReviews';
-import {PromoAdvantages} from '../promo-advantages/PromoAdvantages';
+import { Typography } from '@shared/ui/Typography';
 import { AuthSectionHeader } from '@shared/ui/auth';
 
 export const REGISTRATION_ADVANTAGES = [
@@ -16,15 +16,16 @@ export const RegistrationPromo = () => {
     <section className={styles.promo}>
       <div className={styles.content}>
         <div className={styles.logo}>
-          <Logo/>
-          <Typography variant='h4'>Notify</Typography>
+          <Logo />
+          <Typography variant="h4">Notify</Typography>
         </div>
-        <AuthSectionHeader title='Начните свой путь бесплатно.'
-                           description='Создайте рабочее пространство за секунды. Пишите, сотрудничайте и управляйте проектами — всё в одном месте.'
-                           variant='promo'
+        <AuthSectionHeader
+          title="Начните свой путь бесплатно."
+          description="Создайте рабочее пространство за секунды. Пишите, сотрудничайте и управляйте проектами — всё в одном месте."
+          variant="promo"
         />
-        <PromoAdvantages advantages={REGISTRATION_ADVANTAGES}/>
-        <AppReviews/>
+        <PromoAdvantages advantages={REGISTRATION_ADVANTAGES} />
+        <AppReviews />
       </div>
     </section>
   );

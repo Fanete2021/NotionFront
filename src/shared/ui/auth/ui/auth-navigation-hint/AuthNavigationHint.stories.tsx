@@ -1,5 +1,5 @@
-import {AuthNavigationHint} from "./AuthNavigationHint";
-import {Meta, StoryObj} from "@storybook/nextjs";
+import { Meta, StoryObj } from '@storybook/nextjs';
+import { AuthNavigationHint } from './AuthNavigationHint';
 
 const meta = {
   title: 'Widgets/Auth/Auth Navigation Hint',
@@ -8,10 +8,9 @@ const meta = {
   args: {
     message: 'message',
     actionLabel: 'label',
-    link: '/home'
+    link: '/home',
   },
-
-} satisfies Meta<typeof AuthNavigationHint>
+} satisfies Meta<typeof AuthNavigationHint>;
 
 export default meta;
 
@@ -31,6 +30,6 @@ export const Registration: Story = {
   args: {
     message: 'Уже есть аккаунт?',
     actionLabel: 'Войти',
-    link: '/login'
-  }
-}
+    link: '/login',
+  },
+};

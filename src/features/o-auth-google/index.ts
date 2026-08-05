@@ -1,1 +1,1 @@
-export {OAuthGoogle} from './ui/OAuthGoogle';
+export { OAuthGoogle } from './ui/OAuthGoogle';

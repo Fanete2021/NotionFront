@@ -4,8 +4,8 @@ import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Button.module.css';
 
-export type ButtonVariant = "outline" | "filled" | "clear";
-export type ButtonColor = "normal" | 'danger' | 'github';
+export type ButtonVariant = 'outline' | 'filled' | 'clear';
+export type ButtonColor = 'normal' | 'danger' | 'success' | 'github';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 type Mods = Record<string, boolean | string | undefined>;
 
@@ -27,11 +27,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   // Увеличивает кнопку на всю свободную ширину
   fullWidth?: boolean;
 
-    // Добавляет элемент слева
-    addonLeft?: ReactNode;
+  // Добавляет элемент слева
+  addonLeft?: ReactNode;
 
-    // Без оступов
-    noPadding?: boolean;
+  // Без отступов
+  noPadding?: boolean;
 }
 
 export const Button = (props: ButtonProps) => {

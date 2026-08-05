@@ -55,8 +55,31 @@
     background: var(--color-button-filled-bg);
   }
 
+  &:hover {
+    background: var(--color-button-filled-bg-hover);
+  }
+
+  &:active {
+    background: var(--color-button-filled-bg-active);
+  }
+
+  &:disabled {
+    background: var(--color-button-filled-disabled-bg);
+    opacity: 0.5;
+  }
+
+  &.normal {
+    background: var(--color-button-filled-bg);
+  }
+
   &.danger {
-    background: var(--color-button-danger-bg);
+    background: color-mix(in srgb, var(--color-button-danger-bg) 40%, transparent);
+    color: var(--color-button-danger-text);
+  }
+
+  &.success {
+    background: color-mix(in srgb, var(--color-button-success-border) 40%, transparent);
+    color: var(--color-button-success-text);
   }
 }
 
@@ -87,8 +110,13 @@
   }
 
   &.danger {
-    border: 1px solid var(--color-button-danger-border);
+    border: 1px solid color-mix(in srgb, var(--color-button-danger-border) 40%, transparent);
     color: var(--color-button-danger-text);
+  }
+
+  &.success {
+    border: 1px solid color-mix(in srgb, var(--color-button-success-border) 40%, transparent);
+    color: var(--color-button-success-text);
   }
 }
 

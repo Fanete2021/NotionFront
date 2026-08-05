@@ -1,0 +1,94 @@
+.wrapper {
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 30px;
+
+  border-bottom: 1px solid var(--color-border-base);
+
+  .icon {
+    color: var(--color-search-icon);
+  }
+}
+
+.table {
+  .icon {
+    color: var(--color-search-icon);
+  }
+}
+
+.search {
+  width: 280px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 300px;
+  height: 36px;
+
+  padding: 0 12px;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+
+  color: var(--color-placeholder);
+}
+
+.counter {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.iconWrapper {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg-surface);
+  border-radius: 6px;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+
+  .refresh,
+  .delete {
+    padding: 4px 10px;
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.actionIcon {
+  height: 13px;
+  width: 13px;
+}
+
+.page {
+  .info {
+    .label {
+      margin: 0;
+    }
+  }
+}
+
+.description {
+    color: var(--color-text-muted);
+}
