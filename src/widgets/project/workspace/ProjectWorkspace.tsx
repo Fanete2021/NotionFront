@@ -15,14 +15,10 @@ export const ProjectWorkspace = ({ children }: ProjectWorkspaceProps) => {
   return (
     <div className={styles.root}>
       <div className={styles.main}>
-        <ProjectHeader
-          onCommentsClick={() => setIsCommentsOpen((open) => !open)}
-        />
+        <ProjectHeader onCommentsClick={() => setIsCommentsOpen((open) => !open)} />
         <div className={styles.content}>{children}</div>
       </div>
-      {isCommentsOpen ? (
-        <ProjectComments onClose={() => setIsCommentsOpen(false)} />
-      ) : null}
+      {isCommentsOpen ? <ProjectComments onClose={() => setIsCommentsOpen(false)} /> : null}
     </div>
   );
 };

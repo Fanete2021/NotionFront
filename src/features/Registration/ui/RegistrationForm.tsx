@@ -1,5 +1,7 @@
 'use client';
 
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import styles from './RegistrationForm.module.css';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -8,8 +10,6 @@ import Lock from '@shared/assets/icons/lock.svg';
 import Person from '@shared/assets/icons/person.svg';
 import Lightning from '@shared/assets/icons/lightning.svg';
 import Eye from '@shared/assets/icons/eye.svg';
-import styles from './RegistrationForm.module.css';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 interface RegistrationFormValues {
   name: string;
@@ -20,10 +20,7 @@ interface RegistrationFormValues {
 }
 
 export const RegistrationForm = () => {
-  const {
-    handleSubmit,
-    control,
-  } = useForm<RegistrationFormValues>({
+  const { handleSubmit, control } = useForm<RegistrationFormValues>({
     defaultValues: {
       name: '',
       surname: '',
@@ -105,9 +102,7 @@ export const RegistrationForm = () => {
             type="password"
             showPasswordToggle
             addonLeft={<Lock />}
-            addonRight={
-              <Eye />
-            }
+            addonRight={<Eye />}
             placeholder="••••••••••••"
           />
         )}
@@ -132,19 +127,17 @@ export const RegistrationForm = () => {
       />
 
       <div className={styles.privacy}>
-        <Checkbox>
-          Я принимаю Условия использования и Политику конфиденциальности
-        </Checkbox>
+        <Checkbox>Я принимаю Условия использования и Политику конфиденциальности</Checkbox>
       </div>
-      <Button className={styles.submitForm}
-              variant="filled"
-              fullWidth
-              addonLeft={<Lightning />}
-              type="submit"
+      <Button
+        className={styles.submitForm}
+        variant="filled"
+        fullWidth
+        addonLeft={<Lightning />}
+        type="submit"
       >
         Создать аккаунт бесплатно
       </Button>
     </form>
   );
 };
-

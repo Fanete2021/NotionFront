@@ -1,9 +1,9 @@
 'use client';
 
-import { Typography } from '@shared/ui/Typography';
 import styles from './Project.module.css';
 import { ProjectWorkspace } from '@widgets/project/workspace';
 import { ProjectDocument } from '@widgets/project/document';
+import { Typography } from '@shared/ui/Typography';
 
 export const ProjectPage = () => {
   return (

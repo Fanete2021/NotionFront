@@ -1,4 +1,4 @@
-export { ProjectPage } from './Project'
+export { ProjectPage } from './Project';
 
 export const metadata = {
   title: 'Проект | NotionFront',

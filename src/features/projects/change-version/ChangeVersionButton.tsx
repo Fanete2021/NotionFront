@@ -1,8 +1,8 @@
 'use client';
 
+import styles from './ChangeVersionButton.module.css';
 import { Button } from '@shared/ui/Button';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
-import styles from './ChangeVersionButton.module.css';
 
 export const ChangeVersionButton = () => {
   return (

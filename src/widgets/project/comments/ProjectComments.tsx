@@ -75,11 +75,7 @@ export const ProjectComments = ({ onClose }: ProjectCommentsProps) => {
         ))}
       </div>
       <div className={styles.footer}>
-        <textarea
-          className={styles.textarea}
-          placeholder="Добавить комментарий..."
-          rows={3}
-        />
+        <textarea className={styles.textarea} placeholder="Добавить комментарий..." rows={3} />
         <div className={styles.sendRow}>
           <Button variant="filled" size="sm" className={styles.sendButton}>
             Отправить

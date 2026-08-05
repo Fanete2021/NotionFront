@@ -1,41 +1,41 @@
-"use client";
+'use client';
 
-import styles from "./Avatar.module.css";
-import React from "react";
-import classNames from "classnames";
+import React from 'react';
+import classNames from 'classnames';
+import styles from './Avatar.module.css';
 
-export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-type AvatarProps = React.ComponentPropsWithoutRef<"div"> & {
+type AvatarProps = React.ComponentPropsWithoutRef<'div'> & {
   name: string;
   size?: AvatarSize;
-  fontWeight?: React.CSSProperties["fontWeight"];
+  fontWeight?: React.CSSProperties['fontWeight'];
 };
 
 const getInitials = (name: string, size: AvatarSize) => {
-  const trimmedName = name.trim()
+  const trimmedName = name.trim();
 
   if (!trimmedName.length) {
-    return '?'
+    return '?';
   }
-  const words = trimmedName.split(/\s+/).filter(Boolean)
+  const words = trimmedName.split(/\s+/).filter(Boolean);
 
-  let initials = words[0][0]
+  let initials = words[0][0];
   if (words.length >= 2) {
-    initials = initials + words[1][0]
+    initials = initials + words[1][0];
   }
 
-  const result = initials.toLocaleUpperCase()
+  const result = initials.toLocaleUpperCase();
 
-  if (size === "xs") {
-    return result[0]
+  if (size === 'xs') {
+    return result[0];
   }
 
-  return result
-}
+  return result;
+};
 
 export const Avatar = (props: AvatarProps) => {
-  const { name, size = "md", fontWeight, className, style, ...rest } = props;
+  const { name, size = 'md', fontWeight, className, style, ...rest } = props;
 
   return (
     <div

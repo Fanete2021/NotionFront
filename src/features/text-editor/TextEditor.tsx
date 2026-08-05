@@ -4,12 +4,12 @@ import { useEditor, EditorContent, useEditorState } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
+import classNames from 'classnames';
+import { useState } from 'react';
+import styles from './TextEditor.module.css';
 import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
-import classNames from 'classnames';
-import styles from './TextEditor.module.css';
-import { useState } from 'react';
 
 const textColors = [
   { value: null, colorName: 'Сбросить цвет' },
@@ -26,7 +26,6 @@ type TextEditorProps = {
 };
 
 export const TextEditor = ({ content = '' }: TextEditorProps) => {
-
   const [isColorOpen, setIsColorOpen] = useState(false);
 
   const editor = useEditor({
