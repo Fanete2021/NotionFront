@@ -1,7 +1,11 @@
 'use client';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './RegistrationForm.module.css';
+import { useRegisterMutation } from '@features/Registration/api/registerApi';
+import { registerUserSchema } from '@features/Registration/config/validationRegisterFormConfig';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -28,8 +32,23 @@ export const RegistrationForm = () => {
       password: '',
       confirmPassword: '',
     },
+    resolver: zodResolver(registerUserSchema),
   });
-  const onSubmit: SubmitHandler<RegistrationFormValues> = (data) => alert(data);
+  const router = useRouter();
+  const [register, { isLoading, error: mutationError }] = useRegisterMutation();
+  const onSubmit: SubmitHandler<RegistrationFormValues> = async (values) => {
+    try {
+      await register({
+        email: values.email,
+        password: values.password,
+        name: `${values.name} ${values.surname}`,
+      }).unwrap();
+
+      router.replace('/login');
+    } catch (error) {
+      console.log(mutationError);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -136,7 +155,7 @@ export const RegistrationForm = () => {
         addonLeft={<Lightning />}
         type="submit"
       >
-        Создать аккаунт бесплатно
+        {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт бесплатно'}
       </Button>
     </form>
   );
