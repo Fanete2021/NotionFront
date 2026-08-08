@@ -1,11 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQueryWithReauth } from '@shared/api/baseQueryWithReauth';
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
-    credentials: 'include',
-  }),
-  tagTypes: ['User'],
+  baseQuery: baseQueryWithReauth,
+  tagTypes: ['User', 'Session'],
   endpoints: () => ({}),
 });

@@ -8,17 +8,17 @@ export interface UserDataResponse {
   user: User;
 }
 
-export interface UserRegistrationRequest {
+export interface RegistrationRequest {
   email: string;
   password: string;
   name: string;
 }
 
-export interface UserLoginRequest {
+export interface LoginRequest {
   email: string;
   password: string;
 }
 
-export interface UserLogoutRequest {
+export interface LogoutRequest {
   allDevices: boolean;
 }

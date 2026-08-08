@@ -1,7 +1,7 @@
 export type {
   User,
   UserDataResponse,
-  UserRegistrationRequest,
-  UserLoginRequest,
-  UserLogoutRequest,
+  RegistrationRequest,
+  LoginRequest,
+  LogoutRequest,
 } from './model/User';

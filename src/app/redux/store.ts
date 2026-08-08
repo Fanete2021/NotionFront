@@ -1,18 +1,25 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { countReducer } from '@shared/reducers/reducer';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { baseApi } from '@shared/api/baseApi';
+import { authReducer } from '@shared/api';
 
 const rootReducer = combineReducers({
-  countReducer,
+  authReducer,
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 
 export const makeStore = () => {
-  return configureStore({
+  const store = configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware().concat(baseApi.middleware);
+    },
   });
+
+  setupListeners(store.dispatch);
+  return store;
 };
 
-// Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];

@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type AuthSliceState = {
-  authState: 'authorized' | 'unauthorized';
+export type AuthSliceState = {
+  authState: 'unknown' | 'authorized' | 'unauthorized';
+
   accessToken: string | null;
 };
 
 const initialState: AuthSliceState = {
-  authState: 'unauthorized',
+  authState: 'unknown',
   accessToken: null,
 };
 
@@ -31,3 +32,5 @@ export const authReducer = authSlice.reducer;
 export const setAccessToken = authSlice.actions.setAccessToken;
 
 export const loggedOut = authSlice.actions.loggedOut;
+
+export const selectAccessToken = (state: AuthSliceState) => state.accessToken;
