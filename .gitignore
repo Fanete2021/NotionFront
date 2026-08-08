@@ -10,3 +10,4 @@ node_modules
 *.tsbuildinfo
 *storybook.log
 pnpm-workspace.yaml
+*.env

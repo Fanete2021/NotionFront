@@ -1,4 +1,1 @@
-export {
-  RegistrationPanel as RegistrationPage,
-  RegistrationPanel as default,
-} from '@/widgets/registration-panel';
+export { RegistrationPage } from './ui/RegistrationPage';

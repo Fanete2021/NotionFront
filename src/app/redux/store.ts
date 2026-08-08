@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { sidebarReducer } from './reducers/sidebarReducer';
+import { countReducer } from '@shared/reducers/reducer';
 
 const rootReducer = combineReducers({
-  sidebarReducer,
+  countReducer,
 });
 
 export const makeStore = () => {
