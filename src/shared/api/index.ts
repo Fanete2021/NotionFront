@@ -1,3 +1,5 @@
 export { baseApi } from './baseApi';
 
-export { authReducer, setAccessToken, loggedOut } from './authSlice';
+export { sessionReducer, setAccessToken, loggedOut } from './sessionSlice';
+
+export { baseQueryWithReauth } from './baseQueryWithReauth';

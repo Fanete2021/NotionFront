@@ -1,7 +1,3 @@
-export type {
-  User,
-  UserDataResponse,
-  RegistrationRequest,
-  LoginRequest,
-  LogoutRequest,
-} from './model/User';
+export type { User, UserData } from './model/User';
+
+export { useGetMeQuery } from './api/userApi';

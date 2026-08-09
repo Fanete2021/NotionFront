@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { baseApi } from '@shared/api/baseApi';
-import { authReducer } from '@shared/api';
+import { sessionReducer } from '@shared/api';
 
 const rootReducer = combineReducers({
-  authReducer,
+  session: sessionReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

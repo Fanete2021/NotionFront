@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
-import { useLoginMutation } from '@features/Login/api/loginApi';
-import { loginUserSchema } from '@features/Login/config/validationLoginFormConfig';
+import { useLoginMutation } from '../api/loginApi';
+import { loginUserSchema } from '../utils/validationLoginFormConfig';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -22,7 +22,7 @@ interface LoginFormValues {
 }
 
 export const LoginForm = () => {
-  const { handleSubmit, control } = useForm<LoginFormValues>({
+  const { handleSubmit, control, reset } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
       password: '',
@@ -37,7 +37,7 @@ export const LoginForm = () => {
       await login(values).unwrap();
 
       router.replace('/');
-      router.refresh();
+      reset();
     } catch (err) {
       console.log(mutationError);
     }

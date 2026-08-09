@@ -1,4 +1,4 @@
-import { User, LogoutRequest } from '@entities/User';
+import { User } from '../model/User';
 import { baseApi } from '@shared/api/baseApi';
 
 export const userApi = baseApi.injectEndpoints({
@@ -9,18 +9,14 @@ export const userApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       providesTags: ['User', 'Session'],
-    }),
-    logout: builder.mutation<void, LogoutRequest>({
-      query: (body) => ({
-        url: '/auth/logout',
-        method: 'POST',
-        body: body,
-      }),
-      invalidatesTags: ['User', 'Session'],
+
+      extraOptions: {
+        requiresAuth: true,
+      },
     }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetMeQuery, useLogoutMutation } = userApi;
+export const { useGetMeQuery } = userApi;

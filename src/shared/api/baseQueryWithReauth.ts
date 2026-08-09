@@ -1,7 +1,7 @@
 import { fetchBaseQuery, FetchBaseQueryArgs } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { loggedOut, selectAccessToken, setAccessToken } from '@shared/api/authSlice';
+import { loggedOut, selectAccessToken, setAccessToken } from '@shared/api/sessionSlice';
 import { baseApi } from '@shared/api/baseApi';
 
 type ReauthExtraOptions = {
@@ -45,7 +45,7 @@ export const baseQueryWithReauth: BaseQueryFn<
   await mutex.waitForUnlock();
 
   let result = await baseQuery(args, api, extraOptions);
-  if (extraOptions.requiresAuth && result.error?.status === 401) {
+  if (extraOptions?.requiresAuth && result.error?.status === 401) {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
 

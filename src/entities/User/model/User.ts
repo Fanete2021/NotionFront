@@ -3,22 +3,7 @@ export interface User {
   email: string;
 }
 
-export interface UserDataResponse {
+export interface UserData {
   accessToken: string;
   user: User;
-}
-
-export interface RegistrationRequest {
-  email: string;
-  password: string;
-  name: string;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface LogoutRequest {
-  allDevices: boolean;
 }

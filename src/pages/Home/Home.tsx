@@ -1,11 +1,9 @@
 import styles from './Home.module.css';
-import { Sidebar } from '@/widgets/Sidebar';
-import { Header } from '@widgets/Header';
+import { Header } from '@widgets/header';
 
 export const HomePage = () => {
   return (
     <main className={styles.layout}>
-      <Sidebar />
       <div className={styles.content}>
         <Header />
         <section className={styles.page}>
