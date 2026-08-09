@@ -1,1 +1,1 @@
-export { LoginPanel as LoginForm } from '@/widgets/login-panel';
+export { LoginForm } from './ui/LoginForm';

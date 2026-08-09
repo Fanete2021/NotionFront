@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './Trash.module.css';
-import { TrashList } from '@/widgets/TrashList/';
+import { TrashList } from '@/widgets/trash-list';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';

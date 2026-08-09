@@ -2,10 +2,10 @@
 
 import { FC } from 'react';
 import classNames from 'classnames';
-import { SidebarItem } from '@/widgets/Sidebar/ui/SidebarItem/SidebarItem';
+import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
-import { sidebarItems } from '@/widgets/Sidebar/ui/Sidebar/test.api';
-import { UserProfile } from '@/widgets/Sidebar/ui/UserProfile/UserProfile';
+import { sidebarItems } from './test.api';
+import { UserProfile } from '../UserProfile/UserProfile';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { Typography } from '@/shared/ui/Typography';

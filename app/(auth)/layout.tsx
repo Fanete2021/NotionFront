@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
-import styles from '@/app/layout.module.css';
+// eslint-disable-next-line fsd/no-relative-imports
+import styles from './layout.module.css';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  return <main className={styles.container}>{children}</main>;
+  return <section className={styles.container}>{children}</section>;
 };
 
 export default Layout;

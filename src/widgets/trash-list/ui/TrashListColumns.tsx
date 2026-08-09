@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './TrashList.module.css';
-import { TrashItem } from '@/widgets/TrashList/model/mock.api';
+import { TrashItem } from '@/widgets/trash-list/model/mock.api';
 import { TableColumn } from '@/shared/ui/Table/types';
 import PageIcon from '@/shared/assets/icons/page.svg';
 import RefreshIcon from '@/shared/assets/icons/refresh.svg';

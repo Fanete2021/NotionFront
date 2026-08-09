@@ -1,0 +1,41 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.loginForm label {
+  font-size: 14px;
+}
+
+.loginForm input {
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rememberMe {
+  display: flex;
+  column-gap: 8px;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+}
+
+.forgotPasswordLink {
+  text-decoration: none;
+}
+
+.forgotPasswordText {
+  color: var(--color-primary);
+}
+
+.submitForm {
+  margin-top: 12px;
+}
