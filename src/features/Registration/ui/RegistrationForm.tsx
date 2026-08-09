@@ -39,7 +39,7 @@ export const RegistrationForm = () => {
       resolver: zodResolver(registerUserSchema),
     });
   const router = useRouter();
-  const [register, { isLoading, error: mutationError }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
   const { readRegistrationDraft, clearRegistrationDraft, saveRegistrationDraft } =
     useRegistrationDraft();
 

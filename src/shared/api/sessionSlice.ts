@@ -30,6 +30,7 @@ const sessionSlice = createSlice({
 
   selectors: {
     selectAccessToken: (state) => state.accessToken,
+    selectSessionStatus: (state) => state.status,
   },
 });
 
@@ -37,4 +38,4 @@ export const sessionReducer = sessionSlice.reducer;
 
 export const { setAccessToken, loggedOut } = sessionSlice.actions;
 
-export const { selectAccessToken } = sessionSlice.selectors;
+export const { selectAccessToken, selectSessionStatus } = sessionSlice.selectors;
