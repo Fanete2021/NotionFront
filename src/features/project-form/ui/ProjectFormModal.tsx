@@ -1,0 +1,160 @@
+'use client';
+
+import { FC, useState } from 'react';
+import styles from './ProjectFormModal.module.css';
+import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
+import { Modal } from '@/shared/ui/Modal/Modal';
+import { Button } from '@/shared/ui/Button';
+import { Input } from '@/shared/ui/Input';
+import { ColorPicker, COLORS } from '@/shared/ui/ColorPicker/ColorPicker';
+import { IconPicker } from '@/shared/ui/IconPicker/IconPicker';
+import {
+  useAppSelector,
+  useAppDispatch,
+  closeCreateProjectModal,
+  closeEditProjectModal,
+} from '@/shared/lib';
+
+interface ProjectFormModalProps {
+  mode: 'create' | 'edit';
+}
+
+export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
+  const dispatch = useAppDispatch();
+
+  const isCreateOpen = useAppSelector((state) => state.sidebar.isCreateProjectModalOpen);
+  const isEditOpen = useAppSelector((state) => state.sidebar.isEditProjectModalOpen);
+  const workspaceId = useAppSelector((state) => state.sidebar.creatingProjectWorkspaceId);
+  const projectId = useAppSelector((state) => state.sidebar.editingProjectId) || '';
+  const currentName = useAppSelector((state) => state.sidebar.editingProjectName);
+  const currentColor = useAppSelector((state) => state.sidebar.editingProjectColor);
+  const currentIcon = useAppSelector((state) => state.sidebar.editingProjectIcon);
+
+  const isOpen = mode === 'create' ? isCreateOpen : isEditOpen;
+
+  const defaultColor = COLORS[COLORS.length - 1]; // белый
+
+  const [name, setName] = useState(mode === 'create' ? '' : currentName);
+  const [color, setColor] = useState<string | null>(
+    mode === 'create' || currentColor === null ? defaultColor : currentColor,
+  );
+  const [icon, setIcon] = useState<string | null>(mode === 'create' ? null : (currentIcon ?? null));
+  const [error, setError] = useState<string | null>(null);
+
+  const [createProject, { isLoading: isCreating }] = useCreateProjectMutation();
+  const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
+
+  const isLoading = mode === 'create' ? isCreating : isUpdating;
+
+  const handleClose = () => {
+    if (mode === 'create') {
+      dispatch(closeCreateProjectModal());
+    } else {
+      dispatch(closeEditProjectModal());
+    }
+    setError(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    const trimmed = name.trim();
+    if (!trimmed) {
+      setError('Название проекта обязательно');
+      return;
+    }
+
+    const isDefaultColor = color === defaultColor;
+    const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
+    const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
+
+    try {
+      if (mode === 'create') {
+        if (!workspaceId) {
+          setError('Workspace не найден');
+          return;
+        }
+        await createProject({
+          workspaceId,
+          data: {
+            name: trimmed,
+            color: colorToSend,
+            icon: icon ?? undefined,
+          },
+        }).unwrap();
+      } else {
+        const hasChanges =
+          trimmed !== currentName || color !== currentColor || icon !== currentIcon;
+        if (!hasChanges) {
+          handleClose();
+          return;
+        }
+        await updateProject({
+          id: projectId,
+          data: {
+            name: trimmed,
+            color: colorToSend,
+            icon: icon ?? undefined,
+          },
+        }).unwrap();
+      }
+      handleClose();
+    } catch (err: unknown) {
+      const errorData = (err as { data?: { message?: string } })?.data;
+      setError(errorData?.message || 'Ошибка при сохранении проекта');
+    }
+  };
+
+  const title = mode === 'create' ? 'Создать проект' : 'Редактировать проект';
+
+  return (
+    <Modal isOpen={isOpen} onClose={handleClose} title={title}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.field}>
+          <label htmlFor="projectName" className={styles.label}>
+            Название проекта
+          </label>
+          <Input
+            id="projectName"
+            type="text"
+            value={name}
+            onChange={(str) => setName(str)}
+            placeholder="Введите название..."
+            className={styles.input}
+            autoFocus
+            disabled={isLoading}
+          />
+          {error && <span className={styles.error}>{error}</span>}
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>Цвет</span>
+          <ColorPicker selectedColor={color} onChange={setColor} />
+        </div>
+
+        <div className={styles.field}>
+          <span className={styles.label}>Иконка</span>
+          <IconPicker selectedIcon={icon} onChange={setIcon} />
+        </div>
+
+        <div className={styles.actions}>
+          <Button
+            type="button"
+            onClick={handleClose}
+            className={styles.cancelButton}
+            disabled={isLoading}
+          >
+            Отмена
+          </Button>
+          <Button
+            type="submit"
+            className={styles.submitButton}
+            disabled={isLoading || !name.trim()}
+          >
+            {isLoading ? 'Сохранение...' : mode === 'create' ? 'Создать' : 'Сохранить'}
+          </Button>
+        </div>
+      </form>
+    </Modal>
+  );
+};

@@ -3,6 +3,8 @@ export interface Workspace {
   name: string;
   isPublic: boolean;
   ownerId: string;
+  color?: string | null;
+  icon?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -14,4 +16,6 @@ export interface CreateWorkspaceDto {
 export interface UpdateWorkspaceDto {
   name?: string;
   isPublic?: boolean;
+  color?: string | null;
+  icon?: string | null;
 }

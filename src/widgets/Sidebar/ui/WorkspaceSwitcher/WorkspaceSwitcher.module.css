@@ -1,0 +1,46 @@
+.trigger {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.trigger:hover {
+  background: var(--color-bg-surface);
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.workspaceIcon {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: var(--color-sidebar-logo-bg);
+  color: var(--color-text-avatar);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.loading {
+  padding: 12px;
+  color: var(--color-placeholder);
+  font-size: 14px;
+}

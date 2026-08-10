@@ -15,14 +15,6 @@
   /* neutrals */
   --color-text-primary: #111827;
   --color-text-body: #374151;
-<<<<<<< HEAD
-  --color-text-muted: #6b7280;
-  --color-border-strong: #d1d5db;
-  --color-placeholder: #9ca3af;
-  --color-border-base: #e5e7eb;
-  --color-bg-muted: #f3f4f6;
-  --color-bg-surface: #f9fafb;
-=======
   --color-text-muted: #6B7280;
   --color-border-strong: #D1D5DB;
   --color-placeholder: #9CA3AF;
@@ -30,7 +22,6 @@
   --color-bg-muted: #F3F4F6;
   --color-bg-surface: #F9FAFB;
   --color-bg-dark: #0F172A;
->>>>>>> origin/main
 
   /* sidebar */
   --color-sidebar-item-active: #eef2ff;
@@ -40,6 +31,7 @@
   --color-sidebar-bg: #ffffff;
   --color-sidebar-icon: #9ca3af;
   --color-sidebar-btn: #9ca3af;
+  --color-sidebar-divider-bg: #e5e5e5;
 
   /* project */
   --color-project-default: #6366f1;
@@ -140,6 +132,33 @@
   --color-checkbox-label: #1F2937;
   --color-checkbox-checked:#6B7280;
   --color-checkbox-disabled:#6B7280;
+
+  /* Context Menu */
+  --color-context-menu-hover-bg: #fef2f2;
+  --color-context-menu-divider-bg: #e0e0e0;
+  --color-context-menu-shadow: rgba(0, 0, 0, 0.15);
+
+  /* IconPicker */
+  --color-icon-picker-button: #f7f7f5;
+  --color-active-icon-picker-button: #e8f0fe;
+
+  /* ColorPicker */
+  --color-color-picker-blue: #4285f4;
+  --color-color-picker-green: #34a853;
+  --color-color-picker-yellow: #fbbc05;
+  --color-color-picker-purple: #9c2780;
+  --color-color-picker-dark-green: #607d8b;
+  --color-color-picker-white: #ffffff;
+
+  /* ProjectFormModal */
+  --color-project-form-input-bg: #e5e5e5;
+  --color-project-form-text: #1a1a1a;
+  --color-project-form-icon: #787774;
+  --color-project-form-label: #787774;
+
+  /* WorkspaceModal */
+  --color-workspace-modal-text: #787774;
+  --color-workspace-modal-icon: #787774;
 
   /* fonts */
   --font-sans: 'Inter';

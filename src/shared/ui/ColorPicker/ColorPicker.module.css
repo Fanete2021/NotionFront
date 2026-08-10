@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.colorButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  line-height: 0;
+}
+
+.colorButton:hover {
+  transform: scale(1.1);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11px;
+  height: 15px;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.colorButton .icon {
+  width: 11px;
+  height: 15px;
+  display: block;
+  flex-shrink: 0;
+  fill: var(--color-danger);
+  stroke: var(--color-danger);
+  stroke-width: 1px;
+}
+
+.selected {
+  border: 2px solid var(--color-danger);
+}

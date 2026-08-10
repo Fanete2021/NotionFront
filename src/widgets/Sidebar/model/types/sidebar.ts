@@ -1,14 +1,14 @@
-import { ComponentType, SVGProps } from 'react';
-
-export type SidebarItemType = 'link' | 'group' | 'section' | 'divider';
+import { FC, SVGProps } from 'react';
 
 export interface SidebarItem {
   id: string;
   title?: string;
-  type: SidebarItemType;
+  type: 'link' | 'section' | 'group' | 'divider';
   href?: string;
-  icon?: ComponentType<SVGProps<SVGSVGElement>>;
+  icon?: FC<SVGProps<SVGSVGElement>> | string;
   color?: string;
   children?: SidebarItem[];
-  active?: boolean;
+  workspaceId?: string;
+  projectId?: string;
+  isRealData?: boolean;
 }

@@ -1,18 +1,19 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { sidebarReducer } from './reducers/sidebarReducer';
+import { rtkApi } from '@/shared/api/rtkApi';
 
 const rootReducer = combineReducers({
-  sidebarReducer,
+  sidebar: sidebarReducer,
+  [rtkApi.reducerPath]: rtkApi.reducer,
 });
 
 export const makeStore = () => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(rtkApi.middleware),
   });
 };
 
-// Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>;
-// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];

@@ -1,35 +1,84 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import { SidebarItem } from '@/widgets/Sidebar/ui/SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
-import { sidebarItems } from '@/widgets/Sidebar/ui/Sidebar/test.api';
 import { UserProfile } from '@/widgets/Sidebar/ui/UserProfile/UserProfile';
+import { staticSidebarItems } from '@/widgets/Sidebar/ui/Sidebar/staticItems';
+import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { WorkspaceSwitcher } from '@/widgets/Sidebar/ui/WorkspaceSwitcher/WorkspaceSwitcher';
+import { CreateWorkspaceModal } from '@/features/create-workspace';
+import { CreateDocumentModal } from '@/features/create-document';
+import { ProjectFormModal } from '@/features/project-form';
+
+import { useGetWorkspacesQuery } from '@/entities/workspace';
+import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { Typography } from '@/shared/ui/Typography';
-import PencilIcon from '@/shared/assets/icons/pencil.svg';
+import { useAppSelector, useAppDispatch, setCurrentWorkspace } from '@/shared/lib';
 
 interface SidebarProps {
   className?: string;
 }
 
 export const Sidebar: FC<SidebarProps> = ({ className }) => {
-  const sidebarItemsList = sidebarItems;
+  const dispatch = useAppDispatch();
+  const currentWorkspaceId = useAppSelector((state) => state.sidebar.currentWorkspaceId);
+
+  const {
+    data: workspaces,
+    isLoading: workspacesLoading,
+    refetch: refetchWorkspaces,
+  } = useGetWorkspacesQuery();
+
+  useEffect(() => {
+    if (workspaces && workspaces.length > 0 && !currentWorkspaceId) {
+      dispatch(setCurrentWorkspace(workspaces[0].id));
+    }
+  }, [workspaces, currentWorkspaceId, dispatch]);
+
+  const { data: projects, refetch: refetchProjects } = useGetProjectsByWorkspaceQuery(
+    currentWorkspaceId || '',
+    { skip: !currentWorkspaceId },
+  );
+
+  const sidebarItems = useMemo(() => {
+    const items = [...staticSidebarItems];
+    const projectsSectionIndex = items.findIndex((item) => item.id === 'projects-section');
+
+    if (projectsSectionIndex !== -1) {
+      const projectItems: SidebarItemType[] = (projects || [])
+        .filter((project) => !project.parentProjectId)
+        .map((project) => ({
+          id: project.id,
+          title: project.name,
+          type: 'group',
+          projectId: project.id,
+          icon: project.icon || undefined,
+          color: project.color || undefined,
+          children: [],
+        }));
+
+      items[projectsSectionIndex] = {
+        ...items[projectsSectionIndex],
+        children: projectItems,
+      };
+    }
+
+    return items;
+  }, [projects]);
 
   const handleSearch = () => {};
+
+  if (workspacesLoading) {
+    return <div className={styles.loading}>Загрузка...</div>;
+  }
 
   return (
     <aside className={classNames(styles.sidebar, className)}>
       <div className={styles.top}>
-        <div className={styles.workspace}>
-          <div className={styles.workspaceLogo}>N</div>
-
-          <Typography variant="text-medium">Рабочее пространство</Typography>
-          <SearchIcon className={styles.icon} />
-          <PencilIcon className={styles.icon} />
-        </div>
+        <WorkspaceSwitcher />
 
         <Input
           className={styles.searchInput}
@@ -39,10 +88,22 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
         />
 
         <nav className={styles.navigation}>
-          {sidebarItemsList.map((item) => (
-            <SidebarItem key={item.id} item={item} />
-          ))}
+          {sidebarItems.map((item) => {
+            let level = 0;
+            if (item.type === 'section') {
+              level = 0;
+            } else if (item.type === 'group' && item.projectId) {
+              level = 1;
+            }
+
+            return <SidebarItem key={item.id} item={item} level={level} />;
+          })}
         </nav>
+
+        <CreateWorkspaceModal />
+        <ProjectFormModal mode="create" />
+        <ProjectFormModal mode="edit" />
+        <CreateDocumentModal />
       </div>
 
       <UserProfile name="Alex Kim" email="alex@acme.io" />
