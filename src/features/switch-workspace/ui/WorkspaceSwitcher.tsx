@@ -2,10 +2,16 @@
 
 import { useState } from 'react';
 import styles from './WorkspaceSwitcher.module.css';
-import { WorkspaceModal } from './WorkspaceModal/WorkspaceModal';
+import { WorkspaceModal } from '@/features/switch-workspace';
+import { CreateWorkspaceModal } from '@/features/switch-workspace/ui/CreateWorkspaceModal/CreateWorkspaceModal';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppSelector, useAppDispatch, setCurrentWorkspace } from '@/shared/lib';
+import {
+  useAppSelector,
+  useAppDispatch,
+  setCurrentWorkspace,
+  openCreateWorkspaceModal,
+} from '@/shared/lib';
 import { Button } from '@/shared/ui/Button';
 
 export const WorkspaceSwitcher = () => {
@@ -26,6 +32,10 @@ export const WorkspaceSwitcher = () => {
 
   const handleWorkspaceCreated = () => {
     refetch();
+  };
+
+  const handleOpenCreateModal = () => {
+    dispatch(openCreateWorkspaceModal());
   };
 
   if (isLoading) {
@@ -57,7 +67,10 @@ export const WorkspaceSwitcher = () => {
         currentWorkspaceId={currentWorkspaceId}
         onSelect={handleSelectWorkspace}
         onWorkspaceCreated={handleWorkspaceCreated}
+        onOpenCreateModal={handleOpenCreateModal}
       />
+
+      <CreateWorkspaceModal />
     </>
   );
 };

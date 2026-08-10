@@ -1,4 +1,4 @@
-import { workspaceApi } from '@/entities/workspace/api/workspaceApi';
+import { workspaceApi } from './api/workspaceApi';
 
 export const {
   useGetWorkspacesQuery,

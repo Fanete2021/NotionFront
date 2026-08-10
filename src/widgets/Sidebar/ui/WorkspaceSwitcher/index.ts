@@ -1,2 +1,1 @@
-export { WorkspaceSwitcher } from './WorkspaceSwitcher';
-export { WorkspaceModal } from './WorkspaceModal/WorkspaceModal';
+export { WorkspaceSwitcher } from '../../../../features/switch-workspace/ui/WorkspaceSwitcher';

@@ -1,1 +1,0 @@
-export { CreateWorkspaceModal } from './ui/CreateWorkspaceModal';

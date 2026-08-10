@@ -7,10 +7,10 @@ import styles from './Sidebar.module.css';
 import { UserProfile } from '@/widgets/Sidebar/ui/UserProfile/UserProfile';
 import { staticSidebarItems } from '@/widgets/Sidebar/ui/Sidebar/staticItems';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
-import { WorkspaceSwitcher } from '@/widgets/Sidebar/ui/WorkspaceSwitcher/WorkspaceSwitcher';
-import { CreateWorkspaceModal } from '@/features/create-workspace';
+import { WorkspaceSwitcher } from '@/features/switch-workspace';
+import { CreateWorkspaceModal } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
-import { ProjectFormModal } from '@/features/project-form';
+import { ProjectFormModal } from '@/features/manage-project';
 
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { useGetProjectsByWorkspaceQuery } from '@/entities/project';

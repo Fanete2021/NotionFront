@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const ACCESS_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZTkwM2FjNC1lMzBiLTRiZTYtOGYwNy05YzhlZmQzMTU5OTEiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODYzNTU2NjcsImV4cCI6MTc4NjM1NjU2N30.0cCGmAQdEMLAqSPdw47tJRVjH_TB9pXgfEwet1dyI54';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZTkwM2FjNC1lMzBiLTRiZTYtOGYwNy05YzhlZmQzMTU5OTEiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODYzOTU3MDIsImV4cCI6MTc4NjM5NjYwMn0.T5WQmzzqTxTYZz3yqcfeUYafA5s0222z21euG59vs-A';
 
 export const rtkApi = createApi({
   reducerPath: 'api',

@@ -1,12 +1,13 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import styles from './ProjectFormModal.module.css';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { ColorPicker, COLORS } from '@/shared/ui/ColorPicker/ColorPicker';
+import { ColorPicker } from '@/shared/ui/ColorPicker/ColorPicker';
+import { Colors } from '@/shared/const/colors';
 import { IconPicker } from '@/shared/ui/IconPicker/IconPicker';
 import {
   useAppSelector,
@@ -19,24 +20,31 @@ interface ProjectFormModalProps {
   mode: 'create' | 'edit';
 }
 
+const DEFAULT_COLOR = Colors.WHITE;
+
 export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const dispatch = useAppDispatch();
 
-  const isCreateOpen = useAppSelector((state) => state.sidebar.isCreateProjectModalOpen);
-  const isEditOpen = useAppSelector((state) => state.sidebar.isEditProjectModalOpen);
-  const workspaceId = useAppSelector((state) => state.sidebar.creatingProjectWorkspaceId);
-  const projectId = useAppSelector((state) => state.sidebar.editingProjectId) || '';
-  const currentName = useAppSelector((state) => state.sidebar.editingProjectName);
-  const currentColor = useAppSelector((state) => state.sidebar.editingProjectColor);
-  const currentIcon = useAppSelector((state) => state.sidebar.editingProjectIcon);
+  const {
+    isCreateProjectModalOpen,
+    isEditProjectModalOpen,
+    creatingProjectWorkspaceId,
+    editingProjectId,
+    editingProjectName,
+    editingProjectColor,
+    editingProjectIcon,
+  } = useAppSelector((state) => state.modals);
 
-  const isOpen = mode === 'create' ? isCreateOpen : isEditOpen;
-
-  const defaultColor = COLORS[COLORS.length - 1]; // белый
+  const isOpen = mode === 'create' ? isCreateProjectModalOpen : isEditProjectModalOpen;
+  const workspaceId = creatingProjectWorkspaceId;
+  const projectId = editingProjectId || '';
+  const currentName = editingProjectName;
+  const currentColor = editingProjectColor;
+  const currentIcon = editingProjectIcon;
 
   const [name, setName] = useState(mode === 'create' ? '' : currentName);
   const [color, setColor] = useState<string | null>(
-    mode === 'create' || currentColor === null ? defaultColor : currentColor,
+    mode === 'create' || currentColor === null ? DEFAULT_COLOR : currentColor,
   );
   const [icon, setIcon] = useState<string | null>(mode === 'create' ? null : (currentIcon ?? null));
   const [error, setError] = useState<string | null>(null);
@@ -45,6 +53,23 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
 
   const isLoading = mode === 'create' ? isCreating : isUpdating;
+
+  useEffect(() => {
+    if (isOpen) {
+      if (mode === 'create') {
+        //eslint-disable-next-line
+        setName('');
+        setColor(DEFAULT_COLOR);
+        setIcon(null);
+        setError(null);
+      } else {
+        setName(currentName);
+        setColor(currentColor ?? DEFAULT_COLOR);
+        setIcon(currentIcon ?? null);
+        setError(null);
+      }
+    }
+  }, [isOpen, mode, currentName, currentColor, currentIcon]);
 
   const handleClose = () => {
     if (mode === 'create') {
@@ -64,7 +89,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       return;
     }
 
-    const isDefaultColor = color === defaultColor;
+    const isDefaultColor = color === DEFAULT_COLOR;
     const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
     const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
 

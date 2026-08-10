@@ -3,14 +3,12 @@
 import { FC, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './WorkspaceModal.module.css';
-import { CreateWorkspaceModal } from '@/features/create-workspace';
 import { Workspace } from '@/entities/workspace';
 import { Button } from '@/shared/ui/Button';
 import ActiveCircleIcon from '@/shared/assets/icons/active-circle.svg';
 import CircleIcon from '@/shared/assets/icons/circle.svg';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppDispatch, openCreateWorkspaceModal } from '@/shared/lib';
 
 interface WorkspaceModalProps {
   isOpen: boolean;
@@ -19,6 +17,7 @@ interface WorkspaceModalProps {
   currentWorkspaceId: string | null;
   onSelect: (workspaceId: string) => void;
   onWorkspaceCreated?: () => void;
+  onOpenCreateModal: () => void;
 }
 
 export const WorkspaceModal: FC<WorkspaceModalProps> = ({
@@ -28,16 +27,11 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
   currentWorkspaceId,
   onSelect,
   onWorkspaceCreated,
+  onOpenCreateModal,
 }) => {
-  const dispatch = useAppDispatch();
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(currentWorkspaceId);
 
   if (!isOpen) return null;
-
-  const filteredWorkspaces = workspaces.filter((w) =>
-    w.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   const handleSelect = (id: string) => {
     setSelectedId(id);
@@ -50,7 +44,7 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
   };
 
   const handleOpenCreateModal = () => {
-    dispatch(openCreateWorkspaceModal());
+    onOpenCreateModal();
   };
 
   const modalContent = (
@@ -62,12 +56,10 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
           </Typography>
 
           <div className={styles.workspaceList}>
-            {filteredWorkspaces.length === 0 ? (
-              <div className={styles.emptyState}>
-                {searchQuery ? 'Ничего не найдено' : 'Нет рабочих пространств'}
-              </div>
+            {workspaces.length === 0 ? (
+              <div className={styles.emptyState}>Нет рабочих пространств</div>
             ) : (
-              filteredWorkspaces.map((workspace) => (
+              workspaces.map((workspace) => (
                 <Button
                   key={workspace.id}
                   variant="clear"
@@ -115,8 +107,6 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
           </div>
         </div>
       </div>
-
-      <CreateWorkspaceModal />
     </>
   );
 

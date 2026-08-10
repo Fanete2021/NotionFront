@@ -8,7 +8,6 @@ import { rtkApi } from '@/shared/api/rtkApi';
 
 export const projectApi = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Получаем все проекты в workspace
     getProjectsByWorkspace: builder.query<Project[], string>({
       query: (workspaceId) => `/workspaces/${workspaceId}/projects`,
       providesTags: (result, error, workspaceId) =>
@@ -20,13 +19,11 @@ export const projectApi = rtkApi.injectEndpoints({
           : [{ type: 'Project', id: `WORKSPACE_${workspaceId}` }],
     }),
 
-    // Получаем проект по ID
     getProjectById: builder.query<Project, string>({
       query: (id) => `/projects/${id}`,
       providesTags: (result, error, id) => [{ type: 'Project', id }],
     }),
 
-    // Создаем проект
     createProject: builder.mutation<Project, { workspaceId: string; data: CreateProjectDto }>({
       query: ({ workspaceId, data }) => ({
         url: `/workspaces/${workspaceId}/projects`,
@@ -38,7 +35,6 @@ export const projectApi = rtkApi.injectEndpoints({
       ],
     }),
 
-    // Обновляем проект
     updateProject: builder.mutation<Project, { id: string; data: UpdateProjectDto }>({
       query: ({ id, data }) => ({
         url: `/projects/${id}`,
@@ -51,7 +47,6 @@ export const projectApi = rtkApi.injectEndpoints({
       ],
     }),
 
-    // Удаляем проект
     deleteProject: builder.mutation<void, string>({
       query: (id) => ({
         url: `/projects/${id}`,
@@ -63,7 +58,6 @@ export const projectApi = rtkApi.injectEndpoints({
       ],
     }),
 
-    // Переупорядочиваем проекты
     reorderProjects: builder.mutation<Project[], { workspaceId: string; data: ReorderProjectsDto }>(
       {
         query: ({ workspaceId, data }) => ({

@@ -9,8 +9,8 @@ import { useAppSelector, useAppDispatch, closeCreateDocumentModal } from '@/shar
 
 export const CreateDocumentModal: FC = () => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.sidebar.isCreateDocumentModalOpen);
-  const projectId = useAppSelector((state) => state.sidebar.creatingDocumentProjectId);
+  const { isCreateDocumentModalOpen: isOpen, creatingDocumentProjectId: projectId } =
+    useAppSelector((state) => state.modals);
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
 

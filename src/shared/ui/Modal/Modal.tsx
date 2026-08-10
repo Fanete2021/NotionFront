@@ -1,13 +1,13 @@
 'use client';
 
-import { FC, ReactNode, useEffect, useRef } from 'react';
+import { FC, HTMLAttributes, ReactNode, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import CloseIcon from '@/shared/assets/icons/x-close.svg';
 
-interface ModalProps {
+interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   isOpen: boolean;
   onClose: () => void;
   title?: string;

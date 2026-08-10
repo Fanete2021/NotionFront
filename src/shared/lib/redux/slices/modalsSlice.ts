@@ -1,21 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const STORAGE_KEY = 'sidebar_current_workspace';
-
-export interface SidebarState {
-  currentWorkspaceId: string | null;
-
+export interface ModalsState {
   isCreateWorkspaceModalOpen: boolean;
-  editingWorkspaceColor: string | null;
-  editingWorkspaceIcon: string | null;
-
   isEditWorkspaceModalOpen: boolean;
   editingWorkspaceId: string | null;
   editingWorkspaceName: string;
+  editingWorkspaceColor: string | null;
+  editingWorkspaceIcon: string | null;
 
   isCreateProjectModalOpen: boolean;
   creatingProjectWorkspaceId: string | null;
-
   isEditProjectModalOpen: boolean;
   editingProjectId: string | null;
   editingProjectName: string;
@@ -26,27 +20,16 @@ export interface SidebarState {
   creatingDocumentProjectId: string | null;
 }
 
-const loadCurrentWorkspace = (): string | null => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(STORAGE_KEY) || null;
-  }
-  return null;
-};
-
-const initialState: SidebarState = {
-  currentWorkspaceId: loadCurrentWorkspace(),
-
+const initialState: ModalsState = {
   isCreateWorkspaceModalOpen: false,
-  editingWorkspaceColor: null,
-  editingWorkspaceIcon: null,
-
   isEditWorkspaceModalOpen: false,
   editingWorkspaceId: null,
   editingWorkspaceName: '',
+  editingWorkspaceColor: null,
+  editingWorkspaceIcon: null,
 
   isCreateProjectModalOpen: false,
   creatingProjectWorkspaceId: null,
-
   isEditProjectModalOpen: false,
   editingProjectId: null,
   editingProjectName: '',
@@ -57,23 +40,10 @@ const initialState: SidebarState = {
   creatingDocumentProjectId: null,
 };
 
-const sidebarSlice = createSlice({
-  name: 'sidebar',
+const modalsSlice = createSlice({
+  name: 'modals',
   initialState,
   reducers: {
-    setCurrentWorkspace: (state, action: PayloadAction<string>) => {
-      state.currentWorkspaceId = action.payload;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY, action.payload);
-      }
-    },
-    clearCurrentWorkspace: (state) => {
-      state.currentWorkspaceId = null;
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem(STORAGE_KEY);
-      }
-    },
-
     openCreateWorkspaceModal: (state) => {
       state.isCreateWorkspaceModalOpen = true;
     },
@@ -148,8 +118,6 @@ const sidebarSlice = createSlice({
 });
 
 export const {
-  setCurrentWorkspace,
-  clearCurrentWorkspace,
   openCreateWorkspaceModal,
   closeCreateWorkspaceModal,
   openEditWorkspaceModal,
@@ -160,6 +128,6 @@ export const {
   closeEditProjectModal,
   openCreateDocumentModal,
   closeCreateDocumentModal,
-} = sidebarSlice.actions;
+} = modalsSlice.actions;
 
-export const sidebarReducer = sidebarSlice.reducer;
+export const modalsReducer = modalsSlice.reducer;

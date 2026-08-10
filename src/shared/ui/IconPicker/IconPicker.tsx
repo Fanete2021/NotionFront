@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './IconPicker.module.css';
 import { Button } from '@/shared/ui/Button';
@@ -20,7 +20,7 @@ export const ICONS = [
   '⚙️',
 ] as const;
 
-interface IconPickerProps {
+interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   selectedIcon: string | null;
   onChange: (icon: string) => void;
   className?: string;

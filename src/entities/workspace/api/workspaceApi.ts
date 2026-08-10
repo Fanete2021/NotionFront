@@ -3,7 +3,6 @@ import { rtkApi } from '@/shared/api/rtkApi';
 
 export const workspaceApi = rtkApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Получить все workspace
     getWorkspaces: builder.query<Workspace[], void>({
       query: () => '/workspaces',
       providesTags: (result) =>
@@ -15,13 +14,11 @@ export const workspaceApi = rtkApi.injectEndpoints({
           : [{ type: 'Workspace', id: 'LIST' }],
     }),
 
-    // Получаем workspace по ID
     getWorkspaceById: builder.query<Workspace, string>({
       query: (id) => `/workspaces/${id}`,
       providesTags: (result, error, id) => [{ type: 'Workspace', id }],
     }),
 
-    // Создаем workspace
     createWorkspace: builder.mutation<Workspace, CreateWorkspaceDto>({
       query: (body) => ({
         url: '/workspaces',
@@ -31,7 +28,6 @@ export const workspaceApi = rtkApi.injectEndpoints({
       invalidatesTags: [{ type: 'Workspace', id: 'LIST' }],
     }),
 
-    // Обновляем workspace
     updateWorkspace: builder.mutation<Workspace, { id: string; data: UpdateWorkspaceDto }>({
       query: ({ id, data }) => ({
         url: `/workspaces/${id}`,
@@ -44,7 +40,6 @@ export const workspaceApi = rtkApi.injectEndpoints({
       ],
     }),
 
-    // Удаляем workspace
     deleteWorkspace: builder.mutation<void, string>({
       query: (id) => ({
         url: `/workspaces/${id}`,

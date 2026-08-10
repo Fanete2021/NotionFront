@@ -1,4 +1,4 @@
-import { projectApi } from '@/entities/project/api/projectApi';
+import { projectApi } from './api/projectApi';
 
 export const {
   useGetProjectsByWorkspaceQuery,

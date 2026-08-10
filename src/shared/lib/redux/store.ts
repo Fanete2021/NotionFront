@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { sidebarReducer } from './reducers/sidebarReducer';
+import { sidebarReducer } from './slices/sidebarSlice';
+import { modalsReducer } from './slices/modalsSlice';
 import { rtkApi } from '@/shared/api/rtkApi';
 
 const rootReducer = combineReducers({
   sidebar: sidebarReducer,
+  modals: modalsReducer,
   [rtkApi.reducerPath]: rtkApi.reducer,
 });
 
