@@ -50,7 +50,14 @@ export const baseQueryWithReauth: BaseQueryFn<
       const release = await mutex.acquire();
 
       try {
-        const refreshResult = await baseQuery('/auth/refresh', api, extraOptions);
+        const refreshResult = await baseQuery(
+          {
+            url: 'auth/refresh',
+            method: 'POST',
+          },
+          api,
+          extraOptions,
+        );
 
         if (!refreshResult.error && isRefreshData(refreshResult.data)) {
           api.dispatch(setAccessToken(refreshResult.data.accessToken));
