@@ -1,7 +1,7 @@
 import { Workspace, CreateWorkspaceDto, UpdateWorkspaceDto } from '../model/workspace.types';
-import { rtkApi } from '@/shared/api/rtkApi';
+import { baseApi } from '@/shared/api/baseApi';
 
-export const workspaceApi = rtkApi.injectEndpoints({
+export const workspaceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getWorkspaces: builder.query<Workspace[], void>({
       query: () => '/workspaces',

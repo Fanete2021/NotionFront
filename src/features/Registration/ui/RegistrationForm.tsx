@@ -1,7 +1,14 @@
 'use client';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import styles from './RegistrationForm.module.css';
+import { useRegisterMutation } from '../api/registerApi';
+import { registerUserSchema } from '../utils/validationRegisterFormConfig';
+import { useRegistrationDraft } from '../model/useRegistrationDraft';
+import { isFetchBaseQueryError } from '../utils/checkFetchError';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -20,16 +27,83 @@ interface RegistrationFormValues {
 }
 
 export const RegistrationForm = () => {
-  const { handleSubmit, control } = useForm<RegistrationFormValues>({
-    defaultValues: {
-      name: '',
-      surname: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
-  });
-  const onSubmit: SubmitHandler<RegistrationFormValues> = (data) => alert(data);
+  const { handleSubmit, control, reset, setError, clearErrors, subscribe } =
+    useForm<RegistrationFormValues>({
+      defaultValues: {
+        name: '',
+        surname: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      },
+      resolver: zodResolver(registerUserSchema),
+    });
+  const router = useRouter();
+  const [register, { isLoading }] = useRegisterMutation();
+  const { readRegistrationDraft, clearRegistrationDraft, saveRegistrationDraft } =
+    useRegistrationDraft();
+
+  const onSubmit: SubmitHandler<RegistrationFormValues> = async (values) => {
+    clearErrors(['email']);
+
+    try {
+      await register({
+        email: values.email,
+        password: values.password,
+        name: `${values.name} ${values.surname}`,
+      }).unwrap();
+
+      clearRegistrationDraft();
+
+      router.replace('/');
+    } catch (error: unknown) {
+      if (isFetchBaseQueryError(error) && error.status === 409) {
+        setError(
+          'email',
+          {
+            type: 'server',
+            message: 'Этот email уже используется',
+          },
+          {
+            shouldFocus: true,
+          },
+        );
+        return;
+      }
+    }
+  };
+
+  useEffect(() => {
+    const draft = readRegistrationDraft();
+
+    if (draft) {
+      reset({
+        name: draft.name,
+        surname: draft.surname,
+        email: draft.email,
+        password: '',
+        confirmPassword: '',
+      });
+    }
+
+    const unsubscribe = subscribe({
+      name: ['name', 'surname', 'email'],
+
+      formState: {
+        values: true,
+      },
+
+      callback: ({ values }) => {
+        saveRegistrationDraft({
+          name: values.name,
+          surname: values.surname,
+          email: values.email,
+        });
+      },
+    });
+
+    return unsubscribe;
+  }, [readRegistrationDraft, reset, saveRegistrationDraft, subscribe]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -136,7 +210,7 @@ export const RegistrationForm = () => {
         addonLeft={<Lightning />}
         type="submit"
       >
-        Создать аккаунт бесплатно
+        {isLoading ? 'Создание аккаунта...' : 'Создать аккаунт бесплатно'}
       </Button>
     </form>
   );

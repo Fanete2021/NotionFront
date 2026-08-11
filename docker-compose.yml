@@ -17,6 +17,7 @@ services:
       - .:/app                 # Монтируем локальный код в папку /app
       - /app/node_modules      # Исключаем node_modules (их ставит контейнер)
       - /app/.next             # Исключаем кэш сборки Next.js
+      - ./.env:/app/.env:ro    # Добавляем .env файл в сборку
 
     # Переменные окружения
     environment:

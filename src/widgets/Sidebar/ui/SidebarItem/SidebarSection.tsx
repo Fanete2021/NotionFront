@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import styles from './SidebarItem.module.css';
 import { SidebarItem } from './SidebarItem';

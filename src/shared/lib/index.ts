@@ -1,6 +1,4 @@
-export { useAppDispatch, useAppSelector, useAppStore } from './redux/hooks';
-
-export { makeStore, type AppStore, type RootState, type AppDispatch } from './redux/store';
+export { useAppDispatch, useAppSelector, useAppStore } from '@/app/redux/hooks';
 
 export {
   setCurrentWorkspace,

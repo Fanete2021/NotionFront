@@ -4,9 +4,9 @@ import {
   UpdateProjectDto,
   ReorderProjectsDto,
 } from '../model/project.types';
-import { rtkApi } from '@/shared/api/rtkApi';
+import { baseApi } from '@/shared/api/baseApi';
 
-export const projectApi = rtkApi.injectEndpoints({
+export const projectApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProjectsByWorkspace: builder.query<Project[], string>({
       query: (workspaceId) => `/workspaces/${workspaceId}/projects`,
