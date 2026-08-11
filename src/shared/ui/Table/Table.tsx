@@ -3,7 +3,6 @@
 import classnames from 'classnames';
 import { memo } from 'react';
 import styles from './Table.module.css';
-
 import { TableProps } from './types';
 
 function TableComponent<T>({
@@ -25,9 +24,7 @@ function TableComponent<T>({
             {columns.map((column) => (
               <th
                 key={String(column.key)}
-                style={{
-                  width: column.width,
-                }}
+                style={{ width: column.width }}
                 className={classnames(styles.headCell, styles[column.align ?? 'left'])}
               >
                 {column.title}
@@ -76,5 +73,4 @@ function TableComponent<T>({
   );
 }
 
-export const Table = memo(TableComponent);
-Table.displayName = 'Table';
+export const Table = memo(TableComponent) as <T>(props: TableProps<T>) => React.ReactElement;
