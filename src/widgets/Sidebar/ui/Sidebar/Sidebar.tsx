@@ -43,31 +43,31 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
     { skip: !currentWorkspaceId },
   );
 
+  const projectItems = useMemo(() => {
+    return (projects || [])
+      .filter((project) => !project.parentProjectId)
+      .map((project) => ({
+        id: project.id,
+        title: project.name,
+        type: 'group' as const,
+        projectId: project.id,
+        icon: project.icon || undefined,
+        color: project.color || undefined,
+        children: [] as SidebarItemType[],
+      }));
+  }, [projects]);
+
   const sidebarItems = useMemo(() => {
     const items = [...staticSidebarItems];
     const projectsSectionIndex = items.findIndex((item) => item.id === 'projects-section');
-
     if (projectsSectionIndex !== -1) {
-      const projectItems: SidebarItemType[] = (projects || [])
-        .filter((project) => !project.parentProjectId)
-        .map((project) => ({
-          id: project.id,
-          title: project.name,
-          type: 'group',
-          projectId: project.id,
-          icon: project.icon || undefined,
-          color: project.color || undefined,
-          children: [],
-        }));
-
       items[projectsSectionIndex] = {
         ...items[projectsSectionIndex],
         children: projectItems,
       };
     }
-
     return items;
-  }, [projects]);
+  }, [projectItems]);
 
   const handleSearch = () => {};
 

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { memo } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import styles from './SidebarItem.module.css';
 import { getPadding, getChildPadding, isDeepChild } from './utils';
@@ -13,7 +14,7 @@ interface SidebarLinkProps {
   level: number;
 }
 
-export function SidebarLink({ item, level }: SidebarLinkProps) {
+function SidebarLinkComponent({ item, level }: SidebarLinkProps) {
   const pathname = usePathname();
   const active = pathname === item.href;
   const deepChild = isDeepChild(level);
@@ -37,3 +38,6 @@ export function SidebarLink({ item, level }: SidebarLinkProps) {
     </Link>
   );
 }
+
+export const SidebarLink = memo(SidebarLinkComponent);
+SidebarLink.displayName = 'SidebarLink';

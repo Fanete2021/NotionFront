@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, memo, useCallback } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { SidebarItem } from './SidebarItem';
 import styles from './SidebarItem.module.css';
@@ -18,7 +18,7 @@ interface SidebarGroupProps {
   level: number;
 }
 
-export function SidebarGroup({ item, level }: SidebarGroupProps) {
+function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,25 +27,25 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [deleteProject] = useDeleteProjectMutation();
 
-  const handleToggle = () => setIsOpen((prev) => !prev);
+  const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
-  const handleContextMenu = (e: React.MouseEvent) => {
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setContextMenu({ x: e.clientX, y: e.clientY });
-  };
+  }, []);
 
-  const handleMoreClick = (e: React.MouseEvent) => {
+  const handleMoreClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
-  };
+  }, []);
 
-  const handleCreateDocument = () => {
+  const handleCreateDocument = useCallback(() => {
     setContextMenu(null);
     dispatch(openCreateDocumentModal({ projectId: item.id }));
-  };
+  }, [dispatch, item.id]);
 
-  const handleEdit = () => {
+  const handleEdit = useCallback(() => {
     setIsDropdownOpen(false);
     dispatch(
       openEditProjectModal({
@@ -55,9 +55,9 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         icon: typeof item.icon === 'string' ? item.icon : undefined,
       }),
     );
-  };
+  }, [dispatch, item.id, item.title, item.color, item.icon]);
 
-  const handleDelete = async () => {
+  const handleDelete = useCallback(async () => {
     setIsDropdownOpen(false);
     if (!confirm(`Удалить проект "${item.title}"?`)) return;
     try {
@@ -65,7 +65,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     } catch (err) {
       console.error('Ошибка удаления проекта:', err);
     }
-  };
+  }, [deleteProject, item.id, item.title]);
 
   return (
     <>
@@ -150,3 +150,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     </>
   );
 }
+
+export const SidebarGroup = memo(SidebarGroupComponent);
+SidebarGroup.displayName = 'SidebarGroup';

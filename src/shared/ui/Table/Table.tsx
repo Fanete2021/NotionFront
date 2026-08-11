@@ -1,11 +1,12 @@
 'use client';
 
 import classnames from 'classnames';
+import { memo } from 'react';
 import styles from './Table.module.css';
 
 import { TableProps } from './types';
 
-export function Table<T>({
+function TableComponent<T>({
   columns,
   data,
   rowKey,
@@ -74,3 +75,6 @@ export function Table<T>({
     </div>
   );
 }
+
+export const Table = memo(TableComponent);
+Table.displayName = 'Table';

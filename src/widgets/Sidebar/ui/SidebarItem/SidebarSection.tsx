@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import styles from './SidebarItem.module.css';
 import { SidebarItem } from './SidebarItem';
@@ -21,12 +21,15 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
 
   const handleToggle = () => setIsOpen((prev) => !prev);
 
-  const handleCreateProject = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (workspaceId) {
-      dispatch(openCreateProjectModal({ workspaceId }));
-    }
-  };
+  const handleCreateProject = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (workspaceId) {
+        dispatch(openCreateProjectModal({ workspaceId }));
+      }
+    },
+    [workspaceId, dispatch],
+  );
 
   return (
     <div className={styles.section}>
