@@ -1,5 +1,5 @@
 import styles from './Home.module.css';
-import { Header } from '@widgets/header';
+import { Header } from '@widgets/Header';
 
 export const HomePage = () => {
   return (

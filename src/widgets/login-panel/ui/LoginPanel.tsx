@@ -1,5 +1,5 @@
 import styles from '@widgets/login-panel/ui/LoginPanel.module.css';
-import { LoginForm } from '@features/login';
+import { LoginForm } from '@features/Login';
 import { OAuthGoogle } from '@/features/o-auth-google';
 import { OAuthGitHub } from '@/features/o-auth-github';
 import { AuthNavigationHint, AuthSectionHeader, TextDivider } from '@shared/ui/auth';
