@@ -100,7 +100,6 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
           })}
         </nav>
 
-        <CreateWorkspaceModal />
         <ProjectFormModal mode="create" />
         <ProjectFormModal mode="edit" />
         <CreateDocumentModal />

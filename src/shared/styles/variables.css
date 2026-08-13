@@ -160,6 +160,11 @@
   --color-workspace-modal-text: #787774;
   --color-workspace-modal-icon: #787774;
 
+  /* Modal */
+  --color-modal-button-bg: #2383E2;
+  --color-modal-button-text: #FFFFFF;
+  --color-modal-close-button: #787774;
+
   /* fonts */
   --font-sans: 'Inter';
 }

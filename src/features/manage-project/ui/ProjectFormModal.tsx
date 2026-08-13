@@ -119,7 +119,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
           data: {
             name: trimmed,
             color: colorToSend,
-            icon: icon ?? undefined,
+            icon: icon === null ? null : (icon ?? undefined),
           },
         }).unwrap();
       }
@@ -172,6 +172,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
             Отмена
           </Button>
           <Button
+            variant="filled"
             type="submit"
             className={styles.submitButton}
             disabled={isLoading || !name.trim()}

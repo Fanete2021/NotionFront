@@ -28,7 +28,7 @@ const baseQueryOptions: FetchBaseQueryArgs = {
     const accessToken = selectAccessToken(getState() as Parameters<typeof selectAccessToken>[0]);
 
     if (accessToken) {
-      headers.set('Authorization', `${accessToken}`);
+      headers.set('Authorization', `Bearer ${accessToken}`);
     }
     return headers;
   },

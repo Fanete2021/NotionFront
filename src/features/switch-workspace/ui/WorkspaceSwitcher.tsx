@@ -17,7 +17,7 @@ import { Button } from '@/shared/ui/Button';
 export const WorkspaceSwitcher = () => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: workspaces, isLoading, refetch } = useGetWorkspacesQuery();
+  const { data: workspaces, isLoading } = useGetWorkspacesQuery();
   const currentWorkspaceId = useAppSelector((state) => state.sidebar.currentWorkspaceId);
 
   const currentWorkspace = workspaces?.find((w) => w.id === currentWorkspaceId);
@@ -30,11 +30,8 @@ export const WorkspaceSwitcher = () => {
     setIsModalOpen(false);
   };
 
-  const handleWorkspaceCreated = () => {
-    refetch();
-  };
-
   const handleOpenCreateModal = () => {
+    setIsModalOpen(false);
     dispatch(openCreateWorkspaceModal());
   };
 
@@ -66,7 +63,6 @@ export const WorkspaceSwitcher = () => {
         workspaces={workspaces || []}
         currentWorkspaceId={currentWorkspaceId}
         onSelect={handleSelectWorkspace}
-        onWorkspaceCreated={handleWorkspaceCreated}
         onOpenCreateModal={handleOpenCreateModal}
       />
 

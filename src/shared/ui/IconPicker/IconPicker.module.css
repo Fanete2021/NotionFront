@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   width: 162px;
   height: 118px;
+  margin-bottom: 54px;
 
   .selected {
     background: var(--color-active-icon-picker-button);
@@ -23,4 +24,3 @@
   justify-content: center;
   transition: all 0.15s;
 }
-

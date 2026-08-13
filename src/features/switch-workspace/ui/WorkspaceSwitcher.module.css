@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
+  padding: 0 18px 0px 24px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -23,6 +23,8 @@
   gap: 8px;
   flex: 1;
   min-width: 0;
+  padding-right: 4px;
+  margin-left: 11px;
 }
 
 .workspaceIcon {

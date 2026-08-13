@@ -45,6 +45,8 @@ export const Button = (props: ButtonProps) => {
     size = 'md',
     addonLeft,
     color = 'normal',
+    type = 'button',
+    onClick,
     ...otherProps
   } = props;
 
@@ -55,9 +57,16 @@ export const Button = (props: ButtonProps) => {
     [styles.withAddon]: Boolean(addonLeft),
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('Button clicked!!!');
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   return (
     <button
-      type="button"
+      type={type}
       className={classNames(styles.button, mods, [
         styles[variant],
         styles[size],
@@ -65,6 +74,7 @@ export const Button = (props: ButtonProps) => {
         className,
       ])}
       disabled={disabled}
+      onClick={handleClick}
       {...otherProps}
     >
       {addonLeft && <div className={styles.addonLeft}>{addonLeft}</div>}

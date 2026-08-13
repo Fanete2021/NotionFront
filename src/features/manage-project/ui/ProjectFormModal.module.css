@@ -8,13 +8,15 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  padding-right: 6px;
 }
 
 .label {
   font-size: 12px;
   font-weight: 400;
   color: var(--color-project-form-label);
+  font-family: var(--font-sans);
 }
 
 .error {
@@ -26,4 +28,11 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  padding-right: 2px;
+
+  .submitButton {
+    color: var(--color-modal-button-text);
+    background-color: var(--color-modal-button-bg);
+  }
 }
+

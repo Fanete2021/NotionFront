@@ -58,7 +58,7 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, title, children, classN
             <Typography variant="text-modal" className={styles.title}>
               {title}
             </Typography>
-            <Button variant="clear" square className={styles.closeButton} onClick={onClose}>
+            <Button variant="clear" className={styles.closeButton} onClick={onClose}>
               <CloseIcon className={styles.icon} />
             </Button>
           </div>

@@ -14,10 +14,8 @@
 .modal {
   background: var(--color-sidebar-bg);
   border-radius: 12px;
-  padding: 22px 18px 18px 24px;
-  min-width: 400px;
-  max-width: 500px;
-  width: 100%;
+  padding: 24px 18px 18px 24px;
+  width: 420px;
 }
 
 .header {
@@ -25,6 +23,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .title {
@@ -36,11 +35,11 @@
 }
 
 .body {
-  padding: 0;
+  padding-right: 2px;
 }
 
 .icon {
-  width: 14px;
-  height: 24px;
-  color: var(--color-project-form-icon);
+  width: 10px;
+  height: 14px;
+  color: var(--color-modal-close-button);
 }

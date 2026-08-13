@@ -9,14 +9,13 @@
   align-items: center;
   justify-content: center;
   z-index: 1;
-  animation: fadeIn 0.15s ease;
 }
 
 .modal {
   background: var(--color-sidebar-bg);
   border-radius: 12px;
   padding: 24px;
-  width: 100%;
+  width: 420px;
   max-width: 480px;
   max-height: 80vh;
   display: flex;
@@ -27,11 +26,24 @@
   z-index: 1;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 29px;
+  width: 100%;
+}
+
 .title {
   font-size: 18px;
   font-weight: 600;
   color: var(--color-text-primary);
-  margin-bottom: 29px;
+}
+
+.icon {
+  width: 10px;
+  height: 14px;
+  color: var(--color-modal-close-button);
 }
 
 .workspaceList {
@@ -46,6 +58,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  padding: 0;
   border: none;
   border-radius: 8px;
   background: transparent;
@@ -57,10 +70,11 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
+}
 
-  .unActive {
-    color: var(--color-workspace-modal-text);
-  }
+.unActive {
+  color: var(--color-workspace-modal-text);
 }
 
 .workspaceAvatar {
@@ -82,6 +96,7 @@
   height: 20px;
   color: var(--color-primary);
   flex-shrink: 0;
+  margin-left: auto;
 }
 
 .emptyState {
@@ -114,4 +129,5 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 30px;
+  margin-bottom: 4px;
 }

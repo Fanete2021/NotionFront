@@ -22,11 +22,19 @@ export const ICONS = [
 
 interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   selectedIcon: string | null;
-  onChange: (icon: string) => void;
+  onChange: (icon: string | null) => void;
   className?: string;
 }
 
 export const IconPicker: FC<IconPickerProps> = ({ selectedIcon, onChange, className }) => {
+  const handleIconClick = (icon: string) => {
+    if (selectedIcon === icon) {
+      onChange(null);
+    } else {
+      onChange(icon);
+    }
+  };
+
   return (
     <div className={classNames(styles.container, className)}>
       {ICONS.map((icon) => (
@@ -36,7 +44,7 @@ export const IconPicker: FC<IconPickerProps> = ({ selectedIcon, onChange, classN
           className={classNames(styles.iconButton, {
             [styles.selected]: selectedIcon === icon,
           })}
-          onClick={() => onChange(icon)}
+          onClick={() => handleIconClick(icon)}
         >
           {icon}
         </Button>

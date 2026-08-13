@@ -8,6 +8,7 @@ import { Button } from '@/shared/ui/Button';
 import ActiveCircleIcon from '@/shared/assets/icons/active-circle.svg';
 import CircleIcon from '@/shared/assets/icons/circle.svg';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
+import CloseIcon from '@/shared/assets/icons/x-close.svg';
 import { Typography } from '@/shared/ui/Typography';
 
 interface WorkspaceModalProps {
@@ -16,7 +17,6 @@ interface WorkspaceModalProps {
   workspaces: Workspace[];
   currentWorkspaceId: string | null;
   onSelect: (workspaceId: string) => void;
-  onWorkspaceCreated?: () => void;
   onOpenCreateModal: () => void;
 }
 
@@ -26,7 +26,6 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
   workspaces,
   currentWorkspaceId,
   onSelect,
-  onWorkspaceCreated,
   onOpenCreateModal,
 }) => {
   const [selectedId, setSelectedId] = useState<string | null>(currentWorkspaceId);
@@ -51,9 +50,14 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
     <>
       <div className={styles.overlay} onClick={onClose}>
         <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-          <Typography variant="text-modal" className={styles.title}>
-            Выбор рабочего пространства
-          </Typography>
+          <div className={styles.header}>
+            <Typography variant="text-modal" className={styles.title}>
+              Выбор рабочего пространства
+            </Typography>
+            <Button variant="clear" className={styles.closeButton} onClick={onClose}>
+              <CloseIcon className={styles.icon} />
+            </Button>
+          </div>
 
           <div className={styles.workspaceList}>
             {workspaces.length === 0 ? (
