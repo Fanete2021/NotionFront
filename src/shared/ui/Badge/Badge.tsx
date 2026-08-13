@@ -1,0 +1,27 @@
+'use client';
+
+import React from 'react';
+import classNames from 'classnames';
+import styles from './Badge.module.css';
+import { Typography } from '@/shared/ui/Typography';
+
+export type BadgeStatus = 'verified' | 'pending' | 'failed' | 'new' | 'draft' | 'connected';
+
+interface BadgeProps extends React.ComponentPropsWithRef<'div'> {
+  className?: string;
+  status: BadgeStatus;
+  text: string;
+}
+
+export const Badge = ({ className, status, text }: BadgeProps) => {
+  const isConnected = status === 'connected';
+
+  return (
+    <div className={classNames(styles.badge, styles[status], className)}>
+      {isConnected && <span className={styles.dot} />}
+      <Typography variant="caption" className={styles.text}>
+        {text}
+      </Typography>
+    </div>
+  );
+};

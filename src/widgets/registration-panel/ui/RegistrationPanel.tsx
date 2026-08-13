@@ -1,5 +1,5 @@
 import styles from '@widgets/registration-panel/ui/RegistrationPanel.module.css';
-import { RegistrationForm } from '@features/registration';
+import { RegistrationForm } from '@/features/registration';
 import { OAuthGoogle } from '@/features/o-auth-google';
 import { OAuthGitHub } from '@/features/o-auth-github';
 import { AuthNavigationHint, AuthSectionHeader, TextDivider } from '@shared/ui/auth';
