@@ -1,4 +1,4 @@
-import { UserData } from '@entities/User';
+import { UserData } from '@/entities/user';
 import { baseApi } from '@shared/api/baseApi';
 import { setAccessToken } from '@shared/api';
 
