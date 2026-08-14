@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux';
 import { selectSessionStatus } from '@shared/api';
+import { useGetMeQuery } from '@entities/User';
 
 type AuthGuardProps = {
   children: React.ReactNode;
@@ -14,8 +15,10 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   const status = useAppSelector(selectSessionStatus);
 
+  useGetMeQuery(undefined, { skip: status !== 'unknown' });
+
   useEffect(() => {
-    if (status === 'anonymous' || status === 'unknown') {
+    if (status === 'anonymous') {
       router.replace('/login');
     }
   }, [router, status]);
