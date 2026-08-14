@@ -1,18 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-const STORAGE_KEY = 'sidebar_current_workspace';
+import { loadCurrentWorkspace } from '@/shared/utils/localStorage';
+import { STORAGE_KEY } from '@/shared/const/storageKeys';
 
 export interface SidebarState {
   isSidebarOpened: boolean;
   currentWorkspaceId: string | null;
 }
-
-const loadCurrentWorkspace = (): string | null => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(STORAGE_KEY) || null;
-  }
-  return null;
-};
 
 const initialState: SidebarState = {
   isSidebarOpened: false,
