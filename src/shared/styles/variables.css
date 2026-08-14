@@ -39,6 +39,11 @@
 
   /* project */
   --color-project-default: #6366f1;
+  --color-version-card-title: #1F2937;
+  --color-version-card-selected-bg: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  --color-version-card-selected-border: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --color-version-card-hover-bg: color-mix(in srgb, var(--color-primary) 4%, transparent);
+  --color-version-card-selected-title: #6366F1;
 
   /* button */
 

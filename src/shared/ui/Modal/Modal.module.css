@@ -11,7 +11,8 @@
 .panel {
   position: relative;
   box-sizing: border-box;
-  width: min(480px, calc(100vw - 32px));
+  min-width: min(480px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
   max-height: calc(100vh - 32px);
   overflow: auto;
   border-radius: 12px;
@@ -21,10 +22,11 @@
 
 .header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 20px 20px 0;
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border-base);
 }
 
 .headerMain {
@@ -48,16 +50,15 @@
 
 .closeButton {
   flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
   padding: 0;
-  margin-top: 2px;
 }
 
 .closeIcon {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   display: block;
   color: var(--color-modal-close);
 }

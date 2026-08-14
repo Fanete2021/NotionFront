@@ -1,0 +1,54 @@
+.root {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 260px;
+  min-width: 0;
+  max-height: 500px;
+  padding: 16px;
+  border-right: 1px solid var(--color-border-base);
+  background: var(--color-bg-surface);
+}
+
+.label {
+  text-transform: uppercase;
+}
+
+.cards {
+  flex-grow: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border-base);
+  border-radius: 8px;
+  background: var(--color-modal-bg);
+  color: var(--color-version-card-title);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cardTitle {
+  color: inherit;
+}
+
+.cardSelected {
+  border-color: var(--color-version-card-selected-border);
+  background: var(--color-version-card-selected-bg);
+  color: var(--color-version-card-selected-title);
+}
+
+.card:hover:not(.cardSelected) {
+  background: var(--color-version-card-hover-bg);
+}
