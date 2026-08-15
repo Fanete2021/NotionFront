@@ -2,12 +2,19 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { baseApi } from '@shared/api/baseApi';
 import { sessionReducer } from '@shared/api';
-import { modalsReducer, sidebarReducer } from '@/shared/lib';
+import {
+  sidebarReducer,
+  workspaceModalsReducer,
+  projectModalsReducer,
+  documentModalsReducer,
+} from '@/shared/lib';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   sidebar: sidebarReducer,
-  modals: modalsReducer,
+  workspaceModals: workspaceModalsReducer,
+  projectModals: projectModalsReducer,
+  documentModals: documentModalsReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

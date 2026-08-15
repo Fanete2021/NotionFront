@@ -1,4 +1,4 @@
-export { useAppDispatch, useAppSelector, useAppStore } from '@/app/redux/hooks';
+export { useAppDispatch, useAppSelector, useAppStore } from '@/app/redux';
 
 export {
   setCurrentWorkspace,
@@ -12,11 +12,19 @@ export {
   closeCreateWorkspaceModal,
   openEditWorkspaceModal,
   closeEditWorkspaceModal,
+  workspaceModalsReducer,
+} from './redux/slices/workspaceModalsSlice';
+
+export {
   openCreateProjectModal,
   closeCreateProjectModal,
   openEditProjectModal,
   closeEditProjectModal,
+  projectModalsReducer,
+} from './redux/slices/projectModalsSlice';
+
+export {
   openCreateDocumentModal,
   closeCreateDocumentModal,
-  modalsReducer,
-} from './redux/slices/modalsSlice';
+  documentModalsReducer,
+} from './redux/slices/documentModalsSlice';

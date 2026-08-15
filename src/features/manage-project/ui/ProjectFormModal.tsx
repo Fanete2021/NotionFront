@@ -28,19 +28,14 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const {
     isCreateProjectModalOpen,
     isEditProjectModalOpen,
-    creatingProjectWorkspaceId,
-    editingProjectId,
-    editingProjectName,
-    editingProjectColor,
-    editingProjectIcon,
-  } = useAppSelector((state) => state.modals);
+    creatingProjectWorkspaceId: workspaceId,
+    editingProjectId: projectId = '',
+    editingProjectName: currentName,
+    editingProjectColor: currentColor,
+    editingProjectIcon: currentIcon,
+  } = useAppSelector((state) => state.projectModals);
 
   const isOpen = mode === 'create' ? isCreateProjectModalOpen : isEditProjectModalOpen;
-  const workspaceId = creatingProjectWorkspaceId;
-  const projectId = editingProjectId || '';
-  const currentName = editingProjectName;
-  const currentColor = editingProjectColor;
-  const currentIcon = editingProjectIcon;
 
   const [name, setName] = useState(mode === 'create' ? '' : currentName);
   const [color, setColor] = useState<string | null>(
@@ -115,7 +110,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
           return;
         }
         await updateProject({
-          id: projectId,
+          id: projectId ?? '',
           data: {
             name: trimmed,
             color: colorToSend,

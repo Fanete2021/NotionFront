@@ -1,4 +1,4 @@
-import { SidebarItem } from '@/widgets/Sidebar/model/types/sidebar';
+import { SidebarItem } from '../../model/types/sidebar';
 import styles from './SidebarItem.module.css';
 
 const BASE_PADDING = 16;
