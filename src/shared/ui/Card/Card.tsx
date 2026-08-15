@@ -1,20 +1,20 @@
+import classNames from 'classnames';
 import styles from './Card.module.css';
-import classNames from "classnames";
 
 type CardVariant = 'outlined' | 'elevated';
 
 type CardProps = React.ComponentProps<'div'> & {
   variant?: CardVariant;
   selected?: boolean;
-}
+};
 
 export const Card = ({
-   className,
-   variant = 'outlined',
-   selected = false,
-   children,
-   ...props
-  }: CardProps) => {
+  className,
+  variant = 'outlined',
+  selected = false,
+  children,
+  ...props
+}: CardProps) => {
   return (
     <div
       data-variant={variant}
@@ -24,5 +24,5 @@ export const Card = ({
     >
       {children}
     </div>
-  )
-}
+  );
+};

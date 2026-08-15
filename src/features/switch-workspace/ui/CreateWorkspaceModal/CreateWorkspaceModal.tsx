@@ -15,7 +15,7 @@ import {
 
 export const CreateWorkspaceModal: FC = () => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.modals.isCreateWorkspaceModalOpen);
+  const isOpen = useAppSelector((state) => state.workspaceModals.isCreateWorkspaceModalOpen);
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [createWorkspace, { isLoading }] = useCreateWorkspaceMutation();
