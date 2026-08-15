@@ -4,11 +4,10 @@ import { FC, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
-import { UserProfile } from '@/widgets/Sidebar/ui/UserProfile/UserProfile';
-import { staticSidebarItems } from '@/widgets/Sidebar/ui/Sidebar/staticItems';
+import { UserProfile } from '../UserProfile/UserProfile';
+import { staticSidebarItems } from './staticItems';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
-import { CreateWorkspaceModal } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
 

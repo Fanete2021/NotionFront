@@ -4,7 +4,7 @@ import { useState, useRef, memo, useCallback } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { SidebarItem } from './SidebarItem';
 import styles from './SidebarItem.module.css';
-import { renderIcon } from '@/widgets/Sidebar/ui/SidebarItem/utils';
+import { renderIcon } from './utils';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
