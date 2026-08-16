@@ -10,8 +10,7 @@
 - `Dockerfile.prod` — отдельная multi-stage production-сборка без исходников и
   dev-зависимостей в финальном образе.
 - `docker-compose.prod.yml` — запуск опубликованного образа на сервере.
-- `deploy.sh` — загрузка образа, ожидание healthcheck и автоматический откат при неудачном
-  запуске.
+- `deploy.sh` — загрузка образа и перезапуск frontend-контейнера на сервере.
 - `.github/workflows/deploy.yml` — проверки, публикация образа и деплой.
 - `.github/workflows/cleanup-packages.yml` — еженедельная очистка старых версий образа.
 - `app/api/health/route.ts` — endpoint `GET /api/health` для Docker healthcheck.
