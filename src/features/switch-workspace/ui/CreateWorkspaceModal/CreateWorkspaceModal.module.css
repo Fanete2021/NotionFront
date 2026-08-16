@@ -28,7 +28,7 @@
   margin-top: 4px;
 }
 
-.submitButton, .cancelButton {
+.submitButton,
+.cancelButton {
   margin-bottom: 48px;
 }
-

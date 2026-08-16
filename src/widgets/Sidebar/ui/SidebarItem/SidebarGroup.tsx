@@ -138,7 +138,6 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
             position: 'fixed',
             top: contextMenu.y,
             left: contextMenu.x,
-            zIndex: 1000,
           }}
         >
           <Button className={styles.contextMenuItem} onClick={handleCreateDocument}>

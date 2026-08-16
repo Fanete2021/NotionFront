@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppSelector } from '../redux';
+import { useAppSelector } from '@shared/lib';
 import { selectSessionStatus } from '@shared/api';
 
 type AuthGuardProps = {

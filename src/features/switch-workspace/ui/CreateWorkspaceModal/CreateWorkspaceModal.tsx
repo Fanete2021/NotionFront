@@ -2,23 +2,26 @@
 
 import { FC, useState, useEffect } from 'react';
 import styles from './CreateWorkspaceModal.module.css';
+import { closeCreateWorkspaceModal, workspaceModalsReducer } from '@/features/switch-workspace';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
+import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
+import { setCurrentWorkspace } from '@/shared/lib';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import {
-  useAppSelector,
-  useAppDispatch,
-  closeCreateWorkspaceModal,
-  setCurrentWorkspace,
-} from '@/shared/lib';
 
 export const CreateWorkspaceModal: FC = () => {
+  const store = useAppStore();
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector((state) => state.workspaceModals.isCreateWorkspaceModalOpen);
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [createWorkspace, { isLoading }] = useCreateWorkspaceMutation();
+
+  useEffect(() => {
+    store.injectReducer('workspaceModals', workspaceModalsReducer);
+  }, [store]);
+
+  const isOpen = useAppSelector((state) => state.workspaceModals?.isCreateWorkspaceModalOpen);
 
   useEffect(() => {
     if (isOpen) {
@@ -29,7 +32,6 @@ export const CreateWorkspaceModal: FC = () => {
   }, [isOpen]);
 
   const handleCreate = async () => {
-    console.log('🚀 handleCreate вызван');
     setError(null);
     const trimmed = name.trim();
     if (!trimmed) {
@@ -38,7 +40,6 @@ export const CreateWorkspaceModal: FC = () => {
     }
     try {
       const newWorkspace = await createWorkspace({ name: trimmed }).unwrap();
-      console.log('✅ Workspace создан:', newWorkspace);
       setName('');
       dispatch(closeCreateWorkspaceModal());
       dispatch(setCurrentWorkspace(newWorkspace.id));
@@ -62,7 +63,7 @@ export const CreateWorkspaceModal: FC = () => {
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={isOpen ?? false}
       onClose={handleClose}
       title="Добавить рабочее пространство"
       className={styles.modal}

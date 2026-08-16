@@ -1,18 +1,35 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import styles from './CreateDocumentModal.module.css';
+import { documentModalsReducer } from '@/features/create-document';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { useAppSelector, useAppDispatch, closeCreateDocumentModal } from '@/shared/lib';
+import {
+  useAppSelector,
+  useAppDispatch,
+  useAppStore,
+  closeCreateDocumentModal,
+} from '@/shared/lib';
+
+const defaultDocumentModalsState = {
+  isCreateDocumentModalOpen: false,
+  creatingDocumentProjectId: null,
+} as const;
 
 export const CreateDocumentModal: FC = () => {
   const dispatch = useAppDispatch();
-  const { isCreateDocumentModalOpen: isOpen, creatingDocumentProjectId: projectId } =
-    useAppSelector((state) => state.documentModals);
+  const store = useAppStore();
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    store.injectReducer('documentModals', documentModalsReducer);
+  }, [store]);
+
+  const { isCreateDocumentModalOpen: isOpen, creatingDocumentProjectId: projectId } =
+    useAppSelector((state) => state.documentModals ?? defaultDocumentModalsState);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +37,6 @@ export const CreateDocumentModal: FC = () => {
       setError('Название документа обязательно');
       return;
     }
-    console.log('📄 Создать документ в проекте:', projectId, 'с именем:', name);
     // TODO: интеграция с бэкендом
     dispatch(closeCreateDocumentModal());
     setName('');

@@ -2,6 +2,7 @@
 
 import { FC, useState, useEffect } from 'react';
 import styles from './ProjectFormModal.module.css';
+import { projectModalsReducer } from '@/features/manage-project';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
@@ -14,6 +15,7 @@ import {
   useAppDispatch,
   closeCreateProjectModal,
   closeEditProjectModal,
+  useAppStore,
 } from '@/shared/lib';
 
 interface ProjectFormModalProps {
@@ -22,8 +24,23 @@ interface ProjectFormModalProps {
 
 const DEFAULT_COLOR = Colors.WHITE;
 
+const defaultProjectModalsState = {
+  isCreateProjectModalOpen: false,
+  isEditProjectModalOpen: false,
+  creatingProjectWorkspaceId: null,
+  editingProjectId: null,
+  editingProjectName: '',
+  editingProjectColor: null,
+  editingProjectIcon: null,
+} as const;
+
 export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const dispatch = useAppDispatch();
+  const store = useAppStore();
+
+  useEffect(() => {
+    store.injectReducer('projectModals', projectModalsReducer);
+  }, [store]);
 
   const {
     isCreateProjectModalOpen,
@@ -33,7 +50,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     editingProjectName: currentName,
     editingProjectColor: currentColor,
     editingProjectIcon: currentIcon,
-  } = useAppSelector((state) => state.projectModals);
+  } = useAppSelector((state) => state.projectModals ?? defaultProjectModalsState);
 
   const isOpen = mode === 'create' ? isCreateProjectModalOpen : isEditProjectModalOpen;
 

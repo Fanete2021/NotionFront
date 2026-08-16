@@ -13,7 +13,7 @@
   color: var(--color-promo-auth-description);
 }
 
-.header[data-variant='form'] .title{
+.header[data-variant='form'] .title {
   color: var(--color-panel-auth-title);
 }
 

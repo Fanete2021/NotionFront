@@ -1,5 +1,3 @@
-export { useAppDispatch, useAppSelector, useAppStore } from '@/app/redux';
-
 export {
   setCurrentWorkspace,
   clearCurrentWorkspace,
@@ -13,7 +11,7 @@ export {
   openEditWorkspaceModal,
   closeEditWorkspaceModal,
   workspaceModalsReducer,
-} from './redux/slices/workspaceModalsSlice';
+} from '../../features/switch-workspace/model/workspaceModalsSlice';
 
 export {
   openCreateProjectModal,
@@ -21,10 +19,12 @@ export {
   openEditProjectModal,
   closeEditProjectModal,
   projectModalsReducer,
-} from './redux/slices/projectModalsSlice';
+} from '../../features/manage-project/model/projectModalsSlice';
 
 export {
   openCreateDocumentModal,
   closeCreateDocumentModal,
   documentModalsReducer,
-} from './redux/slices/documentModalsSlice';
+} from '../../features/create-document/model/documentModalsSlice';
+
+export { useAppDispatch, useAppSelector, useAppStore } from './redux/hooks';
