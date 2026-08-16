@@ -1,13 +1,16 @@
-cat > .dockerignore << 'EOF'
 node_modules
+.pnpm-store
 .next
 .git
+.github
 .env*
 Dockerfile
 .dockerignore
-docker-compose.yml
+docker-compose*.yml
 .vscode
 .idea
+storybook-static
 *.log
+*.tsbuildinfo
 pnpm-workspace.yaml
-EOF
+reports
