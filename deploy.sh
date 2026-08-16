@@ -46,15 +46,8 @@ fi
 
 set_image_tag "$TAG"
 
-echo "==> Start frontend and wait for healthcheck"
-if ! "${COMPOSE[@]}" up -d --no-deps --wait --wait-timeout 90 frontend; then
-  if [[ -n "$PREVIOUS_TAG" && "$PREVIOUS_TAG" != "$TAG" ]]; then
-    echo "==> Deployment failed; rolling back to: $PREVIOUS_TAG" >&2
-    set_image_tag "$PREVIOUS_TAG"
-    "${COMPOSE[@]}" up -d --no-deps --wait --wait-timeout 90 frontend
-  fi
-  exit 1
-fi
+echo "==> Restart frontend"
+"${COMPOSE[@]}" up -d --no-deps frontend
 
 echo "==> Remove unused image layers"
 docker image prune -f

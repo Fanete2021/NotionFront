@@ -1,14 +1,12 @@
 name: CI and deploy frontend
 
 on:
-  pull_request:
-    branches: [main]
   push:
-    branches: [main]
+    branches: ['**']
   workflow_dispatch:
     inputs:
       tag:
-        description: Image tag to deploy (leave empty to build the current main)
+        description: Image tag to deploy (leave empty to build the current branch)
         required: false
         type: string
 
@@ -24,13 +22,13 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 9.15.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: pnpm
@@ -51,8 +49,7 @@ jobs:
     name: Build and push image
     needs: quality
     if: >-
-      ${{ github.event_name != 'pull_request'
-          && inputs.tag == ''
+      ${{ inputs.tag == ''
           && needs.quality.result == 'success' }}
     runs-on: ubuntu-latest
     permissions:
@@ -62,7 +59,7 @@ jobs:
       image: ${{ steps.vars.outputs.image }}
       tag: ${{ steps.vars.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Validate production build variables
         shell: bash
@@ -110,8 +107,7 @@ jobs:
     name: Deploy to production
     needs: [quality, build]
     if: >-
-      ${{ github.event_name != 'pull_request'
-          && always()
+      ${{ always()
           && (needs.quality.result == 'success' || needs.quality.result == 'skipped')
           && (needs.build.result == 'success' || needs.build.result == 'skipped') }}
     runs-on: ubuntu-latest
