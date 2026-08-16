@@ -11,3 +11,5 @@ node_modules
 *storybook.log
 pnpm-workspace.yaml
 *.env
+.image-prev
+.env.tmp.*
