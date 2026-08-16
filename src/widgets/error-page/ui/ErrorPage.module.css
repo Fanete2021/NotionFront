@@ -1,0 +1,28 @@
+.errorPage {
+  background-color: var(--color-bg-surface);
+}
+
+.errorBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 32px;
+
+  padding-block: 182px;
+}
+
+.errorFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-top: 1px solid var(--color-border-base);
+
+  padding-block: 11px;
+}
+
+.errorButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
