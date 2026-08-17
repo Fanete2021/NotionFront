@@ -1,6 +1,6 @@
 'use client';
 
-import { UnexpectedError } from '@widgets/error-page';
+import { UnexpectedError } from '@widgets/error';
 
 export default function Error({
   error,
