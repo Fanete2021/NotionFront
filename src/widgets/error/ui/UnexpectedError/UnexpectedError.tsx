@@ -1,8 +1,10 @@
+'use client';
+
 import { usePathname, useRouter } from 'next/navigation';
-import { ErrorPage } from '@widgets/error-page';
 import { ErrorBadge } from './ErrorBadge/ErrorBadge';
-import styles from '@widgets/error-page/ui/NotFoundError/NotFoundError.module.css';
-import { ErrorDetails } from '@widgets/error-page/ui/UnexpectedError/ErrorDetails/ErrorDetails';
+import { ErrorPage } from '../ErrorPage';
+import { ErrorDetails } from './ErrorDetails/ErrorDetails';
+import styles from '../ErrorPage.module.css';
 import UnexpectedErrorIcon from '@shared/assets/icons/unknown-error-page.svg';
 import { Typography } from '@shared/ui/Typography';
 import { Button } from '@shared/ui/Button';
@@ -32,7 +34,7 @@ export const UnexpectedError = ({ error, onRetry, code }: ErrorProps) => {
 
   return (
     <ErrorPage
-      errorIcon=<UnexpectedErrorIcon />
+      errorIcon={<UnexpectedErrorIcon />}
       title={<ErrorBadge errorCode={`#ERR_${code}`} />}
       description={
         <div className={styles.notFoundDescription}>
@@ -47,7 +49,7 @@ export const UnexpectedError = ({ error, onRetry, code }: ErrorProps) => {
           <Button variant="filled" addonLeft={<Retry />} onClick={onRetry}>
             Попробовать снова
           </Button>
-          <Button variant="outline" addonLeft=<Home /> onClick={handleGoHome}>
+          <Button variant="outline" addonLeft={<Home />} onClick={handleGoHome}>
             На главную
           </Button>
         </>

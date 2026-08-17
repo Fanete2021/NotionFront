@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './ErrorDetails.module.css';
-import { formatErrorDate } from '@widgets/error-page/utils/formatErrorDate';
+import { formatErrorDate } from '../../../utils/formatErrorDate';
 import { Card } from '@shared/ui/Card';
 import Dropdown from '@shared/assets/icons/chevron-down.svg';
 import Warning from '@shared/assets/icons/danger-error.svg';

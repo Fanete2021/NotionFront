@@ -15,7 +15,7 @@ export const NotFoundError = () => {
   const router = useRouter();
   return (
     <ErrorPage
-      errorIcon=<NotFoundPage />
+      errorIcon={<NotFoundPage />}
       title={
         <Typography className={styles.notFoundTitle} variant="h1">
           404
@@ -36,12 +36,12 @@ export const NotFoundError = () => {
           <Button
             style={{ alignItems: 'start' }}
             variant="filled"
-            addonLeft=<HomeFilled />
+            addonLeft={<HomeFilled />}
             onClick={() => router.replace('/')}
           >
             На главную
           </Button>
-          <Button variant="outline" onClick={() => router.back()} addonLeft=<ArrowLeft />>
+          <Button variant="outline" onClick={() => router.back()} addonLeft={<ArrowLeft />}>
             Назад
           </Button>
         </>
@@ -49,7 +49,7 @@ export const NotFoundError = () => {
       afterActions={
         <Input
           className={styles.pageSearch}
-          addonLeft=<Search />
+          addonLeft={<Search />}
           placeholder="Введите название страницы"
         />
       }
