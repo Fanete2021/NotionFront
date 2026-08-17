@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Sidebar } from './Sidebar';
 
 const meta = {
-  title: 'Widgets/Sidebar',
+  title: 'Widgets/sidebar',
   component: Sidebar,
   parameters: {
     layout: 'fullscreen',

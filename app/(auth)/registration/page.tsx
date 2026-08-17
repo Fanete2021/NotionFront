@@ -1,1 +1,1 @@
-export { RegistrationPage as default } from '@pages/Registration';
+export { RegistrationPage as default } from '../../../src/pages/registration';
