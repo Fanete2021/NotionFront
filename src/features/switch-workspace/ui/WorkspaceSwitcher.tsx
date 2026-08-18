@@ -1,17 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+//eslint-disable-next-line
+import { setCurrentWorkspace } from '@/app/store';
 import styles from './WorkspaceSwitcher.module.css';
-import { WorkspaceModal } from '@/features/switch-workspace';
-import { CreateWorkspaceModal } from '@/features/switch-workspace/ui/CreateWorkspaceModal/CreateWorkspaceModal';
+import { openCreateWorkspaceModal, WorkspaceModal } from '../index';
+import { CreateWorkspaceModal } from './CreateWorkspaceModal/CreateWorkspaceModal';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Typography } from '@/shared/ui/Typography';
-import {
-  useAppSelector,
-  useAppDispatch,
-  setCurrentWorkspace,
-  openCreateWorkspaceModal,
-} from '@/shared/lib';
+import { useAppSelector, useAppDispatch } from '@/shared/lib';
 import { Button } from '@/shared/ui/Button';
 
 export const WorkspaceSwitcher = () => {

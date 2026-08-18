@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loadCurrentWorkspace } from '@/shared/utils/localStorage';
+import { loadCurrentWorkspace } from '@/shared/utils/localStorage/localStorage';
 import { STORAGE_KEY } from '@/shared/const/storageKeys';
 
 export interface SidebarState {

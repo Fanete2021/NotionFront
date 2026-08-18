@@ -1,11 +1,15 @@
 'use client';
 
 import { FC, useState, useEffect } from 'react';
+// eslint-disable-next-line
+import { setCurrentWorkspace } from '@/app/store';
 import styles from './CreateWorkspaceModal.module.css';
-import { closeCreateWorkspaceModal, workspaceModalsReducer } from '@/features/switch-workspace';
+import {
+  closeCreateWorkspaceModal,
+  workspaceModalsReducer,
+} from '../../model/workspaceModalsSlice';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
-import { setCurrentWorkspace } from '@/shared/lib';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';

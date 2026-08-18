@@ -2,7 +2,11 @@
 
 import { FC, useState, useEffect } from 'react';
 import styles from './ProjectFormModal.module.css';
-import { projectModalsReducer } from '@/features/manage-project';
+import {
+  closeCreateProjectModal,
+  closeEditProjectModal,
+  projectModalsReducer,
+} from '../model/projectModalsSlice';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
@@ -10,13 +14,7 @@ import { Input } from '@/shared/ui/Input';
 import { ColorPicker } from '@/shared/ui/ColorPicker/ColorPicker';
 import { Colors } from '@/shared/const/colors';
 import { IconPicker } from '@/shared/ui/IconPicker/IconPicker';
-import {
-  useAppSelector,
-  useAppDispatch,
-  closeCreateProjectModal,
-  closeEditProjectModal,
-  useAppStore,
-} from '@/shared/lib';
+import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 
 interface ProjectFormModalProps {
   mode: 'create' | 'edit';

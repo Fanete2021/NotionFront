@@ -4,10 +4,11 @@ import { useCallback, useState } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import styles from './SidebarItem.module.css';
 import { SidebarItem } from './SidebarItem';
+import { openCreateProjectModal } from '@/features/manage-project';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
-import { useAppDispatch, useAppSelector, openCreateProjectModal } from '@/shared/lib';
+import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarSectionProps {
   item: SidebarItemType;

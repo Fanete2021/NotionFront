@@ -5,13 +5,15 @@ import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { SidebarItem } from './SidebarItem';
 import styles from './SidebarItem.module.css';
 import { renderIcon } from './utils';
+import { openCreateDocumentModal } from '@/features/create-document';
+import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 import MoreIcon from '@/shared/assets/icons/more.svg';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppDispatch, openEditProjectModal, openCreateDocumentModal } from '@/shared/lib';
+import { useAppDispatch } from '@shared/lib';
 
 interface SidebarGroupProps {
   item: SidebarItemType;

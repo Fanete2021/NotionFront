@@ -1,6 +1,6 @@
 import { useDispatch, useSelector, useStore } from 'react-redux';
 // eslint-disable-next-line
-import type { RootState, AppDispatch, AppStore } from '@/app/redux';
+import type { RootState, AppDispatch, AppStore } from '@/app/store';
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 export const useAppSelector = useSelector.withTypes<RootState>();

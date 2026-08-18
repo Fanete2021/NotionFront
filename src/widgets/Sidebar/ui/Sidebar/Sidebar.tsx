@@ -2,10 +2,12 @@
 
 import { FC, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
+// eslint-disable-next-line
+import { setCurrentWorkspace } from '@/app/store';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../UserProfile/UserProfile';
-import { staticSidebarItems } from './staticItems';
+import { staticSidebarItems } from '../../model/staticItems';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
@@ -15,7 +17,7 @@ import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { useAppSelector, useAppDispatch, setCurrentWorkspace } from '@/shared/lib';
+import { useAppSelector, useAppDispatch } from '@/shared/lib';
 
 interface SidebarProps {
   className?: string;

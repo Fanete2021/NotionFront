@@ -1,4 +1,4 @@
-import { STORAGE_KEY } from '@/shared/const/storageKeys';
+import { STORAGE_KEY } from '../../const/storageKeys';
 
 export const loadCurrentWorkspace = (): string | null => {
   if (typeof window !== 'undefined') {

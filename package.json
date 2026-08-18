@@ -15,7 +15,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepare": "husky",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test-coverage": "vitest --coverage"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -42,9 +45,12 @@
     "@storybook/addon-onboarding": "^10.5.0",
     "@storybook/nextjs": "^10.5.3",
     "@svgr/webpack": "^8.1.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.5",
     "@vitest/browser-playwright": "^4.1.10",
     "babel-plugin-react-compiler": "1.0.0",
     "classnames": "^2.5.1",
@@ -54,10 +60,13 @@
     "eslint-plugin-fsd-lint": "^1.2.1",
     "eslint-plugin-storybook": "^10.5.0",
     "husky": "^9.1.7",
+    "jsdom": "^30.0.1",
     "lint-staged": "^17.0.8",
     "playwright": "^1.61.1",
     "prettier": "^3.9.6",
     "storybook": "^10.5.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.10"
   }
 }

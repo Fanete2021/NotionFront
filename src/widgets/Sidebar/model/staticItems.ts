@@ -1,4 +1,4 @@
-import { SidebarItem } from '../../model/types/sidebar';
+import { SidebarItem } from './types/sidebar';
 import HomeIcon from '@/shared/assets/icons/home.svg';
 import DocsIcon from '@/shared/assets/icons/docs.svg';
 import CalendarIcon from '@/shared/assets/icons/calendar.svg';
