@@ -17,7 +17,7 @@ interface SidebarSectionProps {
 
 export function SidebarSection({ item, level }: SidebarSectionProps) {
   const dispatch = useAppDispatch();
-  const workspaceId = useAppSelector((state) => state.sidebar.currentWorkspaceId);
+  const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [isOpen, setIsOpen] = useState(true);
 
   const handleToggle = () => setIsOpen((prev) => !prev);

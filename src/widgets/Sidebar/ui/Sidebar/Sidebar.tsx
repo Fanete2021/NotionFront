@@ -2,8 +2,6 @@
 
 import { FC, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-// eslint-disable-next-line
-import { setCurrentWorkspace } from '@/app/store';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../UserProfile/UserProfile';
@@ -13,7 +11,7 @@ import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
 
-import { useGetWorkspacesQuery } from '@/entities/workspace';
+import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
 import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
@@ -25,7 +23,7 @@ interface SidebarProps {
 
 export const Sidebar: FC<SidebarProps> = ({ className }) => {
   const dispatch = useAppDispatch();
-  const currentWorkspaceId = useAppSelector((state) => state.sidebar.currentWorkspaceId);
+  const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
   const {
     data: workspaces,

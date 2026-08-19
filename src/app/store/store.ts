@@ -1,15 +1,15 @@
 import { combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { sidebarReducer } from './slices/sidebarSlice';
 import { sessionReducer } from './slices/sessionSlice';
 import { WorkspaceModalsState } from '@/features/switch-workspace';
 import { ProjectModalsState } from '@/features/manage-project';
 import { DocumentModalsState } from '@/features/create-document';
+import { currentWorkspaceReducer } from '@/entities/workspace';
 import { baseApi } from '@shared/api/baseApi';
 
 const staticReducers = {
   session: sessionReducer,
-  sidebar: sidebarReducer,
+  currentWorkspace: currentWorkspaceReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 };
 
@@ -47,7 +47,7 @@ export const makeStore = () => {
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = StaticRootState & {
   session: ReturnType<typeof sessionReducer>;
-  sidebar: ReturnType<typeof sidebarReducer>;
+  currentWorkspace: ReturnType<typeof currentWorkspaceReducer>;
   workspaceModals?: WorkspaceModalsState;
   projectModals?: ProjectModalsState;
   documentModals?: DocumentModalsState;

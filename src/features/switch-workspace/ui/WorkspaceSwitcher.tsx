@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-//eslint-disable-next-line
-import { setCurrentWorkspace } from '@/app/store';
 import styles from './WorkspaceSwitcher.module.css';
 import { openCreateWorkspaceModal, WorkspaceModal } from '../index';
 import { CreateWorkspaceModal } from './CreateWorkspaceModal/CreateWorkspaceModal';
-import { useGetWorkspacesQuery } from '@/entities/workspace';
+import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch } from '@/shared/lib';
 import { Button } from '@/shared/ui/Button';
@@ -15,7 +13,7 @@ export const WorkspaceSwitcher = () => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: workspaces, isLoading } = useGetWorkspacesQuery();
-  const currentWorkspaceId = useAppSelector((state) => state.sidebar.currentWorkspaceId);
+  const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
   const currentWorkspace = workspaces?.find((w) => w.id === currentWorkspaceId);
 
