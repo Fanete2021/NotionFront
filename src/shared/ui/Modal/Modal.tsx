@@ -1,21 +1,38 @@
 'use client';
 
-import { FC, HTMLAttributes, ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
-import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
+import { Typography } from '@/shared/ui/Typography';
+import CloseIcon2 from '@/shared/assets/icons/x-close-2.svg';
 import CloseIcon from '@/shared/assets/icons/x-close.svg';
 
-interface ModalProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
   children: ReactNode;
   className?: string;
+  title?: string;
+  subtitle?: string;
+  header?: ReactNode;
+  footer?: ReactNode;
+  headerDivider?: boolean;
+  footerDivider?: boolean;
 }
 
-export const Modal: FC<ModalProps> = ({ isOpen, onClose, title, children, className }) => {
+export const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  className,
+  title,
+  subtitle,
+  header,
+  footer,
+  headerDivider = false,
+  footerDivider = false,
+}: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -46,24 +63,56 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, title, children, classN
 
   if (!isOpen) return null;
 
-  return (
-    <div className={styles.overlay}>
-      <div
-        className={classNames(styles.modal, className)}
-        ref={modalRef}
-        onMouseDown={(e) => e.stopPropagation()}
-      >
+  const headerContent =
+    header ??
+    (title || subtitle ? (
+      <div className={styles.headerText}>
         {title && (
-          <div className={styles.header}>
-            <Typography variant="text-modal" className={styles.title}>
-              {title}
-            </Typography>
-            <Button variant="clear" className={styles.closeButton} onClick={onClose}>
-              <CloseIcon className={styles.icon} />
-            </Button>
+          <Typography variant="text-medium" className={styles.title}>
+            {title}
+          </Typography>
+        )}
+        {subtitle && (
+          <Typography variant="caption" className={styles.subtitle}>
+            {subtitle}
+          </Typography>
+        )}
+      </div>
+    ) : null);
+
+  return (
+    <div className={styles.overlay} onClick={onClose}>
+      <div
+        className={classNames(styles.panel, className)}
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className={classNames(styles.header, { [styles.withDivider]: headerDivider })}>
+          <div className={styles.headerMain}>{headerContent}</div>
+          <Button
+            type="button"
+            variant="clear"
+            size="sm"
+            square
+            className={styles.closeButton}
+            aria-label="Закрыть"
+            onClick={onClose}
+          >
+            {footer ? (
+              <CloseIcon className={styles.closeIcon} />
+            ) : (
+              <CloseIcon2 className={styles.closeIcon} />
+            )}
+          </Button>
+        </div>
+        <div className={styles.body}>{children}</div>
+        {footer && (
+          <div className={classNames(styles.footer, { [styles.withDivider]: footerDivider })}>
+            {footer}
           </div>
         )}
-        <div className={styles.body}>{children}</div>
       </div>
     </div>
   );

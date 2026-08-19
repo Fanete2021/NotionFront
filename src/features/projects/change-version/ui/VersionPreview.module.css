@@ -1,0 +1,69 @@
+.root {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 32px;
+}
+
+.previewHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  color: var(--color-text-primary);
+}
+
+.restoreIcon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.documentCard {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  border: 1px solid var(--color-border-base);
+  border-radius: 8px;
+  background: var(--color-bg-surface);
+}
+
+.pageIcon {
+  align-self: flex-start;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.documentCard > * {
+  margin: 0;
+}
+
+.documentTitle {
+  font-weight: 700;
+  line-height: 30px;
+  color: var(--color-text-primary);
+}
+
+.documentSection {
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.documentText {
+  color: var(--color-text-muted);
+}

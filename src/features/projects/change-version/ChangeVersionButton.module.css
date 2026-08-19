@@ -2,4 +2,5 @@
   width: 16px;
   height: 16px;
   display: block;
+  color: var(--color-header-icon-button);
 }

@@ -1,61 +1,56 @@
+import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 import { Modal } from './Modal';
 import { Button } from '../Button/Button';
+import { Typography } from '../Typography/Typography';
+import '@shared/styles/global.css';
 
-const meta: Meta<typeof Modal> = {
+const meta = {
   title: 'Shared/Modal',
   component: Modal,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
-  argTypes: {
-    isOpen: {
-      control: 'boolean',
-      description: 'Открыта ли модалка',
-    },
-    title: {
-      control: 'text',
-      description: 'Заголовок модалки',
-    },
-    children: {
-      control: 'text',
-      description: 'Содержимое модалки',
-    },
-    onClose: {
-      action: 'closed',
-      description: 'Колбэк при закрытии',
-    },
+  args: {
+    isOpen: true,
+    onClose: fn(),
+    title: 'Превью модалки',
+    subtitle: 'Каркас shared Modal',
+    children: (
+      <div style={{ padding: '16px 20px 24px' }}>
+        <Typography variant="text-regular">Контент body</Typography>
+      </div>
+    ),
   },
-};
+} satisfies Meta<typeof Modal>;
 
 export default meta;
-type Story = StoryObj<typeof Modal>;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: function Render() {
-    const [isOpen, setIsOpen] = useState(false);
+export const Default: Story = {};
 
-    return (
-      <>
-        <Button onClick={() => setIsOpen(true)}>Открыть модалку</Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Заголовок модалки">
-          <p>Это содержимое модального окна.</p>
-          <p>Здесь может быть любой React-компонент.</p>
-          <div
-            style={{ marginTop: '16px', display: 'flex', gap: '8px', justifyContent: 'flex-end' }}
-          >
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Отмена
-            </Button>
-            <Button variant="filled" onClick={() => setIsOpen(false)}>
-              Подтвердить
-            </Button>
-          </div>
-        </Modal>
-      </>
-    );
+export const WithFooter: Story = {
+  render: (args) => (
+    <Modal
+      {...args}
+      footer={
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+          <Button type="button" variant="outline" size="sm">
+            Отмена
+          </Button>
+          <Button type="button" variant="filled" size="sm">
+            Сохранить
+          </Button>
+        </div>
+      }
+    />
+  ),
+};
+
+export const CustomHeader: Story = {
+  args: {
+    title: undefined,
+    subtitle: undefined,
+    header: <Typography variant="text-medium">Свой header</Typography>,
   },
 };
 

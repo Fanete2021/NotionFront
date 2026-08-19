@@ -15,6 +15,7 @@ const variantMap = {
   'text-micro': 'label',
   'text-avatar': 'span',
   'text-modal': 'span',
+  'text-label': 'p',
 } as const;
 
 type TypographyVariant = keyof typeof variantMap;

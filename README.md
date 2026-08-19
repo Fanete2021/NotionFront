@@ -4,6 +4,8 @@
 
 Frontend приложения построен на **Next.js**, **TypeScript** и **Feature-Sliced Design** с использованием современного production-ready стека.
 
+Инструкция по production-развёртыванию и GitHub Actions: [guides/deployment-guide.md](guides/deployment-guide.md).
+
 ---
 
 ## ✨ Основные возможности
