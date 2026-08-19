@@ -23,6 +23,11 @@
   --color-bg-surface: #F9FAFB;
   --color-bg-dark: #0F172A;
 
+  /* modal */
+  --color-modal-overlay: rgb(15 23 42 / 45%);
+  --color-modal-bg: #ffffff;
+  --color-modal-close: #6B7280;
+
   /* sidebar */
   --color-sidebar-item-active: #eef2ff;
   --color-sidebar-item-active-text: #6366f1;
@@ -34,6 +39,11 @@
 
   /* project */
   --color-project-default: #6366f1;
+  --color-version-card-title: #1F2937;
+  --color-version-card-selected-bg: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  --color-version-card-selected-border: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  --color-version-card-hover-bg: color-mix(in srgb, var(--color-primary) 4%, transparent);
+  --color-version-card-selected-title: #6366F1;
 
   /* button */
 

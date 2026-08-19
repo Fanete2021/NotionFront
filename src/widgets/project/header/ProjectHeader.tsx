@@ -9,7 +9,7 @@ import { Typography } from '@shared/ui/Typography';
 import { Avatar } from '@shared/ui/Avatar';
 import CommentIcon from '@shared/assets/icons/comment.svg';
 import ChevronRightIcon from '@shared/assets/icons/chevron-right-2.svg';
-import ClockIcon from '@shared/assets/icons/clock.svg';
+import GlobusIcon from '@shared/assets/icons/globus.svg';
 import MoreIcon from '@shared/assets/icons/more.svg';
 
 const mockAvatars = [
@@ -19,9 +19,10 @@ const mockAvatars = [
 
 type ProjectHeaderProps = {
   onCommentsClick?: () => void;
+  onHistoryClick?: () => void;
 };
 
-export const ProjectHeader = ({ onCommentsClick }: ProjectHeaderProps) => {
+export const ProjectHeader = ({ onCommentsClick, onHistoryClick }: ProjectHeaderProps) => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -46,10 +47,15 @@ export const ProjectHeader = ({ onCommentsClick }: ProjectHeaderProps) => {
           <span className={styles.actionsDivider} />
         </div>
         <ShareButton />
-        <ChangeVersionButton />
-        <Button variant="clear" size="sm" square aria-label="История" className={styles.iconButton}>
-          <ClockIcon className={styles.icon} />
+        <Button
+          type="button"
+          variant="filled"
+          size="sm"
+          addonLeft={<GlobusIcon className={styles.icon} />}
+        >
+          Публикация
         </Button>
+        <ChangeVersionButton onClick={onHistoryClick} />
         <Button
           onClick={onCommentsClick}
           variant="clear"

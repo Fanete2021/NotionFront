@@ -1,0 +1,37 @@
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.headingIcon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.headingText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.headingTitle {
+  color: var(--color-text-primary);
+}
+
+.headingSubtitle {
+  color: var(--color-text-muted);
+}
+
+.layout {
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: min(760px, calc(100vw - 32px));
+  min-height: 420px;
+}
