@@ -1,1 +1,1 @@
-export { emailRegex, passwordRegex } from './regex';
+export { useAppDispatch, useAppSelector, useAppStore } from './redux/hooks';

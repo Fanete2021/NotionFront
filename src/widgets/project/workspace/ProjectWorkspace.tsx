@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { ProjectHeader } from '@widgets/project/header';
 import { ProjectComments } from '@widgets/project/comments';
-import { ChangeVersionModal } from '@features/projects/change-version';
 import styles from './ProjectWorkspace.module.css';
+import { ChangeVersionModal } from '@features/projects/change-version';
 
 type ProjectWorkspaceProps = {
   children: React.ReactNode;

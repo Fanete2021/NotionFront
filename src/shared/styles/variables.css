@@ -15,13 +15,13 @@
   /* neutrals */
   --color-text-primary: #111827;
   --color-text-body: #374151;
-  --color-text-muted: #6B7280;
-  --color-border-strong: #D1D5DB;
-  --color-placeholder: #9CA3AF;
-  --color-border-base: #E5E7EB;
-  --color-bg-muted: #F3F4F6;
-  --color-bg-surface: #F9FAFB;
-  --color-bg-dark: #0F172A;
+  --color-text-muted: #6b7280;
+  --color-border-strong: #d1d5db;
+  --color-placeholder: #9ca3af;
+  --color-border-base: #e5e7eb;
+  --color-bg-muted: #f3f4f6;
+  --color-bg-surface: #f9fafb;
+  --color-bg-dark: #0f172a;
 
   /* modal */
   --color-modal-overlay: rgb(15 23 42 / 45%);
@@ -36,6 +36,7 @@
   --color-sidebar-bg: #ffffff;
   --color-sidebar-icon: #9ca3af;
   --color-sidebar-btn: #9ca3af;
+  --color-sidebar-divider-bg: #e5e5e5;
 
   /* project */
   --color-project-default: #6366f1;
@@ -94,54 +95,94 @@
   --color-text-area: #ffffff;
   --color-bubble: #ffffff;
   --color-bubble-shadow: #11182714;
-  --color-comment-text: #1F2937;
-  --color-page-emoji: #1F2937;
-  --color-header-icon-button: #6B7280;
-  --color-editor-text: #1F2937;
-  --color-comment-meta: #9CA3AF;
+  --color-comment-text: #1f2937;
+  --color-page-emoji: #1f2937;
+  --color-header-icon-button: #6b7280;
+  --color-editor-text: #1f2937;
+  --color-comment-meta: #9ca3af;
 
   /* fonts */
   --font-sans: 'Inter';
 
   /* auth */
   --color-promo-auth-title: #ffffff;
-  --color-panel-auth-title: #1F2937;
-  --color-promo-auth-description: #FFFFFFBF;
-  --color-panel-auth-description: #6B7280;
-  --color-advantage-circle: #FFFFFFCC;
-  --color-advantage-text: #FFFFFFD9;
+  --color-panel-auth-title: #1f2937;
+  --color-promo-auth-description: #ffffffbf;
+  --color-panel-auth-description: #6b7280;
+  --color-advantage-circle: #ffffffcc;
+  --color-advantage-text: #ffffffd9;
 
-  --color-tab-base: #FFFFFF73;
-  --color-tab-active: #FFFFFFD9;
-  --color-bg-tab-active: #FFFFFF26;
+  --color-tab-base: #ffffff73;
+  --color-tab-active: #ffffffd9;
+  --color-bg-tab-active: #ffffff26;
 
-  --color-bg-demo: #FFFFFF0F;
-  --color-border-demo: #FFFFFF1F;
+  --color-bg-demo: #ffffff0f;
+  --color-border-demo: #ffffff1f;
 
-  --color-circle-red: #EF4444B2;
-  --color-circle-yellow: #F59E0BB2;
-  --color-circle-green: #10B981B2;
-  --color-last-edited: #FFFFFF66;
-  --color-demo-task-text-checked: #FFFFFF8C;
-  --color-demo-task-text-base: #FFFFFF59;
-  --color-bg-checked-task: #FFFFFF0F;
+  --color-circle-red: #ef4444b2;
+  --color-circle-yellow: #f59e0bb2;
+  --color-circle-green: #10b981b2;
+  --color-last-edited: #ffffff66;
+  --color-demo-task-text-checked: #ffffff8c;
+  --color-demo-task-text-base: #ffffff59;
+  --color-bg-checked-task: #ffffff0f;
 
-  --color-divider-addon: #E5E7EB;
-  --color-divider-text: #9CA3AF;
+  --color-divider-addon: #e5e7eb;
+  --color-divider-text: #9ca3af;
 
-  --color-bg-github-button:#1F2937;
+  --color-bg-github-button: #1f2937;
   --color-github-icon: #ffffff;
-  --color-google-icon: #1F2937;
+  --color-google-icon: #1f2937;
 
   --color-logo-white: #ffffff;
-  --color-app-grade: #FFFFFFB2;
-  --color-grade-star: #FBBF24;
+  --color-app-grade: #ffffffb2;
+  --color-grade-star: #fbbf24;
 
   /* Checkbox */
-  --color-checkbox-label: #1F2937;
-  --color-checkbox-checked:#6B7280;
-  --color-checkbox-disabled:#6B7280;
+  --color-checkbox-label: #1f2937;
+  --color-checkbox-checked: #6b7280;
+  --color-checkbox-disabled: #6b7280;
 
+  /* Context Menu */
+  --color-context-menu-hover-bg: #fef2f2;
+  --color-context-menu-divider-bg: #e0e0e0;
+  --color-context-menu-shadow: rgba(0, 0, 0, 0.15);
+
+  /* IconPicker */
+  --color-icon-picker-button: #f7f7f5;
+  --color-active-icon-picker-button: #e8f0fe;
+
+  /* ColorPicker */
+  --color-color-picker-blue: #4285f4;
+  --color-color-picker-green: #34a853;
+  --color-color-picker-yellow: #fbbc05;
+  --color-color-picker-purple: #9c2780;
+  --color-color-picker-dark-green: #607d8b;
+  --color-color-picker-white: #ffffff;
+
+  /* ProjectFormModal */
+  --color-project-form-input-bg: #e5e5e5;
+  --color-project-form-text: #1a1a1a;
+  --color-project-form-icon: #787774;
+  --color-project-form-label: #787774;
+
+  /* WorkspaceModal */
+  --color-workspace-modal-text: #787774;
+  --color-workspace-modal-icon: #787774;
+
+  /* Modal */
+  --color-modal-button-bg: #2383e2;
+  --color-modal-button-text: #ffffff;
+  --color-modal-close-button: #787774;
+
+  /* fonts */
+  --font-sans: 'Inter';
+
+  /* z-index */
+  --z-index-dropdown: 500;
+  --z-index-context-menu: 600;
+  --z-index-overlay: 1000;
+  --z-index-modal: 1001;
   /* NotFound */
 
   --color-not-found-title: #0F172A;

@@ -1,16 +1,10 @@
-"use client";
+'use client';
 
+import React from 'react';
+import classNames from 'classnames';
 import styles from './FilterChip.module.css';
-import React from "react";
-import classNames from "classnames";
 
-type FilterChipColor =
-  | 'primary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | 'neutral';
+type FilterChipColor = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral';
 
 type FilterChipProps = React.ComponentProps<'span'> & {
   label: React.ReactNode;
@@ -36,7 +30,7 @@ export const FilterChip = ({
   className,
   ...props
 }: FilterChipProps) => {
-  const filterChipClasses = classNames(styles.filterChip, colorClassName[color], className)
+  const filterChipClasses = classNames(styles.filterChip, colorClassName[color], className);
 
   return (
     <span className={filterChipClasses} {...props}>

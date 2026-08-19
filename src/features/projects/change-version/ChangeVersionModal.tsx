@@ -14,8 +14,10 @@ type ChangeVersionModalProps = {
 export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) => {
   return (
     <Modal
-      open={open}
+      isOpen={open}
       onClose={onClose}
+      headerDivider
+      footerDivider
       header={
         <div className={styles.heading}>
           <div className={styles.headingIcon} aria-hidden />

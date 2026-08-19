@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import type { ComponentType } from 'react';
 
 import { Table } from './Table';
-import { TableColumn } from './types';
+import { TableColumn, TableProps } from './types';
 
 interface User {
   id: number;
@@ -47,13 +48,13 @@ const columns: TableColumn<User>[] = [
   },
 ];
 
-const meta = {
+const meta: Meta<ComponentType<TableProps<User>>> = {
   title: 'Shared/Table',
-  component: Table<User>,
+  component: Table as ComponentType<TableProps<User>>,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Table<User>>;
+};
 
 export default meta;
 
@@ -89,7 +90,7 @@ export const ClickableRows: Story = {
     columns,
     data: users,
     rowKey: 'id',
-    onRowClick: (row) => {
+    onRowClick: (row: User) => {
       alert(`Вы выбрали ${row.name}`);
     },
   },
@@ -103,7 +104,7 @@ export const CustomRender: Story = {
       {
         key: 'name',
         title: 'Пользователь',
-        render: (user) => (
+        render: (user: User) => (
           <div>
             <strong>{user.name}</strong>
             <br />
@@ -115,7 +116,7 @@ export const CustomRender: Story = {
         key: 'role',
         title: 'Роль',
         align: 'center',
-        render: (user) => (
+        render: (user: User) => (
           <span
             style={{
               padding: '4px 10px',

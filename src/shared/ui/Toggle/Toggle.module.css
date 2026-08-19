@@ -1,57 +1,57 @@
 .container {
-    box-sizing: border-box;
-    display: inline-block;
-    cursor: pointer;
-    width: 44px;
-    height: 24px;
-    border-radius: 12px;
-    padding: 4px;
-    transition: background-color 0.2s ease;
-    outline: none;
+  box-sizing: border-box;
+  display: inline-block;
+  cursor: pointer;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  padding: 4px;
+  transition: background-color 0.2s ease;
+  outline: none;
 }
 
 .container:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .off {
-    background-color: var(--color-border-strong);
+  background-color: var(--color-border-strong);
 }
 
 .on {
-    background-color: var(--color-primary);
+  background-color: var(--color-primary);
 }
 
 .offDisabled {
-    background-color: var(--color-border-base);
-    cursor: not-allowed;
-    opacity: 0.7;
+  background-color: var(--color-border-base);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .onDisabled {
-    background-color: var(--color-primary);
-    cursor: not-allowed;
-    opacity: 0.7;
+  background-color: var(--color-primary);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: white;
-    transition: transform 0.2s ease;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s ease;
 }
 
 .thumbOff {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .thumbOn {
-    transform: translateX(20px);
+  transform: translateX(20px);
 }

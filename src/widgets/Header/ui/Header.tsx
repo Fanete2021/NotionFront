@@ -1,4 +1,4 @@
-'use client'; // <-- Обязательно для компонентов, создающих обработчики событий
+'use client';
 
 import styles from './Header.module.css';
 import { Button } from '@shared/ui/Button';
