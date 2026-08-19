@@ -1,5 +1,3 @@
-'use client';
-
 import styles from './ShareButton.module.css';
 import { Button } from '@shared/ui/Button';
 import ShareIcon from '@shared/assets/icons/share.svg';

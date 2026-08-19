@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../redux';
+import { useGetMeQuery } from '@entities/user';
 import { selectSessionStatus } from '@shared/api';
-import { useGetMeQuery } from '@entities/User';
 
 type AuthGuardProps = {
   children: React.ReactNode;

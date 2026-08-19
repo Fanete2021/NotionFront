@@ -132,6 +132,20 @@
   --color-checkbox-checked:#6B7280;
   --color-checkbox-disabled:#6B7280;
 
+  /* NotFound */
+
+  --color-not-found-title: #0F172A;
+  --color-not-found-subtitle: #1F2937;
+  --color-not-found-description: #6B7280;
+
+  --color-not-found-button-text: #FFFFFF;
+
+  --color-bg-badge: #EDE9FE;
+  --color-badge-text: #6366F1;
+
+  /* ErrorCard */
+  --color-bg-error-card-header: #FFFFFF;
+  --color-bg-circle-warning: #F97316;
   /* Badge */
   --color-badge-verified: #10b981;
   --color-badge-verified-rgb: 16, 185, 129;
