@@ -2,7 +2,12 @@ name: CI and deploy frontend
 
 on:
   push:
-    branches: ['**']
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       tag:
@@ -17,7 +22,7 @@ concurrency:
 jobs:
   quality:
     name: Lint, typecheck and build
-    if: ${{ inputs.tag == '' }}
+    if: ${{github.event_name != 'workflow_dispatch' || inputs.tag == '' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -49,8 +54,11 @@ jobs:
     name: Build and push image
     needs: quality
     if: >-
-      ${{ inputs.tag == ''
-          && needs.quality.result == 'success' }}
+      ${{
+        github.event_name != 'pull_request'
+        && inputs.tag == ''
+        && needs.quality.result == 'success'
+      }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -107,9 +115,12 @@ jobs:
     name: Deploy to production
     needs: [quality, build]
     if: >-
-      ${{ always()
-          && (needs.quality.result == 'success' || needs.quality.result == 'skipped')
-          && (needs.build.result == 'success' || needs.build.result == 'skipped') }}
+      ${{
+        always()
+        && github.event_name != 'pull_request'
+        && (needs.quality.result == 'success' || needs.quality.result == 'skipped')
+        && (needs.build.result == 'success' || needs.build.result == 'skipped')
+      }}
     runs-on: ubuntu-latest
     environment:
       name: production
