@@ -26,7 +26,7 @@
   /* modal */
   --color-modal-overlay: rgb(15 23 42 / 45%);
   --color-modal-bg: #ffffff;
-  --color-modal-close: #6B7280;
+  --color-modal-close: #6b7280;
 
   /* sidebar */
   --color-sidebar-item-active: #eef2ff;
@@ -40,11 +40,11 @@
 
   /* project */
   --color-project-default: #6366f1;
-  --color-version-card-title: #1F2937;
+  --color-version-card-title: #1f2937;
   --color-version-card-selected-bg: color-mix(in srgb, var(--color-primary) 8%, transparent);
   --color-version-card-selected-border: color-mix(in srgb, var(--color-primary) 30%, transparent);
   --color-version-card-hover-bg: color-mix(in srgb, var(--color-primary) 4%, transparent);
-  --color-version-card-selected-title: #6366F1;
+  --color-version-card-selected-title: #6366f1;
 
   /* button */
 
@@ -185,18 +185,18 @@
   --z-index-modal: 1001;
   /* NotFound */
 
-  --color-not-found-title: #0F172A;
-  --color-not-found-subtitle: #1F2937;
-  --color-not-found-description: #6B7280;
+  --color-not-found-title: #0f172a;
+  --color-not-found-subtitle: #1f2937;
+  --color-not-found-description: #6b7280;
 
-  --color-not-found-button-text: #FFFFFF;
+  --color-not-found-button-text: #ffffff;
 
-  --color-bg-badge: #EDE9FE;
-  --color-badge-text: #6366F1;
+  --color-bg-badge: #ede9fe;
+  --color-badge-text: #6366f1;
 
   /* ErrorCard */
-  --color-bg-error-card-header: #FFFFFF;
-  --color-bg-circle-warning: #F97316;
+  --color-bg-error-card-header: #ffffff;
+  --color-bg-circle-warning: #f97316;
   /* Badge */
   --color-badge-verified: #10b981;
   --color-badge-verified-rgb: 16, 185, 129;
@@ -221,4 +221,8 @@
   --color-badge-connected: #10b981;
   --color-badge-connected-rgb: 16, 185, 129;
   --color-badge-bg-connected: rgba(var(--color-badge-connected-rgb), 0.1);
+
+  /* Skeleton */
+  --color-skeleton-base: #e5e7eb;
+  --color-skeleton-shimmer: #d1d5db;
 }
