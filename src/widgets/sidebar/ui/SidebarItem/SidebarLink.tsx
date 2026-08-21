@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { memo } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { SidebarItem as SidebarItemType } from '../../model';
 import styles from './SidebarItem.module.css';
 import { getPadding, getChildPadding, isDeepChild } from './utils';
 import { renderIcon } from './utils';

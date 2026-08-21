@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 4px 0 8px;
-  color: var(--color-placeholder);
+  color: var(--color-sidebar-section-text);
   width: 100%;
   font-size: 11px;
   letter-spacing: 0.04em;
@@ -20,7 +20,7 @@
 }
 
 .sectionHeader:hover {
-  background: var(--color-bg-surface);
+  background: var(--color-sidebar-section-bg-hover);
 }
 
 .sectionTitle {
@@ -29,7 +29,7 @@
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-placeholder);
+  color: var(--color-sidebar-section-text);
 }
 
 .plusButton {
@@ -46,14 +46,10 @@
   transition: background 0.15s;
 }
 
-.plusButton:hover {
-  background: var(--color-bg-surface);
-}
-
 .plusIcon {
   width: 14px;
   height: 14px;
-  color: var(--color-placeholder);
+  color: var(--color-sidebar-button);
 }
 
 .link {
@@ -65,14 +61,14 @@
   padding: 0 8px;
   border-radius: 6px;
   text-decoration: none;
-  color: var(--color-text-body);
+  color: var(--color-sidebar-link);
   margin-bottom: 2px;
   transition: background 0.15s;
   cursor: pointer;
 }
 
 .link:hover {
-  background: var(--color-bg-surface);
+  background: var(--color-sidebar-link-bg);
 }
 
 .link.active {
@@ -82,7 +78,6 @@
 
 .group {
   width: 100%;
-  padding-right: 4px;
 }
 
 .groupHeader {
@@ -93,14 +88,14 @@
   gap: 4px;
   padding: 0 8px;
   border-radius: 6px;
-  color: var(--color-text-body);
+  color: var(--color-sidebar-group-text);
   margin-bottom: 2px;
   transition: background 0.15s;
   cursor: pointer;
 }
 
 .groupHeader:hover {
-  background: var(--color-bg-surface);
+  background: var(--color-sidebar-group-bg);
 }
 
 .children {
@@ -146,7 +141,7 @@
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: var(--color-placeholder);
+  color: var(--color-sidebar-button);
   transition: transform 0.2s;
 }
 
@@ -178,12 +173,27 @@
   height: 1px;
   width: 100%;
   margin: 8px 0;
-  background: var(--color-border-base);
+  background-color: var(--color-sidebar-divider-bg);
 }
 
 .moreWrapper {
   position: relative;
   display: inline-flex;
+
+  .moreBtn {
+  margin-left: auto;
+
+  width: 20px;
+  height: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-sidebar-btn);
+
+  letter-spacing: 2px;
+}
 }
 
 .dropdown {
@@ -239,21 +249,6 @@
   font-weight: 400;
 }
 
-.moreBtn {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-  color: var(--color-placeholder);
-  letter-spacing: 2px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
 .moreIcon {
   width: 16px;
   height: 16px;
@@ -262,11 +257,6 @@
 
 .moreBtn:hover {
   background: var(--color-bg-surface);
-}
-
-.divider {
-  width: 100%;
-  background-color: var(--color-sidebar-divider-bg);
 }
 
 .contextMenu {

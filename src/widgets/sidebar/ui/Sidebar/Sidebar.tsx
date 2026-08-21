@@ -1,16 +1,14 @@
 'use client';
 
-import { FC, useMemo, useEffect } from 'react';
+import { useMemo, useEffect, memo } from 'react';
 import classNames from 'classnames';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../UserProfile/UserProfile';
-import { staticSidebarItems } from '../../model/staticItems';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { SidebarItem as SidebarItemType, staticSidebarItems } from '../../model';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
-
 import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
 import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
@@ -21,7 +19,7 @@ interface SidebarProps {
   className?: string;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ className }) => {
+function SidebarComponent({ className }: SidebarProps) {
   const dispatch = useAppDispatch();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
@@ -82,9 +80,8 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
 
   return (
     <aside className={classNames(styles.sidebar, className)}>
+      <WorkspaceSwitcher />
       <div className={styles.top}>
-        <WorkspaceSwitcher />
-
         <Input
           className={styles.searchInput}
           placeholder="Поиск страниц..."
@@ -113,4 +110,7 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
       <UserProfile name="Alex Kim" email="alex@acme.io" />
     </aside>
   );
-};
+}
+
+export const Sidebar = memo(SidebarComponent);
+Sidebar.displayName = 'Sidebar';

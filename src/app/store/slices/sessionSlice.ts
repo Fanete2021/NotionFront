@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  loadAccessToken,
-  saveAccessToken,
-  removeAccessToken,
-} from '@/shared/utils/localStorage/localStorage';
+import { loadAccessToken, saveAccessToken, removeAccessToken } from '@/shared/utils/localStorage';
 
 export type SessionSliceState = {
   status: 'unknown' | 'authenticated' | 'anonymous';

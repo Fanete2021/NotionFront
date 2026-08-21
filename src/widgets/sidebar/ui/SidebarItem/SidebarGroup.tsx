@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useRef, memo, useCallback } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { useState, useRef, memo, useCallback, useEffect } from 'react';
+import { SidebarItem as SidebarItemType } from '../../model';
 import { SidebarItem } from './SidebarItem';
 import styles from './SidebarItem.module.css';
 import { renderIcon } from './utils';
@@ -10,10 +10,12 @@ import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
-import MoreIcon from '@/shared/assets/icons/more.svg';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppDispatch } from '@shared/lib';
+import { useAppDispatch } from '@/shared/lib';
+
+const DROPDOWN_OFFSET_BOTTOM = 4;
+const DROPDOWN_SHIFT_RIGHT = 140;
 
 interface SidebarGroupProps {
   item: SidebarItemType;
@@ -25,8 +27,12 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; right: number } | null>(
+    null,
+  );
   const menuRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
   const [deleteProject] = useDeleteProjectMutation();
 
   const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
@@ -41,6 +47,18 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    if (isDropdownOpen && moreRef.current) {
+      const rect = moreRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + DROPDOWN_OFFSET_BOTTOM,
+        right: window.innerWidth - rect.right - DROPDOWN_SHIFT_RIGHT,
+      });
+    } else {
+      setDropdownPosition(null);
+    }
+  }, [isDropdownOpen]);
 
   const handleCreateDocument = useCallback(() => {
     setContextMenu(null);
@@ -98,13 +116,22 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
             {item.title}
           </Typography>
 
-          <div className={styles.moreWrapper} ref={dropdownRef}>
-            <Button variant="clear" className={styles.moreBtn} onClick={handleMoreClick}>
-              <MoreIcon className={styles.moreIcon} />
+          <div className={styles.moreWrapper} ref={moreRef}>
+            <Button size="sm" variant="clear" className={styles.moreBtn} onClick={handleMoreClick}>
+              •••
             </Button>
 
-            {isDropdownOpen && (
-              <div className={styles.dropdown}>
+            {isDropdownOpen && dropdownPosition && (
+              <div
+                ref={dropdownRef}
+                className={styles.dropdown}
+                style={{
+                  position: 'fixed',
+                  top: dropdownPosition.top,
+                  right: dropdownPosition.right,
+                  zIndex: 9999,
+                }}
+              >
                 <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
                   <span className={styles.dropdownIcon}>✏️</span>
                   Редактировать
@@ -140,6 +167,7 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
             position: 'fixed',
             top: contextMenu.y,
             left: contextMenu.x,
+            zIndex: 9999,
           }}
         >
           <Button className={styles.contextMenuItem} onClick={handleCreateDocument}>
