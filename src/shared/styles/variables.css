@@ -29,14 +29,22 @@
   --color-modal-close: #6B7280;
 
   /* sidebar */
+  --color-sidebar-text: #374151;
+  --color-sidebar-section-text: #9ca3af;
+  --color-sidebar-group-text: #374151;
+  --color-sidebar-group-bg: #f9fafb;
   --color-sidebar-item-active: #eef2ff;
   --color-sidebar-item-active-text: #6366f1;
+  --color-sidebar-link: #374151;
+  --color-sidebar-link-bg: #f9fafb;
   --color-sidebar-logo-bg: #6366f1;
   --color-sidebar-avatar-bg: #6366f1;
   --color-sidebar-bg: #ffffff;
   --color-sidebar-icon: #9ca3af;
   --color-sidebar-btn: #9ca3af;
   --color-sidebar-divider-bg: #e5e5e5;
+  --color-sidebar-section-bg-hover: #f9fafb;
+  --color-sidebar-button: #9ca3af;
 
   /* project */
   --color-project-default: #6366f1;

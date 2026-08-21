@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import styles from './CreateWorkspaceModal.module.css';
 import {
   closeCreateWorkspaceModal,
@@ -33,7 +33,7 @@ export const CreateWorkspaceModal: FC = () => {
     }
   }, [isOpen]);
 
-  const handleCreate = async () => {
+  const handleCreate = useCallback(async () => {
     setError(null);
     const trimmed = name.trim();
     if (!trimmed) {
@@ -49,19 +49,22 @@ export const CreateWorkspaceModal: FC = () => {
       const errorData = (err as { data?: { message?: string } })?.data;
       setError(errorData?.message || 'Ошибка при создании workspace');
     }
-  };
+  }, [name, createWorkspace, dispatch]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setName('');
     setError(null);
     dispatch(closeCreateWorkspaceModal());
-  };
+  }, [dispatch]);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !isLoading && name.trim()) {
-      handleCreate();
-    }
-  };
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !isLoading && name.trim()) {
+        handleCreate();
+      }
+    },
+    [isLoading, name, handleCreate],
+  );
 
   return (
     <Modal

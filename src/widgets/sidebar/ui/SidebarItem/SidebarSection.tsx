@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { memo, useCallback, useState } from 'react';
+import { SidebarItem as SidebarItemType } from '../../model';
 import styles from './SidebarItem.module.css';
 import { SidebarItem } from './SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
@@ -15,7 +15,7 @@ interface SidebarSectionProps {
   level: number;
 }
 
-export function SidebarSection({ item, level }: SidebarSectionProps) {
+function SidebarSectionComponent({ item, level }: SidebarSectionProps) {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [isOpen, setIsOpen] = useState(true);
@@ -50,3 +50,6 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
     </div>
   );
 }
+
+export const SidebarSection = memo(SidebarSectionComponent);
+SidebarSection.displayName = 'SidebarSection';

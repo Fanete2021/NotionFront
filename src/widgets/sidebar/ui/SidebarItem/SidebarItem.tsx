@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { SidebarItem as SidebarItemType } from '../../model';
 import { SidebarDivider } from './SidebarDivider';
 import { SidebarGroup } from './SidebarGroup';
 import { SidebarLink } from './SidebarLink';
