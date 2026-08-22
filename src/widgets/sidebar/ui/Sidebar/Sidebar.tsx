@@ -7,6 +7,7 @@ import styles from './Sidebar.module.css';
 import { UserProfile } from '../UserProfile/UserProfile';
 import { staticSidebarItems } from '../../model/staticItems';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { SidebarSkeleton } from '../SidebarSkeleton/SidebarSkeleton';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
@@ -77,7 +78,7 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
   const handleSearch = () => {};
 
   if (workspacesLoading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+    return <SidebarSkeleton />;
   }
 
   return (

@@ -48,13 +48,11 @@
     font-weight: 700;
     margin: 0;
   }
-  
+
   .subtitle {
     color: var(--color-text-muted);
   }
 }
-
-
 
 .closeButton {
   flex-shrink: 0;
