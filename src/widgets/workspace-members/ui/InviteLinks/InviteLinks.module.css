@@ -1,0 +1,43 @@
+.container {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid var(--color-border-base);
+  border-radius: 8px;
+  background: var(--color-sidebar-bg);
+}
+
+.sectionTitle {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.note {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.linkRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.linkLabel {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  min-width: 80px;
+}
+
+.linkValue {
+  flex: 1;
+  color: var(--color-text-body);
+  font-family: monospace;
+  font-size: 13px;
+  word-break: break-all;
+}
