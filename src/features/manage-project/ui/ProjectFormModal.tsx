@@ -11,9 +11,9 @@ import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/p
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { ColorPicker } from '@/shared/ui/ColorPicker/ColorPicker';
+import { ColorPicker } from '@/shared/ui/ColorPicker';
 import { Colors } from '@/shared/const/colors';
-import { IconPicker } from '@/shared/ui/IconPicker/IconPicker';
+import { IconPicker } from '@/shared/ui/IconPicker';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 
 interface ProjectFormModalProps {

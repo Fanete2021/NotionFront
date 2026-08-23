@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './WorkspaceModal.module.css';
 import { Workspace } from '@/entities/workspace';
@@ -29,6 +29,13 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
   onOpenCreateModal,
 }) => {
   const [selectedId, setSelectedId] = useState<string | null>(currentWorkspaceId);
+
+  useEffect(() => {
+    if (isOpen) {
+      //eslint-disable-next-line
+      setSelectedId(currentWorkspaceId);
+    }
+  }, [isOpen, currentWorkspaceId]);
 
   const handleSelect = useCallback((id: string) => {
     setSelectedId(id);

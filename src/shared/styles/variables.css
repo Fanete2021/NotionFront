@@ -183,9 +183,6 @@
   --color-modal-button-text: #ffffff;
   --color-modal-close-button: #787774;
 
-  /* fonts */
-  --font-sans: 'Inter';
-
   /* z-index */
   --z-index-dropdown: 500;
   --z-index-context-menu: 600;
