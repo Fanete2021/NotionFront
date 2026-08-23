@@ -1,16 +1,15 @@
-import { memo } from 'react';
 import { SidebarItem as SidebarItemType } from '../../model';
-import { SidebarDivider } from './SidebarDivider';
-import { SidebarGroup } from './SidebarGroup';
-import { SidebarLink } from './SidebarLink';
-import { SidebarSection } from './SidebarSection';
+import { SidebarDivider } from './components/Divider/SidebarDivider';
+import { SidebarLink } from './components/Link/SidebarLink';
+import { SidebarSection } from './components/Section/SidebarSection';
+import { SidebarGroup } from './components/Group/SidebarGroup';
 
 interface SidebarItemProps {
   item: SidebarItemType;
   level?: number;
 }
 
-export const SidebarItem = memo(({ item, level = 0 }: SidebarItemProps) => {
+export const SidebarItem = ({ item, level = 0 }: SidebarItemProps) => {
   switch (item.type) {
     case 'divider':
       return <SidebarDivider />;
@@ -23,6 +22,4 @@ export const SidebarItem = memo(({ item, level = 0 }: SidebarItemProps) => {
     default:
       return null;
   }
-});
-
-SidebarItem.displayName = 'SidebarItem';
+};

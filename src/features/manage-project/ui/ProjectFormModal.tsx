@@ -90,71 +90,55 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     setError(null);
   }, [mode, dispatch]);
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      setError(null);
-      const trimmed = name.trim();
-      if (!trimmed) {
-        setError('Название проекта обязательно');
-        return;
-      }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    const trimmed = name.trim();
+    if (!trimmed) {
+      setError('Название проекта обязательно');
+      return;
+    }
 
-      const isDefaultColor = color === DEFAULT_COLOR;
-      const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
-      const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
+    const isDefaultColor = color === DEFAULT_COLOR;
+    const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
+    const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
 
-      try {
-        if (mode === 'create') {
-          if (!workspaceId) {
-            setError('Workspace не найден');
-            return;
-          }
-          await createProject({
-            workspaceId,
-            data: {
-              name: trimmed,
-              color: colorToSend,
-              icon: icon ?? undefined,
-            },
-          }).unwrap();
-        } else {
-          const hasChanges =
-            trimmed !== currentName || color !== currentColor || icon !== currentIcon;
-          if (!hasChanges) {
-            handleClose();
-            return;
-          }
-          await updateProject({
-            id: projectId ?? '',
-            data: {
-              name: trimmed,
-              color: colorToSend,
-              icon: icon === null ? null : (icon ?? undefined),
-            },
-          }).unwrap();
+    try {
+      if (mode === 'create') {
+        if (!workspaceId) {
+          setError('Workspace не найден');
+          return;
         }
-        handleClose();
-      } catch (err: unknown) {
-        const errorData = (err as { data?: { message?: string } })?.data;
-        setError(errorData?.message || 'Ошибка при сохранении проекта');
+        await createProject({
+          workspaceId,
+          data: {
+            name: trimmed,
+            color: colorToSend,
+            icon: icon ?? undefined,
+          },
+        }).unwrap();
+      } else {
+        const hasChanges =
+          trimmed !== currentName || color !== currentColor || icon !== currentIcon;
+        if (!hasChanges) {
+          handleClose();
+          return;
+        }
+        await updateProject({
+          id: projectId ?? '',
+          data: {
+            name: trimmed,
+            color: colorToSend,
+            icon: icon === null ? null : (icon ?? undefined),
+          },
+        }).unwrap();
       }
-    },
-    [
-      name,
-      color,
-      icon,
-      mode,
-      currentName,
-      currentColor,
-      currentIcon,
-      workspaceId,
-      projectId,
-      createProject,
-      updateProject,
-      handleClose,
-    ],
-  );
+      handleClose();
+    } catch (err: unknown) {
+      const errorData = (err as { data?: { message?: string } })?.data;
+      setError(errorData?.message || 'Ошибка при сохранении проекта');
+    }
+  };
 
   const title = mode === 'create' ? 'Создать проект' : 'Редактировать проект';
 

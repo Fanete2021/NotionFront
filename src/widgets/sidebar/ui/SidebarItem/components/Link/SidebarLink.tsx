@@ -2,11 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { memo } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model';
-import styles from './SidebarItem.module.css';
-import { getPadding, getChildPadding, isDeepChild } from './utils';
-import { renderIcon } from './utils';
+import { SidebarItem as SidebarItemType } from '../../../../model';
+import styles from './SidebarLink.module.css';
+import { getPadding, getChildPadding, isDeepChild, renderIcon } from '../../utils';
 import { Typography } from '@/shared/ui/Typography';
 
 interface SidebarLinkProps {
@@ -14,7 +12,7 @@ interface SidebarLinkProps {
   level: number;
 }
 
-function SidebarLinkComponent({ item, level }: SidebarLinkProps) {
+export function SidebarLink({ item, level }: SidebarLinkProps) {
   const pathname = usePathname();
   const active = pathname === item.href;
   const deepChild = isDeepChild(level);
@@ -30,7 +28,7 @@ function SidebarLinkComponent({ item, level }: SidebarLinkProps) {
       }}
     >
       {!deepChild && level > 0 && <span className={styles.arrowPlaceholder} />}
-      {!deepChild && renderIcon(item)}
+      {!deepChild && renderIcon(item, styles)}
       {!deepChild && item.color && (
         <span className={styles.colorDot} style={{ backgroundColor: item.color }} />
       )}
@@ -40,6 +38,3 @@ function SidebarLinkComponent({ item, level }: SidebarLinkProps) {
     </Link>
   );
 }
-
-export const SidebarLink = memo(SidebarLinkComponent);
-SidebarLink.displayName = 'SidebarLink';

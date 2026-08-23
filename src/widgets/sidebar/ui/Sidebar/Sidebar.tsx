@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useEffect, memo } from 'react';
+import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
 import styles from './Sidebar.module.css';
@@ -19,7 +19,7 @@ interface SidebarProps {
   className?: string;
 }
 
-function SidebarComponent({ className }: SidebarProps) {
+export function Sidebar({ className }: SidebarProps) {
   const dispatch = useAppDispatch();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
@@ -37,14 +37,15 @@ function SidebarComponent({ className }: SidebarProps) {
   useEffect(() => {
     if (workspaces && workspaces.length > 0 && !currentWorkspaceId) {
       dispatch(setCurrentWorkspace(workspaces[0].id));
+      dispatch(refetchWorkspaces);
     }
-  }, [workspaces, currentWorkspaceId, dispatch]);
+  }, [workspaces, currentWorkspaceId, dispatch, refetchWorkspaces]);
 
   useEffect(() => {
     if (currentWorkspaceId) {
       refetchProjects();
     }
-  }, [currentWorkspaceId]);
+  }, [currentWorkspaceId, refetchProjects]);
 
   const projectItems = useMemo(() => {
     return (projects || [])
@@ -111,6 +112,3 @@ function SidebarComponent({ className }: SidebarProps) {
     </aside>
   );
 }
-
-export const Sidebar = memo(SidebarComponent);
-Sidebar.displayName = 'Sidebar';

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useRef, memo, useCallback, useEffect } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model';
-import { SidebarItem } from './SidebarItem';
-import styles from './SidebarItem.module.css';
-import { renderIcon } from './utils';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SidebarItem } from '../../SidebarItem';
+import styles from './SidebarGroup.module.css';
+import { renderIcon } from '../../utils';
 import { openCreateDocumentModal } from '@/features/create-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
@@ -22,7 +22,7 @@ interface SidebarGroupProps {
   level: number;
 }
 
-function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
+export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -106,7 +106,7 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
             )}
           </Button>
 
-          {renderIcon(item)}
+          {renderIcon(item, styles)}
 
           {!item.icon && item.color && (
             <span className={styles.colorDot} style={{ backgroundColor: item.color }} />
@@ -179,6 +179,3 @@ function SidebarGroupComponent({ item, level }: SidebarGroupProps) {
     </>
   );
 }
-
-export const SidebarGroup = memo(SidebarGroupComponent);
-SidebarGroup.displayName = 'SidebarGroup';

@@ -1,5 +1,4 @@
-import { SidebarItem } from '../../model';
-import styles from './SidebarItem.module.css';
+import { SidebarItem } from '../../../model';
 
 const BASE_PADDING = 16;
 const LEVEL_OFFSET = 8;
@@ -17,7 +16,7 @@ export function isDeepChild(level: number) {
   return level >= 2;
 }
 
-export const renderIcon = (item: SidebarItem) => {
+export const renderIcon = (item: SidebarItem, styles: Record<string, string>) => {
   if (!item.icon) return null;
 
   if (typeof item.icon === 'string') {

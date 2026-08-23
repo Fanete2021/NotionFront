@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import styles from './UserProfile.module.css';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
@@ -9,7 +8,7 @@ interface UserProfileProps {
   email: string;
 }
 
-function UserProfileComponent({ name, email }: UserProfileProps) {
+export function UserProfile({ name, email }: UserProfileProps) {
   return (
     <div className={styles.profile}>
       <Avatar name={name} size="lg" className={styles.avatar} />
@@ -29,6 +28,3 @@ function UserProfileComponent({ name, email }: UserProfileProps) {
     </div>
   );
 }
-
-export const UserProfile = memo(UserProfileComponent);
-UserProfile.displayName = 'UserProfile';
