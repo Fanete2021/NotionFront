@@ -1,0 +1,27 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.saveButton.saveButton {
+  height: 40px;
+  padding: 0 20px;
+  justify-content: flex-start;
+}
