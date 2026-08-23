@@ -95,7 +95,6 @@ export const Modal = ({
             type="button"
             variant="clear"
             size="sm"
-            square
             className={styles.closeButton}
             aria-label="Закрыть"
             onClick={onClose}

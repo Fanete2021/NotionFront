@@ -1,7 +1,6 @@
 export const formatErrorDate = (date: Date) => {
-  const utcString = date.toUTCString();
-
-  const [day, time] = utcString.split('T');
-
-  return `${day} · ${time.slice(0, 8)} UTC`;
+  const parts = date.toUTCString().split(' ');
+  const dateStr = parts.slice(0, 4).join(' ');
+  const time = parts[4];
+  return `${dateStr} · ${time} UTC`;
 };

@@ -147,7 +147,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
           <label htmlFor="projectName" className={styles.label}>
-            Название проекта
+            Название
           </label>
           <Input
             id="projectName"
