@@ -4,7 +4,8 @@ import { WorkspaceInfo } from './WorkspaceInfo/WorkspaceInfo';
 import { InviteLinks } from './InviteLinks/InviteLinks';
 import { MemberList } from './MemberList/MemberList';
 import styles from './WorkspaceMembers.module.css';
-import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
+import { WorkspaceMembersHeader } from '@/widgets/workspace-members/ui/WorkspaceMembersHeader/WorkspaceMembersHeader';
+import { mockMembers, useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 
 interface WorkspaceMembersProps {
   workspaceId: string;
@@ -12,7 +13,8 @@ interface WorkspaceMembersProps {
 }
 
 export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMembersProps) => {
-  const { data: members, isLoading, error } = useGetWorkspaceMembersQuery(workspaceId);
+  const { data, isLoading, error } = useGetWorkspaceMembersQuery(workspaceId);
+  const members = mockMembers;
 
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;
@@ -23,10 +25,13 @@ export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMember
   }
 
   return (
-    <div className={styles.container}>
-      <WorkspaceInfo workspaceName={workspaceName} memberCount={members?.length || 0} />
-      <InviteLinks workspaceId={workspaceId} />
-      <MemberList members={members || []} />
-    </div>
+    <>
+      <WorkspaceMembersHeader />
+      <div className={styles.container}>
+        <WorkspaceInfo workspaceName={workspaceName} memberCount={members?.length || 0} />
+        <InviteLinks workspaceId={workspaceId} />
+        <MemberList members={members || []} />
+      </div>
+    </>
   );
 };

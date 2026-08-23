@@ -13,7 +13,7 @@ export const MemberList = ({ members }: MemberListProps) => {
       <Typography variant="label" className={styles.sectionTitle}>
         Участники
       </Typography>
-      <div className={styles.grid}>
+      <div className={styles.list}>
         {members.map((member) => (
           <MemberCard key={member.id} member={member} />
         ))}

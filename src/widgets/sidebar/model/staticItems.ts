@@ -10,7 +10,7 @@ export const staticSidebarItems: SidebarItem[] = [
     id: 'home',
     title: 'Главная',
     type: 'link',
-    href: '/',
+    href: '/main',
     icon: HomeIcon,
   },
   {

@@ -5,3 +5,5 @@ export {
   useUpdateMemberRoleMutation,
   useRemoveMemberMutation,
 } from './api/workspaceMembersApi';
+
+export { mockMembers } from './mock/members';

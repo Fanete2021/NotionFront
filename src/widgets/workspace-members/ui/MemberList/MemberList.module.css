@@ -10,8 +10,9 @@
   margin-bottom: 12px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+.list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
 }

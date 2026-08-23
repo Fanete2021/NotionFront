@@ -7,4 +7,4 @@ export {
   sessionReducer,
   selectAccessToken,
   selectSessionStatus,
-} from './slices/sessionSlice';
+} from '../../shared/api/sessionSlice';

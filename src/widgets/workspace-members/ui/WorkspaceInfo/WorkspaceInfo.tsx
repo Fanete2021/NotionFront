@@ -12,7 +12,7 @@ export const WorkspaceInfo = ({ workspaceName, memberCount }: WorkspaceInfoProps
       <Typography variant="h1" className={styles.title}>
         Рабочее пространство
       </Typography>
-      <Typography variant="text-medium" className={styles.subtitle}>
+      <Typography variant="text-regular" className={styles.subtitle}>
         {workspaceName} · {memberCount} участников
       </Typography>
     </div>

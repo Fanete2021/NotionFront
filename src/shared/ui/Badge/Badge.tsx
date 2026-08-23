@@ -9,15 +9,28 @@ export type BadgeStatus = 'verified' | 'pending' | 'failed' | 'new' | 'draft' | 
 
 interface BadgeProps extends React.ComponentPropsWithRef<'div'> {
   className?: string;
-  status: BadgeStatus;
+  status?: BadgeStatus;
   text: string;
+  color?: string;
+  bgColor?: string;
 }
 
-export const Badge = ({ className, status, text }: BadgeProps) => {
+export const Badge = ({ className, status, text, color, bgColor }: BadgeProps) => {
   const isConnected = status === 'connected';
 
+  const customStyle =
+    color || bgColor
+      ? {
+          color: color ?? 'inherit',
+          backgroundColor: bgColor ?? 'transparent',
+        }
+      : undefined;
+
   return (
-    <div className={classNames(styles.badge, styles[status], className)}>
+    <div
+      className={classNames(styles.badge, status && styles[status], className)}
+      style={customStyle}
+    >
       {isConnected && <span className={styles.dot} />}
       <Typography variant="caption" className={styles.text}>
         {text}

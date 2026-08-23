@@ -1,9 +1,14 @@
 .container {
   margin-bottom: 24px;
-  padding: 16px;
-  border: 1px solid var(--color-border-base);
-  border-radius: 8px;
-  background: var(--color-sidebar-bg);
+  width: 100%;
+
+  .addNewLinkButton {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--color-invite-link-add-link-btn-border);
+    color: var(--color-invite-link-add-link-btn-text);
+    margin-bottom: 24px;
+  }
 }
 
 .sectionTitle {
@@ -14,11 +19,48 @@
   margin-bottom: 4px;
 }
 
+.titleBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 13px;
+}
+
+.links > * {
+  flex: 1;
+  min-width: 0;
+}
+
+.info {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: -0.1%;
+  color: var(--color-invite-link-info);
+  background-color: var(--color-invite-link-info-bg);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
 .note {
   display: block;
   font-size: 12px;
   color: var(--color-text-muted);
   margin-bottom: 12px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-invite-link-icon);
 }
 
 .linkRow {

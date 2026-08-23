@@ -1,6 +1,9 @@
 import styles from './InviteLinks.module.css';
+import { InviteLink } from '@/widgets/workspace-members/ui/InviteLink/InviteLink';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
+import GlobusIcon from '@/shared/assets/icons/globus.svg';
+import CalendarIcon from '@/shared/assets/icons/calendar.svg';
 
 interface InviteLinksProps {
   workspaceId: string;
@@ -10,38 +13,36 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   const permanentLink = `https://notion.app/join/acme-abc123`;
   const temporaryLink = `https://notion.app/join/tmp-xyz789`;
 
+  const handleDeleteAction = () => {
+    console.log('Delete');
+  };
+
   return (
     <div className={styles.container}>
-      <Typography variant="label" className={styles.sectionTitle}>
-        Ссылки для вступления
-      </Typography>
-      <Typography variant="caption" className={styles.note}>
-        Только для администраторов
-      </Typography>
-
-      <div className={styles.linkRow}>
-        <Typography variant="text-regular" className={styles.linkLabel}>
-          Постоянная
+      <div className={styles.titleBlock}>
+        <Typography variant="label" className={styles.sectionTitle}>
+          🔒 Ссылки для вступления
         </Typography>
-        <Typography variant="text-regular" className={styles.linkValue}>
-          {permanentLink}
-        </Typography>
-        <Button variant="outline" size="sm">
-          Копировать
-        </Button>
+        <div className={styles.info}>Только для администраторов</div>
       </div>
 
-      <div className={styles.linkRow}>
-        <Typography variant="text-regular" className={styles.linkLabel}>
-          Временная
-        </Typography>
-        <Typography variant="text-regular" className={styles.linkValue}>
-          {temporaryLink}
-        </Typography>
-        <Button variant="outline" size="sm">
-          Копировать
-        </Button>
+      <div className={styles.links}>
+        <InviteLink
+          icon={<GlobusIcon className={styles.icon} />}
+          label="Постоянная"
+          url={temporaryLink}
+          onDelete={handleDeleteAction}
+        />
+        <InviteLink
+          icon={<CalendarIcon className={styles.icon} />}
+          label="Временная"
+          url={permanentLink}
+          onDelete={handleDeleteAction}
+        />
       </div>
+      <Button variant="outline" className={styles.addNewLinkButton}>
+        + Создать новую ссылку
+      </Button>
     </div>
   );
 };
