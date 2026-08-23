@@ -1,4 +1,4 @@
-import { SettingsNavItem } from '../types/settingsNav';
+import { SettingsNavItem } from '../types/settingsNavItem';
 import PersonIcon from '@/shared/assets/icons/person.svg';
 import BellIcon from '@/shared/assets/icons/not-ring.svg';
 import PlugIcon from '@/shared/assets/icons/plug.svg';

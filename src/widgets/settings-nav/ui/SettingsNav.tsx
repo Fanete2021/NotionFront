@@ -4,7 +4,7 @@ import { FC } from 'react';
 import classNames from 'classnames';
 import styles from './SettingsNav.module.css';
 import { settingsNavItems } from '../model/consts/navItems';
-import { SettingsSection } from '../model/types/settingsNav';
+import { SettingsSection } from '../model/types/settingsNavItem';
 import { Typography } from '@/shared/ui/Typography';
 
 interface SettingsNavProps {
