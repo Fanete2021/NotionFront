@@ -77,7 +77,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     };
   }, [isDropdownOpen]);
 
-  // Закрытие контекстного меню при клике вне и Escape
   useEffect(() => {
     if (!contextMenu) return;
 
@@ -183,7 +182,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
                   position: 'fixed',
                   top: dropdownPosition.top,
                   right: dropdownPosition.right,
-                  zIndex: 9999,
                 }}
               >
                 <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
@@ -221,7 +219,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
             position: 'fixed',
             top: contextMenu.y,
             left: contextMenu.x,
-            zIndex: 9999,
           }}
         >
           <Button className={styles.contextMenuItem} onClick={handleCreateDocument}>

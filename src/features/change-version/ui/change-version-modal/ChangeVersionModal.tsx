@@ -1,8 +1,8 @@
 'use client';
 
 import styles from './ChangeVersionModal.module.css';
-import { VersionList } from '../VersionList/VersionList';
-import { VersionPreview } from '../VersionPreview/VersionPreview';
+import { VersionList } from '../version-list/VersionList';
+import { VersionPreview } from '../version-preview/VersionPreview';
 import { Modal } from '@shared/ui/Modal';
 import { Typography } from '@shared/ui/Typography';
 
