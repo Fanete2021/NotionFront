@@ -232,19 +232,19 @@
   --color-invite-link-bg: #f7f7f5;
   --color-invite-link-delete-button: #e53e3e;
   --color-invite-link-info: #787774;
-  --color-invite-link-info-bg: #F2F2F0;
-  --color-invite-link-add-link-btn-border: #4B47E5;
-  --color-invite-link-add-link-btn-text: #4B47E5;
+  --color-invite-link-info-bg: #f2f2f0;
+  --color-invite-link-add-link-btn-border: #4b47e5;
+  --color-invite-link-add-link-btn-text: #4b47e5;
   --color-invite-link-url: #787774;
 
   /* MembersList */
-  --color-members-list-name: #1A1A1A;
+  --color-members-list-name: #1a1a1a;
   --color-members-list-email: #787774;
 
   /* WorkspaceMembersHeader */
-  --color-workspace-members-header: #6B7280;
-  --color-workspace-members-header-border: #E8E8E4;
+  --color-workspace-members-header: #6b7280;
+  --color-workspace-members-header-border: #e8e8e4;
 
   /* WorkspaceInfo */
-  --color-workspace-info-title: #1A1A1A;
+  --color-workspace-info-title: #1a1a1a;
 }
