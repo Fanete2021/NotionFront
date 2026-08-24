@@ -1,34 +1,32 @@
+'use client';
+
 import styles from './SidebarSkeleton.module.css';
+import { Skeleton } from '@/shared/ui/Skeleton';
 
 export const SidebarSkeleton = () => {
   return (
-    <aside className={styles.sidebar}>
+    <div className={styles.sidebar}>
       <div className={styles.workspaceSwitcher}>
-        <div className={styles.workspaceIconSkeleton} />
-        <div className={styles.workspaceNameSkeleton} />
+        <Skeleton width={30} height={30} borderRadius={6} />
+        <Skeleton width={120} height={18} borderRadius={4} />
       </div>
-
-      <div className={styles.searchSkeleton} />
-
-      <nav className={styles.navigation}>
-        <div className={styles.menuItemSkeleton} />
-        <div className={styles.menuItemSkeleton} />
-        <div className={styles.dividerSkeleton} />
-        <div className={styles.menuItemSkeleton} style={{ width: '60%' }} />
-        <div className={styles.menuItemSkeleton} style={{ width: '75%' }} />
-        <div className={styles.menuItemSkeleton} style={{ width: '85%' }} />
-        <div className={styles.menuItemSkeleton} style={{ width: '70%' }} />
-        <div className={styles.menuItemSkeleton} style={{ width: '90%' }} />
-      </nav>
-
+      <Skeleton width="auto" height={32} className={styles.searchSkeleton} borderRadius={6} />
+      <div className={styles.navigation}>
+        <Skeleton width="80%" height={28} borderRadius={6} />
+        <Skeleton width="70%" height={28} borderRadius={6} />
+        <Skeleton width="90%" height={28} borderRadius={6} />
+        <Skeleton width="100%" height={1} borderRadius={0} />
+        <Skeleton width="60%" height={28} borderRadius={6} />
+        <Skeleton width="75%" height={28} borderRadius={6} />
+      </div>
       <div className={styles.profileSkeleton}>
-        <div className={styles.avatarSkeleton} />
+        <Skeleton width={32} height={32} circle />
         <div className={styles.userInfoSkeleton}>
-          <div className={styles.nameSkeleton} />
-          <div className={styles.emailSkeleton} />
+          <Skeleton width={80} height={14} borderRadius={4} />
+          <Skeleton width={100} height={12} borderRadius={4} />
         </div>
-        <div className={styles.moreBtnSkeleton} />
+        <Skeleton width={20} height={20} borderRadius={4} />
       </div>
-    </aside>
+    </div>
   );
 };

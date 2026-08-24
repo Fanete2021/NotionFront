@@ -1,6 +1,6 @@
 import type { Preview } from '@storybook/nextjs';
 // eslint-disable-next-line fsd/no-relative-imports
-import { StoreProvider } from '../app/StoreProvider';
+import { StoreProvider } from '../src/app/providers/StoreProvider';
 
 const preview: Preview = {
   decorators: [
