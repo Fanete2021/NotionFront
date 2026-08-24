@@ -2,7 +2,7 @@
 
 import { Provider } from 'react-redux';
 import { useState, type ReactNode } from 'react';
-import { AppStore, makeStore } from '@/app/redux';
+import { AppStore, makeStore } from '../store';
 
 type StoreProviderProps = {
   children: ReactNode;

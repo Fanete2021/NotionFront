@@ -2,17 +2,16 @@
 
 import styles from './ChangeVersionButton.module.css';
 import { Button } from '@shared/ui/Button';
-import GlobusIcon from '@shared/assets/icons/globus.svg';
+import ClockIcon from '@shared/assets/icons/clock.svg';
 
-export const ChangeVersionButton = () => {
+type ChangeVersionButtonProps = {
+  onClick?: () => void;
+};
+
+export const ChangeVersionButton = ({ onClick }: ChangeVersionButtonProps) => {
   return (
-    <Button
-      type="button"
-      variant="filled"
-      size="sm"
-      addonLeft={<GlobusIcon className={styles.icon} />}
-    >
-      Публикация
+    <Button type="button" variant="clear" size="sm" square aria-label="История" onClick={onClick}>
+      <ClockIcon className={styles.icon} />
     </Button>
   );
 };

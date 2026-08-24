@@ -1,1 +1,1 @@
-export { TrashPage as default } from '../../../src/pages/trash';
+export { TrashPage as default } from '@/pages/trash';

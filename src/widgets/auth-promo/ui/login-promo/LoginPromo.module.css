@@ -6,7 +6,7 @@
   padding: 100px 80px 140px;
 }
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
   row-gap: 24px;

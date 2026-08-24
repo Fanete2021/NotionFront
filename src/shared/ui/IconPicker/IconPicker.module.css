@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  width: 162px;
+  height: 118px;
+  margin-bottom: 54px;
+
+  .selected {
+    background: var(--color-active-icon-picker-button);
+  }
+}
+
+.iconButton {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: var(--color-icon-picker-button);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}

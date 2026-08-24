@@ -19,19 +19,19 @@
 
 В **Settings → Secrets and variables → Actions → Variables** создайте переменную:
 
-| Имя | Пример | Назначение |
-| --- | --- | --- |
+| Имя                        | Пример                    | Назначение                                |
+| -------------------------- | ------------------------- | ----------------------------------------- |
 | `NEXT_PUBLIC_BASE_API_URL` | `https://api.example.com` | URL API, встраиваемый в клиент при сборке |
 
 В **Settings → Secrets and variables → Actions → Secrets** должны быть:
 
-| Имя | Значение |
-| --- | --- |
-| `SSH_PRIVATE_KEY` | приватный SSH-ключ пользователя деплоя целиком |
-| `SSH_KNOWN_HOSTS` | результат `ssh-keyscan -H <host>` |
-| `DEPLOY_HOST` | IP-адрес или домен сервера |
-| `DEPLOY_USER` | например, `deploy` |
-| `DEPLOY_PATH` | каталог фронтенда, например `/home/deploy/front` |
+| Имя               | Значение                                         |
+| ----------------- | ------------------------------------------------ |
+| `SSH_PRIVATE_KEY` | приватный SSH-ключ пользователя деплоя целиком   |
+| `SSH_KNOWN_HOSTS` | результат `ssh-keyscan -H <host>`                |
+| `DEPLOY_HOST`     | IP-адрес или домен сервера                       |
+| `DEPLOY_USER`     | например, `deploy`                               |
+| `DEPLOY_PATH`     | каталог фронтенда, например `/home/deploy/front` |
 
 `NEXT_PUBLIC_BASE_API_URL` является build-time переменной Next.js. Изменение серверного `.env`
 не меняет URL API в уже собранном браузерном коде — после изменения GitHub Variable нужен новый

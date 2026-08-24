@@ -16,7 +16,7 @@
   color: var(--color-text-muted);
 }
 
-.nav>* {
+.nav > * {
   margin: 0;
 }
 

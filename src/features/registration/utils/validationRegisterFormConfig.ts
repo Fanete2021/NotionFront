@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { emailRegex, passwordRegex } from '@shared/lib';
+import { emailRegex, passwordRegex } from '@shared/lib/regex';
 
 export const registerUserSchema = z
   .object({
