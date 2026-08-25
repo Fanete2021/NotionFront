@@ -1,5 +1,5 @@
 import styles from './InviteLinks.module.css';
-import { InviteLink } from '@/widgets/workspace-members/ui/InviteLink/InviteLink';
+import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import GlobusIcon from '@/shared/assets/icons/globus.svg';

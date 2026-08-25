@@ -1,4 +1,4 @@
-import { MemberCard } from '../MemberCard/MemberCard';
+import { MemberCard } from '../member-card/MemberCard';
 import styles from './MemberList.module.css';
 import { WorkspaceMember } from '@/entities/workspace-members';
 import { Typography } from '@/shared/ui/Typography';

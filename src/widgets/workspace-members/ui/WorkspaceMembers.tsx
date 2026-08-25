@@ -1,10 +1,10 @@
 'use client';
 
-import { WorkspaceInfo } from './WorkspaceInfo/WorkspaceInfo';
-import { InviteLinks } from './InviteLinks/InviteLinks';
-import { MemberList } from './MemberList/MemberList';
+import { WorkspaceInfo } from './workspace-info/WorkspaceInfo';
+import { InviteLinks } from './invite-links/InviteLinks';
+import { MemberList } from './member-list/MemberList';
 import styles from './WorkspaceMembers.module.css';
-import { WorkspaceMembersHeader } from '@/widgets/workspace-members/ui/WorkspaceMembersHeader/WorkspaceMembersHeader';
+import { WorkspaceMembersHeader } from '@/widgets/workspace-members/ui/workspace-members-header/WorkspaceMembersHeader';
 import { mockMembers, useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 
 interface WorkspaceMembersProps {

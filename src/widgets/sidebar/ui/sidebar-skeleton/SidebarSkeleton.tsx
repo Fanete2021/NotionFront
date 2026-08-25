@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './SidebarSkeleton.module.css';
-import { Skeleton } from '@/shared/ui/Skeleton';
+import { Skeleton } from '@/shared/ui/skeleton';
 
 export const SidebarSkeleton = () => {
   return (
