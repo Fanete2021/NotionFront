@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ProjectHeader } from '@widgets/project/header';
-import { ProjectComments } from '@widgets/project/comments';
+import { ProjectHeader } from '../header/ProjectHeader';
+import { ProjectComments } from '../comments/ProjectComments';
 import styles from './ProjectWorkspace.module.css';
-import { ChangeVersionModal } from '@features/projects/change-version';
+import { ChangeVersionModal } from '@/features/change-version';
 
 type ProjectWorkspaceProps = {
   children: React.ReactNode;

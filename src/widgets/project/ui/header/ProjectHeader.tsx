@@ -2,8 +2,8 @@
 
 import classNames from 'classnames';
 import styles from './ProjectHeader.module.css';
-import { ShareButton } from '@features/projects/sharing';
-import { ChangeVersionButton } from '@features/projects/change-version';
+import { ShareButton } from '@/features/change-version';
+import { ChangeVersionButton } from '@/features/change-version';
 import { Button } from '@shared/ui/Button';
 import { Typography } from '@shared/ui/Typography';
 import { Avatar } from '@shared/ui/Avatar';

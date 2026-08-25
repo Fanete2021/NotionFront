@@ -1,17 +1,15 @@
 'use client';
 
-import { FC, useMemo, useEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-import { SidebarItem } from '../sidebar-item/SidebarItem';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
-import { staticSidebarItems } from '../../model/staticItems';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
-import { SidebarSkeleton } from '../sidebar-skeleton/SidebarSkeleton';
+import { SidebarItem as SidebarItemType, staticSidebarItems } from '../../model';
+import { SidebarSkeleton } from '@/widgets/sidebar/ui/sidebar-skeleton/SidebarSkeleton';
+import { SidebarItem } from '@/widgets/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
-
 import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
 import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
@@ -22,7 +20,7 @@ interface SidebarProps {
   className?: string;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ className }) => {
+export function Sidebar({ className }: SidebarProps) {
   const dispatch = useAppDispatch();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
@@ -40,14 +38,15 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
   useEffect(() => {
     if (workspaces && workspaces.length > 0 && !currentWorkspaceId) {
       dispatch(setCurrentWorkspace(workspaces[0].id));
+      dispatch(refetchWorkspaces);
     }
-  }, [workspaces, currentWorkspaceId, dispatch]);
+  }, [workspaces, currentWorkspaceId, dispatch, refetchWorkspaces]);
 
   useEffect(() => {
     if (currentWorkspaceId) {
       refetchProjects();
     }
-  }, [currentWorkspaceId]);
+  }, [currentWorkspaceId, refetchProjects]);
 
   const projectItems = useMemo(() => {
     return (projects || [])
@@ -83,9 +82,8 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
 
   return (
     <aside className={classNames(styles.sidebar, className)}>
+      <WorkspaceSwitcher />
       <div className={styles.top}>
-        <WorkspaceSwitcher />
-
         <Input
           className={styles.searchInput}
           placeholder="Поиск страниц..."
@@ -114,4 +112,4 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
       <UserProfile name="Alex Kim" email="alex@acme.io" />
     </aside>
   );
-};
+}

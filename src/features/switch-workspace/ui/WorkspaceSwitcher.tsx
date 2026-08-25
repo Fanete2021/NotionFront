@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from './WorkspaceSwitcher.module.css';
 import { openCreateWorkspaceModal, WorkspaceModal } from '../index';
 import { CreateWorkspaceModal } from './CreateWorkspaceModal/CreateWorkspaceModal';
@@ -17,18 +17,21 @@ export const WorkspaceSwitcher = () => {
 
   const currentWorkspace = workspaces?.find((w) => w.id === currentWorkspaceId);
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenModal = useCallback(() => setIsModalOpen(true), []);
+  const handleCloseModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleSelectWorkspace = (workspaceId: string) => {
-    dispatch(setCurrentWorkspace(workspaceId));
-    setIsModalOpen(false);
-  };
+  const handleSelectWorkspace = useCallback(
+    (workspaceId: string) => {
+      dispatch(setCurrentWorkspace(workspaceId));
+      setIsModalOpen(false);
+    },
+    [dispatch],
+  );
 
-  const handleOpenCreateModal = () => {
+  const handleOpenCreateModal = useCallback(() => {
     setIsModalOpen(false);
     dispatch(openCreateWorkspaceModal());
-  };
+  }, [dispatch]);
 
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;

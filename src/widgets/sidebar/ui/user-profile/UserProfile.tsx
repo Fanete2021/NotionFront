@@ -1,4 +1,4 @@
-import styles from '../sidebar/Sidebar.module.css';
+import styles from './UserProfile.module.css';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';

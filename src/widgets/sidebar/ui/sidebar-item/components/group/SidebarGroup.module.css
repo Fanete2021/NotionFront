@@ -1,88 +1,5 @@
-.section {
-  margin-top: 10px;
-  width: 100%;
-}
-
-.sectionHeader {
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 4px 0 8px;
-  color: var(--color-placeholder);
-  width: 100%;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.15s;
-}
-
-.sectionHeader:hover {
-  background: var(--color-bg-surface);
-}
-
-.sectionTitle {
-  flex: 1;
-  min-width: 0;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-placeholder);
-}
-
-.plusButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.15s;
-}
-
-.plusButton:hover {
-  background: var(--color-bg-surface);
-}
-
-.plusIcon {
-  width: 14px;
-  height: 14px;
-  color: var(--color-placeholder);
-}
-
-.link {
-  width: 100%;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 8px;
-  border-radius: 6px;
-  text-decoration: none;
-  color: var(--color-text-body);
-  margin-bottom: 2px;
-  transition: background 0.15s;
-  cursor: pointer;
-}
-
-.link:hover {
-  background: var(--color-bg-surface);
-}
-
-.link.active {
-  background: var(--color-sidebar-item-active);
-  color: var(--color-sidebar-item-active-text);
-}
-
 .group {
   width: 100%;
-  padding-right: 4px;
 }
 
 .groupHeader {
@@ -93,14 +10,14 @@
   gap: 4px;
   padding: 0 8px;
   border-radius: 6px;
-  color: var(--color-text-body);
+  color: var(--color-sidebar-group-text);
   margin-bottom: 2px;
   transition: background 0.15s;
   cursor: pointer;
 }
 
 .groupHeader:hover {
-  background: var(--color-bg-surface);
+  background: var(--color-sidebar-group-bg);
 }
 
 .children {
@@ -146,7 +63,7 @@
   width: 14px;
   height: 14px;
   flex-shrink: 0;
-  color: var(--color-placeholder);
+  color: var(--color-sidebar-button);
   transition: transform 0.2s;
 }
 
@@ -174,16 +91,24 @@
   border-radius: 50%;
 }
 
-.divider {
-  height: 1px;
-  width: 100%;
-  margin: 8px 0;
-  background: var(--color-border-base);
-}
-
 .moreWrapper {
   position: relative;
   display: inline-flex;
+}
+
+.moreWrapper .moreBtn {
+  margin-left: auto;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-sidebar-btn);
+  letter-spacing: 2px;
+}
+
+.moreBtn:hover {
+  background: var(--color-bg-surface);
 }
 
 .dropdown {
@@ -197,23 +122,23 @@
   padding: 6px;
   z-index: var(--z-index-dropdown);
   animation: fadeIn 0.15s ease;
+}
 
-  .dropdownItem {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 8px 10px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--color-text-primary);
-    transition: background 0.15s;
-    justify-content: flex-start;
-    text-align: left;
-  }
+.dropdown .dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  transition: background 0.15s;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .dropdownItem:hover {
@@ -239,34 +164,10 @@
   font-weight: 400;
 }
 
-.moreBtn {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-  color: var(--color-placeholder);
-  letter-spacing: 2px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
 .moreIcon {
   width: 16px;
   height: 16px;
   color: var(--color-sidebar-icon);
-}
-
-.moreBtn:hover {
-  background: var(--color-bg-surface);
-}
-
-.divider {
-  width: 100%;
-  background-color: var(--color-sidebar-divider-bg);
 }
 
 .contextMenu {

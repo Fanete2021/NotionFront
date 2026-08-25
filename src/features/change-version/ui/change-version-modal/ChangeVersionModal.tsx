@@ -1,8 +1,8 @@
 'use client';
 
 import styles from './ChangeVersionModal.module.css';
-import { VersionList } from './ui/VersionList';
-import { VersionPreview } from './ui/VersionPreview';
+import { VersionList } from '../version-list/VersionList';
+import { VersionPreview } from '../version-preview/VersionPreview';
 import { Modal } from '@shared/ui/Modal';
 import { Typography } from '@shared/ui/Typography';
 
@@ -17,7 +17,6 @@ export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) =
       isOpen={open}
       onClose={onClose}
       headerDivider
-      footerDivider
       header={
         <div className={styles.heading}>
           <div className={styles.headingIcon} aria-hidden />

@@ -2,45 +2,53 @@
   /* COLORS */
 
   /* brand */
-  --color-primary: #6366f1;
-  --color-primary-light: #6366f114;
-  --color-telegram: #2596be;
+  --color-primary: #6366F1;
+  --color-primary-light: #6366F114;
+  --color-telegram: #2596BE;
 
   /* semantic */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-info: #2563eb;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #2563EB;
 
   /* neutrals */
   --color-text-primary: #111827;
   --color-text-body: #374151;
-  --color-text-muted: #6b7280;
-  --color-border-strong: #d1d5db;
-  --color-placeholder: #9ca3af;
-  --color-border-base: #e5e7eb;
-  --color-bg-muted: #f3f4f6;
-  --color-bg-surface: #f9fafb;
-  --color-bg-dark: #0f172a;
+  --color-text-muted: #6B7280;
+  --color-border-strong: #D1D5DB;
+  --color-placeholder: #9CA3AF;
+  --color-border-base: #E5E7EB;
+  --color-bg-muted: #F3F4F6;
+  --color-bg-surface: #F9FAFB;
+  --color-bg-dark: #0F172A;
 
   /* modal */
   --color-modal-overlay: rgb(15 23 42 / 45%);
-  --color-modal-bg: #ffffff;
-  --color-modal-close: #6b7280;
+  --color-modal-bg: #FFFFFF;
+  --color-modal-close: #6B7280;
 
   /* sidebar */
-  --color-sidebar-item-active: #eef2ff;
-  --color-sidebar-item-active-text: #6366f1;
-  --color-sidebar-logo-bg: #6366f1;
-  --color-sidebar-avatar-bg: #6366f1;
-  --color-sidebar-bg: #ffffff;
-  --color-sidebar-icon: #9ca3af;
-  --color-sidebar-btn: #9ca3af;
-  --color-sidebar-divider-bg: #e5e5e5;
+  --color-sidebar-text: #374151;
+  --color-sidebar-section-text: #9CA3AF;
+  --color-sidebar-group-text: #374151;
+  --color-sidebar-group-bg: #F9FAFB;
+  --color-sidebar-item-active: #EEF2FF;
+  --color-sidebar-item-active-text: #6366F1;
+  --color-sidebar-link: #374151;
+  --color-sidebar-link-bg: #F9FAFB;
+  --color-sidebar-logo-bg: #6366F1;
+  --color-sidebar-avatar-bg: #6366F1;
+  --color-sidebar-bg: #FFFFFF;
+  --color-sidebar-icon: #9CA3AF;
+  --color-sidebar-btn: #9CA3AF;
+  --color-sidebar-divider-bg: #E5E5E5;
+  --color-sidebar-section-bg-hover: #F9FAFB;
+  --color-sidebar-button: #9CA3AF;
 
   /* project */
-  --color-project-default: #6366f1;
-  --color-version-card-title: #1f2937;
+  --color-project-default: #6366F1;
+  --color-version-card-title: #1F2937;
   --color-version-card-selected-bg: color-mix(in srgb, var(--color-primary) 8%, transparent);
   --color-version-card-selected-border: color-mix(in srgb, var(--color-primary) 30%, transparent);
   --color-version-card-hover-bg: color-mix(in srgb, var(--color-primary) 4%, transparent);
@@ -49,121 +57,119 @@
   /* button */
 
   /* filled */
-  --color-button-filled-bg: #6366f1;
-  --color-button-filled-bg-hover: #4f52dd;
-  --color-button-filled-bg-active: #4346c8;
-  --color-button-filled-text: #ffffff;
-  --color-button-filled-disabled-bg: #d1d5db;
+  --color-button-filled-bg: #6366F1;
+  --color-button-filled-bg-hover: #4F52DD;
+  --color-button-filled-bg-active: #4346C8;
+  --color-button-filled-text: #FFFFFF;
+  --color-button-filled-disabled-bg: #D1D5DB;
 
   /* outline */
-  --color-button-outline-border: #d1d5db;
+  --color-button-outline-border: #D1D5DB;
   --color-button-outline-text: #374151;
 
-  --color-button-outline-hover-border: #9ca3af;
+  --color-button-outline-hover-border: #9CA3AF;
   --color-button-outline-hover-text: #374151;
 
-  --color-button-outline-active-border: #d1d5db;
+  --color-button-outline-active-border: #D1D5DB;
   --color-button-outline-active-text: #111827;
-  --color-button-outline-active-bg: #f3f4f6;
+  --color-button-outline-active-bg: #F3F4F6;
 
-  --color-button-outline-disabled-border: #e5e7eb;
+  --color-button-outline-disabled-border: #E5E7EB;
   --color-button-outline-disabled-text: #111827;
-  --color-button-outline-disabled-bg: #f9fafb;
+  --color-button-outline-disabled-bg: #F9FAFB;
 
   /* clear */
   --color-button-clear-text: #374151;
 
   /* button danger */
-  --color-button-danger-bg: #ef4444;
-  --color-button-danger-border: #ef4444;
-  --color-button-danger-text: #ef4444;
+  --color-button-danger-bg: #EF4444;
+  --color-button-danger-border: #EF4444;
+  --color-button-danger-text: #EF4444;
 
   /* button success */
-  --color-button-success-bg: #10b981;
-  --color-button-success-border: #10b981;
-  --color-button-success-text: #10b981;
+  --color-button-success-bg: #10B981;
+  --color-button-success-border: #10B981;
+  --color-button-success-text: #10B981;
 
   /*  Search Input  */
-  --color-search-icon: #9ca3af;
+  --color-search-icon: #9CA3AF;
 
   /*  Table  */
-  --color-table-bg: #ffffff;
+  --color-table-bg: #FFFFFF;
 
   /* other */
-  --color-text-avatar: #ffffff;
-  --color-card: #ffffff;
-  --color-text-area: #ffffff;
-  --color-bubble: #ffffff;
+  --color-text-avatar: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-text-area: #FFFFFF;
+  --color-bubble: #FFFFFF;
   --color-bubble-shadow: #11182714;
-  --color-comment-text: #1f2937;
-  --color-page-emoji: #1f2937;
-  --color-header-icon-button: #6b7280;
-  --color-editor-text: #1f2937;
-  --color-comment-meta: #9ca3af;
+  --color-comment-text: #1F2937;
+  --color-page-emoji: #1F2937;
+  --color-header-icon-button: #6B7280;
+  --color-editor-text: #1F2937;
+  --color-comment-meta: #9CA3AF;
 
   /* fonts */
   --font-sans: 'Inter';
 
   /* auth */
-  --color-promo-auth-title: #ffffff;
-  --color-panel-auth-title: #1f2937;
-  --color-promo-auth-description: #ffffffbf;
-  --color-panel-auth-description: #6b7280;
-  --color-advantage-circle: #ffffffcc;
-  --color-advantage-text: #ffffffd9;
+  --color-promo-auth-title: #FFFFFF;
+  --color-panel-auth-title: #1F2937;
+  --color-promo-auth-description: #FFFFFFBF;
+  --color-panel-auth-description: #6B7280;
+  --color-advantage-circle: #FFFFFFCC;
+  --color-advantage-text: #FFFFFFD9;
 
-  --color-tab-base: #ffffff73;
-  --color-tab-active: #ffffffd9;
-  --color-bg-tab-active: #ffffff26;
+  --color-tab-base: #FFFFFF73;
+  --color-tab-active: #FFFFFFD9;
+  --color-bg-tab-active: #FFFFFF26;
 
-  --color-bg-demo: #ffffff0f;
-  --color-border-demo: #ffffff1f;
+  --color-bg-demo: #FFFFFF0f;
+  --color-border-demo: #FFFFFF1f;
 
-  --color-circle-red: #ef4444b2;
-  --color-circle-yellow: #f59e0bb2;
-  --color-circle-green: #10b981b2;
-  --color-last-edited: #ffffff66;
-  --color-demo-task-text-checked: #ffffff8c;
-  --color-demo-task-text-base: #ffffff59;
-  --color-bg-checked-task: #ffffff0f;
+  --color-circle-red: #EF4444b2;
+  --color-circle-yellow: #F59E0Bb2;
+  --color-circle-green: #10B981b2;
+  --color-last-edited: #FFFFFF66;
+  --color-demo-task-text-checked: #FFFFFF8c;
+  --color-demo-task-text-base: #FFFFFF59;
+  --color-bg-checked-task: #FFFFFF0f;
 
-  --color-divider-addon: #e5e7eb;
-  --color-divider-text: #9ca3af;
+  --color-divider-addon: #E5E7EB;
+  --color-divider-text: #9CA3AF;
 
-  --color-bg-github-button: #1f2937;
-  --color-github-icon: #ffffff;
-  --color-google-icon: #1f2937;
+  --color-bg-github-button: #1F2937;
+  --color-github-icon: #FFFFFF;
+  --color-google-icon: #1F2937;
 
-  --color-logo-white: #ffffff;
-  --color-app-grade: #ffffffb2;
-  --color-grade-star: #fbbf24;
+  --color-logo-white: #FFFFFF;
+  --color-app-grade: #FFFFFFb2;
+  --color-grade-star: #FBBF24;
 
   /* Checkbox */
-  --color-checkbox-label: #1f2937;
-  --color-checkbox-checked: #6b7280;
-  --color-checkbox-disabled: #6b7280;
+  --color-checkbox-label: #1F2937;
+  --color-checkbox-checked: #6B7280;
+  --color-checkbox-disabled: #6B7280;
 
   /* Context Menu */
-  --color-context-menu-hover-bg: #fef2f2;
-  --color-context-menu-divider-bg: #e0e0e0;
+  --color-context-menu-hover-bg: #FEF2F2;
+  --color-context-menu-divider-bg: #E0E0E0;
   --color-context-menu-shadow: rgba(0, 0, 0, 0.15);
 
   /* IconPicker */
-  --color-icon-picker-button: #f7f7f5;
-  --color-active-icon-picker-button: #e8f0fe;
+  --color-icon-picker-button: #F7F7F5;
+  --color-active-icon-picker-button: #E8f0FE;
 
   /* ColorPicker */
-  --color-color-picker-blue: #4285f4;
-  --color-color-picker-green: #34a853;
-  --color-color-picker-yellow: #fbbc05;
-  --color-color-picker-purple: #9c2780;
-  --color-color-picker-dark-green: #607d8b;
-  --color-color-picker-white: #ffffff;
+  --color-color-picker-blue: #4285F4;
+  --color-color-picker-green: #34A853;
+  --color-color-picker-yellow: #fBBC05;
+  --color-color-picker-purple: #9C2780;
+  --color-color-picker-dark-green: #607D8B;
+  --color-color-picker-white: #FFFFFF;
 
   /* ProjectFormModal */
-  --color-project-form-input-bg: #e5e5e5;
-  --color-project-form-text: #1a1a1a;
-  --color-project-form-icon: #787774;
+  --color-project-form-input-bg: #F7F7F5;
   --color-project-form-label: #787774;
 
   /* WorkspaceModal */
@@ -171,12 +177,9 @@
   --color-workspace-modal-icon: #787774;
 
   /* Modal */
-  --color-modal-button-bg: #2383e2;
-  --color-modal-button-text: #ffffff;
+  --color-modal-button-bg: #2383E2;
+  --color-modal-button-text: #FFFFFF;
   --color-modal-close-button: #787774;
-
-  /* fonts */
-  --font-sans: 'Inter';
 
   /* z-index */
   --z-index-dropdown: 500;
@@ -185,32 +188,29 @@
   --z-index-modal: 1001;
   /* NotFound */
 
-  --color-not-found-title: #0f172a;
-  --color-not-found-subtitle: #1f2937;
-  --color-not-found-description: #6b7280;
+  --color-not-found-title: #0F172A;
+  --color-not-found-description: #6B7280;
 
-  --color-not-found-button-text: #ffffff;
-
-  --color-bg-badge: #ede9fe;
-  --color-badge-text: #6366f1;
+  --color-bg-badge: #EDE9FE;
+  --color-badge-text: #6366F1;
 
   /* ErrorCard */
   --color-bg-error-card-header: #ffffff;
   --color-bg-circle-warning: #f97316;
   /* Badge */
-  --color-badge-verified: #10b981;
+  --color-badge-verified: #10B981;
   --color-badge-verified-rgb: 16, 185, 129;
   --color-badge-bg-verified: rgba(var(--color-badge-verified-rgb), 0.1);
 
-  --color-badge-pending: #f59e0b;
+  --color-badge-pending: #F59E0B;
   --color-badge-pending-rgb: 245, 158, 11;
   --color-badge-bg-pending: rgba(var(--color-badge-pending-rgb), 0.1);
 
-  --color-badge-failed: #ef4444;
+  --color-badge-failed: #EF4444;
   --color-badge-failed-rgb: 239, 68, 68;
   --color-badge-bg-failed: rgba(var(--color-badge-failed-rgb), 0.1);
 
-  --color-badge-new: #6366f1;
+  --color-badge-new: #6366F1;
   --color-badge-new-rgb: 99, 102, 241;
   --color-badge-bg-new: rgba(var(--color-badge-new-rgb), 0.1);
 
@@ -218,7 +218,7 @@
   --color-badge-draft-rgb: 55, 65, 81;
   --color-badge-bg-draft: rgba(var(--color-badge-draft-rgb), 0.1);
 
-  --color-badge-connected: #10b981;
+  --color-badge-connected: #10B981;
   --color-badge-connected-rgb: 16, 185, 129;
   --color-badge-bg-connected: rgba(var(--color-badge-connected-rgb), 0.1);
 

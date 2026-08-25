@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useState } from 'react';
-import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
-import styles from './SidebarItem.module.css';
-import { SidebarItem } from './SidebarItem';
+import { SidebarItem as SidebarItemType } from '../../../../model';
+import styles from './SidebarSection.module.css';
+import { SidebarItem } from '../../SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
