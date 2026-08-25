@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import styles from '@/app/layout.module.css';
-import { settingsNavItems } from '@/widgets/settings/nav';
+import { settingsNavItems } from '@/widgets/settings-profile';
 import { Typography } from '@/shared/ui/Typography';
 
 interface SettingsSectionRouteProps {

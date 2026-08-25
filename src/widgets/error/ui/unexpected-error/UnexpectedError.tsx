@@ -1,9 +1,9 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { ErrorBadge } from './ErrorBadge/ErrorBadge';
+import { ErrorBadge } from './error-badge/ErrorBadge';
 import { ErrorPage } from '../ErrorPage';
-import { ErrorDetails } from './ErrorDetails/ErrorDetails';
+import { ErrorDetails } from './error-details/ErrorDetails';
 import styles from '../ErrorPage.module.css';
 import UnexpectedErrorIcon from '@shared/assets/icons/unknown-error-page.svg';
 import { Typography } from '@shared/ui/Typography';

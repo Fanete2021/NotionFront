@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { NavLink } from '@shared/ui/NavLink/NavLink';
+import { NavLink } from '@shared/ui/nav-link/NavLink';
 import PersonIcon from '@shared/assets/icons/person.svg';
 import '@shared/styles/global.css';
 

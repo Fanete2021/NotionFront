@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
-import { SettingsNav } from './SettingsNav';
+import { SettingsProfileNav } from './SettingsProfileNav';
 
 const meta = {
-  title: 'Widgets/settings/SettingsNav',
-  component: SettingsNav,
+  title: 'Widgets/settings-profile/SettingsProfileNav',
+  component: SettingsProfileNav,
   parameters: {
     layout: 'fullscreen',
   },
@@ -14,7 +14,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof SettingsNav>;
+} satisfies Meta<typeof SettingsProfileNav>;
 
 export default meta;
 

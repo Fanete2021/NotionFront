@@ -3,16 +3,16 @@
 import { FC } from 'react';
 import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
-import styles from './SettingsNav.module.css';
-import { settingsNavItems } from './navItems';
+import styles from './SettingsProfileNav.module.css';
+import { settingsNavItems } from '../../model/navItems';
 import { Typography } from '@/shared/ui/Typography';
-import { NavLink } from '@/shared/ui/NavLink';
+import { NavLink } from '@/shared/ui/nav-link';
 
-interface SettingsNavProps {
+interface SettingsProfileNavProps {
   className?: string;
 }
 
-export const SettingsNav: FC<SettingsNavProps> = ({ className }) => {
+export const SettingsProfileNav: FC<SettingsProfileNavProps> = ({ className }) => {
   const pathname = usePathname();
 
   return (
