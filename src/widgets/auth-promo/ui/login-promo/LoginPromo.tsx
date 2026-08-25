@@ -1,5 +1,5 @@
 import styles from './LoginPromo.module.css';
-import { PromoAdvantages } from '@widgets/auth-promo/ui/promo-advantages/PromoAdvantages';
+import { PromoAdvantages } from '../promo-advantages/PromoAdvantages';
 import { AppDemo } from './app-demo/AppDemo';
 import { AuthSectionHeader } from '@shared/ui/auth';
 

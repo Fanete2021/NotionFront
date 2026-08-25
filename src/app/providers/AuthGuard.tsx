@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { selectSessionStatus } from '../store';
 import { useGetMeQuery } from '@entities/user';
-import { selectSessionStatus } from '@shared/api';
 import { useAppSelector } from '@/shared/lib';
 
 type AuthGuardProps = {

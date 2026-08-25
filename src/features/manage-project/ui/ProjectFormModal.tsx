@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import styles from './ProjectFormModal.module.css';
 import {
   closeCreateProjectModal,
@@ -11,9 +11,9 @@ import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/p
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { ColorPicker } from '@/shared/ui/ColorPicker/ColorPicker';
+import { ColorPicker } from '@/shared/ui/ColorPicker';
 import { Colors } from '@/shared/const/colors';
-import { IconPicker } from '@/shared/ui/IconPicker/IconPicker';
+import { IconPicker } from '@/shared/ui/IconPicker';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 
 interface ProjectFormModalProps {
@@ -81,14 +81,14 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     }
   }, [isOpen, mode, currentName, currentColor, currentIcon]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (mode === 'create') {
       dispatch(closeCreateProjectModal());
     } else {
       dispatch(closeEditProjectModal());
     }
     setError(null);
-  };
+  }, [mode, dispatch]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +147,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
           <label htmlFor="projectName" className={styles.label}>
-            Название проекта
+            Название
           </label>
           <Input
             id="projectName"

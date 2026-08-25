@@ -1,37 +1,50 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 25px;
+  gap: 15px;
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-right: 2px;
+
+    .submitButton {
+      color: var(--color-modal-button-text);
+      background-color: var(--color-modal-button-bg);
+    }
+
+    .submitButton,
+    .cancelButton {
+      border-radius: 6px;
+      width: 80px;
+      height: 32px;
+    }
+  }
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
   padding-right: 6px;
+
+  .input {
+    height: 36px;
+    background-color: var(--color-project-form-input-bg);
+  }
 }
 
 .label {
   font-size: 12px;
   font-weight: 400;
   color: var(--color-project-form-label);
-  font-family: var(--font-sans);
+  font-family: var(--font-sans) sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .error {
   font-size: 13px;
   color: var(--color-danger);
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding-right: 2px;
-
-  .submitButton {
-    color: var(--color-modal-button-text);
-    background-color: var(--color-modal-button-bg);
-  }
 }

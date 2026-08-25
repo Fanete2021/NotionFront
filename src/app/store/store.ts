@@ -1,10 +1,10 @@
 import { combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { sessionReducer } from './slices/sessionSlice';
 import { WorkspaceModalsState } from '@/features/switch-workspace';
 import { ProjectModalsState } from '@/features/manage-project';
 import { DocumentModalsState } from '@/features/create-document';
 import { currentWorkspaceReducer } from '@/entities/workspace';
+import { sessionReducer } from '@shared/api';
 import { baseApi } from '@shared/api/baseApi';
 
 const staticReducers = {

@@ -24,51 +24,51 @@
   height: var(--checkbox-size, 20px);
   align-items: center;
   justify-content: center;
-  border: 1px solid #d1d5db;
+  border: 1px solid #D1D5DB;
   border-radius: 4px;
   background-color: white;
   color: white;
   cursor: pointer;
 
   &:hover:not([data-disabled]):not([data-checked]) {
-    border-color: #9ca3af;
-    background-color: #f9fafb;
+    border-color: #9CA3AF;
+    background-color: #F9FAFB;
   }
 
   &[data-checked]:hover:not([data-disabled]) {
-    background-color: #4f46e5;
+    background-color: #4F46E5;
   }
 
   &:not([data-disabled]):not([data-checked]):active {
-    background-color: #e5e7eb;
+    background-color: #E5E7EB;
   }
 
   &[data-checked]:not([data-disabled]):active {
-    background-color: #4338ca;
+    background-color: #4338CA;
   }
 
   &:focus-visible {
-    outline: 2px solid #6366f1;
+    outline: 2px solid #6366F1;
     outline-offset: 2px;
   }
 
   &[data-checked] {
-    background-color: #6366f1;
+    background-color: #6366F1;
     color: white;
   }
 
   &[data-disabled] {
     cursor: not-allowed;
-    background-color: #f3f4f6;
-    border-color: #e5e7eb;
+    background-color: #F3F4F6;
+    border-color: #E5E7EB;
   }
 
   &[data-required] {
-    border-color: #f59e0b;
+    border-color: #F59E0B;
   }
 
   &[data-required][data-checked] {
-    border-color: #e5e7eb;
+    border-color: #E5E7EB;
   }
 }
 
