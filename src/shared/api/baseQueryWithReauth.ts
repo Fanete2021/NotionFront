@@ -1,9 +1,7 @@
 import { fetchBaseQuery, FetchBaseQueryArgs } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
-// eslint-disable-next-line
-import { loggedOut, selectAccessToken, setAccessToken } from '@/app/store';
-import { baseApi } from '@shared/api/baseApi';
+import { loggedOut, selectAccessToken, setAccessToken } from './sessionSlice';
 
 type ReauthExtraOptions = {
   requiresAuth?: boolean;
@@ -66,7 +64,6 @@ export const baseQueryWithReauth: BaseQueryFn<
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(loggedOut());
-          api.dispatch(baseApi.util.resetApiState());
         }
       } finally {
         release();

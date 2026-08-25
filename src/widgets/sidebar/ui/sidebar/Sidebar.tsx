@@ -2,11 +2,12 @@
 
 import { FC, useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-import { SidebarItem } from '../SidebarItem/SidebarItem';
+import { SidebarItem } from '../sidebar-item/SidebarItem';
 import styles from './Sidebar.module.css';
-import { UserProfile } from '../UserProfile/UserProfile';
+import { UserProfile } from '../user-profile/UserProfile';
 import { staticSidebarItems } from '../../model/staticItems';
 import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
+import { SidebarSkeleton } from '../sidebar-skeleton/SidebarSkeleton';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
@@ -77,7 +78,7 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
   const handleSearch = () => {};
 
   if (workspacesLoading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+    return <SidebarSkeleton />;
   }
 
   return (

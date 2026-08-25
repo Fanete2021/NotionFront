@@ -221,4 +221,30 @@
   --color-badge-connected: #10b981;
   --color-badge-connected-rgb: 16, 185, 129;
   --color-badge-bg-connected: rgba(var(--color-badge-connected-rgb), 0.1);
+
+  /* Skeleton */
+  --color-skeleton-base: #e5e7eb;
+  --color-skeleton-shimmer: #d1d5db;
+
+  /* IviteLink */
+  --color-invite-link-icon: #787774;
+  --color-invite-link-border: #e8e8e4;
+  --color-invite-link-bg: #f7f7f5;
+  --color-invite-link-delete-button: #e53e3e;
+  --color-invite-link-info: #787774;
+  --color-invite-link-info-bg: #f2f2f0;
+  --color-invite-link-add-link-btn-border: #4b47e5;
+  --color-invite-link-add-link-btn-text: #4b47e5;
+  --color-invite-link-url: #787774;
+
+  /* MembersList */
+  --color-members-list-name: #1a1a1a;
+  --color-members-list-email: #787774;
+
+  /* WorkspaceMembersHeader */
+  --color-workspace-members-header: #6b7280;
+  --color-workspace-members-header-border: #e8e8e4;
+
+  /* WorkspaceInfo */
+  --color-workspace-info-title: #1a1a1a;
 }
