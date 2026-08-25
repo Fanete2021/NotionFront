@@ -1,8 +1,8 @@
-import { SidebarItem as SidebarItemType } from '../../model';
+import { SidebarItem as SidebarItemType } from '../../model/types/sidebar';
 import { SidebarDivider } from './components/divider/SidebarDivider';
-import { SidebarLink } from './components/link/SidebarLink';
 import { SidebarSection } from './components/section/SidebarSection';
 import { SidebarGroup } from './components/group/SidebarGroup';
+import { SidebarLink } from './components/link/SidebarLink';
 
 interface SidebarItemProps {
   item: SidebarItemType;

@@ -33,7 +33,7 @@
   }
 }
 
-.dropdownRotated svg{
+.dropdownRotated svg {
   transform: rotate(-90deg);
 }
 
@@ -70,14 +70,19 @@
 
   background-color: var(--color-bg-muted);
 
-  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+  transition:
+    grid-template-rows 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .hidden {
   grid-template-rows: 0fr;
   opacity: 0;
   visibility: hidden;
-  transition: grid-template-rows 0.3s ease 0.1s, opacity 0.2s ease, visibility 0.3s;
+  transition:
+    grid-template-rows 0.3s ease 0.1s,
+    opacity 0.2s ease,
+    visibility 0.3s;
 }
 
 .visible {
@@ -90,7 +95,7 @@
   overflow: hidden;
 }
 
-.contentBody{
+.contentBody {
   display: flex;
   flex-direction: column;
   row-gap: 6px;
@@ -146,3 +151,9 @@
   font-size: 11px;
   line-height: 17px;
 }
+<<<<<<< HEAD
+=======
+
+.visible {
+}
+>>>>>>> main

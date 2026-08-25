@@ -2,10 +2,11 @@
 
 import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-import { SidebarItem } from '../sidebar-item/SidebarItem';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
 import { SidebarItem as SidebarItemType, staticSidebarItems } from '../../model';
+import { SidebarSkeleton } from '@/widgets/sidebar/ui/sidebar-skeleton/SidebarSkeleton';
+import { SidebarItem } from '@/widgets/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
@@ -76,7 +77,7 @@ export function Sidebar({ className }: SidebarProps) {
   const handleSearch = () => {};
 
   if (workspacesLoading) {
-    return <div className={styles.loading}>Загрузка...</div>;
+    return <SidebarSkeleton />;
   }
 
   return (

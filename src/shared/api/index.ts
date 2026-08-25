@@ -1,10 +1,9 @@
 export { baseApi } from './baseApi';
-
 export {
   sessionReducer,
   setAccessToken,
   loggedOut,
+  selectAccessToken,
   selectSessionStatus,
-} from '../../app/store/slices/sessionSlice';
-
+} from './sessionSlice';
 export { baseQueryWithReauth } from './baseQueryWithReauth';

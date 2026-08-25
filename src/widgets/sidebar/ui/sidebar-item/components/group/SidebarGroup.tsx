@@ -2,9 +2,9 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { SidebarItem as SidebarItemType } from '../../../../model';
-import { SidebarItem } from '../../SidebarItem';
 import styles from './SidebarGroup.module.css';
 import { renderIcon } from '../../utils';
+import { SidebarItem } from '@/widgets/sidebar';
 import { openCreateDocumentModal } from '@/features/create-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
