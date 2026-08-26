@@ -7,6 +7,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import classNames from 'classnames';
 import { useState } from 'react';
+import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
 import { SlashCommands } from '@features/text-editor/lib/slash-commands';
 import { Button } from '@shared/ui/Button';
@@ -37,6 +38,12 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
           openOnClick: false,
         },
       }),
+
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
+
       SlashCommands,
       TextStyle,
       Color,

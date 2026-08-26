@@ -247,4 +247,9 @@
 
   /* WorkspaceInfo */
   --color-workspace-info-title: #1a1a1a;
+
+  /* EditorMenu */
+  --color-editor-menu-title: #1F2937;
+  --color-editor-shadow: #0000001F;
+  --color-editor-item-active: #EEF2FF;
 }
