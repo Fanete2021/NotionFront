@@ -1,0 +1,19 @@
+.notFoundDescription {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 6px;
+
+  text-align: center;
+  color: var(--color-not-found-description);
+}
+
+.notFoundTitle {
+  font-size: 96px;
+  line-height: 96px;
+  color: var(--color-not-found-title);
+}
+
+.pageSearch {
+  max-width: 340px;
+}
