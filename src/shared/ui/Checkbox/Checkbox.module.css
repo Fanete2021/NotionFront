@@ -1,81 +1,83 @@
 .label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: 500;
-  color: var(--color-checkbox-label, var(--color-demo-task-text-base));
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--color-checkbox-label, var(--color-demo-task-text-base));
 }
 
 .label:has(.checkbox[data-checked]) {
-  color: var(--color-checkbox-checked, var(--color-demo-task-text-checked));
+    color: var(--color-checkbox-checked, var(--color-demo-task-text-checked));
 }
 
 .label:has(.checkbox[data-disabled]) {
-  color: var(--color-checkbox-disabled, var(--color-demo-task-text-base));
+    color: var(--color-checkbox-disabled, var(--color-demo-task-text-base));
 }
 
 .checkbox {
-  box-sizing: border-box;
-  display: flex;
-  flex-shrink: 0;
-  width: var(--checkbox-size, 16px);
-  height: var(--checkbox-size, 16px);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background-color: white;
-  color: white;
-  cursor: pointer;
-
-  &:hover:not([data-disabled]):not([data-checked]) {
-    border-color: #9ca3af;
-    background-color: #f9fafb;
-  }
-
-  &[data-checked]:hover:not([data-disabled]) {
-    background-color: #4f46e5;
-  }
-
-  &:not([data-disabled]):not([data-checked]):active {
-    background-color: #e5e7eb;
-  }
-
-  &[data-checked]:not([data-disabled]):active {
-    background-color: #4338ca;
-  }
-
-  &:focus-visible {
-    outline: 2px solid #6366f1;
-    outline-offset: 2px;
-  }
-
-  &[data-checked] {
-    background-color: #6366f1;
+    box-sizing: border-box;
+    display: flex;
+    flex-shrink: 0;
+    width: var(--checkbox-size, 16px);
+    height: var(--checkbox-size, 16px);
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: white;
     color: white;
-  }
+    cursor: pointer;
 
-  &[data-disabled] {
-    cursor: not-allowed;
-    background-color: #f3f4f6;
-    border-color: #e5e7eb;
-  }
+    &:hover:not([data-disabled]):not([data-checked]) {
+        border-color: #9ca3af;
+        background-color: #f9fafb;
+    }
 
-  &[data-required] {
-    border-color: #f59e0b;
-  }
+    &[data-checked]:hover:not([data-disabled]) {
+        background-color: #4f46e5;
+    }
 
-  &[data-required][data-checked] {
-    border-color: #e5e7eb;
-  }
+    &:not([data-disabled]):not([data-checked]):active {
+        background-color: #e5e7eb;
+    }
+
+    &[data-checked]:not([data-disabled]):active {
+        background-color: #4338ca;
+    }
+
+    &:focus-visible {
+        outline: 2px solid #6366f1;
+        outline-offset: 2px;
+    }
+
+    &[data-checked] {
+        background-color: #6366f1;
+        color: white;
+    }
+
+    &[data-disabled] {
+        cursor: not-allowed;
+        background-color: #f3f4f6;
+        border-color: #e5e7eb;
+    }
+
+    &[data-required] {
+        border-color: #f59e0b;
+    }
+
+    &[data-required][data-checked] {
+        border-color: #e5e7eb;
+    }
 }
 
 .indicator {
-  display: flex;
+    display: flex;
+    width: 10px;
+    height: 10px;
 
-  &[data-unchecked] {
-    display: none;
-  }
+    &[data-unchecked] {
+        display: none;
+    }
 }
