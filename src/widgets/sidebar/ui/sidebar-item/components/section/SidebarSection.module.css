@@ -1,0 +1,53 @@
+.section {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.sectionHeader {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 8px;
+  color: var(--color-sidebar-section-text);
+  width: 100%;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.sectionHeader:hover {
+  background: var(--color-sidebar-section-bg-hover);
+}
+
+.sectionTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-sidebar-section-text);
+}
+
+.plusButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.plusIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-sidebar-button);
+}

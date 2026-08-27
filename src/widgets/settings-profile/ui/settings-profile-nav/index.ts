@@ -1,0 +1,1 @@
+export { SettingsProfileNav } from './SettingsProfileNav';

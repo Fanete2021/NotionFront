@@ -1,8 +1,7 @@
 'use client';
 
 import styles from './Project.module.css';
-import { ProjectWorkspace } from '@widgets/project/workspace';
-import { ProjectDocument } from '@widgets/project/document';
+import { ProjectWorkspace, ProjectDocument } from '@/widgets/project';
 import { Typography } from '@shared/ui/Typography';
 
 export const ProjectPage = () => {

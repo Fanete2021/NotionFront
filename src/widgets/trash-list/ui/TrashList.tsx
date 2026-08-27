@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import styles from './TrashList.module.css';
 import { trashListColumns } from '@/widgets/trash-list/ui/TrashListColumns';
 import { trashItems } from '../model/mock.api';
@@ -16,12 +16,12 @@ export const TrashList = () => {
     setSearch(text);
   };
 
-  const filteredItems = useMemo(() => {
+  const filteredItems = () => {
     const value = search.toLowerCase();
     return trashItems.filter(
       (item) => item.title.toLowerCase().includes(value) || item.path.toLowerCase().includes(value),
     );
-  }, [search]);
+  };
 
   return (
     <section className={styles.wrapper}>
@@ -38,7 +38,7 @@ export const TrashList = () => {
       </div>
       <Table
         columns={trashListColumns}
-        data={filteredItems}
+        data={filteredItems()}
         rowKey={'id'}
         className={styles.table}
       />

@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   width: 162px;
   height: 118px;
-  margin-bottom: 54px;
+  margin-bottom: 50px;
 
   .selected {
     background: var(--color-active-icon-picker-button);

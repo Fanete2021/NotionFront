@@ -1,0 +1,42 @@
+.link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  color: var(--color-text-body);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.link:hover {
+  background: var(--color-bg-surface);
+}
+
+.link.active {
+  background: var(--color-sidebar-item-active);
+  color: var(--color-sidebar-item-active-text);
+}
+
+.addonLeft {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.addonLeft svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

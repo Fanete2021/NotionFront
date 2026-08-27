@@ -9,7 +9,10 @@ import { baseApi } from '@/shared/api/baseApi';
 export const projectApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProjectsByWorkspace: builder.query<Project[], string>({
-      query: (workspaceId) => `/workspaces/${workspaceId}/projects`,
+      query: (workspaceId) => ({
+        url: `/workspaces/${workspaceId}/projects`,
+        extraOptions: { requiresAuth: true },
+      }),
       providesTags: (result, error, workspaceId) =>
         result
           ? [
@@ -20,7 +23,10 @@ export const projectApi = baseApi.injectEndpoints({
     }),
 
     getProjectById: builder.query<Project, string>({
-      query: (id) => `/projects/${id}`,
+      query: (id) => ({
+        url: `/projects/${id}`,
+        extraOptions: { requiresAuth: true },
+      }),
       providesTags: (result, error, id) => [{ type: 'Project', id }],
     }),
 
@@ -29,6 +35,7 @@ export const projectApi = baseApi.injectEndpoints({
         url: `/workspaces/${workspaceId}/projects`,
         method: 'POST',
         body: data,
+        extraOptions: { requiresAuth: true },
       }),
       invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'Project', id: `WORKSPACE_${workspaceId}` },
@@ -40,6 +47,7 @@ export const projectApi = baseApi.injectEndpoints({
         url: `/projects/${id}`,
         method: 'PATCH',
         body: data,
+        extraOptions: { requiresAuth: true },
       }),
       invalidatesTags: (result, error, { id }) => [
         { type: 'Project', id },
@@ -51,6 +59,7 @@ export const projectApi = baseApi.injectEndpoints({
       query: (id) => ({
         url: `/projects/${id}`,
         method: 'DELETE',
+        extraOptions: { requiresAuth: true },
       }),
       invalidatesTags: (result, error, id) => [
         { type: 'Project', id },
@@ -64,6 +73,7 @@ export const projectApi = baseApi.injectEndpoints({
           url: `/workspaces/${workspaceId}/projects/order`,
           method: 'PATCH',
           body: data,
+          extraOptions: { requiresAuth: true },
         }),
         invalidatesTags: (result, error, { workspaceId }) => [
           { type: 'Project', id: `WORKSPACE_${workspaceId}` },
