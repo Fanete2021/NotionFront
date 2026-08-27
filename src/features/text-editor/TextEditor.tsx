@@ -5,11 +5,13 @@ import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
+import { TextSelection } from '@tiptap/pm/state';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
-import { SlashCommands } from '@features/text-editor/lib/slash-commands';
+import { SlashCommands } from './lib/slash-commands';
+import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
 import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
@@ -48,6 +50,7 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
       TextStyle,
       Color,
       Image,
+      ImageUploadNode,
     ],
     content,
     immediatelyRender: false,
@@ -93,12 +96,19 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
+  const handleShouldShow = () => {
+    const isTextSelection = editor?.state instanceof TextSelection;
+    const isNotEmpty = !editor?.state.selection.empty;
+
+    return isTextSelection && isNotEmpty;
+  };
+
   const currentColor = activeMarks?.color ?? null;
 
   return (
     <div className={styles.root}>
       {editor && (
-        <BubbleMenu editor={editor} className={styles.bubble}>
+        <BubbleMenu editor={editor} className={styles.bubble} shouldShow={handleShouldShow}>
           <Button
             type="button"
             variant="clear"

@@ -55,11 +55,7 @@ export const items: SlashItem[] = [
     title: 'Изображение ',
     subtitle: 'Загрузите или вставьте картинку',
     execute: ({ editor }) => {
-      const url = window.prompt('Введите URL-адрес изображения:');
-
-      if (url) {
-        editor?.chain().focus().setImage({ src: url }).run();
-      }
+      editor.chain().focus().insertContent({ type: 'imageUpload' }).run();
     },
     icon: EditorImage,
   },

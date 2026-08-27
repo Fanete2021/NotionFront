@@ -31,7 +31,7 @@ export const SlashCommands = Extension.create({
 
             component.updateProps({
               items: currentProps.items,
-              commands: currentProps.command,
+              command: currentProps.command,
               selectedIndex,
               onSelectedIndexChange: (index: number) => {
                 selectedIndex = index;
