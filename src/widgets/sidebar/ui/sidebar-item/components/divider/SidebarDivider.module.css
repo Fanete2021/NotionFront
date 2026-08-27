@@ -1,0 +1,6 @@
+.divider {
+  height: 1px;
+  width: 100%;
+  margin: 8px 0;
+  background-color: var(--color-sidebar-divider-bg);
+}

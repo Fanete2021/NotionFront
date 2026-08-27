@@ -7,13 +7,6 @@
   width: fit-content;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
 .badge .text {
   color: inherit;
 }
@@ -22,32 +15,26 @@
   color: var(--color-badge-verified);
   background-color: var(--color-badge-bg-verified);
 }
-
 .pending {
   color: var(--color-badge-pending);
   background-color: var(--color-badge-bg-pending);
 }
-
 .failed {
   color: var(--color-badge-failed);
   background-color: var(--color-badge-bg-failed);
 }
-
 .new {
   color: var(--color-badge-new);
   background-color: var(--color-badge-bg-new);
 }
-
 .draft {
   color: var(--color-badge-draft);
   background-color: var(--color-badge-bg-draft);
 }
-
 .connected {
   color: var(--color-badge-connected);
   background-color: var(--color-badge-bg-connected);
 }
-
 .connected .dot {
   background-color: var(--color-badge-connected);
 }

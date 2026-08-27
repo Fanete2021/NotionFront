@@ -1,0 +1,47 @@
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-sidebar-bg);
+  border-right: 1px solid var(--color-border-base);
+  padding: 0;
+  overflow: hidden;
+}
+
+.workspaceSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  min-height: 56px;
+}
+
+.searchSkeleton {
+  margin: 0 12px 14px 12px;
+}
+
+.navigation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 12px;
+  gap: 6px;
+}
+
+.profileSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border-base);
+  min-height: 66px;
+}
+
+.userInfoSkeleton {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}

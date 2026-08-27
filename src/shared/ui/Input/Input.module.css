@@ -6,7 +6,7 @@
   border: 1px solid var(--color-border-strong);
   width: 100%;
   transition: border-color 0.2s ease;
-  background: #ffffff;
+  background: #FFFFFF;
   gap: 8px;
 
   &.filled {
@@ -51,11 +51,11 @@
   padding: 0;
 
   &::placeholder {
-    color: #9ca3af;
+    color: #9CA3AF;
   }
 
   .disabled & {
-    color: #9ca3af;
+    color: #9CA3AF;
     cursor: not-allowed;
   }
 }
