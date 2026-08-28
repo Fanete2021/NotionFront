@@ -17,6 +17,8 @@ import Lock from '@shared/assets/icons/lock.svg';
 import Person from '@shared/assets/icons/person.svg';
 import Lightning from '@shared/assets/icons/lightning.svg';
 import Eye from '@shared/assets/icons/eye.svg';
+import { getErrorMessage } from '@/shared/utils/errorUtils';
+import { Typography } from '@/shared/ui/Typography';
 
 interface RegistrationFormValues {
   name: string;
@@ -39,7 +41,7 @@ export const RegistrationForm = () => {
       resolver: zodResolver(registerUserSchema),
     });
   const router = useRouter();
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading, error: mutationError }] = useRegisterMutation();
   const { readRegistrationDraft, clearRegistrationDraft, saveRegistrationDraft } =
     useRegistrationDraft();
 
@@ -104,6 +106,10 @@ export const RegistrationForm = () => {
 
     return unsubscribe;
   }, [readRegistrationDraft, reset, saveRegistrationDraft, subscribe]);
+
+  const errorMessage = mutationError ? getErrorMessage(mutationError) : null;
+  const isConflictError = isFetchBaseQueryError(mutationError) && mutationError.status === 409;
+  const showGlobalError = errorMessage && !isConflictError;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -203,6 +209,13 @@ export const RegistrationForm = () => {
       <div className={styles.privacy}>
         <Checkbox>Я принимаю Условия использования и Политику конфиденциальности</Checkbox>
       </div>
+
+      {showGlobalError && (
+        <Typography variant="text-regular" className={styles.errorMessage}>
+          {errorMessage}
+        </Typography>
+      )}
+
       <Button
         className={styles.submitForm}
         variant="filled"

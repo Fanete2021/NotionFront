@@ -15,6 +15,7 @@ import Lock from '@shared/assets/icons/lock.svg';
 import Eye from '@shared/assets/icons/eye.svg';
 import { Typography } from '@shared/ui/Typography';
 import { ROUTES } from '@shared/routes';
+import { getErrorMessage, isFetchBaseQueryError } from '@/shared/utils/errorUtils';
 
 interface LoginFormValues {
   email: string;
@@ -31,6 +32,11 @@ export const LoginForm = () => {
   });
   const router = useRouter();
   const [login, { isLoading, error: mutationError }] = useLoginMutation();
+  const errorMessage = mutationError
+    ? isFetchBaseQueryError(mutationError) && mutationError.status === 400
+      ? 'Неверный логин или пароль'
+      : getErrorMessage(mutationError)
+    : null;
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
     try {
@@ -83,6 +89,12 @@ export const LoginForm = () => {
           />
         )}
       />
+
+      {errorMessage && (
+        <Typography variant="text-regular" className={styles.errorMessage}>
+          {errorMessage}
+        </Typography>
+      )}
 
       <div className={styles.actions}>
         <div className={styles.rememberMe}>
