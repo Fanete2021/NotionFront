@@ -12,6 +12,8 @@ import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
 import { SlashCommands } from './lib/slash-commands';
 import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
+import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
+import VideoNode from './ui/video-node/VideoNode';
 import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
@@ -51,6 +53,8 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
       Color,
       Image,
       ImageUploadNode,
+      VideoUploadNode,
+      VideoNode,
     ],
     content,
     immediatelyRender: false,

@@ -63,7 +63,7 @@ export const items: SlashItem[] = [
     title: 'Видео',
     subtitle: 'Вставьте видео или файл',
     execute: ({ editor }) => {
-      editor?.chain().focus().toggleTaskList().run();
+      editor?.chain().focus().insertContent({ type: 'videoUpload' }).run();
     },
     icon: EditorVideo,
   },

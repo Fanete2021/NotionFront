@@ -1,6 +1,6 @@
 import { mergeAttributes, Node } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import ImageUploadNodeView from '@features/text-editor/ui/image-upload-node/ImageUploadNodeView';
+import { ImageUploadNodeView } from '@features/text-editor/ui/image-upload-node/ImageUploadNodeView';
 
 export default Node.create({
   name: 'imageUpload',
