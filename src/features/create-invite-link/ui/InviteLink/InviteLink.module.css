@@ -1,0 +1,19 @@
+.inviteLink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 24px;
+  border-top: 1px solid var(--color-border-base);
+  border-bottom: 1px solid var(--color-border-base);
+}
+
+.title {
+  color: var(--color-invite-link-title);
+  font-weight: 600;
+  line-height: 21px;
+}
+
+.subtitle {
+  line-height: 18px;
+  color: var(--color-invite-link-subtitle);
+}

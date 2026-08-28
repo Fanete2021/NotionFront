@@ -1,0 +1,9 @@
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px
+}
+
+.title {
+  color: var(--color-invite-link-title);
+}

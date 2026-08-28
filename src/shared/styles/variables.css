@@ -247,4 +247,8 @@
 
   /* WorkspaceInfo */
   --color-workspace-info-title: #1a1a1a;
+
+  /* InviteLink */
+  --color-invite-link-title: #1a1a1a;
+  --color-invite-link-subtitle: #787774;
 }
