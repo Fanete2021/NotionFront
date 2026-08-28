@@ -2,6 +2,7 @@ import { NodeViewWrapper, ReactNodeViewProps } from '@tiptap/react';
 import { FileDropzone } from '@features/text-editor/ui/file-dropzone/FileDropzone';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
+const ALLOWED_FILE_EXTENSIONS = ['mp4', 'webm', 'mov'];
 
 export const VideoUploadNodeView = (props: ReactNodeViewProps) => {
   const handleFileSelect = (file: File) => {
@@ -37,6 +38,7 @@ export const VideoUploadNodeView = (props: ReactNodeViewProps) => {
         hint="Вставьте ссылку (YouTube, Vimeo) или загрузите файл"
         fileExtensionsHint="MP4, MOV, WEBM до 100 МБ"
         allowedFileType="video/"
+        allowedFileExtensions={ALLOWED_FILE_EXTENSIONS}
       />
     </NodeViewWrapper>
   );

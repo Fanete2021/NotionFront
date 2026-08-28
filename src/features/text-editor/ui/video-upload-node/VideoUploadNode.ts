@@ -6,6 +6,7 @@ export default Node.create({
   name: 'videoUpload',
 
   group: 'block',
+  draggable: false,
 
   atom: true,
 

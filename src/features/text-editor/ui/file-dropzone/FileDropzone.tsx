@@ -1,6 +1,7 @@
 import styles from './FileDropzone.module.css';
 import ImageIcon from '@shared/assets/icons/image-icon.svg';
 import { Typography } from '@shared/ui/Typography';
+import { toast } from '@shared/ui/toast';
 
 const ALLOWED_FILE_EXTENSION = 'image/png, image/jpeg, image/gif, video/mp4, video/webm, video/mov';
 
@@ -10,6 +11,7 @@ interface FileDropzoneProps {
   hint: string;
   fileExtensionsHint: string;
   allowedFileType: string;
+  allowedFileExtensions: string[];
 }
 
 export const FileDropzone = ({
@@ -18,15 +20,26 @@ export const FileDropzone = ({
   hint,
   fileExtensionsHint,
   allowedFileType,
+  allowedFileExtensions,
 }: FileDropzoneProps) => {
   const handleUploadFile = (file?: File) => {
     if (!file) return;
 
     if (!file.type.startsWith(allowedFileType)) {
+      toast.add({
+        type: 'error',
+        title: 'Неверный формат файла',
+        description: `Допустимые форматы: ${allowedFileExtensions.join(', ')}`,
+      });
       return;
     }
 
     if (file.size > fileSize) {
+      toast.add({
+        type: 'error',
+        title: 'Файл слишком большой',
+        description: `Ограничение по размеру: ${fileSize} МБ`,
+      });
       return;
     }
 

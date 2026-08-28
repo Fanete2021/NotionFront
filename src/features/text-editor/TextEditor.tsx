@@ -5,7 +5,7 @@ import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
-import { TextSelection } from '@tiptap/pm/state';
+import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
@@ -31,6 +31,10 @@ const textColors = [
 type TextEditorProps = {
   content?: string;
 };
+
+function isTextSelection(selection: Selection): selection is TextSelection {
+  return selection instanceof TextSelection;
+}
 
 export const TextEditor = ({ content = '' }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
@@ -101,10 +105,9 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
   };
 
   const handleShouldShow = () => {
-    const isTextSelection = editor?.state instanceof TextSelection;
-    const isNotEmpty = !editor?.state.selection.empty;
+    const selection = editor?.state.selection;
 
-    return isTextSelection && isNotEmpty;
+    return selection ? isTextSelection(selection) && !selection.empty : false;
   };
 
   const currentColor = activeMarks?.color ?? null;
@@ -231,7 +234,6 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
             <PaletteIcon className={styles.bubbleIcon} />
           </Button>
 
-          {/* Palette swatches */}
           {isColorOpen && (
             <div className={styles.colorPanel}>
               {textColors.map(({ value, colorName }) => {

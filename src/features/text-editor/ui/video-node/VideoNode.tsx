@@ -5,6 +5,7 @@ export default Node.create({
 
   group: 'block',
   atom: true,
+  draggable: false,
 
   parseHTML() {
     return [
