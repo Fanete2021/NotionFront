@@ -10,6 +10,13 @@ const meta = {
   title: 'Shared/Modal',
   component: Modal,
   tags: ['autodocs'],
+  argTypes: {
+    size: {
+      control: 'inline-radio',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: 'Ширина панели: sm — 420px, md — 460px, lg — 560px, xl — 760px',
+    },
+  },
   args: {
     isOpen: true,
     onClose: fn(),
@@ -44,6 +51,35 @@ export const WithFooter: Story = {
       }
     />
   ),
+};
+
+export const Medium: Story = {
+  args: {
+    size: 'md',
+    title: 'Модалка 460px',
+    subtitle: 'size="md"',
+  },
+};
+
+export const Large: Story = {
+  args: {
+    size: 'lg',
+    title: 'Модалка 560px',
+    subtitle: 'size="lg"',
+  },
+};
+
+export const ExtraLarge: Story = {
+  args: {
+    size: 'xl',
+    title: 'Модалка 760px',
+    subtitle: 'size="xl" — под широкий контент вроде двух колонок',
+    children: (
+      <div style={{ minHeight: 320, padding: '16px 20px 24px' }}>
+        <Typography variant="text-regular">Контент, который не помещается в 420px</Typography>
+      </div>
+    ),
+  },
 };
 
 export const CustomHeader: Story = {
@@ -123,7 +159,7 @@ export const DeleteConfirmation: Story = {
               Вы уверены, что хотите удалить этот элемент?
               <br />
               <span style={{ fontSize: '13px', color: '#ef4444' }}>
-                ⚠️ Это действие нельзя отменить.
+                Это действие нельзя отменить.
               </span>
             </p>
             <div

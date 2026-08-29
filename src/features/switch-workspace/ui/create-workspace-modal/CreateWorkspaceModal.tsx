@@ -10,7 +10,7 @@ import { setCurrentWorkspace } from '@/entities/workspace';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
 import { Workspace } from '@/entities/workspace';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
-import { Modal } from '@/shared/ui/Modal/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { useMutationWithError } from '@/shared/lib';
@@ -85,12 +85,7 @@ export const CreateWorkspaceModal: FC = () => {
   );
 
   return (
-    <Modal
-      isOpen={isOpen ?? false}
-      onClose={handleClose}
-      title="Добавить рабочее пространство"
-      className={styles.modal}
-    >
+    <Modal isOpen={isOpen ?? false} onClose={handleClose} title="Добавить рабочее пространство">
       <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
         <div className={styles.field}>
           <Input
