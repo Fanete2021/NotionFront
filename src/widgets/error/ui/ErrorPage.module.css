@@ -1,17 +1,25 @@
 .errorPage {
   background-color: var(--color-bg-surface);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .errorBody {
+  flex: 1;
+
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   row-gap: 32px;
 
-  padding-block: 182px;
+  padding-block: 32px;
 }
 
 .errorFooter {
+  flex-shrink: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
