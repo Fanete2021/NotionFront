@@ -247,4 +247,10 @@
 
   /* WorkspaceInfo */
   --color-workspace-info-title: #1a1a1a;
+
+  /* Loader */
+  --color-loader-overlay: rgba(255, 255, 255, 0.85);
+  --color-loader-dot: #3b82f6;
+  --color-loader-text: #6b7280;
+  --z-index-loader: 9999;
 }
