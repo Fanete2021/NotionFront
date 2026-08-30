@@ -12,9 +12,9 @@ import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
 import Letter from '@shared/assets/icons/letter.svg';
 import Lock from '@shared/assets/icons/lock.svg';
-import Eye from '@shared/assets/icons/eye.svg';
 import { Typography } from '@shared/ui/Typography';
 import { ROUTES } from '@shared/routes';
+import Eye from '@shared/assets/icons/eye.svg';
 
 interface LoginFormValues {
   email: string;
@@ -77,8 +77,8 @@ export const LoginForm = () => {
             label="Пароль"
             type="password"
             addonLeft={<Lock />}
-            showPasswordToggle
             addonRight={<Eye />}
+            showPasswordToggle
             placeholder="••••••••••••"
           />
         )}
