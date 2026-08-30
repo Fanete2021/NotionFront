@@ -8,6 +8,7 @@ import {
 } from '../../model/workspaceModalsSlice';
 import { setCurrentWorkspace } from '@/entities/workspace';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
+import { Workspace } from '@/entities/workspace';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
@@ -32,7 +33,7 @@ export const CreateWorkspaceModal: FC = () => {
     execute: createWorkspace,
     isLoading,
     error: mutationError,
-  } = useMutationWithError(useCreateWorkspaceMutation, {
+  } = useMutationWithError<Workspace, { name: string }>(useCreateWorkspaceMutation, {
     onSuccess: (newWorkspace) => {
       setName('');
       dispatch(closeCreateWorkspaceModal());

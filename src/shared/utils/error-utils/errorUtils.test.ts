@@ -1,11 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import {
-  isFetchBaseQueryError,
-  getErrorMessage,
-  processMutationError,
-  processLoginError,
-} from './errorUtils';
+import { isFetchBaseQueryError, getErrorMessage, processMutationError } from './errorUtils';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
 describe('isFetchBaseQueryError', () => {
@@ -82,21 +77,18 @@ describe('processMutationError', () => {
     const result = processMutationError(null);
     expect(result.message).toBe(null);
     expect(result.fieldErrors).toEqual({});
-    expect(result.isConflict).toBe(false);
   });
 
   it('should return empty result for undefined error', () => {
     const result = processMutationError(undefined);
     expect(result.message).toBe(null);
     expect(result.fieldErrors).toEqual({});
-    expect(result.isConflict).toBe(false);
   });
 
   it('should return "Произошла ошибка" for non-FetchBaseQueryError', () => {
     const result = processMutationError(new Error('test'));
     expect(result.message).toBe('Произошла ошибка');
     expect(result.fieldErrors).toEqual({});
-    expect(result.isConflict).toBe(false);
   });
 
   it('should handle custom field map for 400 status', () => {
@@ -110,7 +102,6 @@ describe('processMutationError', () => {
     const result = processMutationError(error, fieldMap);
     expect(result.fieldErrors).toEqual({ email: 'Неверный email' });
     expect(result.message).toBe(null);
-    expect(result.isConflict).toBe(false);
   });
 
   it('should handle custom field map for 409 status', () => {
@@ -124,7 +115,6 @@ describe('processMutationError', () => {
     const result = processMutationError(error, fieldMap);
     expect(result.fieldErrors).toEqual({ email: 'Email уже используется' });
     expect(result.message).toBe(null);
-    expect(result.isConflict).toBe(false);
   });
 
   it('should return default message for unknown status', () => {
@@ -132,21 +122,12 @@ describe('processMutationError', () => {
     const result = processMutationError(error);
     expect(result.message).toBe('Произошла ошибка');
     expect(result.fieldErrors).toEqual({});
-    expect(result.isConflict).toBe(false);
   });
 
   it('should return error message for 401 status', () => {
     const error: FetchBaseQueryError = { status: 401, data: {} };
     const result = processMutationError(error);
     expect(result.message).toBe('Неверные учетные данные');
-    expect(result.fieldErrors).toEqual({});
-    expect(result.isConflict).toBe(false);
-  });
-
-  it('should return "Произошла ошибка" for unknown status', () => {
-    const error: FetchBaseQueryError = { status: 418, data: {} };
-    const result = processLoginError(error);
-    expect(result.message).toBe('Произошла ошибка');
     expect(result.fieldErrors).toEqual({});
   });
 });

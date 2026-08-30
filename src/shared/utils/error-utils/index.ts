@@ -1,6 +1,1 @@
-export {
-  getErrorMessage,
-  isFetchBaseQueryError,
-  processLoginError,
-  processMutationError,
-} from './errorUtils';
+export { getErrorMessage, isFetchBaseQueryError, processMutationError } from './errorUtils';

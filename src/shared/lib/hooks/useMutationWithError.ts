@@ -1,27 +1,10 @@
 import { useState, useCallback } from 'react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { processMutationError } from '@/shared/utils/error-utils';
-
-type MutationResult<T = unknown> = {
-  data?: T;
-  error?: FetchBaseQueryError | unknown;
-  isLoading: boolean;
-  isSuccess: boolean;
-  isError: boolean;
-  reset?: () => void;
-};
-
-type MutationHook<T, Args> = () => readonly [
-  (args: Args) => {
-    unwrap: () => Promise<T>;
-  },
-  MutationResult<T>,
-];
+import { FieldErrorMap } from '../../utils/error-utils/errorUtils';
 
 type MutationOptions<T = unknown> = {
   onSuccess?: (data: T) => void;
-  onError?: (error: { message: string | null; fieldErrors: Record<string, string> }) => void;
-  fieldMap?: Record<number, { field: string; message: string }>;
+  fieldMap?: FieldErrorMap;
 };
 
 type UseMutationWithErrorReturn<T, Args> = {
@@ -31,16 +14,14 @@ type UseMutationWithErrorReturn<T, Args> = {
   fieldErrors: Record<string, string>;
   hasError: boolean;
   resetError: () => void;
-  data?: T;
-  isSuccess: boolean;
 };
 
 export function useMutationWithError<T = unknown, Args = unknown>(
-  mutationHook: MutationHook<T, Args>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Используем any, чтобы не переопределять сложные типы RTK Query
+  mutationHook: any,
   options: MutationOptions<T> = {},
 ): UseMutationWithErrorReturn<T, Args> {
-  const [mutate, { isLoading, data, isSuccess = false, error: mutationError, reset }] =
-    mutationHook();
+  const [mutate, { isLoading, reset }] = mutationHook();
   const [error, setError] = useState<{
     message: string | null;
     fieldErrors: Record<string, string>;
@@ -59,16 +40,16 @@ export function useMutationWithError<T = unknown, Args = unknown>(
         return result;
       } catch (err) {
         const processed = processMutationError(err, options.fieldMap);
-        const errorState = {
+        setError({
           message: processed.message,
           fieldErrors: processed.fieldErrors,
-        };
-        setError(errorState);
-        options.onError?.(errorState);
-        throw err;
+        });
+
+        return Promise.reject(err);
       }
     },
-    [mutate, options],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mutate, options.onSuccess, options.fieldMap],
   );
 
   const resetError = useCallback(() => {
@@ -83,7 +64,5 @@ export function useMutationWithError<T = unknown, Args = unknown>(
     fieldErrors: error.fieldErrors,
     hasError: !!error.message || Object.keys(error.fieldErrors).length > 0,
     resetError,
-    data,
-    isSuccess,
   };
 }

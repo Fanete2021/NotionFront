@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
-import { useLoginMutation } from '../api/loginApi';
+import { LoginRequest, useLoginMutation } from '../api/loginApi';
 import { loginUserSchema } from '../utils/validationLoginFormConfig';
+import { UserData } from '@/entities/user';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -38,7 +39,7 @@ export const LoginForm = () => {
     execute: login,
     isLoading,
     error: errorMessage,
-  } = useMutationWithError(useLoginMutation, {
+  } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
     onSuccess: () => {
       router.replace('/');
       reset();
