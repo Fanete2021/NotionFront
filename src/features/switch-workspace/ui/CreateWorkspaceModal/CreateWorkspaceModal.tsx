@@ -6,24 +6,49 @@ import {
   closeCreateWorkspaceModal,
   workspaceModalsReducer,
 } from '../../model/workspaceModalsSlice';
-import { setCurrentWorkspace, useCreateWorkspaceMutation } from '@/entities/workspace';
+import { setCurrentWorkspace } from '@/entities/workspace';
+import { useCreateWorkspaceMutation } from '@/entities/workspace';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { Modal } from '@/shared/ui/Modal/Modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
+import { useMutationWithError } from '@/shared/lib';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { FormError } from '@/shared/ui/form-error';
 
 export const CreateWorkspaceModal: FC = () => {
   const store = useAppStore();
   const dispatch = useAppDispatch();
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [createWorkspace, { isLoading }] = useCreateWorkspaceMutation();
 
   useEffect(() => {
     store.injectReducer('workspaceModals', workspaceModalsReducer);
   }, [store]);
 
   const isOpen = useAppSelector((state) => state.workspaceModals?.isCreateWorkspaceModalOpen);
+
+  const {
+    execute: createWorkspace,
+    isLoading,
+    error: mutationError,
+  } = useMutationWithError(useCreateWorkspaceMutation, {
+    onSuccess: (newWorkspace) => {
+      setName('');
+      dispatch(closeCreateWorkspaceModal());
+      dispatch(setCurrentWorkspace(newWorkspace.id));
+    },
+    fieldMap: {
+      [HTTP_STATUS.BAD_REQUEST]: {
+        field: 'name',
+        message: 'Название рабочего пространства не может быть пустым',
+      },
+      [HTTP_STATUS.CONFLICT]: {
+        field: 'name',
+        message: 'Рабочее пространство с таким названием уже существует',
+      },
+    },
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -40,16 +65,8 @@ export const CreateWorkspaceModal: FC = () => {
       setError('Название обязательно');
       return;
     }
-    try {
-      const newWorkspace = await createWorkspace({ name: trimmed }).unwrap();
-      setName('');
-      dispatch(closeCreateWorkspaceModal());
-      dispatch(setCurrentWorkspace(newWorkspace.id));
-    } catch (err: unknown) {
-      const errorData = (err as { data?: { message?: string } })?.data;
-      setError(errorData?.message || 'Ошибка при создании workspace');
-    }
-  }, [name, createWorkspace, dispatch]);
+    await createWorkspace({ name: trimmed });
+  }, [name, createWorkspace]);
 
   const handleClose = useCallback(() => {
     setName('');
@@ -87,7 +104,7 @@ export const CreateWorkspaceModal: FC = () => {
             disabled={isLoading}
             onKeyDown={handleKeyDown}
           />
-          {error && <span className={styles.error}>{error}</span>}
+          <FormError message={error || mutationError} />
         </div>
         <div className={styles.actions}>
           <Button

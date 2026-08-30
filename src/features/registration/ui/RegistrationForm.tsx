@@ -1,6 +1,6 @@
 'use client';
 
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, FieldPath } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
@@ -8,7 +8,6 @@ import styles from './RegistrationForm.module.css';
 import { useRegisterMutation } from '../api/registerApi';
 import { registerUserSchema } from '../utils/validationRegisterFormConfig';
 import { useRegistrationDraft } from '../model/useRegistrationDraft';
-import { isFetchBaseQueryError } from '../utils/checkFetchError';
 import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { Button } from '@shared/ui/Button';
@@ -17,8 +16,9 @@ import Lock from '@shared/assets/icons/lock.svg';
 import Person from '@shared/assets/icons/person.svg';
 import Lightning from '@shared/assets/icons/lightning.svg';
 import Eye from '@shared/assets/icons/eye.svg';
-import { getErrorMessage } from '@/shared/utils/errorUtils';
-import { Typography } from '@/shared/ui/Typography';
+import { FormError } from '@/shared/ui/form-error';
+import { useMutationWithError } from '@/shared/lib';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
 interface RegistrationFormValues {
   name: string;
@@ -41,38 +41,49 @@ export const RegistrationForm = () => {
       resolver: zodResolver(registerUserSchema),
     });
   const router = useRouter();
-  const [register, { isLoading, error: mutationError }] = useRegisterMutation();
   const { readRegistrationDraft, clearRegistrationDraft, saveRegistrationDraft } =
     useRegistrationDraft();
 
+  const {
+    execute: register,
+    isLoading,
+    error: errorMessage,
+    fieldErrors,
+    hasError,
+    resetError,
+  } = useMutationWithError(useRegisterMutation, {
+    onSuccess: () => {
+      clearRegistrationDraft();
+      router.replace('/');
+    },
+    fieldMap: {
+      [HTTP_STATUS.CONFLICT]: {
+        field: 'email',
+        message: 'Этот email уже используется',
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (hasError) {
+      Object.entries(fieldErrors).forEach(([field, message]) => {
+        setError(field as FieldPath<RegistrationFormValues>, {
+          type: 'server',
+          message,
+        });
+      });
+    }
+  }, [fieldErrors, setError, hasError]);
+
   const onSubmit: SubmitHandler<RegistrationFormValues> = async (values) => {
     clearErrors(['email']);
+    resetError();
 
-    try {
-      await register({
-        email: values.email,
-        password: values.password,
-        name: `${values.name} ${values.surname}`,
-      }).unwrap();
-
-      clearRegistrationDraft();
-
-      router.replace('/');
-    } catch (error: unknown) {
-      if (isFetchBaseQueryError(error) && error.status === 409) {
-        setError(
-          'email',
-          {
-            type: 'server',
-            message: 'Этот email уже используется',
-          },
-          {
-            shouldFocus: true,
-          },
-        );
-        return;
-      }
-    }
+    await register({
+      email: values.email,
+      password: values.password,
+      name: `${values.name} ${values.surname}`,
+    });
   };
 
   useEffect(() => {
@@ -90,11 +101,9 @@ export const RegistrationForm = () => {
 
     const unsubscribe = subscribe({
       name: ['name', 'surname', 'email'],
-
       formState: {
         values: true,
       },
-
       callback: ({ values }) => {
         saveRegistrationDraft({
           name: values.name,
@@ -106,10 +115,6 @@ export const RegistrationForm = () => {
 
     return unsubscribe;
   }, [readRegistrationDraft, reset, saveRegistrationDraft, subscribe]);
-
-  const errorMessage = mutationError ? getErrorMessage(mutationError) : null;
-  const isConflictError = isFetchBaseQueryError(mutationError) && mutationError.status === 409;
-  const showGlobalError = errorMessage && !isConflictError;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -210,11 +215,7 @@ export const RegistrationForm = () => {
         <Checkbox>Я принимаю Условия использования и Политику конфиденциальности</Checkbox>
       </div>
 
-      {showGlobalError && (
-        <Typography variant="text-regular" className={styles.errorMessage}>
-          {errorMessage}
-        </Typography>
-      )}
+      <FormError message={errorMessage} />
 
       <Button
         className={styles.submitForm}

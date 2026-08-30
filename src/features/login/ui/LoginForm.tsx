@@ -15,7 +15,9 @@ import Lock from '@shared/assets/icons/lock.svg';
 import Eye from '@shared/assets/icons/eye.svg';
 import { Typography } from '@shared/ui/Typography';
 import { ROUTES } from '@shared/routes';
-import { getErrorMessage, isFetchBaseQueryError } from '@/shared/utils/errorUtils';
+import { useMutationWithError } from '@/shared/lib';
+import { FormError } from '@/shared/ui/form-error';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
 interface LoginFormValues {
   email: string;
@@ -31,22 +33,26 @@ export const LoginForm = () => {
     resolver: zodResolver(loginUserSchema),
   });
   const router = useRouter();
-  const [login, { isLoading, error: mutationError }] = useLoginMutation();
-  const errorMessage = mutationError
-    ? isFetchBaseQueryError(mutationError) && mutationError.status === 400
-      ? 'Неверный логин или пароль'
-      : getErrorMessage(mutationError)
-    : null;
 
-  const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
-    try {
-      await login(values).unwrap();
-
+  const {
+    execute: login,
+    isLoading,
+    error: errorMessage,
+  } = useMutationWithError(useLoginMutation, {
+    onSuccess: () => {
       router.replace('/');
       reset();
-    } catch (err) {
-      console.log(mutationError);
-    }
+    },
+    fieldMap: {
+      [HTTP_STATUS.BAD_REQUEST]: {
+        field: 'email',
+        message: 'Неверный логин или пароль',
+      },
+    },
+  });
+
+  const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
+    await login(values);
   };
 
   return (
@@ -90,11 +96,7 @@ export const LoginForm = () => {
         )}
       />
 
-      {errorMessage && (
-        <Typography variant="text-regular" className={styles.errorMessage}>
-          {errorMessage}
-        </Typography>
-      )}
+      <FormError message={errorMessage} />
 
       <div className={styles.actions}>
         <div className={styles.rememberMe}>
