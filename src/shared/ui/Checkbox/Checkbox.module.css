@@ -1,19 +1,19 @@
 .label {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: 500;
-  color: var(--color-checkbox-label, var(--color-demo-task-text-base));
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--color-checkbox-label, var(--color-demo-task-text-base));
 }
 
 .label:has(.checkbox[data-checked]) {
-  color: var(--color-checkbox-checked, var(--color-demo-task-text-checked));
+    color: var(--color-checkbox-checked, var(--color-demo-task-text-checked));
 }
 
 .label:has(.checkbox[data-disabled]) {
-  color: var(--color-checkbox-disabled, var(--color-demo-task-text-base));
+    color: var(--color-checkbox-disabled, var(--color-demo-task-text-base));
 }
 
 .checkbox {
@@ -73,9 +73,11 @@
 }
 
 .indicator {
-  display: flex;
+    display: flex;
+    width: 10px;
+    height: 10px;
 
-  &[data-unchecked] {
-    display: none;
-  }
+    &[data-unchecked] {
+        display: none;
+    }
 }

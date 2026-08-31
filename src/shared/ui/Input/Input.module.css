@@ -14,8 +14,8 @@
   }
 
   &.focused {
-    border-color: var(--color-primary);
-    border-width: 2px;
+    border-color: transparent;
+    outline: 2px solid var(--color-primary);
     color: var(--color-primary);
   }
 
