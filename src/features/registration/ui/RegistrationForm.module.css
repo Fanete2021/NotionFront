@@ -25,3 +25,8 @@
     flex-shrink: 0;
   }
 }
+
+.errorMessage {
+  color: var(--color-danger);
+  margin-bottom: 5px;
+}
