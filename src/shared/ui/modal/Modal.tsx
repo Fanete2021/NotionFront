@@ -3,6 +3,7 @@
 import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
+import { useLockBodyScroll } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Portal } from '@/shared/ui/portal';
 import { Typography } from '@/shared/ui/Typography';
@@ -42,6 +43,8 @@ export const Modal = ({
 }: ModalProps) => {
   const isMouseDownOnOverlay = useRef(false);
 
+  useLockBodyScroll(isOpen);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -52,11 +55,9 @@ export const Modal = ({
     };
 
     document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
     };
   }, [isOpen, onClose]);
 
