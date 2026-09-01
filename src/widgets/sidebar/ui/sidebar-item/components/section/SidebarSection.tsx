@@ -5,6 +5,7 @@ import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarSection.module.css';
 import { SidebarItem } from '../../SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
+import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
@@ -19,6 +20,8 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [isOpen, setIsOpen] = useState(true);
+  const { data: workspaces } = useGetWorkspacesQuery();
+  const workspaceIsChoosed = workspaces?.length || 0 > 0;
 
   const handleToggle = () => setIsOpen((prev) => !prev);
 
@@ -38,7 +41,12 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
         <Typography className={styles.sectionTitle} variant="label">
           {item.title}
         </Typography>
-        <Button variant="clear" className={styles.plusButton} onClick={handleCreateProject}>
+        <Button
+          variant="clear"
+          className={styles.plusButton}
+          onClick={handleCreateProject}
+          disabled={!workspaceIsChoosed}
+        >
           <PlusIcon className={styles.plusIcon} />
         </Button>
       </div>

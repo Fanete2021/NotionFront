@@ -10,37 +10,27 @@ import { SidebarItem } from '@/widgets/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { CreateDocumentModal } from '@/features/create-document';
 import { ProjectFormModal } from '@/features/manage-project';
-import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
+import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { useAppSelector, useAppDispatch } from '@/shared/lib';
+import { useAppSelector } from '@/shared/lib';
 
 interface SidebarProps {
   className?: string;
 }
 
 export function Sidebar({ className }: SidebarProps) {
-  const dispatch = useAppDispatch();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
-  const {
-    data: workspaces,
-    isLoading: workspacesLoading,
-    refetch: refetchWorkspaces,
-  } = useGetWorkspacesQuery();
+  const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
+
+  const workspaceIsChoosed = workspaces?.length || 0 > 0;
 
   const { data: projects, refetch: refetchProjects } = useGetProjectsByWorkspaceQuery(
     currentWorkspaceId || '',
     { skip: !currentWorkspaceId, refetchOnMountOrArgChange: true },
   );
-
-  useEffect(() => {
-    if (workspaces && workspaces.length > 0 && !currentWorkspaceId) {
-      dispatch(setCurrentWorkspace(workspaces[0].id));
-      dispatch(refetchWorkspaces);
-    }
-  }, [workspaces, currentWorkspaceId, dispatch, refetchWorkspaces]);
 
   useEffect(() => {
     if (currentWorkspaceId) {
@@ -79,7 +69,6 @@ export function Sidebar({ className }: SidebarProps) {
   if (workspacesLoading) {
     return <SidebarSkeleton />;
   }
-
   return (
     <aside className={classNames(styles.sidebar, className)}>
       <WorkspaceSwitcher />
@@ -88,6 +77,7 @@ export function Sidebar({ className }: SidebarProps) {
           className={styles.searchInput}
           placeholder="Поиск страниц..."
           addonLeft={<SearchIcon className={styles.icon} />}
+          disabled={!workspaceIsChoosed}
           onChange={handleSearch}
         />
 
