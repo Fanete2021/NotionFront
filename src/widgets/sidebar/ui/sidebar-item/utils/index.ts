@@ -1,1 +1,1 @@
-export { getPadding, getChildPadding, isDeepChild, renderIcon } from './utils';
+export { getPadding, getChildPadding, isDeepChild, isActiveLink, renderIcon } from './utils';
