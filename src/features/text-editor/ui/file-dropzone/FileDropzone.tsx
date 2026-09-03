@@ -20,7 +20,6 @@ export const FileDropzone = ({
   formatsLabel,
 }: FileDropzoneProps) => {
   const maxFileSizeMB = formatBytes(maxFileSize, 'MB');
-  console.log(maxFileSizeMB);
   const handleUploadFile = (file?: File) => {
     if (!file) return;
 
