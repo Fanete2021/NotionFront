@@ -29,7 +29,7 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   const isCurrentRoutePrivate = pathname !== null && isPrivateRoute(pathname);
 
   useEffect(() => {
-    if (status === 'anonymous' && isCurrentRoutePrivate) {
+    if (status !== 'authenticated') {
       router.replace(ROUTES.login);
     }
   }, [isCurrentRoutePrivate, router, status]);
