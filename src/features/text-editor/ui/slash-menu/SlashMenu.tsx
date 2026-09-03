@@ -16,6 +16,9 @@ export const SlashMenu = ({
   selectedIndex,
   onSelectedIndexChange,
 }: SlashMenuProps) => {
+  if (items.length === 0) {
+    return null;
+  }
   return (
     <div className={styles.menu} role="listbox">
       {items.map((item, index) => {

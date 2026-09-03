@@ -25,6 +25,7 @@ export const SlashCommands = Extension.create({
           let component: ReactRenderer | null = null;
           let selectedIndex = 0;
           let currentProps: SuggestionProps<SlashItem> | null = null;
+          let unmount: (() => void) | null = null;
 
           const updateMenu = () => {
             if (!component || !currentProps) return;
@@ -37,19 +38,6 @@ export const SlashCommands = Extension.create({
                 selectedIndex = index;
                 updateMenu();
               },
-            });
-          };
-
-          const updatePosition = () => {
-            const rect = currentProps?.clientRect?.();
-
-            if (!component || !rect) return;
-
-            Object.assign(component.element.style, {
-              position: 'fixed',
-              left: `${rect.left}px`,
-              top: `${rect.bottom}px`,
-              zIndex: '1000',
             });
           };
 
@@ -71,16 +59,25 @@ export const SlashCommands = Extension.create({
                 },
               });
 
-              document.body.appendChild(component.element);
-              updatePosition();
+              component.element.style.zIndex = '1000';
+              unmount = props.mount(component.element);
             },
 
             onUpdate(props) {
               currentProps = props;
               selectedIndex = 0;
-
               updateMenu();
-              updatePosition();
+            },
+
+            onExit() {
+              unmount?.();
+              unmount = null;
+
+              component?.destroy();
+              component = null;
+
+              currentProps = null;
+              selectedIndex = 0;
             },
 
             onKeyDown({ event }) {
@@ -116,20 +113,7 @@ export const SlashCommands = Extension.create({
                 return true;
               }
 
-              if (event.key === 'Escape') {
-                return false;
-              }
-
               return false;
-            },
-
-            onExit() {
-              component?.element.remove();
-              component?.destroy();
-              component = null;
-
-              currentProps = null;
-              selectedIndex = 0;
             },
           };
         },

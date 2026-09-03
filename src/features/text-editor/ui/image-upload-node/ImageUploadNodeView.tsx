@@ -1,8 +1,8 @@
 import { NodeViewWrapper, ReactNodeViewProps } from '@tiptap/react';
 import { FileDropzone } from '@features/text-editor/ui/file-dropzone/FileDropzone';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024;
-const ALLOWED_FILE_EXTENSIONS = ['png', 'jpeg', 'gif'];
+const ACCEPTED_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif'];
+const MAX_FILE_SIZE = 10 * 1024 ** 2;
 
 export const ImageUploadNodeView = (props: ReactNodeViewProps) => {
   const handleFileSelect = (file: File) => {
@@ -35,11 +35,10 @@ export const ImageUploadNodeView = (props: ReactNodeViewProps) => {
     <NodeViewWrapper contentEditable={false}>
       <FileDropzone
         onFileSelect={handleFileSelect}
-        fileSize={MAX_FILE_SIZE}
+        maxFileSize={MAX_FILE_SIZE}
         hint="Перетащите изображение сюда или нажмите, чтобы загрузить"
-        fileExtensionsHint="PNG, JPG, GIF до 10 МБ"
-        allowedFileType="image/"
-        allowedFileExtensions={ALLOWED_FILE_EXTENSIONS}
+        acceptedExtensions={ACCEPTED_EXTENSIONS}
+        formatsLabel="PNG, JPG, GIF"
       />
     </NodeViewWrapper>
   );

@@ -3,42 +3,42 @@ import ImageIcon from '@shared/assets/icons/image-icon.svg';
 import { Typography } from '@shared/ui/Typography';
 import { toast } from '@shared/ui/toast';
 
-const ALLOWED_FILE_EXTENSION = 'image/png, image/jpeg, image/gif, video/mp4, video/webm, video/mov';
-
 interface FileDropzoneProps {
   onFileSelect: (file: File) => void;
-  fileSize: number;
+  acceptedExtensions: readonly string[];
+  formatsLabel: string;
+  maxFileSize: number;
   hint: string;
-  fileExtensionsHint: string;
-  allowedFileType: string;
-  allowedFileExtensions: string[];
 }
 
 export const FileDropzone = ({
   onFileSelect,
-  fileSize,
+  maxFileSize,
   hint,
-  fileExtensionsHint,
-  allowedFileType,
-  allowedFileExtensions,
+  acceptedExtensions,
+  formatsLabel,
 }: FileDropzoneProps) => {
   const handleUploadFile = (file?: File) => {
     if (!file) return;
 
-    if (!file.type.startsWith(allowedFileType)) {
+    const isAccepted = acceptedExtensions.some((extension) =>
+      file.name.toLowerCase().endsWith(extension),
+    );
+
+    if (!isAccepted) {
       toast.add({
         type: 'error',
         title: 'Неверный формат файла',
-        description: `Допустимые форматы: ${allowedFileExtensions.join(', ')}`,
+        description: `Допустимые форматы: ${formatsLabel}`,
       });
       return;
     }
 
-    if (file.size > fileSize) {
+    if (file.size > maxFileSize) {
       toast.add({
         type: 'error',
         title: 'Файл слишком большой',
-        description: `Ограничение по размеру: ${fileSize} МБ`,
+        description: `Ограничение по размеру: ${maxFileSize / 1024 ** 2} МБ`,
       });
       return;
     }
@@ -48,7 +48,6 @@ export const FileDropzone = ({
 
   return (
     <label
-      className={styles.filepickerLabel}
       data-isolate-block="true"
       onDragOver={(event) => {
         event.preventDefault();
@@ -61,14 +60,13 @@ export const FileDropzone = ({
       <div className={styles.dropzone}>
         <ImageIcon className={styles.icon} />
         <Typography variant="text-label">{hint}</Typography>
-        <Typography variant="caption">{fileExtensionsHint}</Typography>
+        <Typography variant="caption">{`${formatsLabel} до ${maxFileSize / 1024 ** 2} МБ`}</Typography>
       </div>
       <input
         hidden
         type="file"
         name="filepicker"
-        accept={ALLOWED_FILE_EXTENSION}
-        size={fileSize}
+        accept={acceptedExtensions.join(',')}
         onChange={(event) => {
           handleUploadFile(event.target.files?.[0]);
         }}

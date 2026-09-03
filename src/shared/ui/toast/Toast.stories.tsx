@@ -1,6 +1,27 @@
-import { Meta, StoryObj } from '@storybook/nextjs';
-import { toast, Toaster } from './Toast';
+import { type ReactNode, useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
 import { Button } from '@shared/ui/Button';
+import { createToastManager, Toaster } from './Toast';
+
+type ToastManager = ReturnType<typeof createToastManager>;
+
+function ToastStory({
+  children,
+  showToast,
+}: {
+  children: ReactNode;
+  showToast: (manager: ToastManager) => void;
+}) {
+  const [manager] = useState(createToastManager);
+
+  return (
+    <>
+      <Button onClick={() => showToast(manager)}>{children}</Button>
+      <Toaster toastManager={manager} />
+    </>
+  );
+}
 
 const meta = {
   title: 'shared/Toast',
@@ -13,8 +34,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function asyncShowToast() {
-  toast.promise(
+function asyncShowToast(manager: ToastManager) {
+  manager.promise(
     new Promise<{ name: string }>((resolve) => {
       window.setTimeout(() => resolve({ name: 'Данные' }), 2000);
     }),
@@ -28,135 +49,105 @@ function asyncShowToast() {
 
 export const Default: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            title: 'Уведомление',
-            description: 'Операция выполнена',
-          })
-        }
-      >
-        Default Toast
-      </Button>
-
-      <Toaster />
-    </>
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          title: 'Уведомление',
+          description: 'Операция выполнена',
+        })
+      }
+    >
+      Default Toast
+    </ToastStory>
   ),
 };
 
 export const Success: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            type: 'success',
-            title: 'Уведомление',
-            description: 'Операция выполнена успешно',
-          })
-        }
-      >
-        Success Toast
-      </Button>
-
-      <Toaster />
-    </>
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          type: 'success',
+          title: 'Уведомление',
+          description: 'Операция выполнена успешно',
+        })
+      }
+    >
+      Success Toast
+    </ToastStory>
   ),
 };
 
 export const Error: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            type: 'error',
-            title: 'Уведомление',
-            description: 'Операция выполнена с ошибкой',
-          })
-        }
-      >
-        Error Toast
-      </Button>
-
-      <Toaster />
-    </>
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          type: 'error',
+          title: 'Уведомление',
+          description: 'Операция выполнена с ошибкой',
+        })
+      }
+    >
+      Error Toast
+    </ToastStory>
   ),
 };
 
 export const Warning: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            type: 'warning',
-            title: 'Уведомление',
-            description: 'Операция выполнена c предупреждением',
-          })
-        }
-      >
-        Warning Toast
-      </Button>
-
-      <Toaster />
-    </>
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          type: 'warning',
+          title: 'Уведомление',
+          description: 'Операция выполнена с получением предупреждения',
+        })
+      }
+    >
+      Warning Toast
+    </ToastStory>
   ),
 };
 
 export const Info: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            type: 'info',
-            title: 'Уведомление',
-            description: 'Операция выполнена, информация получена',
-          })
-        }
-      >
-        Info Toast
-      </Button>
-
-      <Toaster />
-    </>
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          type: 'info',
+          title: 'Уведомление',
+          description: 'Операция выполнена, информация получена',
+        })
+      }
+    >
+      Info Toast
+    </ToastStory>
   ),
 };
 
 export const AsyncToast: Story = {
-  render: () => (
-    <>
-      <Button onClick={asyncShowToast}>Async Toast</Button>
-
-      <Toaster />
-    </>
-  ),
+  render: () => <ToastStory showToast={asyncShowToast}>Async Toast</ToastStory>,
 };
 
 export const ToastWithAction: Story = {
   render: () => (
-    <>
-      <Button
-        onClick={() =>
-          toast.add({
-            type: 'info',
-            title: 'Уведомление',
-            description: 'Операция выполнена',
-            actionProps: {
-              children: 'Отменить',
-              onClick() {
-                toast.close();
-              },
+    <ToastStory
+      showToast={(manager) =>
+        manager.add({
+          type: 'info',
+          title: 'Уведомление',
+          description: 'Операция выполнена',
+          actionProps: {
+            children: 'Отменить',
+            onClick() {
+              manager.close();
             },
-          })
-        }
-      >
-        Toast with action
-      </Button>
-
-      <Toaster />
-    </>
+          },
+        })
+      }
+    >
+      Toast with action
+    </ToastStory>
   ),
 };

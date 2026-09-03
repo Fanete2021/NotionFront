@@ -1,15 +1,1 @@
-export {
-  Toaster,
-  Toast,
-  ToastAction,
-  ToastClose,
-  ToastContent,
-  ToastDescription,
-  ToastPortal,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
-  createToastManager,
-  toast,
-  useToastManager,
-} from './Toast';
+export { Toaster, createToastManager, toast, useToastManager } from './Toast';
