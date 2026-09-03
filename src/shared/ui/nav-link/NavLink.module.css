@@ -1,14 +1,23 @@
 .link {
   display: flex;
   align-items: center;
-  gap: 10px;
   width: 100%;
-  height: 36px;
-  padding: 0 12px;
   border-radius: 6px;
   color: var(--color-text-body);
   text-decoration: none;
   transition: background 0.15s;
+}
+
+.md {
+  gap: 10px;
+  height: 36px;
+  padding: 0 12px;
+}
+
+.sm {
+  gap: 8px;
+  height: 28px;
+  padding: 0 8px;
 }
 
 .link:hover {

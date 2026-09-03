@@ -6,6 +6,8 @@ import styles from './Input.module.css';
 import { Typography } from '@/shared/ui/Typography';
 import { usePasswordVisibility } from '@shared/ui/Input/lib/usePasswordVisibility';
 import { Button } from '@shared/ui/Button';
+import Eye from '@shared/assets/icons/eye.svg';
+import ClosedEye from '@shared/assets/icons/eye-hide.svg';
 
 type HTMLInputProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -102,7 +104,7 @@ export const Input = (props: InputProps) => {
               aria-pressed={isPasswordVisible}
               onMouseDown={(event) => event.preventDefault()}
             >
-              {addonRight}
+              {isPasswordVisible ? <Eye /> : <ClosedEye />}
             </Button>
           ) : (
             addonRight
