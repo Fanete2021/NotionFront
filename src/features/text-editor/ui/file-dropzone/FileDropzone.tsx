@@ -1,4 +1,5 @@
 import styles from './FileDropzone.module.css';
+import { formatBytes } from '@features/text-editor/utils/formatBytes';
 import ImageIcon from '@shared/assets/icons/image-icon.svg';
 import { Typography } from '@shared/ui/Typography';
 import { toast } from '@shared/ui/toast';
@@ -18,6 +19,8 @@ export const FileDropzone = ({
   acceptedExtensions,
   formatsLabel,
 }: FileDropzoneProps) => {
+  const maxFileSizeMB = formatBytes(maxFileSize, 'MB');
+  console.log(maxFileSizeMB);
   const handleUploadFile = (file?: File) => {
     if (!file) return;
 
@@ -38,7 +41,7 @@ export const FileDropzone = ({
       toast.add({
         type: 'error',
         title: 'Файл слишком большой',
-        description: `Ограничение по размеру: ${maxFileSize / 1024 ** 2} МБ`,
+        description: `Ограничение по размеру: ${maxFileSizeMB} МБ`,
       });
       return;
     }
@@ -60,7 +63,7 @@ export const FileDropzone = ({
       <div className={styles.dropzone}>
         <ImageIcon className={styles.icon} />
         <Typography variant="text-label">{hint}</Typography>
-        <Typography variant="caption">{`${formatsLabel} до ${maxFileSize / 1024 ** 2} МБ`}</Typography>
+        <Typography variant="caption">{`${formatsLabel} до ${maxFileSizeMB} МБ`}</Typography>
       </div>
       <input
         hidden
