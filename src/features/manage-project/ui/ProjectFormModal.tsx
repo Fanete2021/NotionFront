@@ -8,7 +8,7 @@ import {
   projectModalsReducer,
 } from '../model/projectModalsSlice';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
-import { Modal } from '@/shared/ui/Modal/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { ColorPicker } from '@/shared/ui/ColorPicker';

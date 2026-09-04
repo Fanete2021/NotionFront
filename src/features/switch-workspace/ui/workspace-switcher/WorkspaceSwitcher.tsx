@@ -2,8 +2,8 @@
 
 import { useCallback, useState } from 'react';
 import styles from './WorkspaceSwitcher.module.css';
-import { openCreateWorkspaceModal, WorkspaceModal } from '../index';
-import { CreateWorkspaceModal } from './CreateWorkspaceModal/CreateWorkspaceModal';
+import { openCreateWorkspaceModal, WorkspaceModal } from '../../index';
+import { CreateWorkspaceModal } from '../create-workspace-modal/CreateWorkspaceModal';
 import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch } from '@/shared/lib';
