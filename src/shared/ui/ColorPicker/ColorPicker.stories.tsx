@@ -38,9 +38,9 @@ export const Preselected: Story = {
   },
 };
 
-export const WhiteSelected: Story = {
+export const GraySelected: Story = {
   args: {
-    selectedColor: Colors.WHITE,
+    selectedColor: Colors.GRAY,
     onChange: () => {},
   },
 };

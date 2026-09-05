@@ -13,9 +13,11 @@ import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
+import { Typography } from '@/shared/ui/Typography';
 import { useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { FormError } from '@/shared/ui/form-error';
+import PlusIcon from '@/shared/assets/icons/plus.svg';
 
 export const CreateWorkspaceModal: FC = () => {
   const store = useAppStore();
@@ -84,43 +86,57 @@ export const CreateWorkspaceModal: FC = () => {
     [isLoading, name, handleCreate],
   );
 
+  const header = (
+    <div className={styles.heading}>
+      <Typography variant="text-medium" className={styles.title}>
+        Новое рабочее пространство
+      </Typography>
+      <Typography variant="caption" className={styles.subtitle}>
+        Дайте название вашему новому пространству
+      </Typography>
+    </div>
+  );
+
+  const footer = (
+    <div className={styles.actions}>
+      <Button type="button" onClick={handleClose} disabled={isLoading}>
+        Отмена
+      </Button>
+      <Button
+        variant="filled"
+        type="button"
+        onClick={handleCreate}
+        className={styles.submitButton}
+        addonLeft={<PlusIcon className={styles.submitIcon} />}
+        disabled={isLoading || !name.trim()}
+      >
+        {isLoading ? 'Создание...' : 'Создать'}
+      </Button>
+    </div>
+  );
+
   return (
-    <Modal isOpen={isOpen ?? false} onClose={handleClose} title="Добавить рабочее пространство">
+    <Modal
+      isOpen={isOpen ?? false}
+      onClose={handleClose}
+      headerDivider
+      footerDivider
+      header={header}
+      footer={footer}
+    >
       <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <div className={styles.field}>
-          <Input
-            id="workspaceName"
-            type="text"
-            value={name}
-            label={'Название'}
-            onChange={(str) => setName(str)}
-            placeholder="My workspace"
-            className={styles.input}
-            autoFocus
-            disabled={isLoading}
-            onKeyDown={handleKeyDown}
-          />
-          <FormError message={error || mutationError} />
-        </div>
-        <div className={styles.actions}>
-          <Button
-            type="button"
-            onClick={handleClose}
-            className={styles.cancelButton}
-            disabled={isLoading}
-          >
-            Отмена
-          </Button>
-          <Button
-            variant="filled"
-            type="button"
-            onClick={handleCreate}
-            className={styles.submitButton}
-            disabled={isLoading || !name.trim()}
-          >
-            {isLoading ? 'Создание...' : 'Создать'}
-          </Button>
-        </div>
+        <Input
+          id="workspaceName"
+          type="text"
+          value={name}
+          label="Название"
+          onChange={(str) => setName(str)}
+          placeholder="Название рабочего пространства..."
+          autoFocus
+          disabled={isLoading}
+          onKeyDown={handleKeyDown}
+        />
+        <FormError message={error || mutationError} />
       </form>
     </Modal>
   );

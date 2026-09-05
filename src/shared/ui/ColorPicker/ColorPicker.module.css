@@ -8,10 +8,9 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: none;
   padding: 0;
   margin: 0;
-  background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -22,29 +21,31 @@
 }
 
 .colorButton:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .iconWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 11px;
-  height: 15px;
   flex-shrink: 0;
   line-height: 0;
 }
 
-.colorButton .icon {
-  width: 11px;
-  height: 15px;
-  display: block;
-  flex-shrink: 0;
-  fill: var(--color-danger);
-  stroke: var(--color-danger);
-  stroke-width: 1px;
+.selected .iconWrapper {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-card);
 }
 
-.selected {
-  border: 2px solid var(--color-danger);
+.colorButton .icon {
+  width: 12px;
+  height: 12px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.colorButton .icon path {
+  fill: currentColor;
 }
