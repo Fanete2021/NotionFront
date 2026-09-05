@@ -1,12 +1,19 @@
 'use client';
 
 import { useEditor, EditorContent, useEditorState } from '@tiptap/react';
+import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
+import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
 import { useState } from 'react';
+import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
+import { SlashCommands } from './lib/slash-commands';
+import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
+import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
+import VideoNode from './ui/video-node/VideoNode';
 import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
@@ -25,6 +32,10 @@ type TextEditorProps = {
   content?: string;
 };
 
+function isTextSelection(selection: Selection): selection is TextSelection {
+  return selection instanceof TextSelection;
+}
+
 export const TextEditor = ({ content = '' }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
 
@@ -35,8 +46,19 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
           openOnClick: false,
         },
       }),
+
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
+
+      SlashCommands,
       TextStyle,
       Color,
+      Image,
+      ImageUploadNode,
+      VideoUploadNode,
+      VideoNode,
     ],
     content,
     immediatelyRender: false,
@@ -82,12 +104,18 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
+  const handleShouldShow = () => {
+    const selection = editor?.state.selection;
+
+    return selection ? isTextSelection(selection) && !selection.empty : false;
+  };
+
   const currentColor = activeMarks?.color ?? null;
 
   return (
     <div className={styles.root}>
       {editor && (
-        <BubbleMenu editor={editor} className={styles.bubble}>
+        <BubbleMenu editor={editor} className={styles.bubble} shouldShow={handleShouldShow}>
           <Button
             type="button"
             variant="clear"
@@ -206,7 +234,6 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
             <PaletteIcon className={styles.bubbleIcon} />
           </Button>
 
-          {/* Palette swatches */}
           {isColorOpen && (
             <div className={styles.colorPanel}>
               {textColors.map(({ value, colorName }) => {

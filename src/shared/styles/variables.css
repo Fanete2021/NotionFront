@@ -253,4 +253,9 @@
   --color-loader-dot: #3b82f6;
   --color-loader-text: #6b7280;
   --z-index-loader: 9999;
+
+  /* EditorMenu */
+  --color-editor-menu-title: #1F2937;
+  --color-editor-shadow: #0000001F;
+  --color-editor-item-active: #EEF2FF;
 }

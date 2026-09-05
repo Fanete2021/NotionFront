@@ -3,10 +3,11 @@
 import { FC, useState, useEffect } from 'react';
 import styles from './CreateDocumentModal.module.css';
 import { closeCreateDocumentModal, documentModalsReducer } from '../model/documentModalsSlice';
-import { Modal } from '@/shared/ui/Modal/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
+import { FormError } from '@/shared/ui/form-error';
 
 const defaultDocumentModalsState = {
   isCreateDocumentModalOpen: false,
@@ -59,7 +60,7 @@ export const CreateDocumentModal: FC = () => {
             className={styles.input}
             autoFocus
           />
-          {error && <span className={styles.error}>{error}</span>}
+          <FormError message={error} />
         </div>
         <div className={styles.actions}>
           <Button type="button" onClick={handleClose} className={styles.cancelButton}>

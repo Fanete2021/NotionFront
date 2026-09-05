@@ -8,13 +8,16 @@ import {
   projectModalsReducer,
 } from '../model/projectModalsSlice';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
-import { Modal } from '@/shared/ui/Modal/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { ColorPicker } from '@/shared/ui/ColorPicker';
 import { Colors } from '@/shared/const/colors';
 import { IconPicker } from '@/shared/ui/IconPicker';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
+import { useMutationWithError } from '@/shared/lib';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { FormError } from '@/shared/ui/form-error';
 
 interface ProjectFormModalProps {
   mode: 'create' | 'edit';
@@ -59,10 +62,48 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const [icon, setIcon] = useState<string | null>(mode === 'create' ? null : (currentIcon ?? null));
   const [error, setError] = useState<string | null>(null);
 
-  const [createProject, { isLoading: isCreating }] = useCreateProjectMutation();
-  const [updateProject, { isLoading: isUpdating }] = useUpdateProjectMutation();
+  const {
+    execute: createProject,
+    isLoading: isCreating,
+    error: createError,
+  } = useMutationWithError(useCreateProjectMutation, {
+    onSuccess: () => {
+      handleClose();
+    },
+    fieldMap: {
+      [HTTP_STATUS.BAD_REQUEST]: {
+        field: 'name',
+        message: 'Название проекта не может быть пустым',
+      },
+      [HTTP_STATUS.CONFLICT]: {
+        field: 'name',
+        message: 'Проект с таким названием уже существует',
+      },
+    },
+  });
+
+  const {
+    execute: updateProject,
+    isLoading: isUpdating,
+    error: updateError,
+  } = useMutationWithError(useUpdateProjectMutation, {
+    onSuccess: () => {
+      handleClose();
+    },
+    fieldMap: {
+      [HTTP_STATUS.BAD_REQUEST]: {
+        field: 'name',
+        message: 'Название проекта не может быть пустым',
+      },
+      [HTTP_STATUS.CONFLICT]: {
+        field: 'name',
+        message: 'Проект с таким названием уже существует',
+      },
+    },
+  });
 
   const isLoading = mode === 'create' ? isCreating : isUpdating;
+  const mutationError = mode === 'create' ? createError : updateError;
 
   useEffect(() => {
     if (isOpen) {
@@ -103,40 +144,33 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
     const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
 
-    try {
-      if (mode === 'create') {
-        if (!workspaceId) {
-          setError('Workspace не найден');
-          return;
-        }
-        await createProject({
-          workspaceId,
-          data: {
-            name: trimmed,
-            color: colorToSend,
-            icon: icon ?? undefined,
-          },
-        }).unwrap();
-      } else {
-        const hasChanges =
-          trimmed !== currentName || color !== currentColor || icon !== currentIcon;
-        if (!hasChanges) {
-          handleClose();
-          return;
-        }
-        await updateProject({
-          id: projectId ?? '',
-          data: {
-            name: trimmed,
-            color: colorToSend,
-            icon: icon === null ? null : (icon ?? undefined),
-          },
-        }).unwrap();
+    if (mode === 'create') {
+      if (!workspaceId) {
+        setError('Workspace не найден');
+        return;
       }
-      handleClose();
-    } catch (err: unknown) {
-      const errorData = (err as { data?: { message?: string } })?.data;
-      setError(errorData?.message || 'Ошибка при сохранении проекта');
+      await createProject({
+        workspaceId,
+        data: {
+          name: trimmed,
+          color: colorToSend,
+          icon: icon ?? undefined,
+        },
+      });
+    } else {
+      const hasChanges = trimmed !== currentName || color !== currentColor || icon !== currentIcon;
+      if (!hasChanges) {
+        handleClose();
+        return;
+      }
+      await updateProject({
+        id: projectId ?? '',
+        data: {
+          name: trimmed,
+          color: colorToSend,
+          icon: icon === null ? null : (icon ?? undefined),
+        },
+      });
     }
   };
 
@@ -159,7 +193,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
             autoFocus
             disabled={isLoading}
           />
-          {error && <span className={styles.error}>{error}</span>}
+          <FormError message={error || mutationError} />
         </div>
 
         <div className={styles.field}>
