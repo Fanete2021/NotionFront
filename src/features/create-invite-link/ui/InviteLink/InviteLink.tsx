@@ -1,15 +1,16 @@
-import React from 'react';
+import cn from 'classnames';
 import styles from './InviteLink.module.css';
 import { Typography } from '@/shared/ui/Typography';
 
 interface InviteLinkProps {
   title: string;
   subtitle: string;
+  className?: string;
 }
 
-export function InviteLink({ title, subtitle }: InviteLinkProps) {
+export function InviteLink({ title, subtitle, className }: InviteLinkProps) {
   return (
-    <div className={styles.inviteLink}>
+    <div className={cn(styles.inviteLink, className)}>
       <Typography className={styles.title} variant="text-medium">
         {title}
       </Typography>

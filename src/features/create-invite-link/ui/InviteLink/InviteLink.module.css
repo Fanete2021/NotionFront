@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px 24px;
-  border-top: 1px solid var(--color-border-base);
-  border-bottom: 1px solid var(--color-border-base);
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--color-invite-link-border);
+  border-radius: 8px;
+  flex: 1;
 }
 
 .title {

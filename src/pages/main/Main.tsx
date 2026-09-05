@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { NotFoundWorkspace } from './not-found-workspace/NotFoundWorkspace';
+import { MainSkeleton } from './main-skeleton/MainSkeleton';
 import { WorkspaceMembers } from '@/widgets/workspace-members';
 import { useGetWorkspaceByIdQuery } from '@/entities/workspace';
 import { useAppSelector } from '@/shared/lib';
@@ -18,13 +20,11 @@ export function WorkspaceMainPage() {
     skip: !workspaceId || !mounted,
   });
 
-  if (!mounted) {
-    return <div>Загрузка...</div>;
+  if (!mounted || isLoading) {
+    return <MainSkeleton />;
   }
 
-  if (!workspaceId) return <div>Неверный ID рабочего пространства</div>;
-  if (isLoading) return <div>Загрузка...</div>;
-  if (!workspace) return <div>Ошибка загрузки рабочего пространства</div>;
+  if (!workspaceId || !workspace) return <NotFoundWorkspace />;
 
   return <WorkspaceMembers workspaceId={workspaceId} workspaceName={workspace.name} />;
 }

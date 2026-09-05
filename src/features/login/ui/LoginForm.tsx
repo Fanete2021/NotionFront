@@ -36,7 +36,7 @@ export const LoginForm = () => {
     try {
       await login(values).unwrap();
 
-      router.replace('/');
+      router.replace('/main');
       reset();
     } catch (err) {
       console.log(mutationError);

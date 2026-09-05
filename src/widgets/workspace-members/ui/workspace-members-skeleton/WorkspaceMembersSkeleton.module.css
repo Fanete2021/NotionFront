@@ -1,0 +1,11 @@
+.membersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.membersList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

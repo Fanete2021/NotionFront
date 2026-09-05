@@ -1,0 +1,38 @@
+.modal {
+  width: 460px;
+  min-height: 276px;
+  max-height: 330px;
+}
+
+.content {
+  margin-top: 20px;
+}
+
+.linksContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.inviteOption {
+  flex: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.inviteOption.active {
+  border: 1px solid var(--color-invite-link-border-active);
+  background-color: var(--color-invite-link-bg-active);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .createButton {
+    background-color: var(--color-create-invite-link-modal-create-btn-bg);
+    padding: 8px 16px;
+  }
+}

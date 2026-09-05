@@ -1,21 +1,72 @@
+'use client';
+
 import styles from './InviteLinks.module.css';
 import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
+import { openInviteLinkModal } from '@/features/create-invite-link';
+import {
+  useGetWorkspaceInvitesQuery,
+  useRevokeWorkspaceInviteMutation,
+} from '@/entities/workspace-invite';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import GlobusIcon from '@/shared/assets/icons/globus.svg';
-import CalendarIcon from '@/shared/assets/icons/calendar.svg';
+import { useAppDispatch } from '@/shared/lib';
+import { useMutationWithError } from '@/shared/lib/hooks';
+import { FormError } from '@/shared/ui/form-error';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
 interface InviteLinksProps {
   workspaceId: string;
 }
 
 export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
-  const permanentLink = `https://notion.app/join/acme-abc123`;
-  const temporaryLink = `https://notion.app/join/tmp-xyz789`;
+  const dispatch = useAppDispatch();
 
-  const handleDeleteAction = () => {
-    console.log('Delete');
+  const {
+    data: invites,
+    isLoading,
+    isError,
+  } = useGetWorkspaceInvitesQuery(workspaceId, {
+    skip: !workspaceId,
+  });
+
+  const {
+    execute: revokeInvite,
+    isLoading: isRevoking,
+    error: revokeError,
+  } = useMutationWithError(useRevokeWorkspaceInviteMutation, {
+    onSuccess: () => {
+      console.log('Invite revoked successfully');
+    },
+    fieldMap: {
+      [HTTP_STATUS.FORBIDDEN]: {
+        field: 'type',
+        message: 'У вас нет прав для удаления ссылок',
+      },
+      [HTTP_STATUS.NOT_FOUND]: {
+        field: 'id',
+        message: 'Ссылка не найдена',
+      },
+    },
+  });
+
+  const handleDeleteAction = async (inviteId: string) => {
+    await revokeInvite({ workspaceId, inviteId });
   };
+
+  const handleCreateLink = () => {
+    dispatch(openInviteLinkModal({ workspaceId }));
+  };
+
+  const permanentLinks = invites ?? [];
+
+  if (isLoading) {
+    return <div className={styles.loading}>Загрузка...</div>;
+  }
+
+  if (isError) {
+    return <div className={styles.error}>Ошибка загрузки ссылок</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -27,20 +78,29 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
       </div>
 
       <div className={styles.links}>
-        <InviteLink
-          icon={<GlobusIcon className={styles.icon} />}
-          label="Постоянная"
-          url={temporaryLink}
-          onDelete={handleDeleteAction}
-        />
-        <InviteLink
-          icon={<CalendarIcon className={styles.icon} />}
-          label="Временная"
-          url={permanentLink}
-          onDelete={handleDeleteAction}
-        />
+        {permanentLinks.map((invite) => {
+          const url = `${window.location.origin}/join/${invite.id}`;
+          return (
+            <InviteLink
+              key={invite.id}
+              icon={<GlobusIcon className={styles.icon} />}
+              label="Постоянная"
+              url={url}
+              onDelete={() => handleDeleteAction(invite.id)}
+              disabled={isRevoking}
+            />
+          );
+        })}
       </div>
-      <Button variant="outline" className={styles.addNewLinkButton}>
+
+      <FormError message={revokeError} />
+
+      <Button
+        variant="outline"
+        className={styles.addNewLinkButton}
+        onClick={handleCreateLink}
+        disabled={isRevoking}
+      >
         + Создать новую ссылку
       </Button>
     </div>

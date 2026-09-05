@@ -27,7 +27,8 @@
 }
 
 .links {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
   justify-content: space-between;
   gap: 10px;
   width: 100%;
@@ -37,6 +38,8 @@
 .links > * {
   flex: 1;
   min-width: 0;
+  border: 1px solid var(--color-invite-link-border);
+  border-radius: 8px;
 }
 
 .info {

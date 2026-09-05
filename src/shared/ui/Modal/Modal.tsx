@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import styles from './Modal.module.css';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
-import CloseIcon2 from '@/shared/assets/icons/x-close-2.svg';
 import CloseIcon from '@/shared/assets/icons/x-close.svg';
 
 interface ModalProps {
@@ -19,6 +18,7 @@ interface ModalProps {
   footer?: ReactNode;
   headerDivider?: boolean;
   footerDivider?: boolean;
+  closeIcon?: ReactNode;
 }
 
 export const Modal = ({
@@ -32,6 +32,7 @@ export const Modal = ({
   footer,
   headerDivider = false,
   footerDivider = false,
+  closeIcon = <CloseIcon className={styles.closeIcon} />,
 }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -99,11 +100,7 @@ export const Modal = ({
             aria-label="Закрыть"
             onClick={onClose}
           >
-            {footer ? (
-              <CloseIcon className={styles.closeIcon} />
-            ) : (
-              <CloseIcon2 className={styles.closeIcon} />
-            )}
+            {closeIcon}
           </Button>
         </div>
         <div className={styles.body}>{children}</div>

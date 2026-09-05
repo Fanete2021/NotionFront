@@ -10,9 +10,17 @@ interface InviteLinkItemProps {
   url: string;
   onCopy?: () => void;
   onDelete?: () => void;
+  disabled?: boolean;
 }
 
-export const InviteLink = ({ icon, label, url, onCopy, onDelete }: InviteLinkItemProps) => {
+export const InviteLink = ({
+  icon,
+  label,
+  url,
+  onCopy,
+  onDelete,
+  disabled = false,
+}: InviteLinkItemProps) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
@@ -42,7 +50,7 @@ export const InviteLink = ({ icon, label, url, onCopy, onDelete }: InviteLinkIte
             <Typography variant="caption" className={styles.url}>
               {url}
             </Typography>
-            <Button variant="clear" size="sm" onClick={handleCopy}>
+            <Button variant="clear" size="sm" onClick={handleCopy} disabled={disabled}>
               <CopyIcon className={styles.icon} />
             </Button>
           </div>
@@ -56,6 +64,7 @@ export const InviteLink = ({ icon, label, url, onCopy, onDelete }: InviteLinkIte
               size="sm"
               color="danger"
               onClick={onDelete}
+              disabled={disabled}
             >
               Удалить
             </Button>

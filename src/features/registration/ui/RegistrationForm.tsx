@@ -55,7 +55,7 @@ export const RegistrationForm = () => {
 
       clearRegistrationDraft();
 
-      router.replace('/');
+      router.replace('/main');
     } catch (error: unknown) {
       if (isFetchBaseQueryError(error) && error.status === 409) {
         setError(
