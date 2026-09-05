@@ -157,20 +157,22 @@
   --color-context-menu-shadow: rgba(0, 0, 0, 0.15);
 
   /* IconPicker */
-  --color-icon-picker-button: #F7F7F5;
-  --color-active-icon-picker-button: #E8f0FE;
+  --color-active-icon-picker-button: #EEF2FF;
 
   /* ColorPicker */
-  --color-color-picker-blue: #4285F4;
-  --color-color-picker-green: #34A853;
+  --color-color-picker-indigo: #6366F1;
+  --color-color-picker-blue: #3B82F6;
+  --color-color-picker-green: #10B981;
+  --color-color-picker-amber: #F59E0B;
+  --color-color-picker-red: #EF4444;
+  --color-color-picker-purple: #A855F7;
+  --color-color-picker-pink: #EC4899;
+  --color-color-picker-gray: #6B7280;
+
+  /* прошлая палитра — эти значения уже сохранены у проектов */
   --color-color-picker-yellow: #fBBC05;
-  --color-color-picker-purple: #9C2780;
   --color-color-picker-dark-green: #607D8B;
   --color-color-picker-white: #FFFFFF;
-
-  /* ProjectFormModal */
-  --color-project-form-input-bg: #F7F7F5;
-  --color-project-form-label: #787774;
 
   /* WorkspaceModal */
   --color-workspace-modal-text: #787774;

@@ -1,32 +1,26 @@
 'use client';
 
-import { FC, HTMLAttributes } from 'react';
+import { ElementType, FC, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './IconPicker.module.css';
+import { PROJECT_ICONS } from './icons';
 import { Button } from '@/shared/ui/Button';
-
-export const ICONS = [
-  '📁',
-  '📂',
-  '️🗂️',
-  '📋',
-  '📌',
-  '🚀',
-  '💡',
-  '🎯',
-  '🔖',
-  '📊',
-  '📈',
-  '⚙️',
-] as const;
 
 interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   selectedIcon: string | null;
   onChange: (icon: string | null) => void;
+
+  // набор иконок «имя → компонент», по умолчанию проектный
+  icons?: Record<string, ElementType>;
   className?: string;
 }
 
-export const IconPicker: FC<IconPickerProps> = ({ selectedIcon, onChange, className }) => {
+export const IconPicker: FC<IconPickerProps> = ({
+  selectedIcon,
+  onChange,
+  icons = PROJECT_ICONS,
+  className,
+}) => {
   const handleIconClick = (icon: string) => {
     if (selectedIcon === icon) {
       onChange(null);
@@ -37,16 +31,18 @@ export const IconPicker: FC<IconPickerProps> = ({ selectedIcon, onChange, classN
 
   return (
     <div className={classNames(styles.container, className)}>
-      {ICONS.map((icon) => (
+      {Object.entries(icons).map(([name, Icon]) => (
         <Button
-          key={icon}
+          key={name}
           variant="clear"
+          aria-label={name}
+          aria-pressed={selectedIcon === name}
           className={classNames(styles.iconButton, {
-            [styles.selected]: selectedIcon === icon,
+            [styles.selected]: selectedIcon === name,
           })}
-          onClick={() => handleIconClick(icon)}
+          onClick={() => handleIconClick(name)}
         >
-          {icon}
+          <Icon className={styles.icon} />
         </Button>
       ))}
     </div>

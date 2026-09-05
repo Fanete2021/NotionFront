@@ -8,22 +8,27 @@ import {
   projectModalsReducer,
 } from '../model/projectModalsSlice';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
+import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 import { ColorPicker } from '@/shared/ui/ColorPicker';
 import { Colors } from '@/shared/const/colors';
 import { IconPicker } from '@/shared/ui/IconPicker';
+import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { FormError } from '@/shared/ui/form-error';
+import PlusIcon from '@/shared/assets/icons/plus.svg';
+import CheckIcon from '@/shared/assets/icons/check.svg';
+import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 
 interface ProjectFormModalProps {
   mode: 'create' | 'edit';
 }
 
-const DEFAULT_COLOR = Colors.WHITE;
+const DEFAULT_COLOR = Colors.INDIGO;
 
 const defaultProjectModalsState = {
   isCreateProjectModalOpen: false,
@@ -46,20 +51,28 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   const {
     isCreateProjectModalOpen,
     isEditProjectModalOpen,
-    creatingProjectWorkspaceId: workspaceId,
+    creatingProjectWorkspaceId: sourceWorkspaceId,
     editingProjectId: projectId = '',
     editingProjectName: currentName,
     editingProjectColor: currentColor,
     editingProjectIcon: currentIcon,
   } = useAppSelector((state) => state.projectModals ?? defaultProjectModalsState);
 
-  const isOpen = mode === 'create' ? isCreateProjectModalOpen : isEditProjectModalOpen;
+  const isCreate = mode === 'create';
+  const isOpen = isCreate ? isCreateProjectModalOpen : isEditProjectModalOpen;
+  const formId = isCreate ? 'createProjectForm' : 'editProjectForm';
 
-  const [name, setName] = useState(mode === 'create' ? '' : currentName);
+  const { data: workspaces } = useGetWorkspacesQuery();
+  const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
+
+  const [name, setName] = useState(isCreate ? '' : currentName);
   const [color, setColor] = useState<string | null>(
-    mode === 'create' || currentColor === null ? DEFAULT_COLOR : currentColor,
+    isCreate || currentColor === null ? DEFAULT_COLOR : currentColor,
   );
-  const [icon, setIcon] = useState<string | null>(mode === 'create' ? null : (currentIcon ?? null));
+  const [icon, setIcon] = useState<string | null>(isCreate ? null : (currentIcon ?? null));
+  const [workspaceId, setWorkspaceId] = useState<string | null>(
+    isCreate ? sourceWorkspaceId : currentWorkspaceId,
+  );
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -102,34 +115,42 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     },
   });
 
-  const isLoading = mode === 'create' ? isCreating : isUpdating;
-  const mutationError = mode === 'create' ? createError : updateError;
+  const isLoading = isCreate ? isCreating : isUpdating;
+  const mutationError = isCreate ? createError : updateError;
 
   useEffect(() => {
     if (isOpen) {
-      if (mode === 'create') {
+      if (isCreate) {
         //eslint-disable-next-line
         setName('');
         setColor(DEFAULT_COLOR);
         setIcon(null);
-        setError(null);
       } else {
         setName(currentName);
         setColor(currentColor ?? DEFAULT_COLOR);
         setIcon(currentIcon ?? null);
-        setError(null);
       }
+      setWorkspaceId(isCreate ? sourceWorkspaceId : currentWorkspaceId);
+      setError(null);
     }
-  }, [isOpen, mode, currentName, currentColor, currentIcon]);
+  }, [
+    isOpen,
+    isCreate,
+    currentName,
+    currentColor,
+    currentIcon,
+    sourceWorkspaceId,
+    currentWorkspaceId,
+  ]);
 
   const handleClose = useCallback(() => {
-    if (mode === 'create') {
+    if (isCreate) {
       dispatch(closeCreateProjectModal());
     } else {
       dispatch(closeEditProjectModal());
     }
     setError(null);
-  }, [mode, dispatch]);
+  }, [isCreate, dispatch]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,10 +162,10 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     }
 
     const isDefaultColor = color === DEFAULT_COLOR;
-    const shouldSendColor = !(isDefaultColor && (mode === 'create' || currentColor === null));
+    const shouldSendColor = !(isDefaultColor && (isCreate || currentColor === null));
     const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
 
-    if (mode === 'create') {
+    if (isCreate) {
       if (!workspaceId) {
         setError('Workspace не найден');
         return;
@@ -174,22 +195,53 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     }
   };
 
-  const title = mode === 'create' ? 'Создать проект' : 'Редактировать проект';
+  const header = (
+    <div className={styles.heading}>
+      <Typography variant="text-medium" className={styles.title}>
+        {isCreate ? 'Создать проект' : 'Редактировать проект'}
+      </Typography>
+      <Typography variant="caption" className={styles.subtitle}>
+        {isCreate ? 'Добавьте новый проект в рабочее пространство' : 'Измените параметры проекта'}
+      </Typography>
+    </div>
+  );
+
+  const footer = (
+    <div className={styles.actions}>
+      <Button type="button" onClick={handleClose} disabled={isLoading}>
+        Отмена
+      </Button>
+      <Button
+        variant="filled"
+        type="submit"
+        form={formId}
+        className={styles.submitButton}
+        addonLeft={isCreate ? <PlusIcon /> : <CheckIcon />}
+        disabled={isLoading || !name.trim()}
+      >
+        {isLoading ? 'Сохранение...' : isCreate ? 'Создать' : 'Сохранить'}
+      </Button>
+    </div>
+  );
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title={title}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      headerDivider
+      footerDivider
+      header={header}
+      footer={footer}
+    >
+      <form id={formId} onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
-          <label htmlFor="projectName" className={styles.label}>
-            Название
-          </label>
           <Input
             id="projectName"
             type="text"
+            label="Название"
             value={name}
             onChange={(str) => setName(str)}
-            placeholder="Введите название..."
-            className={styles.input}
+            placeholder="Название проекта..."
             autoFocus
             disabled={isLoading}
           />
@@ -197,32 +249,42 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Цвет</span>
+          <Typography variant="caption" className={styles.label}>
+            Цвет
+          </Typography>
           <ColorPicker selectedColor={color} onChange={setColor} />
         </div>
 
         <div className={styles.field}>
-          <span className={styles.label}>Иконка</span>
+          <Typography variant="caption" className={styles.label}>
+            Иконка{' '}
+            <Typography variant="caption" className={styles.labelHint}>
+              (необязательно)
+            </Typography>
+          </Typography>
           <IconPicker selectedIcon={icon} onChange={setIcon} />
         </div>
 
-        <div className={styles.actions}>
-          <Button
-            type="button"
-            onClick={handleClose}
-            className={styles.cancelButton}
-            disabled={isLoading}
-          >
-            Отмена
-          </Button>
-          <Button
-            variant="filled"
-            type="submit"
-            className={styles.submitButton}
-            disabled={isLoading || !name.trim()}
-          >
-            {isLoading ? 'Сохранение...' : mode === 'create' ? 'Создать' : 'Сохранить'}
-          </Button>
+        <div className={styles.field}>
+          <Typography variant="label" htmlFor={`${formId}Workspace`} className={styles.label}>
+            Рабочее пространство
+          </Typography>
+          <div className={styles.select}>
+            <select
+              id={`${formId}Workspace`}
+              className={styles.selectControl}
+              value={workspaceId ?? ''}
+              onChange={(e) => setWorkspaceId(e.target.value)}
+              disabled={isLoading || !isCreate}
+            >
+              {workspaces?.map((workspace) => (
+                <option key={workspace.id} value={workspace.id}>
+                  {workspace.name}
+                </option>
+              ))}
+            </select>
+            <ChevronDownIcon className={styles.selectIcon} />
+          </div>
         </div>
       </form>
     </Modal>

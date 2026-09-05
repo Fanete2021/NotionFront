@@ -12,17 +12,19 @@
 }
 
 .withAddon {
+  gap: 8px;
   padding-inline: 2px;
 }
 
 .addonLeft {
   display: flex;
   align-items: center;
-  margin-right: 8px;
+  justify-content: center;
 
+  /* размер меняется переменной со стороны вызова: --button-addon-size */
   svg {
-    width: 16px;
-    height: 16px;
+    width: var(--button-addon-size, 16px);
+    height: var(--button-addon-size, 16px);
   }
 }
 
