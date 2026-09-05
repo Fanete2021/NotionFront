@@ -3,10 +3,10 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { loggedOut, selectSessionStatus } from '../store';
-import { NotFoundError } from '@widgets/error';
+import { NotFoundError, UnexpectedError } from '@widgets/error';
 import { useGetMeQuery } from '@entities/user';
 import { PRIVATE_ROUTES, PUBLIC_ROUTES, ROUTES } from '@shared/routes';
-import { useAppDispatch, useAppSelector } from '@/shared/lib';
+import { useAppSelector } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader';
 import { toast } from '@/shared/ui/toast';
 
@@ -24,27 +24,20 @@ const isPrivateRoute = (pathname: string) =>
 export const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const dispatch = useAppDispatch();
   const status = useAppSelector(selectSessionStatus);
   const [isClient, setIsClient] = useState(false);
-
-  const { isError } = useGetMeQuery(undefined, {
-    skip: status !== 'unknown',
-  });
 
   useEffect(() => {
     // eslint-disable-next-line
     setIsClient(true);
   }, []);
 
-  useEffect(() => {
-    if (isError && status === 'unknown') {
-      dispatch(loggedOut());
-    }
-  }, [isError, status, dispatch]);
-
   const isCurrentRoutePublic = pathname !== null && isPublicRoute(pathname);
   const isCurrentRoutePrivate = pathname !== null && isPrivateRoute(pathname);
+
+  const userQuery = useGetMeQuery(undefined, {
+    skip: !isCurrentRoutePrivate || status === 'anonymous',
+  });
 
   useEffect(() => {
     if (status === 'anonymous' && isCurrentRoutePrivate) {
@@ -57,25 +50,39 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     }
   }, [isCurrentRoutePrivate, router, status]);
 
-  if (!isClient) {
-    return <Loader />;
-  }
-
-  if (status === 'unknown' || status === 'anonymous') {
-    return <Loader />;
-  }
-
   if (pathname === null) {
-    return null;
+    return <Loader />;
   }
 
   if (isCurrentRoutePublic) {
     return children;
   }
 
-  if (isCurrentRoutePrivate) {
-    return status === 'authenticated' ? children : null;
+  if (!isCurrentRoutePrivate) {
+    return <NotFoundError />;
   }
 
-  return <NotFoundError />;
+  if (status === 'anonymous') {
+    return <Loader />;
+  }
+
+  if (userQuery.isError) {
+    return (
+      <UnexpectedError
+        code={500}
+        error={new Error('Не удалось проверить сессию')}
+        onRetry={() => void userQuery.refetch()}
+      />
+    );
+  }
+
+  if (status === 'unknown' || userQuery.isLoading || userQuery.isUninitialized) {
+    return <Loader />;
+  }
+
+  if (status === 'authenticated' && userQuery.data) {
+    return children;
+  }
+
+  return <Loader />;
 };
