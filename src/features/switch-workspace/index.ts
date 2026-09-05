@@ -1,6 +1,6 @@
-export { WorkspaceModal } from './ui/WorkspaceModal';
-export { WorkspaceSwitcher } from './ui/WorkspaceSwitcher';
-export { CreateWorkspaceModal } from './ui/CreateWorkspaceModal/CreateWorkspaceModal';
+export { WorkspaceModal } from './ui/workspace-modal';
+export { WorkspaceSwitcher } from './ui/workspace-switcher';
+export { CreateWorkspaceModal } from './ui/create-workspace-modal';
 export { workspaceModalsReducer } from './model/workspaceModalsSlice';
 export type { WorkspaceModalsState } from './model/workspaceModalsSlice';
 export {
