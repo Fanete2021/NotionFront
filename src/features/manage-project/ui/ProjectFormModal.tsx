@@ -12,9 +12,10 @@ import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { ColorPicker } from '@/shared/ui/ColorPicker';
+import { ColorPicker } from '@/shared/ui/color-picker';
 import { Colors } from '@/shared/const/colors';
-import { IconPicker } from '@/shared/ui/IconPicker';
+import { IconPicker } from '@/shared/ui/icon-picker';
+import { Select } from '@/shared/ui/select';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib';
@@ -22,7 +23,6 @@ import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { FormError } from '@/shared/ui/form-error';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 import CheckIcon from '@/shared/assets/icons/check.svg';
-import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 
 interface ProjectFormModalProps {
   mode: 'create' | 'edit';
@@ -64,6 +64,11 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
 
   const { data: workspaces } = useGetWorkspacesQuery();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
+
+  const workspaceOptions = (workspaces ?? []).map((workspace) => ({
+    value: workspace.id,
+    label: workspace.name,
+  }));
 
   const [name, setName] = useState(isCreate ? '' : currentName);
   const [color, setColor] = useState<string | null>(
@@ -269,22 +274,14 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
           <Typography variant="label" htmlFor={`${formId}Workspace`} className={styles.label}>
             Рабочее пространство
           </Typography>
-          <div className={styles.select}>
-            <select
-              id={`${formId}Workspace`}
-              className={styles.selectControl}
-              value={workspaceId ?? ''}
-              onChange={(e) => setWorkspaceId(e.target.value)}
-              disabled={isLoading || !isCreate}
-            >
-              {workspaces?.map((workspace) => (
-                <option key={workspace.id} value={workspace.id}>
-                  {workspace.name}
-                </option>
-              ))}
-            </select>
-            <ChevronDownIcon className={styles.selectIcon} />
-          </div>
+          {/* перенос проекта между пространствами API не умеет, поэтому при редактировании только показываем */}
+          <Select
+            id={`${formId}Workspace`}
+            value={workspaceId ?? ''}
+            onChange={setWorkspaceId}
+            options={workspaceOptions}
+            disabled={isLoading || !isCreate}
+          />
         </div>
       </form>
     </Modal>

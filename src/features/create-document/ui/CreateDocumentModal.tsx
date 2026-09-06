@@ -9,12 +9,12 @@ import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import { IconPicker } from '@/shared/ui/IconPicker';
+import { IconPicker } from '@/shared/ui/icon-picker';
+import { Select } from '@/shared/ui/select';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { FormError } from '@/shared/ui/form-error';
 import GlobusIcon from '@/shared/assets/icons/globus.svg';
-import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 
 type DocumentType = 'document' | 'section';
 
@@ -44,6 +44,11 @@ export const CreateDocumentModal: FC = () => {
 
   const { data: workspaces } = useGetWorkspacesQuery();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
+
+  const workspaceOptions = (workspaces ?? []).map((workspace) => ({
+    value: workspace.id,
+    label: workspace.name,
+  }));
 
   useEffect(() => {
     if (isOpen) {
@@ -167,21 +172,12 @@ export const CreateDocumentModal: FC = () => {
           <Typography variant="label" htmlFor="documentLocation" className={styles.label}>
             Расположение
           </Typography>
-          <div className={styles.select}>
-            <select
-              id="documentLocation"
-              className={styles.selectControl}
-              value={workspaceId ?? ''}
-              onChange={(e) => setWorkspaceId(e.target.value)}
-            >
-              {workspaces?.map((workspace) => (
-                <option key={workspace.id} value={workspace.id}>
-                  {workspace.name}
-                </option>
-              ))}
-            </select>
-            <ChevronDownIcon className={styles.selectIcon} />
-          </div>
+          <Select
+            id="documentLocation"
+            value={workspaceId ?? ''}
+            onChange={setWorkspaceId}
+            options={workspaceOptions}
+          />
         </div>
       </form>
     </Modal>
