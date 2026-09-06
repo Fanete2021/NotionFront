@@ -13,7 +13,7 @@ export interface ProjectModalsState {
 const initialState: ProjectModalsState = {
   isCreateProjectModalOpen: false,
   creatingProjectWorkspaceId: null,
-  isEditProjectModalOpen: true,
+  isEditProjectModalOpen: false,
   editingProjectId: null,
   editingProjectName: '',
   editingProjectColor: null,
