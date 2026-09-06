@@ -1,15 +1,16 @@
 'use client';
 
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { LogOut } from 'lucide-react';
 import styles from './UserProfile.module.css';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppDispatch } from '@shared/lib';
+import { useAppDispatch, useDismissibleLayer } from '@shared/lib';
 import { loggedOut } from '@shared/api';
 import { Button } from '@/shared/ui/Button';
 import MoreIcon from '@/shared/assets/icons/more.svg';
+import { ContextMenu } from '@shared/ui/context-menu';
 
 interface UserProfileProps {
   name: string;
@@ -17,29 +18,19 @@ interface UserProfileProps {
 }
 
 export function UserProfile({ name, email }: UserProfileProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const menuRef = useRef<HTMLUListElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const actionsRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: isMenuOpen,
+    onDismiss: () => setIsMenuOpen(false),
+  });
+
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    setIsOpen(false);
+    setIsMenuOpen(false);
     dispatch(loggedOut());
   };
-
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen]);
 
   return (
     <div className={styles.profile}>
@@ -54,21 +45,20 @@ export function UserProfile({ name, email }: UserProfileProps) {
         </Typography>
       </div>
 
-      <div className={styles.actions}>
+      <div ref={actionsRef} className={styles.actions}>
         <Button
           variant="clear"
           className={styles.moreBtn}
           aria-label="Действия с профилем"
           aria-haspopup="menu"
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((prev) => !prev)}
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((prev) => !prev)}
         >
           <MoreIcon className={styles.moreIcon} aria-hidden="true" />
         </Button>
 
-        {isOpen && (
-          <ul
-            ref={menuRef}
+        {isMenuOpen && (
+          <ContextMenu
             className={styles.profileActions}
             role="menu"
             aria-label="Действия с профилем"
@@ -84,7 +74,7 @@ export function UserProfile({ name, email }: UserProfileProps) {
                 Выйти
               </Button>
             </li>
-          </ul>
+          </ContextMenu>
         )}
       </div>
     </div>

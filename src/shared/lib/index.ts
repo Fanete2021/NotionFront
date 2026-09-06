@@ -1,2 +1,2 @@
 export { useAppDispatch, useAppSelector, useAppStore } from './redux/hooks';
-export { useMutationWithError } from './hooks';
+export { useMutationWithError, useDismissibleLayer, type DismissReason } from './hooks';

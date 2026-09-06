@@ -1,12 +1,13 @@
 'use client';
 
-import { type ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
 import CloseIcon2 from '@/shared/assets/icons/x-close-2.svg';
 import CloseIcon from '@/shared/assets/icons/x-close.svg';
+import { useDismissibleLayer } from '@shared/lib';
 
 interface ModalProps {
   isOpen: boolean;
@@ -33,33 +34,20 @@ export const Modal = ({
   headerDivider = false,
   footerDivider = false,
 }: ModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: isOpen,
+    onDismiss: onClose,
+  });
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.addEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.removeEventListener('mousedown', handleClickOutside);
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -81,13 +69,12 @@ export const Modal = ({
     ) : null);
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay}>
       <div
         className={classNames(styles.panel, className)}
         ref={modalRef}
         role="dialog"
         aria-modal="true"
-        onClick={(e) => e.stopPropagation()}
       >
         <div className={classNames(styles.header, { [styles.withDivider]: headerDivider })}>
           <div className={styles.headerMain}>{headerContent}</div>
