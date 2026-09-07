@@ -39,3 +39,8 @@
 .submitForm {
   margin-top: 12px;
 }
+
+.errorMessage {
+  color: var(--color-danger);
+  margin-bottom: 5px;
+}

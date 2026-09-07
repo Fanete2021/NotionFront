@@ -86,3 +86,13 @@ export const Clear: Story = {
     children: '>',
   },
 };
+
+export const AlignStart: Story = {
+  args: {
+    variant: 'filled',
+    size: 'md',
+    fullWidth: true,
+    align: 'start',
+    children: 'Сохранить',
+  },
+};

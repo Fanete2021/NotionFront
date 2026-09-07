@@ -5,14 +5,13 @@ import styles from './CreateInviteLinkModal.module.css';
 import { InviteLink } from '../ui/InviteLink/InviteLink';
 import { closeInviteLinkModal, inviteLinkModalReducer } from '../model/inviteLinkModalSlice';
 import { useCreateWorkspaceInviteMutation } from '@/entities/workspace-invite';
-import { Modal } from '@shared/ui/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib/hooks';
 import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
-import CloseIcon2 from '@/shared/assets/icons/x-close-2.svg';
 
 export function CreateInviteLinkModal() {
   const dispatch = useAppDispatch();
@@ -88,7 +87,6 @@ export function CreateInviteLinkModal() {
       footer={footer}
       headerDivider
       footerDivider
-      closeIcon={<CloseIcon2 className={styles.closeIcon} />}
     >
       <div className={styles.content}>
         <Typography variant="text-micro" className={styles.title}>

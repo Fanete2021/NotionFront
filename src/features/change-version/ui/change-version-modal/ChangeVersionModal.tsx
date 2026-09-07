@@ -3,7 +3,7 @@
 import styles from './ChangeVersionModal.module.css';
 import { VersionList } from '../version-list/VersionList';
 import { VersionPreview } from '../version-preview/VersionPreview';
-import { Modal } from '@shared/ui/Modal';
+import { Modal } from '@/shared/ui/modal';
 import { Typography } from '@shared/ui/Typography';
 
 type ChangeVersionModalProps = {
@@ -16,6 +16,8 @@ export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) =
     <Modal
       isOpen={open}
       onClose={onClose}
+      size="xl"
+      noBodyPadding
       headerDivider
       header={
         <div className={styles.heading}>
@@ -24,7 +26,7 @@ export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) =
             <Typography variant="text-regular" className={styles.headingTitle}>
               История изменений
             </Typography>
-            <Typography variant="label" className={styles.headingSubtitle}>
+            <Typography variant="caption" className={styles.headingSubtitle}>
               Дизайн-система — Компоненты
             </Typography>
           </div>

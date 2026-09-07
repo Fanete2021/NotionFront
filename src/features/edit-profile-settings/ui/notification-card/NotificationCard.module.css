@@ -1,0 +1,21 @@
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.toggleText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.toggleTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.toggleDescription {
+  margin: 0;
+}

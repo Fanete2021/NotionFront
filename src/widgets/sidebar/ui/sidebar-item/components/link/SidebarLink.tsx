@@ -1,11 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarLink.module.css';
-import { getPadding, getChildPadding, isDeepChild, renderIcon } from '../../utils';
-import { Typography } from '@/shared/ui/Typography';
+import { getPadding, getChildPadding, isDeepChild, isActiveLink, renderIcon } from '../../utils';
+import { NavLink } from '@/shared/ui/nav-link';
 
 interface SidebarLinkProps {
   item: SidebarItemType;
@@ -14,27 +13,39 @@ interface SidebarLinkProps {
 
 export function SidebarLink({ item, level }: SidebarLinkProps) {
   const pathname = usePathname();
-  const active = pathname === item.href;
+  const active = isActiveLink(pathname, item.href);
   const deepChild = isDeepChild(level);
 
   const paddingLeft = deepChild ? getChildPadding(level) : level === 0 ? 8 : getPadding(level);
 
+  const icon = deepChild ? null : renderIcon(item, styles);
+  const withArrowPlaceholder = !deepChild && level > 0;
+  const withColorDot = !deepChild && Boolean(item.color);
+  const withAddons = withArrowPlaceholder || Boolean(icon) || withColorDot;
+
   return (
-    <Link
+    <NavLink
       href={item.href ?? '#'}
-      className={`${styles.link} ${active ? styles.active : ''}`}
+      className={styles.link}
+      active={active}
+      size="sm"
+      labelVariant="text-regular"
       style={{
         paddingInlineStart: paddingLeft,
       }}
+      addonLeft={
+        withAddons ? (
+          <span className={styles.addons}>
+            {withArrowPlaceholder && <span className={styles.arrowPlaceholder} />}
+            {icon}
+            {withColorDot && (
+              <span className={styles.colorDot} style={{ backgroundColor: item.color }} />
+            )}
+          </span>
+        ) : undefined
+      }
     >
-      {!deepChild && level > 0 && <span className={styles.arrowPlaceholder} />}
-      {!deepChild && renderIcon(item, styles)}
-      {!deepChild && item.color && (
-        <span className={styles.colorDot} style={{ backgroundColor: item.color }} />
-      )}
-      <Typography className={styles.title} variant="label">
-        {item.title}
-      </Typography>
-    </Link>
+      {item.title}
+    </NavLink>
   );
 }

@@ -1,0 +1,51 @@
+.link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 6px;
+  color: var(--color-text-body);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.md {
+  gap: 10px;
+  height: 36px;
+  padding: 0 12px;
+}
+
+.sm {
+  gap: 8px;
+  height: 28px;
+  padding: 0 8px;
+}
+
+.link:hover {
+  background: var(--color-bg-surface);
+}
+
+.link.active {
+  background: var(--color-sidebar-item-active);
+  color: var(--color-sidebar-item-active-text);
+}
+
+.addonLeft {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.addonLeft svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.label {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

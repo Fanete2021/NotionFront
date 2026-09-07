@@ -1,0 +1,52 @@
+.telegramHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.telegramText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.telegramDescription {
+  margin: 0;
+}
+
+.telegramIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: var(--color-telegram);
+  border-radius: 50%;
+  color: var(--color-text-avatar);
+}
+
+.telegramIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.telegramButton.telegramButton {
+  flex-shrink: 0;
+  background: var(--color-telegram);
+}
+
+.telegramButton.telegramButton:hover {
+  background: color-mix(in srgb, var(--color-telegram) 88%, #000000);
+}
+
+.telegramButton.telegramButton:active {
+  background: color-mix(in srgb, var(--color-telegram) 78%, #000000);
+}
+
+@media (max-width: 1023px) {
+  .telegramHeader {
+    flex-wrap: wrap;
+  }
+}

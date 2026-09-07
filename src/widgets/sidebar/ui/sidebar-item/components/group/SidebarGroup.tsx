@@ -10,6 +10,10 @@ import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
+import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
+import TrashIcon from '@/shared/assets/icons/trash.svg';
+import DocsIcon from '@/shared/assets/icons/docs.svg';
+import DotsIcon from '@/shared/assets/icons/dots.svg';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppDispatch } from '@/shared/lib';
@@ -171,7 +175,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
 
           <div className={styles.moreWrapper} ref={moreRef}>
             <Button size="sm" variant="clear" className={styles.moreBtn} onClick={handleMoreClick}>
-              •••
+              <DotsIcon />
             </Button>
 
             {isDropdownOpen && dropdownPosition && (
@@ -185,16 +189,15 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
                 }}
               >
                 <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
-                  <span className={styles.dropdownIcon}>✏️</span>
+                  <PencilIcon className={styles.menuIcon} />
                   Редактировать
                 </Button>
-                <div className={styles.dropdownDivider}></div>
                 <Button
                   variant="clear"
-                  className={`${styles.dropdownItem} ${styles.dropdownItemDanger}`}
+                  className={`${styles.dropdownItem} ${styles.menuItemDanger}`}
                   onClick={handleDelete}
                 >
-                  <span className={styles.dropdownIcon}>🗑️</span>
+                  <TrashIcon className={styles.menuIcon} />
                   Удалить
                 </Button>
               </div>
@@ -221,8 +224,8 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
             left: contextMenu.x,
           }}
         >
-          <Button className={styles.contextMenuItem} onClick={handleCreateDocument}>
-            <span className={styles.contextMenuIcon}>📄</span>
+          <Button variant="clear" className={styles.contextMenuItem} onClick={handleCreateDocument}>
+            <DocsIcon className={styles.menuIcon} />
             Создать документ
           </Button>
         </div>

@@ -7,6 +7,7 @@ import styles from './Button.module.css';
 export type ButtonVariant = 'outline' | 'filled' | 'clear';
 export type ButtonColor = 'normal' | 'danger' | 'success' | 'github';
 export type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonAlign = 'center' | 'start';
 type Mods = Record<string, boolean | string | undefined>;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -32,6 +33,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
   // Без отступов
   noPadding?: boolean;
+
+  // Выравнивание содержимого по главной оси
+  align?: ButtonAlign;
 }
 
 export const Button = (props: ButtonProps) => {
@@ -47,6 +51,7 @@ export const Button = (props: ButtonProps) => {
     color = 'normal',
     type = 'button',
     onClick,
+    align = 'center',
     ...otherProps
   } = props;
 
@@ -55,6 +60,7 @@ export const Button = (props: ButtonProps) => {
     [styles.disabled]: disabled,
     [styles.fullWidth]: fullWidth,
     [styles.withAddon]: Boolean(addonLeft),
+    [styles.alignStart]: align === 'start',
   };
 
   return (

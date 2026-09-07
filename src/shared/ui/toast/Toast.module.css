@@ -1,0 +1,209 @@
+.viewport {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  left: auto;
+  z-index: calc(var(--z-index-modal) + 1);
+  width: calc(100% - 32px);
+  max-width: 384px;
+  margin-inline: 0;
+  outline: none;
+  pointer-events: none;
+}
+
+.toast {
+  --gap: 12px;
+  --height: var(--toast-frontmost-height, var(--toast-height));
+  --offset-y: calc(
+    var(--toast-offset-y) + var(--toast-index) * var(--gap) + var(--toast-swipe-movement-y)
+  );
+  --peek: 12px;
+  --scale: max(0, calc(1 - var(--toast-index) * 0.1));
+  --shrink: calc(1 - var(--scale));
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: calc(1000 - var(--toast-index));
+  width: 100%;
+  height: var(--height);
+  border: 1px solid var(--color-border-base);
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  box-shadow:
+    0 10px 15px -3px rgb(15 23 42 / 10%),
+    0 4px 6px -4px rgb(15 23 42 / 10%);
+  outline: none;
+  transform: translateX(var(--toast-swipe-movement-x))
+    translateY(
+      calc(
+        var(--toast-swipe-movement-y) + var(--toast-index) * var(--peek) + var(--shrink) *
+          var(--height)
+      )
+    )
+    scale(var(--scale));
+  transform-origin: top;
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 500ms,
+    height 150ms;
+  will-change: transform;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.toast::after {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(var(--gap) + 1px);
+  content: '';
+}
+
+.toast:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent),
+    0 10px 15px -3px rgb(15 23 42 / 10%),
+    0 4px 6px -4px rgb(15 23 42 / 10%);
+}
+
+.toast[data-expanded] {
+  height: var(--toast-height);
+  transform: translateX(var(--toast-swipe-movement-x)) translateY(var(--offset-y));
+}
+
+.toast[data-limited] {
+  opacity: 0;
+}
+
+.toast[data-starting-style],
+.toast[data-ending-style]:not([data-limited]):not([data-swipe-direction]) {
+  transform: translateY(-150%);
+}
+
+.toast[data-ending-style][data-swipe-direction='down'],
+.toast[data-expanded][data-ending-style][data-swipe-direction='down'] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) + 150%));
+}
+
+.toast[data-ending-style][data-swipe-direction='left'],
+.toast[data-expanded][data-ending-style][data-swipe-direction='left'] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)) translateY(var(--offset-y));
+}
+
+.toast[data-ending-style][data-swipe-direction='right'],
+.toast[data-expanded][data-ending-style][data-swipe-direction='right'] {
+  transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)) translateY(var(--offset-y));
+}
+
+.toast[data-ending-style][data-swipe-direction='up'],
+.toast[data-expanded][data-ending-style][data-swipe-direction='up'] {
+  transform: translateY(calc(var(--toast-swipe-movement-y) - 150%));
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.content[data-behind] {
+  opacity: 0;
+}
+
+.content[data-expanded] {
+  opacity: 1;
+}
+
+.text {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.action,
+.close,
+.icon {
+  flex-shrink: 0;
+}
+
+.close {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-muted);
+}
+
+.close::after {
+  position: absolute;
+  inset: -8px;
+  content: '';
+}
+
+.close:hover {
+  color: var(--color-text-primary);
+}
+
+.close:focus-visible {
+  border-radius: 6px;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon {
+  display: inline-flex;
+  color: currentColor;
+}
+
+.icon svg {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.errorIcon {
+  color: var(--color-danger);
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .content {
+    transition-duration: 1ms;
+  }
+
+  .loadingIcon {
+    animation-duration: 2s;
+  }
+}
