@@ -6,7 +6,7 @@ import styles from './IconPicker.module.css';
 import { PROJECT_ICONS } from './icons';
 import { Button } from '@/shared/ui/Button';
 
-interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'color'> {
   selectedIcon: string | null;
   onChange: (icon: string | null) => void;
   icons?: Record<string, ElementType>;

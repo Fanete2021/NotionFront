@@ -13,10 +13,7 @@ const plural = (count: number, forms: [string, string, string]) => {
   return forms[2];
 };
 
-/**
- * Превращает дату в «2 часа назад».
- * Всё, что старше недели, показывает обычной датой.
- */
+/** Показывает, сколько прошло: «2 часа назад». Старше недели — обычной датой. */
 export function formatRelativeTime(iso: string): string {
   const date = new Date(iso);
   const diff = Date.now() - date.getTime();
