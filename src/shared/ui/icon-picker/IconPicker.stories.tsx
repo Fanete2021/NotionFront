@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
-import { IconPicker, ICONS } from './IconPicker';
+import { IconPicker } from './IconPicker';
+import { ICONS } from './icons';
 
 const meta: Meta<typeof IconPicker> = {
   title: 'Shared/IconPicker',
@@ -32,14 +33,14 @@ export const Interactive: Story = {
 
 export const Preselected: Story = {
   args: {
-    selectedIcon: '📁',
+    selectedIcon: 'folder',
     onChange: () => {},
   },
 };
 
-export const RocketSelected: Story = {
+export const StarSelected: Story = {
   args: {
-    selectedIcon: '🚀',
+    selectedIcon: 'star',
     onChange: () => {},
   },
 };
@@ -53,7 +54,7 @@ export const NoSelection: Story = {
 
 export const WithCustomClass: Story = {
   args: {
-    selectedIcon: '💡',
+    selectedIcon: 'lightning',
     onChange: () => {},
     className: 'custom-picker',
   },

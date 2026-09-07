@@ -1,34 +1,50 @@
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  .title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    color: var(--color-text-primary);
+  }
+
+  .subtitle {
+    font-weight: 500px;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-text-muted);
+  }
+}
+
 .form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.error {
-  font-size: 13px;
-  color: var(--color-danger);
+  label {
+    font-size: 11px;
+    line-height: 16.5px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
 }
 
 .actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 4px;
-}
+  gap: 8px;
 
-.submitButton,
-.cancelButton {
-  margin-bottom: 48px;
+  .submitButton {
+    gap: 6px;
+    padding: 0 14px;
+    height: 40px;
+  }
+
+  .submitIcon {
+    width: 14px;
+    height: 14px;
+  }
 }

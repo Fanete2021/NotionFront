@@ -23,6 +23,9 @@ interface ModalProps {
   footer?: ReactNode;
   headerDivider?: boolean;
   footerDivider?: boolean;
+
+  // для контента, который сам управляет отступами: колонки, списки во всю ширину
+  noBodyPadding?: boolean;
   size?: ModalSize;
   container?: Element | DocumentFragment;
 }
@@ -38,6 +41,7 @@ export const Modal = ({
   footer,
   headerDivider = false,
   footerDivider = false,
+  noBodyPadding = false,
   size = 'sm',
   container,
 }: ModalProps) => {
@@ -115,7 +119,9 @@ export const Modal = ({
               <CloseIcon className={styles.closeIcon} />
             </Button>
           </div>
-          <div className={styles.body}>{children}</div>
+          <div className={classNames(styles.body, { [styles.bodyFlush]: noBodyPadding })}>
+            {children}
+          </div>
           {footer && (
             <div className={classNames(styles.footer, { [styles.withDivider]: footerDivider })}>
               {footer}

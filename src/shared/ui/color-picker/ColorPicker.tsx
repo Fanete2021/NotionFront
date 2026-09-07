@@ -27,7 +27,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
           className={classNames(styles.colorButton, {
             [styles.selected]: selectedColor === color,
           })}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color, color }}
           onClick={() => onChange(color)}
         >
           {selectedColor === color && (

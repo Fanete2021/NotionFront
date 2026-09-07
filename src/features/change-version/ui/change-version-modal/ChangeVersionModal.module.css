@@ -18,19 +18,24 @@
   flex-direction: column;
   gap: 2px;
   min-width: 0;
-}
 
-.headingTitle {
-  color: var(--color-text-primary);
-}
+  .headingTitle {
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--color-text-primary);
+  }
 
-.headingSubtitle {
-  color: var(--color-text-muted);
+  .headingSubtitle {
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--color-text-muted);
+  }
 }
 
 .layout {
   display: flex;
   align-items: stretch;
+  padding: 0;
   box-sizing: border-box;
   width: 100%;
   min-height: 420px;
