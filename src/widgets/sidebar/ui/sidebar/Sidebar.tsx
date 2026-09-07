@@ -4,14 +4,15 @@ import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
-import { SidebarItem as SidebarItemType, staticSidebarItems } from '../../model';
+import { buildProjectTree, staticSidebarItems } from '../../model';
 import { SidebarSkeleton } from '@/widgets/sidebar/ui/sidebar-skeleton/SidebarSkeleton';
 import { SidebarItem } from '@/widgets/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
-import { CreateDocumentModal } from '@/features/create-document';
+import { DocumentFormModal } from '@/features/manage-document';
 import { ProjectFormModal } from '@/features/manage-project';
 import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
-import { Project, useGetProjectsByWorkspaceQuery } from '@/entities/project';
+import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
+import { useGetPagesByWorkspaceQuery } from '@/entities/page';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector, useAppDispatch } from '@/shared/lib';
@@ -35,6 +36,11 @@ export function Sidebar({ className }: SidebarProps) {
     { skip: !currentWorkspaceId, refetchOnMountOrArgChange: true },
   );
 
+  const { data: pages } = useGetPagesByWorkspaceQuery(
+    { workspaceId: currentWorkspaceId || '' },
+    { skip: !currentWorkspaceId },
+  );
+
   useEffect(() => {
     if (workspaces && workspaces.length > 0 && !currentWorkspaceId) {
       dispatch(setCurrentWorkspace(workspaces[0].id));
@@ -48,19 +54,10 @@ export function Sidebar({ className }: SidebarProps) {
     }
   }, [currentWorkspaceId, refetchProjects]);
 
-  const projectItems = useMemo(() => {
-    return (projects || [])
-      .filter((project: Project) => !project.parentProjectId)
-      .map((project: Project) => ({
-        id: project.id,
-        title: project.name,
-        type: 'group' as const,
-        projectId: project.id,
-        icon: project.icon || undefined,
-        color: project.color || undefined,
-        children: [] as SidebarItemType[],
-      }));
-  }, [projects]);
+  const projectItems = useMemo(
+    () => buildProjectTree(projects ?? [], pages ?? []),
+    [projects, pages],
+  );
 
   const sidebarItems = useMemo(() => {
     const items = [...staticSidebarItems];
@@ -106,7 +103,8 @@ export function Sidebar({ className }: SidebarProps) {
 
         <ProjectFormModal mode="create" />
         <ProjectFormModal mode="edit" />
-        <CreateDocumentModal />
+        <DocumentFormModal mode="create" />
+        <DocumentFormModal mode="edit" />
       </div>
 
       <UserProfile name="Alex Kim" email="alex@acme.io" />

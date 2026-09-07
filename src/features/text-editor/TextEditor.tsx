@@ -1,13 +1,14 @@
 'use client';
 
 import { useEditor, EditorContent, useEditorState } from '@tiptap/react';
+import type { Content } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
 import { SlashCommands } from './lib/slash-commands';
@@ -29,15 +30,24 @@ const textColors = [
 ] as const;
 
 type TextEditorProps = {
-  content?: string;
+  content?: string | Record<string, unknown> | null;
+  editable?: boolean;
+  onChange?: (json: Record<string, unknown>) => void;
 };
 
 function isTextSelection(selection: Selection): selection is TextSelection {
   return selection instanceof TextSelection;
 }
 
-export const TextEditor = ({ content = '' }: TextEditorProps) => {
+export const TextEditor = ({ content = '', editable = true, onChange }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
+
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
+
+  const initialJsonRef = useRef<string | null>(null);
 
   const editor = useEditor({
     extensions: [
@@ -60,14 +70,37 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
       VideoUploadNode,
       VideoNode,
     ],
-    content,
+    content: (content ?? '') as Content,
+    editable,
     immediatelyRender: false,
+    onUpdate: ({ editor: ed }) => {
+      const json = ed.getJSON();
+      const serialized = JSON.stringify(json);
+
+      if (initialJsonRef.current === null) {
+        initialJsonRef.current = serialized;
+        return;
+      }
+      if (serialized === initialJsonRef.current) return;
+
+      onChangeRef.current?.(json as Record<string, unknown>);
+    },
     editorProps: {
       attributes: {
         class: styles.editor,
       },
     },
   });
+
+  useEffect(() => {
+    if (editor && initialJsonRef.current === null) {
+      initialJsonRef.current = JSON.stringify(editor.getJSON());
+    }
+  }, [editor]);
+
+  useEffect(() => {
+    editor?.setEditable(editable);
+  }, [editor, editable]);
 
   const activeMarks = useEditorState({
     editor,
@@ -105,6 +138,8 @@ export const TextEditor = ({ content = '' }: TextEditorProps) => {
   };
 
   const handleShouldShow = () => {
+    if (!editable) return false;
+
     const selection = editor?.state.selection;
 
     return selection ? isTextSelection(selection) && !selection.empty : false;
