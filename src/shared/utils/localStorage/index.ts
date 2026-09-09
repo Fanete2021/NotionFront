@@ -1,1 +1,0 @@
-export { loadCurrentWorkspace } from './localStorage';

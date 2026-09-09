@@ -1,10 +1,12 @@
 export enum Colors {
+  INDIGO = 'var(--color-color-picker-indigo)',
   BLUE = 'var(--color-color-picker-blue)',
   GREEN = 'var(--color-color-picker-green)',
-  YELLOW = 'var(--color-color-picker-yellow)',
+  AMBER = 'var(--color-color-picker-amber)',
+  RED = 'var(--color-color-picker-red)',
   PURPLE = 'var(--color-color-picker-purple)',
-  DARK_GREEN = 'var(--color-color-picker-dark-green)',
-  WHITE = 'var(--color-color-picker-white)',
+  PINK = 'var(--color-color-picker-pink)',
+  GRAY = 'var(--color-color-picker-gray)',
 }
 
 export const COLORS_LIST = Object.values(Colors);

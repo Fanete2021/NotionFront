@@ -23,6 +23,9 @@ type TypographyVariant = keyof typeof variantMap;
 export type TypographyProps = React.HTMLAttributes<HTMLElement> & {
   variant?: TypographyVariant;
   children: React.ReactNode;
+
+  // для вариантов, которые рендерят <label>
+  htmlFor?: string;
 };
 
 export const Typography = ({

@@ -1,4 +1,5 @@
 import { SidebarItem } from '../../../model';
+import { getProjectIcon } from '@/shared/ui/icon-picker';
 
 const BASE_PADDING = 16;
 const LEVEL_OFFSET = 8;
@@ -27,7 +28,9 @@ export const renderIcon = (item: SidebarItem, styles: Record<string, string>) =>
   if (!item.icon) return null;
 
   if (typeof item.icon === 'string') {
-    return <span className={styles.icon}>{item.icon}</span>;
+    const ProjectIcon = getProjectIcon(item.icon);
+
+    return ProjectIcon ? <ProjectIcon className={styles.icon} /> : null;
   }
 
   const IconComponent = item.icon;
