@@ -1,9 +1,9 @@
 'use client';
 
-import { type MouseEvent, type ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
-import { useLockBodyScroll } from '@/shared/lib/hooks';
+import { useDismissibleLayer, useLockBodyScroll } from '@/shared/lib/hooks';
 import { Button } from '@/shared/ui/Button';
 import { Portal } from '@/shared/ui/portal';
 import { Typography } from '@/shared/ui/Typography';
@@ -45,37 +45,14 @@ export const Modal = ({
   size = 'sm',
   container,
 }: ModalProps) => {
-  const isMouseDownOnOverlay = useRef(false);
+  const modalRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: isOpen,
+    onDismiss: onClose,
+  });
 
   useLockBodyScroll(isOpen);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
-
-  const handleOverlayMouseDown = (e: MouseEvent<HTMLDivElement>) => {
-    isMouseDownOnOverlay.current = e.target === e.currentTarget;
-  };
-
-  const handleOverlayClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget && isMouseDownOnOverlay.current) {
-      onClose();
-    }
-  };
 
   const headerContent =
     header ??
@@ -96,13 +73,10 @@ export const Modal = ({
 
   return (
     <Portal container={container}>
-      <div
-        className={styles.overlay}
-        onMouseDown={handleOverlayMouseDown}
-        onClick={handleOverlayClick}
-      >
+      <div className={styles.overlay}>
         <div
           className={classNames(styles.panel, styles[size], className)}
+          ref={modalRef}
           role="dialog"
           aria-modal="true"
         >
