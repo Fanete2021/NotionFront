@@ -4,7 +4,7 @@ import { FC, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './CreateDocumentModal.module.css';
 import { DOCUMENT_ICONS } from './documentIcons';
-import { closeCreateDocumentModal, documentModalsReducer } from '../model/documentModalsSlice';
+import { closeCreateDocumentModal, documentModalsReducer } from '../slice/documentModalsSlice';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';

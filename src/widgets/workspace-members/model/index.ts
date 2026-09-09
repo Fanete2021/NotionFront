@@ -1,9 +1,8 @@
-export type WorkspaceRole = 'OWNER' | 'ADMIN' | 'MEMBER' | 'EDITOR' | 'VIEWER';
+export type WorkspaceRole = 'OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export const roleLabels: Record<WorkspaceRole, string> = {
   OWNER: 'Владелец',
   ADMIN: 'Админ',
-  MEMBER: 'Участник',
   EDITOR: 'Редактор',
   VIEWER: 'Наблюдатель',
 };
@@ -16,10 +15,6 @@ export const roleColors: Record<WorkspaceRole, { color: string; bgColor: string 
   ADMIN: {
     color: '#3B82F6',
     bgColor: 'rgba(59, 130, 246, 0.1)',
-  },
-  MEMBER: {
-    color: '#6B7280',
-    bgColor: 'rgba(107, 114, 128, 0.1)',
   },
   EDITOR: {
     color: '#F59E0B',

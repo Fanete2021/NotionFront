@@ -1,5 +1,5 @@
 import styles from './MemberCard.module.css';
-import { roleLabels, WorkspaceRole, roleColors } from '../../utils/index';
+import { roleLabels, WorkspaceRole, roleColors } from '../../model/index';
 import { WorkspaceMember } from '@/entities/workspace-members';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
@@ -17,7 +17,7 @@ export const MemberCard = ({ member }: MemberCardProps) => {
   const name = `Пользователь ${userId.slice(0, 8)}`;
   const email = `user-${userId.slice(0, 8)}@example.com`;
   const roleLabel = roleLabels[role as WorkspaceRole] || role;
-  const colors = roleColors[role as WorkspaceRole] || roleColors.MEMBER;
+  const colors = roleColors[role as WorkspaceRole] || roleColors.VIEWER;
 
   return (
     <div className={styles.card}>

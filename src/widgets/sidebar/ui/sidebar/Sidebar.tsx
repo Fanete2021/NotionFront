@@ -25,7 +25,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
 
-  const workspaceIsChoosed = workspaces?.length || 0 > 0;
+  const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
 
   const { data: projects, refetch: refetchProjects } = useGetProjectsByWorkspaceQuery(
     currentWorkspaceId || '',

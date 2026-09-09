@@ -6,7 +6,7 @@ import {
   closeCreateProjectModal,
   closeEditProjectModal,
   projectModalsReducer,
-} from '../model/projectModalsSlice';
+} from '../slice/projectModalsSlice';
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';

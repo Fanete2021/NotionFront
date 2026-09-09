@@ -1,4 +1,4 @@
-export type WorkspaceRole = 'OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER' | 'MEMBER';
+export type WorkspaceRole = 'OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export interface WorkspaceMember {
   id: string;
@@ -6,7 +6,7 @@ export interface WorkspaceMember {
   userId: string;
   role: WorkspaceRole;
   createdAt: string;
-  user?: {
+  user: {
     id: string;
     name: string;
     email: string;

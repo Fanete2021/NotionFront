@@ -2,6 +2,7 @@
 
 import styles from './InviteLinks.module.css';
 import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
+import { buildInviteUrl } from '../../utils/url';
 import { openInviteLinkModal } from '@/features/create-invite-link';
 import {
   useGetWorkspaceInvitesQuery,
@@ -35,9 +36,7 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
     isLoading: isRevoking,
     error: revokeError,
   } = useMutationWithError(useRevokeWorkspaceInviteMutation, {
-    onSuccess: () => {
-      console.log('Invite revoked successfully');
-    },
+    onSuccess: () => {},
     fieldMap: {
       [HTTP_STATUS.FORBIDDEN]: {
         field: 'type',
@@ -51,14 +50,18 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   });
 
   const handleDeleteAction = async (inviteId: string) => {
-    await revokeInvite({ workspaceId, inviteId });
+    try {
+      await revokeInvite({ workspaceId, inviteId });
+    } catch (error) {
+      console.error('Ошибка при удалении ссылки:', error);
+    }
   };
 
   const handleCreateLink = () => {
     dispatch(openInviteLinkModal({ workspaceId }));
   };
 
-  const permanentLinks = invites ?? [];
+  const links = invites ?? [];
 
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;
@@ -78,13 +81,13 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
       </div>
 
       <div className={styles.links}>
-        {permanentLinks.map((invite) => {
-          const url = `${window.location.origin}/join/${invite.id}`;
+        {links.map((invite) => {
+          const url = buildInviteUrl(invite.id);
           return (
             <InviteLink
               key={invite.id}
               icon={<GlobusIcon className={styles.icon} />}
-              label="Постоянная"
+              label={invite.type === 'PERMANENT' ? 'Постоянная' : 'Временная'}
               url={url}
               onDelete={() => handleDeleteAction(invite.id)}
               disabled={isRevoking}

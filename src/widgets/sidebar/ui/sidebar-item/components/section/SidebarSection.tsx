@@ -21,7 +21,7 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [isOpen, setIsOpen] = useState(true);
   const { data: workspaces } = useGetWorkspacesQuery();
-  const workspaceIsChoosed = workspaces?.length || 0 > 0;
+  const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
 
   const handleToggle = () => setIsOpen((prev) => !prev);
 

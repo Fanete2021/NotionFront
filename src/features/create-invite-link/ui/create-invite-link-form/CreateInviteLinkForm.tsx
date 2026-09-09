@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import styles from './CreateInviteLinkForm.module.css';
-import { InviteLink } from '../ui/InviteLink/InviteLink';
+import { InviteLink } from '../invite-link/InviteLink';
+import { getInviteRole } from '../../model/inviteUtils';
 import { useCreateWorkspaceInviteMutation } from '@/entities/workspace-invite';
 import type { InviteType } from '@/entities/workspace-invite';
+import { WorkspaceRole } from '@/entities/workspace-members';
 import { Typography } from '@/shared/ui/Typography';
 import { Button } from '@/shared/ui/Button';
 import { useMutationWithError } from '@/shared/lib/hooks';
@@ -16,6 +18,7 @@ interface CreateInviteLinkFormProps {
   onSuccess?: () => void;
   onCancel?: () => void;
   className?: string;
+  curRole?: WorkspaceRole;
 }
 
 export function CreateInviteLinkForm({
@@ -23,6 +26,7 @@ export function CreateInviteLinkForm({
   onSuccess,
   onCancel,
   className,
+  curRole,
 }: CreateInviteLinkFormProps) {
   const [selectedType, setSelectedType] = useState<InviteType>('PERMANENT');
 
@@ -48,13 +52,17 @@ export function CreateInviteLinkForm({
 
   const handleCreate = async () => {
     if (!workspaceId) return;
-    await createInvite({
-      workspaceId,
-      data: {
-        type: selectedType,
-        role: 'OWNER',
-      },
-    });
+    try {
+      await createInvite({
+        workspaceId,
+        data: {
+          type: selectedType,
+          role: getInviteRole(curRole),
+        },
+      });
+    } catch (error) {
+      console.error('Ошибка при создании ссылки:', error);
+    }
   };
 
   return (
@@ -62,6 +70,7 @@ export function CreateInviteLinkForm({
       <Typography variant="text-micro" className={styles.title}>
         ТИП
       </Typography>
+
       <div className={styles.linksContainer}>
         <div
           className={`${styles.inviteOption} ${selectedType === 'PERMANENT' ? styles.active : ''}`}

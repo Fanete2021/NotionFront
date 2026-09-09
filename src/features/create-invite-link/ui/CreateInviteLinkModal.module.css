@@ -4,10 +4,6 @@
   max-height: 330px;
 }
 
-.content {
-  margin-top: 20px;
-}
-
 .linksContainer {
   display: flex;
   justify-content: space-between;

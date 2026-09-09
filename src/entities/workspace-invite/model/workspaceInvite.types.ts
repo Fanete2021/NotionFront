@@ -3,7 +3,7 @@ export type InviteRole = 'OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export interface CreateWorkspaceInviteDto {
   type: InviteType;
-  role?: InviteRole;
+  role: InviteRole;
 }
 
 export interface WorkspaceInviteEntity {
@@ -17,6 +17,7 @@ export interface WorkspaceInviteEntity {
 export interface WorkspaceInviteSummaryEntity {
   id: string;
   workspaceId: string;
+  type: InviteType;
   role: InviteRole;
   createdBy: string;
   createdAt: string;
