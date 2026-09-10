@@ -1,9 +1,8 @@
 .container {
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border-radius: 6px;
-  border: 1px solid var(--color-border-base);
 }
 
 .content {
@@ -66,5 +65,4 @@
 
 .deleteButton {
   color: var(--color-invite-link-delete-button);
-  margin-bottom: 10px;
 }

@@ -2,6 +2,7 @@ import { combineReducers, configureStore, Reducer } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { WorkspaceModalsState } from '@/features/switch-workspace';
 import { ProjectModalsState } from '@/features/manage-project';
+import { InviteLinkModalState } from '@/features/create-invite-link';
 import { DocumentModalsState } from '@/features/manage-document';
 import { currentWorkspaceReducer } from '@/entities/workspace';
 import { sessionReducer } from '@shared/api';
@@ -51,5 +52,6 @@ export type RootState = StaticRootState & {
   workspaceModals?: WorkspaceModalsState;
   projectModals?: ProjectModalsState;
   documentModals?: DocumentModalsState;
+  inviteLinkModal?: InviteLinkModalState;
 };
 export type AppDispatch = AppStore['dispatch'];

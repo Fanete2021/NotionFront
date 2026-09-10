@@ -54,7 +54,7 @@ export const RegistrationForm = () => {
   } = useMutationWithError(useRegisterMutation, {
     onSuccess: () => {
       clearRegistrationDraft();
-      router.replace('/');
+      router.replace('/main');
     },
     fieldMap: {
       [HTTP_STATUS.CONFLICT]: {

@@ -1,0 +1,43 @@
+.form {
+
+  .title {
+    display: block;
+    margin-bottom: 8px;
+  }
+}
+
+
+.linksContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.inviteOption {
+  flex: 1;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.inviteOption.active {
+  border: 1px solid var(--color-invite-link-border-active);
+  background-color: var(--color-invite-link-bg-active);
+}
+
+.divider {
+  border-top: 1px solid var(--color-border-base);
+  margin: 20px -24px 16px -24px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+
+  .createButton {
+    background-color: var(--color-create-invite-link-modal-create-btn-bg);
+    padding: 8px 16px;
+  }
+}

@@ -14,5 +14,5 @@ export {
   currentWorkspaceReducer,
   setCurrentWorkspace,
   clearCurrentWorkspace,
-} from './model/currentWorkspaceSlice';
-export type { CurrentWorkspaceState } from './model/currentWorkspaceSlice';
+} from './slice/currentWorkspaceSlice';
+export type { CurrentWorkspaceState } from './slice/currentWorkspaceSlice';

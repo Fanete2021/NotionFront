@@ -41,7 +41,7 @@ export const LoginForm = () => {
     error: errorMessage,
   } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
     onSuccess: () => {
-      router.replace('/');
+      router.replace('/main');
       reset();
     },
     fieldMap: {

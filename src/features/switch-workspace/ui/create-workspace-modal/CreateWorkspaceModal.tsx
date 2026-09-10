@@ -5,7 +5,7 @@ import styles from './CreateWorkspaceModal.module.css';
 import {
   closeCreateWorkspaceModal,
   workspaceModalsReducer,
-} from '../../model/workspaceModalsSlice';
+} from '../../slice/workspaceModalsSlice';
 import { setCurrentWorkspace } from '@/entities/workspace';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
 import { Workspace } from '@/entities/workspace';

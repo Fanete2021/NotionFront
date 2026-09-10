@@ -4,6 +4,16 @@ import { baseQueryWithReauth } from '@shared/api/baseQueryWithReauth';
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User', 'Session', 'Workspace', 'Project', 'WorkspaceMember', 'Page', 'PageContent'],
+  tagTypes: [
+    'User',
+    'Session',
+    'Workspace',
+    'Project',
+    'WorkspaceMember',
+    'Page',
+    'PageContent',
+    'WorkspaceMember',
+    'WorkspaceInvite',
+  ],
   endpoints: () => ({}),
 });

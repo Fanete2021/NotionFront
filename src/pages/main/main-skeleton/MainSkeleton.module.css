@@ -1,0 +1,46 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border-base);
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.linksBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.membersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.membersList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
