@@ -45,6 +45,20 @@ export const DocumentPage = () => {
     return <NotFoundError />;
   }
 
+  const isContentMissing =
+    isFetchBaseQueryError(contentQuery.error) &&
+    contentQuery.error.status === HTTP_STATUS.NOT_FOUND;
+
+  if (contentQuery.isError && !isContentMissing) {
+    return (
+      <UnexpectedError
+        code={HTTP_STATUS.INTERNAL_SERVER_ERROR}
+        error={new Error('Не удалось загрузить содержимое документа')}
+        onRetry={() => void contentQuery.refetch()}
+      />
+    );
+  }
+
   const breadcrumbs = ['Документы', projectQuery.data?.name, pageQuery.data.title].filter(
     (crumb): crumb is string => Boolean(crumb),
   );

@@ -1,4 +1,9 @@
-export type PageType = 'DOC' | 'ARTICLE';
+export const PAGE_TYPE = {
+  DOC: 'DOC',
+  ARTICLE: 'ARTICLE',
+} as const;
+
+export type PageType = (typeof PAGE_TYPE)[keyof typeof PAGE_TYPE];
 
 export interface Page {
   id: string;
@@ -23,7 +28,7 @@ export interface CreatePageDto {
 
 export interface UpdatePageDto {
   title?: string;
-  icon?: string;
+  icon?: string | null;
   type?: PageType;
   projectId?: string;
 }

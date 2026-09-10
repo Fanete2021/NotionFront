@@ -1,17 +1,27 @@
 'use client';
 
-import { FC, useState, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import classNames from 'classnames';
 import styles from './DocumentFormModal.module.css';
 import {
+  DocumentModalsState,
   closeCreateDocumentModal,
   closeEditDocumentModal,
   documentModalsReducer,
-} from '../model/documentModalsSlice';
+} from '../model/slices/documentModalsSlice';
+import {
+  DOCUMENT_TYPE,
+  DocumentFormValues,
+  DocumentType,
+  documentFormSchema,
+} from '../utils/validationDocumentFormConfig';
 import {
   Page,
   PageType,
+  PAGE_TYPE,
   CreatePageDto,
   useCreatePageMutation,
   useUpdatePageMutation,
@@ -30,35 +40,53 @@ import { FormError } from '@/shared/ui/form-error';
 import GlobusIcon from '@/shared/assets/icons/globus.svg';
 import CheckIcon from '@/shared/assets/icons/check.svg';
 
-type DocumentType = 'document' | 'section';
+const FORM_ID = 'documentForm';
 
-const toPageType = (type: DocumentType): PageType => (type === 'section' ? 'ARTICLE' : 'DOC');
-const toDocumentType = (type: PageType): DocumentType =>
-  type === 'ARTICLE' ? 'section' : 'document';
+const DOCUMENT_TO_PAGE_TYPE: Record<DocumentType, PageType> = {
+  [DOCUMENT_TYPE.DOCUMENT]: PAGE_TYPE.DOC,
+  [DOCUMENT_TYPE.SECTION]: PAGE_TYPE.ARTICLE,
+};
 
-const defaultDocumentModalsState = {
+const PAGE_TO_DOCUMENT_TYPE: Record<PageType, DocumentType> = {
+  [PAGE_TYPE.DOC]: DOCUMENT_TYPE.DOCUMENT,
+  [PAGE_TYPE.ARTICLE]: DOCUMENT_TYPE.SECTION,
+};
+
+const defaultDocumentModalsState: DocumentModalsState = {
   isCreateDocumentModalOpen: false,
   creatingDocumentProjectId: null,
   isEditDocumentModalOpen: false,
   editingDocumentId: null,
   editingDocumentTitle: '',
   editingDocumentIcon: null,
-  editingDocumentType: 'DOC',
-} as const;
+  editingDocumentType: PAGE_TYPE.DOC,
+};
 
-interface DocumentFormModalProps {
-  mode: 'create' | 'edit';
-}
+const emptyFormValues: DocumentFormValues = {
+  title: '',
+  type: DOCUMENT_TYPE.DOCUMENT,
+  icon: null,
+  workspaceId: '',
+};
 
-export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
+export const DocumentFormModal: FC = () => {
   const dispatch = useAppDispatch();
   const store = useAppStore();
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [type, setType] = useState<DocumentType>('document');
-  const [icon, setIcon] = useState<string | null>(null);
-  const [workspaceId, setWorkspaceId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm<DocumentFormValues>({
+    defaultValues: emptyFormValues,
+    resolver: zodResolver(documentFormSchema),
+  });
+
+  const titleValue = useWatch({ control, name: 'title' });
 
   useEffect(() => {
     store.injectReducer('documentModals', documentModalsReducer);
@@ -74,9 +102,8 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
     editingDocumentType: currentType,
   } = useAppSelector((state) => state.documentModals ?? defaultDocumentModalsState);
 
-  const isCreate = mode === 'create';
-  const isOpen = isCreate ? isCreateDocumentModalOpen : isEditDocumentModalOpen;
-  const formId = isCreate ? 'createDocumentForm' : 'editDocumentForm';
+  const isCreate = isCreateDocumentModalOpen;
+  const isOpen = isCreateDocumentModalOpen || isEditDocumentModalOpen;
 
   const { data: workspaces } = useGetWorkspacesQuery();
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
@@ -142,55 +169,42 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
   const fieldErrors = isCreate ? createFieldErrors : updateFieldErrors;
 
   useEffect(() => {
-    if (isOpen) {
-      //eslint-disable-next-line
-      setName(isCreate ? '' : currentTitle);
-      setType(isCreate ? 'document' : toDocumentType(currentType));
-      setIcon(isCreate ? null : currentIcon);
-      setWorkspaceId(currentWorkspaceId);
-      setError(null);
-    }
-  }, [isOpen, isCreate, currentTitle, currentType, currentIcon, currentWorkspaceId]);
+    if (!isOpen) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+    reset({
+      title: isCreate ? '' : currentTitle,
+      type: isCreate ? DOCUMENT_TYPE.DOCUMENT : PAGE_TO_DOCUMENT_TYPE[currentType],
+      icon: isCreate ? null : currentIcon,
+      workspaceId: currentWorkspaceId ?? '',
+    });
+  }, [isOpen, isCreate, currentTitle, currentType, currentIcon, currentWorkspaceId, reset]);
 
-    const trimmed = name.trim();
-    if (!trimmed) {
-      setError('Название документа обязательно');
-      return;
-    }
-    if (!workspaceId) {
-      setError('Рабочее пространство не выбрано');
-      return;
-    }
-
+  const onSubmit: SubmitHandler<DocumentFormValues> = async (values) => {
     try {
       if (isCreate) {
         if (!projectId) {
-          setError('Проект не найден');
+          setError('root', { message: 'Проект не найден' });
           return;
         }
         await createPage({
-          title: trimmed,
-          workspaceId,
+          title: values.title,
+          workspaceId: values.workspaceId,
           projectId,
-          icon: icon ?? undefined,
-          type: toPageType(type),
+          icon: values.icon ?? undefined,
+          type: DOCUMENT_TO_PAGE_TYPE[values.type],
         });
       } else {
         if (!documentId) {
-          setError('Документ не найден');
+          setError('root', { message: 'Документ не найден' });
           return;
         }
         await updatePage({
           id: documentId,
-          workspaceId,
+          workspaceId: values.workspaceId,
           data: {
-            title: trimmed,
-            icon: icon ?? undefined,
-            type: toPageType(type),
+            title: values.title,
+            icon: values.icon,
+            type: DOCUMENT_TO_PAGE_TYPE[values.type],
           },
         });
       }
@@ -200,7 +214,7 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
   };
 
   const handleClose = () => {
-    setError(null);
+    clearErrors();
     dispatch(isCreate ? closeCreateDocumentModal() : closeEditDocumentModal());
   };
 
@@ -225,7 +239,7 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
       <Button
         variant="filled"
         type="submit"
-        form={formId}
+        form={FORM_ID}
         className={styles.submitButton}
         addonLeft={
           isCreate ? (
@@ -234,7 +248,7 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
             <CheckIcon className={styles.submitIcon} />
           )
         }
-        disabled={isLoading || !name.trim()}
+        disabled={isLoading || !titleValue.trim()}
       >
         {isLoading ? 'Сохранение...' : isCreate ? 'Создать' : 'Сохранить'}
       </Button>
@@ -250,49 +264,64 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
       header={header}
       footer={footer}
     >
-      <form id={formId} onSubmit={handleSubmit} className={styles.form}>
+      <form id={FORM_ID} onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.field}>
-          <Input
-            id={`${formId}Name`}
-            type="text"
-            label="Название"
-            value={name}
-            onChange={(str) => setName(str)}
-            placeholder="Название документа..."
-            autoFocus
-            disabled={isLoading}
+          <Controller
+            name="title"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                id={`${FORM_ID}Name`}
+                name={field.name}
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                error={fieldState.error?.message ?? fieldErrors.title}
+                type="text"
+                label="Название"
+                placeholder="Название документа..."
+                autoFocus
+                disabled={isLoading}
+              />
+            )}
           />
-          <FormError message={error ?? fieldErrors.title ?? mutationError} />
+          <FormError message={errors.root?.message ?? mutationError} />
         </div>
 
         <div className={styles.field}>
           <Typography variant="caption" className={styles.label}>
             Тип
           </Typography>
-          <div className={styles.segmented} role="group" aria-label="Тип">
-            <Button
-              variant="clear"
-              className={classNames(styles.segment, {
-                [styles.segmentActive]: type === 'document',
-              })}
-              aria-pressed={type === 'document'}
-              onClick={() => setType('document')}
-              disabled={isLoading}
-            >
-              Документ
-            </Button>
-            <Button
-              variant="clear"
-              className={classNames(styles.segment, {
-                [styles.segmentActive]: type === 'section',
-              })}
-              aria-pressed={type === 'section'}
-              onClick={() => setType('section')}
-              disabled={isLoading}
-            >
-              Раздел
-            </Button>
-          </div>
+          <Controller
+            name="type"
+            control={control}
+            render={({ field }) => (
+              <div className={styles.segmented} role="group" aria-label="Тип">
+                <Button
+                  variant="clear"
+                  className={classNames(styles.segment, {
+                    [styles.segmentActive]: field.value === DOCUMENT_TYPE.DOCUMENT,
+                  })}
+                  aria-pressed={field.value === DOCUMENT_TYPE.DOCUMENT}
+                  onClick={() => field.onChange(DOCUMENT_TYPE.DOCUMENT)}
+                  disabled={isLoading}
+                >
+                  Документ
+                </Button>
+                <Button
+                  variant="clear"
+                  className={classNames(styles.segment, {
+                    [styles.segmentActive]: field.value === DOCUMENT_TYPE.SECTION,
+                  })}
+                  aria-pressed={field.value === DOCUMENT_TYPE.SECTION}
+                  onClick={() => field.onChange(DOCUMENT_TYPE.SECTION)}
+                  disabled={isLoading}
+                >
+                  Раздел
+                </Button>
+              </div>
+            )}
+          />
         </div>
 
         <div className={styles.field}>
@@ -302,19 +331,38 @@ export const DocumentFormModal: FC<DocumentFormModalProps> = ({ mode }) => {
               (необязательно)
             </Typography>
           </Typography>
-          <IconPicker icons={DOCUMENT_ICONS} selectedIcon={icon} onChange={setIcon} />
+          <Controller
+            name="icon"
+            control={control}
+            render={({ field }) => (
+              <IconPicker
+                icons={DOCUMENT_ICONS}
+                selectedIcon={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
         </div>
 
         <div className={styles.field}>
-          <Typography variant="label" htmlFor={`${formId}Location`} className={styles.label}>
+          <Typography variant="label" htmlFor={`${FORM_ID}Location`} className={styles.label}>
             Расположение
           </Typography>
-          <Select
-            id={`${formId}Location`}
-            value={workspaceId ?? ''}
-            onChange={setWorkspaceId}
-            options={workspaceOptions}
-            disabled={isLoading || !isCreate}
+          <Controller
+            name="workspaceId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <Select
+                  id={`${FORM_ID}Location`}
+                  value={field.value}
+                  onChange={field.onChange}
+                  options={workspaceOptions}
+                  disabled={isLoading || !isCreate}
+                />
+                <FormError message={fieldState.error?.message ?? null} />
+              </>
+            )}
           />
         </div>
       </form>

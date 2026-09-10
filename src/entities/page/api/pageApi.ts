@@ -32,6 +32,7 @@ export const pageApi = baseApi.injectEndpoints({
         body: json,
       }),
       extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { id }) => [{ type: 'PageContent', id }],
     }),
 
     getPagesByWorkspace: builder.query<Page[], { workspaceId: string; projectId?: string }>({

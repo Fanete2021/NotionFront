@@ -40,12 +40,12 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
     async (json: PageContentJson) => {
       setIsSaving(true);
       setSaveError(null);
-
+      isDirtyRef.current = false;
       try {
         const saved = await updateContent({ id: page.id, json }).unwrap();
-        isDirtyRef.current = false;
         setUpdatedAt(saved.updatedAt);
       } catch (err) {
+        isDirtyRef.current = true;
         const isTooLarge =
           isFetchBaseQueryError(err) && err.status === HTTP_STATUS.PAYLOAD_TOO_LARGE;
         setSaveError(isTooLarge ? TOO_LARGE_MESSAGE : SAVE_ERROR_MESSAGE);

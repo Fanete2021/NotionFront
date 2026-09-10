@@ -1,4 +1,4 @@
-import { SidebarItem } from './types/sidebar';
+import { SidebarItem } from '../model/types/sidebar';
 import { Project } from '@/entities/project';
 import { Page } from '@/entities/page';
 import { ROUTES } from '@/shared/routes';

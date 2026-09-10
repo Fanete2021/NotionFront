@@ -4,7 +4,8 @@ import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
-import { buildProjectTree, staticSidebarItems } from '../../model';
+import { staticSidebarItems } from '../../model';
+import { buildProjectTree } from '../../lib';
 import { SidebarSkeleton } from '@/widgets/sidebar/ui/sidebar-skeleton/SidebarSkeleton';
 import { SidebarItem } from '@/widgets/sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
@@ -103,8 +104,7 @@ export function Sidebar({ className }: SidebarProps) {
 
         <ProjectFormModal mode="create" />
         <ProjectFormModal mode="edit" />
-        <DocumentFormModal mode="create" />
-        <DocumentFormModal mode="edit" />
+        <DocumentFormModal />
       </div>
 
       <UserProfile name="Alex Kim" email="alex@acme.io" />

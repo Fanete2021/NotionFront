@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PageType } from '@/entities/page';
+import { PAGE_TYPE, PageType } from '@/entities/page';
 
 export interface DocumentModalsState {
   isCreateDocumentModalOpen: boolean;
@@ -18,7 +18,7 @@ const initialState: DocumentModalsState = {
   editingDocumentId: null,
   editingDocumentTitle: '',
   editingDocumentIcon: null,
-  editingDocumentType: 'DOC',
+  editingDocumentType: PAGE_TYPE.DOC,
 };
 
 const documentModalsSlice = createSlice({
@@ -47,14 +47,14 @@ const documentModalsSlice = createSlice({
       state.editingDocumentId = action.payload.documentId;
       state.editingDocumentTitle = action.payload.title;
       state.editingDocumentIcon = action.payload.icon ?? null;
-      state.editingDocumentType = action.payload.type ?? 'DOC';
+      state.editingDocumentType = action.payload.type ?? PAGE_TYPE.DOC;
     },
     closeEditDocumentModal: (state) => {
       state.isEditDocumentModalOpen = false;
       state.editingDocumentId = null;
       state.editingDocumentTitle = '';
       state.editingDocumentIcon = null;
-      state.editingDocumentType = 'DOC';
+      state.editingDocumentType = PAGE_TYPE.DOC;
     },
   },
 });
