@@ -5,13 +5,13 @@ import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarGroup.module.css';
 import { renderIcon } from '../../utils';
 import { SidebarItem } from '@/widgets/sidebar';
-import { openCreateDocumentModal } from '@/features/create-document';
+import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
-import TrashIcon from '@/shared/assets/icons/trash.svg';
+import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import DocsIcon from '@/shared/assets/icons/docs.svg';
 import DotsIcon from '@/shared/assets/icons/dots.svg';
 import { Button } from '@/shared/ui/Button';
@@ -141,8 +141,9 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
               >
                 <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
                   <PencilIcon className={styles.menuIcon} />
-                  Редактировать
+                  Переименовать
                 </Button>
+                <div className={styles.menuDivider} />
                 <Button
                   variant="clear"
                   className={`${styles.dropdownItem} ${styles.menuItemDanger}`}

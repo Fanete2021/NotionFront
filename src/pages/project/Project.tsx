@@ -4,9 +4,11 @@ import styles from './Project.module.css';
 import { ProjectWorkspace, ProjectDocument } from '@/widgets/project';
 import { Typography } from '@shared/ui/Typography';
 
+const MOCK_BREADCRUMBS = ['Документы', 'Дизайн-система', 'Компоненты'];
+
 export const ProjectPage = () => {
   return (
-    <ProjectWorkspace>
+    <ProjectWorkspace breadcrumbs={MOCK_BREADCRUMBS}>
       <main className={styles.main}>
         <div className={styles.heading}>
           <span className={styles.pageIcon} aria-hidden>

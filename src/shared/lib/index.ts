@@ -4,4 +4,5 @@ export {
   type DismissReason,
   useLockBodyScroll,
   useMutationWithError,
+  useDebounce,
 } from './hooks';
