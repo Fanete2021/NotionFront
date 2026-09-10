@@ -1,22 +1,22 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarGroup.module.css';
 import { renderIcon } from '../../utils';
 import { SidebarItem } from '@/widgets/sidebar';
-import { openCreateDocumentModal } from '@/features/create-document';
+import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
 import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
-import TrashIcon from '@/shared/assets/icons/trash.svg';
+import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import DocsIcon from '@/shared/assets/icons/docs.svg';
 import DotsIcon from '@/shared/assets/icons/dots.svg';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
-import { useAppDispatch } from '@/shared/lib';
+import { useAppDispatch, useDismissibleLayer } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
 const DROPDOWN_SHIFT_RIGHT = 140;
@@ -34,9 +34,14 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; right: number } | null>(
     null,
   );
-  const menuRef = useRef<HTMLDivElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const moreRef = useRef<HTMLDivElement>(null);
+  const moreRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: isDropdownOpen,
+    onDismiss: () => setIsDropdownOpen(false),
+  });
+  const contextMenuRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: contextMenu !== null,
+    onDismiss: () => setContextMenu(null),
+  });
   const [deleteProject] = useDeleteProjectMutation();
 
   const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
@@ -53,59 +58,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   }, []);
 
   useEffect(() => {
-    if (!isDropdownOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        moreRef.current &&
-        !moreRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isDropdownOpen]);
-
-  useEffect(() => {
-    if (!contextMenu) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setContextMenu(null);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setContextMenu(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [contextMenu]);
-
-  useEffect(() => {
     if (isDropdownOpen && moreRef.current) {
       const rect = moreRef.current.getBoundingClientRect();
       setDropdownPosition({
@@ -115,7 +67,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     } else {
       setDropdownPosition(null);
     }
-  }, [isDropdownOpen]);
+  }, [isDropdownOpen, moreRef]);
 
   const handleCreateDocument = useCallback(() => {
     setContextMenu(null);
@@ -180,7 +132,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
 
             {isDropdownOpen && dropdownPosition && (
               <div
-                ref={dropdownRef}
                 className={styles.dropdown}
                 style={{
                   position: 'fixed',
@@ -190,8 +141,9 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
               >
                 <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
                   <PencilIcon className={styles.menuIcon} />
-                  Редактировать
+                  Переименовать
                 </Button>
+                <div className={styles.menuDivider} />
                 <Button
                   variant="clear"
                   className={`${styles.dropdownItem} ${styles.menuItemDanger}`}
@@ -216,7 +168,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
 
       {contextMenu && (
         <div
-          ref={menuRef}
+          ref={contextMenuRef}
           className={styles.contextMenu}
           style={{
             position: 'fixed',

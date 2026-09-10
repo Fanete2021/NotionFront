@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import classNames from 'classnames';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
@@ -18,21 +19,30 @@ const mockAvatars = [
 ];
 
 type ProjectHeaderProps = {
+  breadcrumbs: string[];
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
 };
 
-export const ProjectHeader = ({ onCommentsClick, onHistoryClick }: ProjectHeaderProps) => {
+export const ProjectHeader = ({
+  breadcrumbs,
+  onCommentsClick,
+  onHistoryClick,
+}: ProjectHeaderProps) => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Typography variant="text-medium">Документы</Typography>
-        <ChevronRightIcon className={styles.chevron} />
-        <Typography variant="text-medium">Дизайн-система</Typography>
-        <ChevronRightIcon className={styles.chevron} />
-        <Typography variant="text-medium" className={styles.navCurrent}>
-          Компоненты
-        </Typography>
+        {breadcrumbs.map((crumb, index) => (
+          <Fragment key={`${crumb}-${index}`}>
+            {index > 0 && <ChevronRightIcon className={styles.chevron} />}
+            <Typography
+              variant="text-medium"
+              className={index === breadcrumbs.length - 1 ? styles.navCurrent : undefined}
+            >
+              {crumb}
+            </Typography>
+          </Fragment>
+        ))}
       </nav>
       <div className={styles.actions}>
         <div className={styles.avatars}>

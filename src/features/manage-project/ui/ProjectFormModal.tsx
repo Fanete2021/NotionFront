@@ -267,14 +267,13 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
               (необязательно)
             </Typography>
           </Typography>
-          <IconPicker selectedIcon={icon} onChange={setIcon} />
+          <IconPicker selectedIcon={icon} onChange={setIcon} color={color} />
         </div>
 
         <div className={styles.field}>
           <Typography variant="label" htmlFor={`${formId}Workspace`} className={styles.label}>
             Рабочее пространство
           </Typography>
-          {/* перенос проекта между пространствами API не умеет, поэтому при редактировании только показываем */}
           <Select
             id={`${formId}Workspace`}
             value={workspaceId ?? ''}

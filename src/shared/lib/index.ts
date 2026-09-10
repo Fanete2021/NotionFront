@@ -1,3 +1,8 @@
 export { useAppDispatch, useAppSelector, useAppStore } from './redux/hooks';
-export { useMutationWithError } from './hooks';
-export { useLockBodyScroll } from './hooks';
+export {
+  useDismissibleLayer,
+  type DismissReason,
+  useLockBodyScroll,
+  useMutationWithError,
+  useDebounce,
+} from './hooks';

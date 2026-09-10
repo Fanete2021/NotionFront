@@ -3,6 +3,7 @@ import { SidebarDivider } from './components/divider/SidebarDivider';
 import { SidebarSection } from './components/section/SidebarSection';
 import { SidebarGroup } from './components/group/SidebarGroup';
 import { SidebarLink } from './components/link/SidebarLink';
+import { SidebarDocument } from './components/document/SidebarDocument';
 
 interface SidebarItemProps {
   item: SidebarItemType;
@@ -19,6 +20,8 @@ export const SidebarItem = ({ item, level = 0 }: SidebarItemProps) => {
       return <SidebarGroup item={item} level={level} />;
     case 'link':
       return <SidebarLink item={item} level={level} />;
+    case 'document':
+      return <SidebarDocument item={item} level={level} />;
     default:
       return null;
   }

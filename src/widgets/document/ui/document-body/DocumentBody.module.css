@@ -1,0 +1,43 @@
+.main {
+  box-sizing: border-box;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 64px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.pageIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-page-emoji);
+}
+
+.headingText {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+}
+
+.meta {
+  display: block;
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.metaError {
+  display: block;
+  margin: 0;
+  color: var(--color-danger);
+}
+
+.document {
+  margin-top: 16px;
+}
