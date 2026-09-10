@@ -1,5 +1,5 @@
 import styles from './MemberCard.module.css';
-import { roleLabels, WorkspaceRole, roleColors } from '../../model/index';
+import { roleLabels, WorkspaceRole, roleColors } from '../../model/role';
 import { WorkspaceMember } from '@/entities/workspace-members';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
@@ -12,10 +12,10 @@ interface MemberCardProps {
 }
 
 export const MemberCard = ({ member }: MemberCardProps) => {
-  const { userId, role } = member;
+  const { userInfo, role } = member;
 
-  const name = `Пользователь ${userId.slice(0, 8)}`;
-  const email = `user-${userId.slice(0, 8)}@example.com`;
+  const name = `Пользователь ${userInfo.id.slice(0, 8)}`;
+  const email = `user-${userInfo.id.slice(0, 8)}@example.com`;
   const roleLabel = roleLabels[role as WorkspaceRole] || role;
   const colors = roleColors[role as WorkspaceRole] || roleColors.VIEWER;
 

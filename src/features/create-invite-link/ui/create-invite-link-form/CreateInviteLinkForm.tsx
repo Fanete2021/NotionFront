@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import styles from './CreateInviteLinkForm.module.css';
 import { InviteLink } from '../invite-link/InviteLink';
-import { getInviteRole } from '../../model/inviteUtils';
 import { useCreateWorkspaceInviteMutation } from '@/entities/workspace-invite';
 import type { InviteType } from '@/entities/workspace-invite';
 import { WorkspaceRole } from '@/entities/workspace-members';
@@ -51,13 +50,12 @@ export function CreateInviteLinkForm({
   });
 
   const handleCreate = async () => {
-    if (!workspaceId) return;
     try {
       await createInvite({
         workspaceId,
         data: {
           type: selectedType,
-          role: getInviteRole(curRole),
+          role: curRole,
         },
       });
     } catch (error) {

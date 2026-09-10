@@ -40,7 +40,7 @@ export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMember
         <MemberList members={members || []} />
       </div>
 
-      <CreateInviteLinkModal members={members || []} />
+      <CreateInviteLinkModal />
     </>
   );
 };

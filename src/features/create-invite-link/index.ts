@@ -1,9 +1,9 @@
-export { inviteLinkModalReducer } from './slice/inviteLinkModalSlice';
+export { inviteLinkModalReducer } from './model/slices/inviteLinkModalSlice';
 export {
   openInviteLinkModal,
   closeInviteLinkModal,
   setInviteLinkWorkspaceId,
   setInviteLinkId,
-} from './slice/inviteLinkModalSlice';
+} from './model/slices/inviteLinkModalSlice';
 export { CreateInviteLinkModal } from './ui/CreateInviteLinkModal';
-export type { InviteLinkModalState } from './slice/inviteLinkModalSlice';
+export type { InviteLinkModalState } from './model/slices/inviteLinkModalSlice';

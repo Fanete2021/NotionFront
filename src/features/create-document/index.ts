@@ -1,4 +1,7 @@
 export { CreateDocumentModal } from './ui/CreateDocumentModal';
-export { documentModalsReducer } from './slice/documentModalsSlice';
-export type { DocumentModalsState } from './slice/documentModalsSlice';
-export { openCreateDocumentModal, closeCreateDocumentModal } from './slice/documentModalsSlice';
+export { documentModalsReducer } from './model/slices/documentModalsSlice';
+export type { DocumentModalsState } from './model/slices/documentModalsSlice';
+export {
+  openCreateDocumentModal,
+  closeCreateDocumentModal,
+} from './model/slices/documentModalsSlice';
