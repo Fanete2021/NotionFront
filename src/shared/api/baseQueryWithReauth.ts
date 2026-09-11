@@ -41,38 +41,40 @@ export const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError,
   ReauthExtraOptions
 > = async (args, api, extraOptions) => {
-  await mutex.waitForUnlock();
-
   let result = await baseQuery(args, api, extraOptions);
-  if (extraOptions?.requiresAuth && result.error?.status === 401) {
-    if (!mutex.isLocked()) {
-      const release = await mutex.acquire();
 
-      try {
-        const refreshResult = await baseQuery(
-          {
-            url: 'auth/refresh',
-            method: 'POST',
-          },
-          api,
-          extraOptions,
-        );
-
-        if (!refreshResult.error && isRefreshData(refreshResult.data)) {
-          api.dispatch(setAccessToken(refreshResult.data.accessToken));
-
-          result = await baseQuery(args, api, extraOptions);
-        } else {
-          api.dispatch(loggedOut());
-        }
-      } finally {
-        release();
-      }
-    } else {
-      await mutex.waitForUnlock();
-
-      result = await baseQuery(args, api, extraOptions);
-    }
+  if (result.error?.status !== 401 || !extraOptions?.requiresAuth) {
+    return result;
   }
+
+  if (mutex.isLocked()) {
+    await mutex.waitForUnlock();
+    return await baseQuery(args, api, extraOptions);
+  }
+
+  const release = await mutex.acquire();
+
+  try {
+    const refreshResult = await baseQuery(
+      {
+        url: 'auth/refresh',
+        method: 'POST',
+      },
+      api,
+      {},
+    );
+
+    if (!refreshResult.error && isRefreshData(refreshResult.data)) {
+      api.dispatch(setAccessToken(refreshResult.data.accessToken));
+      result = await baseQuery(args, api, extraOptions);
+    } else if (refreshResult.error?.status === 401 || refreshResult.error?.status === 403) {
+      api.dispatch(loggedOut());
+    } else {
+      console.error('[auth] refresh failed:', refreshResult.error);
+    }
+  } finally {
+    release();
+  }
+
   return result;
 };
