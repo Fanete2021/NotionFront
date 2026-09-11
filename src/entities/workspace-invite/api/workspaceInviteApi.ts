@@ -17,8 +17,8 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         url: `/workspaces/${workspaceId}/invites`,
         method: 'POST',
         body: data,
-        extraOptions: { requiresAuth: true },
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: ['WorkspaceInvite'],
     }),
 
@@ -26,8 +26,8 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
       query: (workspaceId) => ({
         url: `/workspaces/${workspaceId}/invites`,
         method: 'GET',
-        extraOptions: { requiresAuth: true },
       }),
+      extraOptions: { requiresAuth: true },
       providesTags: (result) =>
         result
           ? [
@@ -41,8 +41,8 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
       query: ({ workspaceId, inviteId }) => ({
         url: `/workspaces/${workspaceId}/invites/${inviteId}`,
         method: 'DELETE',
-        extraOptions: { requiresAuth: true },
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { inviteId }) => [
         { type: 'WorkspaceInvite', id: inviteId },
         { type: 'WorkspaceInvite', id: 'LIST' },
@@ -54,8 +54,8 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         url: '/invites/redeem',
         method: 'POST',
         body: data,
-        extraOptions: { requiresAuth: true },
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: ['WorkspaceInvite', 'WorkspaceMember'],
     }),
   }),
