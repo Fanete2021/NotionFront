@@ -5,6 +5,7 @@ import type { Content } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
+import { TableKit } from '@tiptap/extension-table';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
@@ -18,6 +19,11 @@ import VideoNode from './ui/video-node/VideoNode';
 import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
+import TableIcon from '@shared/assets/icons/editor-table.svg';
+import { Typography } from '@shared/ui/Typography';
+import XCloseIcon from '@shared/assets/icons/x-close-2.svg';
+import PlusIcon from '@shared/assets/icons/plus.svg';
+import DivideIcon from '@shared/assets/icons/divide.svg';
 
 const textColors = [
   { value: null, colorName: 'Сбросить цвет' },
@@ -41,6 +47,7 @@ function isTextSelection(selection: Selection): selection is TextSelection {
 
 export const TextEditor = ({ content = '', editable = true, onChange }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
+  const [isTableOpen, setIsTableOpen] = useState(false);
 
   const onChangeRef = useRef(onChange);
   useEffect(() => {
@@ -69,6 +76,10 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
       ImageUploadNode,
       VideoUploadNode,
       VideoNode,
+
+      TableKit.configure({
+        table: { resizable: true },
+      }),
     ],
     content: (content ?? '') as Content,
     editable,
@@ -102,6 +113,21 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
     editor?.setEditable(editable);
   }, [editor, editable]);
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleUpdate = () => {
+      if (!editor.isActive('table')) {
+        setIsTableOpen(false);
+      }
+    };
+
+    editor.on('selectionUpdate', handleUpdate);
+    return () => {
+      editor.off('selectionUpdate', handleUpdate);
+    };
+  }, [editor]);
+
   const activeMarks = useEditorState({
     editor,
     selector: ({ editor: ed }) => ({
@@ -114,6 +140,7 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
       code: ed?.isActive('code') ?? false,
       link: ed?.isActive('link') ?? false,
       color: (ed?.getAttributes('textStyle')?.color as string | undefined) ?? null,
+      table: ed?.isActive('table') ?? false,
     }),
   });
 
@@ -138,7 +165,9 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
   };
 
   const handleShouldShow = () => {
-    if (!editable) return false;
+    if (!editable || !editor) return false;
+
+    if (editor.isActive('table')) return true;
 
     const selection = editor?.state.selection;
 
@@ -146,6 +175,11 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
   };
 
   const currentColor = activeMarks?.color ?? null;
+
+  const runTableCommand = (command: () => void) => {
+    command();
+    setIsTableOpen(false);
+  };
 
   return (
     <div className={styles.root}>
@@ -264,7 +298,10 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
             className={classNames(styles.bubbleButton, {
               [styles.bubbleButtonActive]: isColorOpen || currentColor !== null,
             })}
-            onClick={() => setIsColorOpen((open) => !open)}
+            onClick={() => {
+              setIsColorOpen((open) => !open);
+              setIsTableOpen(false);
+            }}
           >
             <PaletteIcon className={styles.bubbleIcon} />
           </Button>
@@ -298,6 +335,83 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
                   />
                 );
               })}
+            </div>
+          )}
+
+          {editor.isActive('table') && (
+            <div className={styles.tableMenuWrapper}>
+              <Button
+                type="button"
+                variant="clear"
+                size="sm"
+                square
+                aria-label="Действия с таблицей"
+                className={classNames(styles.bubbleButton, {
+                  [styles.bubbleButtonActive]: isTableOpen,
+                })}
+                onClick={() => {
+                  setIsTableOpen((open) => !open);
+                  setIsColorOpen(false);
+                }}
+              >
+                <TableIcon className={styles.bubbleIcon} />
+              </Button>
+
+              {isTableOpen && (
+                <div className={styles.tablePanel}>
+                  <Button
+                    variant="clear"
+                    className={styles.tablePanelItem}
+                    onClick={() =>
+                      runTableCommand(() => editor.chain().focus().addRowAfter().run())
+                    }
+                  >
+                    <PlusIcon className={styles.icon} />
+                    Добавить строку
+                  </Button>
+                  <Button
+                    variant="clear"
+                    className={styles.tablePanelItem}
+                    onClick={() =>
+                      runTableCommand(() => editor.chain().focus().addColumnAfter().run())
+                    }
+                  >
+                    <PlusIcon className={styles.icon} />
+                    Добавить столбец
+                  </Button>
+                  <Button
+                    variant="clear"
+                    className={styles.tablePanelItem}
+                    onClick={() => runTableCommand(() => editor.chain().focus().deleteRow().run())}
+                  >
+                    <DivideIcon className={styles.icon} />
+                    Удалить строку
+                  </Button>
+                  <Button
+                    variant="clear"
+                    className={styles.tablePanelItem}
+                    onClick={() =>
+                      runTableCommand(() => editor.chain().focus().deleteColumn().run())
+                    }
+                  >
+                    <DivideIcon className={styles.icon} />
+                    Удалить столбец
+                  </Button>
+                  <div className={styles.tablePanelDivider} />
+                  <Button
+                    variant="clear"
+                    className={classNames(styles.tablePanelItem, styles.tablePanelItemDanger)}
+                    onClick={() =>
+                      runTableCommand(() => editor.chain().focus().deleteTable().run())
+                    }
+                  >
+                    <Typography variant="text-medium" className={styles.tablePanelIcon}>
+                      <XCloseIcon />
+                    </Typography>
+                    Удалить таблицу
+                  </Button>
+                </div>
+              )}
             </div>
           )}
         </BubbleMenu>
