@@ -26,6 +26,20 @@ export const SingleInitial: Story = {
   },
 };
 
+export const WithImage: Story = {
+  args: {
+    src: 'https://avatars.githubusercontent.com/u/9919?v=4',
+    size: 'lg',
+  },
+};
+
+export const BrokenImage: Story = {
+  args: {
+    src: 'https://avatar.invalid/broken.png',
+    size: 'lg',
+  },
+};
+
 export const ExtraSmall: Story = {
   args: {
     size: 'xs',
