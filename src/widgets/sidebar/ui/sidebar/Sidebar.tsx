@@ -1,7 +1,8 @@
 'use client';
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { useRouter } from 'next/navigation';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
 import { staticSidebarItems } from '../../model';
@@ -17,12 +18,16 @@ import { useGetPagesByWorkspaceQuery } from '@/entities/page';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector } from '@/shared/lib';
+import { ROUTES } from '@shared/routes';
 
 interface SidebarProps {
   className?: string;
 }
 
 export function Sidebar({ className }: SidebarProps) {
+  const router = useRouter();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
@@ -62,7 +67,11 @@ export function Sidebar({ className }: SidebarProps) {
     return items;
   }, [projectItems]);
 
-  const handleSearch = () => {};
+  const handleFocus = () => {
+    searchInputRef.current?.blur();
+
+    router.push(ROUTES.pageSearch);
+  };
 
   if (workspacesLoading) {
     return <SidebarSkeleton />;
@@ -72,11 +81,12 @@ export function Sidebar({ className }: SidebarProps) {
       <WorkspaceSwitcher />
       <div className={styles.top}>
         <Input
+          ref={searchInputRef}
           className={styles.searchInput}
           placeholder="Поиск страниц..."
           addonLeft={<SearchIcon className={styles.icon} />}
           disabled={!workspaceIsChoosed}
-          onChange={handleSearch}
+          onFocus={handleFocus}
         />
 
         <nav className={styles.navigation}>

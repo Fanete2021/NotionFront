@@ -274,4 +274,18 @@
   --color-editor-menu-title: #1F2937;
   --color-editor-shadow: #0000001F;
   --color-editor-item-active: #EEF2FF;
+
+  /* SearchFilters */
+  --color-search-filter-title: #9CA3AF;
+  --color-filter-group-title: #1F2937;
+  --color-filter-group-text: #6B7280;
+  --color-filter-group-icon: #6B7280;
+
+  --color-filter-item-bg-active: #6366F11A;
+  --color-filter-item-text-active: #6366F1;
+
+  /* SearchList */
+  --color-search-list-text: #6B7280;
+  --color-search-list-title: #111827;
+  --color-search-list-time: #9CA3AF;
 }

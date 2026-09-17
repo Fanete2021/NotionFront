@@ -1,0 +1,18 @@
+.workspaceSearch {
+  --search-filters-width: 220px;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.body {
+  display: grid;
+  flex: 1;
+  grid-template-columns: var(--search-filters-width) minmax(0, 1fr);
+}
+
+.body > * {
+  min-width: 0;
+}
