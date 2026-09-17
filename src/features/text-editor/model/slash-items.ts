@@ -8,6 +8,7 @@ import EditorCode from '@shared/assets/icons/editor-code.svg';
 import EditorImage from '@shared/assets/icons/editor-image.svg';
 import EditorVideo from '@shared/assets/icons/editor-video.svg';
 import EditorBlockquote from '@shared/assets/icons/editor-blockquote.svg';
+import EditorTable from '@shared/assets/icons/editor-table.svg';
 
 type SlashIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -82,5 +83,13 @@ export const items: SlashItem[] = [
       editor?.chain().focus().toggleBlockquote().run();
     },
     icon: EditorBlockquote,
+  },
+  {
+    title: 'Таблица',
+    subtitle: 'Вставьте таблицу',
+    execute: ({ editor }) => {
+      editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+    },
+    icon: EditorTable,
   },
 ];

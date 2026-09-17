@@ -288,4 +288,6 @@
   --color-search-list-text: #6B7280;
   --color-search-list-title: #111827;
   --color-search-list-time: #9CA3AF;
+  /* Editor table */
+  --color-table-header-bg: #f8f9fa;
 }

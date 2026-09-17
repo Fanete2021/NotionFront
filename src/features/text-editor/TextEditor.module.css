@@ -185,6 +185,144 @@
   color: inherit;
 }
 
+.editor :global(.tableWrapper) {
+  position: relative;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.editor :global(table) {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.editor :global(table td),
+.editor :global(table th) {
+  min-width: 1em;
+  border: 1px solid var(--color-border-strong);
+  padding: 6px 8px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.editor :global(table th) {
+  font-weight: bold;
+  text-align: left;
+  background-color: var(--color-table-header-bg);
+}
+
+.editor :global(.selectedCell:after) {
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  pointer-events: none;
+}
+
+.editor :global(.column-resize-handle) {
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -3px;
+  width: 6px;
+  pointer-events: auto;
+}
+
+.tableMenuWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tablePanel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-base);
+  background-color: var(--color-bubble);
+  box-shadow: 0 4px 12px var(--color-bubble-shadow);
+  z-index: 10;
+  animation: tablePanelFadeIn 0.12s ease-out;
+}
+
+@keyframes tablePanelFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tablePanelItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background-color 0.1s ease;
+}
+
+.tablePanelItem:hover {
+  background-color: var(--color-primary-light);
+}
+
+.tablePanelItemDanger {
+  color: var(--color-danger);
+}
+
+.tablePanelItemDanger:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.tablePanelIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.tablePanelItemDanger .tablePanelIcon {
+  color: var(--danger-color);
+}
+
+.tablePanelDivider {
+  height: 1px;
+  margin: 4px 6px;
+  background-color: var(--color-border-base);
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
 @media (max-width: 1439px) {
   .editor :global(h1) {
     font-size: 32px;
