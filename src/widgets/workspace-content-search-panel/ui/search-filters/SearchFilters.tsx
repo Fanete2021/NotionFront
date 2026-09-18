@@ -1,7 +1,7 @@
 import styles from './SearchFilters.module.css';
-import { FilterGroup } from '../filter-group/FilterGroup';
 import { workspaceChangeDateFilterItems, workspaceTypeFilterItems } from '../../model/filterItems';
 import { ProjectFilter } from '@features/search-workspace-content';
+import { FilterGroup } from '@entities/workspace-search-filters';
 import { Typography } from '@shared/ui/Typography';
 
 interface SearchFiltersProps {

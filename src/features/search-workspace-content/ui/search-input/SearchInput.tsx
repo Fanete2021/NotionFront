@@ -7,7 +7,7 @@ export const SearchInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     inputRef.current?.focus();
-  });
+  }, []);
 
   return (
     <div className={styles.search}>

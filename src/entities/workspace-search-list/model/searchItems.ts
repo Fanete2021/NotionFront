@@ -1,4 +1,4 @@
-import type { SearchItem } from '@features/search-workspace-content';
+import { SearchItem } from './types/searchItem';
 import Page from '@shared/assets/icons/page.svg';
 
 export const searchItems: SearchItem[] = [

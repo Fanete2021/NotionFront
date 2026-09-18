@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from './SearchList.module.css';
-import { searchItems } from '@widgets/workspace-search/model/searchItems';
+import { searchItems } from '@entities/workspace-search-list/model/searchItems';
 import { SearchItem } from '../search-item/SearchItem';
 import { Typography } from '@shared/ui/Typography';
 

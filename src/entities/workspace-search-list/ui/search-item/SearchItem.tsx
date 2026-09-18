@@ -1,5 +1,5 @@
 import styles from './SearchItem.module.css';
-import type { SearchItem as SearchItemData } from '@features/search-workspace-content';
+import type { SearchItem as SearchItemData } from '../../model/types/searchItem';
 import { Card } from '@shared/ui/Card';
 import { Button } from '@shared/ui/Button';
 import { Typography } from '@shared/ui/Typography';

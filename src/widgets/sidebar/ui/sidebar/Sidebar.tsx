@@ -1,8 +1,8 @@
 'use client';
 
-import { useMemo, useEffect, useRef } from 'react';
+import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
 import { staticSidebarItems } from '../../model';
@@ -15,7 +15,6 @@ import { ProjectFormModal } from '@/features/manage-project';
 import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { useGetPagesByWorkspaceQuery } from '@/entities/page';
-import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector } from '@/shared/lib';
 import { ROUTES } from '@shared/routes';
@@ -25,9 +24,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ className }: SidebarProps) {
-  const router = useRouter();
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
@@ -67,27 +63,30 @@ export function Sidebar({ className }: SidebarProps) {
     return items;
   }, [projectItems]);
 
-  const handleFocus = () => {
-    searchInputRef.current?.blur();
-
-    router.push(ROUTES.pageSearch);
-  };
-
   if (workspacesLoading) {
     return <SidebarSkeleton />;
   }
+
+  const searchLinkContent = (
+    <>
+      <SearchIcon className={styles.icon} aria-hidden="true" />
+      <span className={styles.searchLabel}>Поиск страниц...</span>
+    </>
+  );
+
   return (
     <aside className={classNames(styles.sidebar, className)}>
       <WorkspaceSwitcher />
       <div className={styles.top}>
-        <Input
-          ref={searchInputRef}
-          className={styles.searchInput}
-          placeholder="Поиск страниц..."
-          addonLeft={<SearchIcon className={styles.icon} />}
-          disabled={!workspaceIsChoosed}
-          onFocus={handleFocus}
-        />
+        {workspaceIsChoosed ? (
+          <Link href={ROUTES.pageSearch} className={styles.searchLink}>
+            {searchLinkContent}
+          </Link>
+        ) : (
+          <span className={styles.searchLink} role="link" aria-disabled="true">
+            {searchLinkContent}
+          </span>
+        )}
 
         <nav className={styles.navigation}>
           {sidebarItems.map((item) => {

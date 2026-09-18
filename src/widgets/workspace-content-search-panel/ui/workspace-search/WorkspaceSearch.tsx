@@ -1,10 +1,9 @@
 'use client';
-
 import { useState } from 'react';
 import { SearchFilters } from '../search-filters/SearchFilters';
-import { SearchList } from '../search-list/SearchList';
 import styles from './WorkspaceSearch.module.css';
 import { SearchInput } from '@features/search-workspace-content';
+import { SearchList } from '@entities/workspace-search-list';
 
 export const WorkspaceSearch = () => {
   const [typeId, setTypeId] = useState<string>('all');

@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './FilterItem.module.css';
-import { FilterOption } from '@/features/search-workspace-content';
+import { FilterOption } from '../../model/types/filterItem';
 import { Button } from '@shared/ui/Button';
 
 interface FilterItemProps {

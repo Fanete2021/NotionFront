@@ -1,6 +1,6 @@
 import styles from './FilterGroup.module.css';
-import { FilterItem } from '../filter-item/FilterItem';
-import { FilterOption } from '@features/search-workspace-content';
+import { FilterItem } from '@entities/workspace-search-filters/ui/filter-item/FilterItem';
+import { FilterOption } from '../../model/types/filterItem';
 import { Typography } from '@shared/ui/Typography';
 
 interface FilterGroupProps {
