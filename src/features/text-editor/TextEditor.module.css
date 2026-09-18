@@ -70,6 +70,29 @@
   outline-offset: 1px;
 }
 
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 24px;
+  border-radius: 4px;
+  color: var(--color-text-muted);
+  cursor: grab;
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+  transition: background-color 0.1s ease;
+}
+
+.dragHandle:hover {
+  background-color: var(--color-bg-muted);
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
 .editor {
   outline: none;
 }
