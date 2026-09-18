@@ -15,9 +15,10 @@ import { ContextMenu } from '@shared/ui/context-menu';
 interface UserProfileProps {
   name: string;
   email: string;
+  avatarUrl?: string | null;
 }
 
-export function UserProfile({ name, email }: UserProfileProps) {
+export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const actionsRef = useDismissibleLayer<HTMLDivElement>({
@@ -34,7 +35,7 @@ export function UserProfile({ name, email }: UserProfileProps) {
 
   return (
     <div className={styles.profile}>
-      <Avatar name={name} size="lg" className={styles.avatar} />
+      <Avatar name={name} src={avatarUrl} size="lg" className={styles.avatar} />
 
       <div className={styles.userInfo}>
         <Typography variant="text-label" className={styles.name}>

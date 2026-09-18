@@ -15,6 +15,8 @@ import { ProjectFormModal } from '@/features/manage-project';
 import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { useGetPagesByWorkspaceQuery } from '@/entities/page';
+import { useGetMeQuery } from '@/entities/user';
+import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector } from '@/shared/lib';
 import { ROUTES } from '@shared/routes';
@@ -39,6 +41,8 @@ export function Sidebar({ className }: SidebarProps) {
     { workspaceId: currentWorkspaceId || '' },
     { skip: !currentWorkspaceId },
   );
+
+  const { data: authData } = useGetMeQuery();
 
   useEffect(() => {
     if (currentWorkspaceId) {
@@ -106,7 +110,9 @@ export function Sidebar({ className }: SidebarProps) {
         <DocumentFormModal />
       </div>
 
-      <UserProfile name="Alex Kim" email="alex@acme.io" />
+      {authData && (
+        <UserProfile name={authData.name} email={authData.email} avatarUrl={authData.avatarUrl} />
+      )}
     </aside>
   );
 }
