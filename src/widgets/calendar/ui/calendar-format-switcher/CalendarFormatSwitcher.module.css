@@ -1,0 +1,30 @@
+.switcher {
+  border-radius: 6px;
+  padding: 4px;
+
+  background-color: var(--color-bg-muted);
+}
+
+.formatList {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  list-style: none;
+}
+
+.formatItem {
+  border-radius: 4px;
+  color: var(--color-calendar-switcher-text);
+
+  padding: 6px 12px;
+
+  &.active {
+    color: var(--color-calendar-swithcer-active);
+    background-color: var(--color-calendar-swithcer-bg-active);
+  }
+}
+
+.formatItem .format {
+  font-size: 13px;
+}

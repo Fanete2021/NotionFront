@@ -277,4 +277,11 @@
 
   /* Editor table */
   --color-table-header-bg: #f8f9fa;
+
+  /* CalendarHeader */
+  --color-calendar-header-title: #111827;
+  --color-calendar-switcher-text: #6B7280;
+
+  --color-calendar-swithcer-active: #6366F1;
+  --color-calendar-swithcer-bg-active: #EEF2FF;
 }
