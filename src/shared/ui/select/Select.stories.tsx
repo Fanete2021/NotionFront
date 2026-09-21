@@ -20,6 +20,7 @@ const meta: Meta<typeof Select> = {
     options: { control: 'object', description: 'Список вариантов: { value, label }' },
     value: { control: 'text', description: 'Выбранное значение' },
     disabled: { control: 'boolean' },
+    size: { control: 'inline-radio', options: ['s', 'm'] },
     onChange: { action: 'changed' },
   },
   args: {
@@ -56,4 +57,19 @@ export const Interactive: Story = {
 
     return <Select options={workspaces} value={value} onChange={setValue} />;
   },
+};
+
+export const Compact: Story = {
+  args: {
+    size: 's',
+    value: '',
+    options: [{ value: '', label: 'Все проекты' }],
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 180 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };

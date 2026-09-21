@@ -10,22 +10,30 @@ export interface SelectOption {
   label: string;
 }
 
-type HTMLSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value' | 'onChange'>;
+type HTMLSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value' | 'onChange' | 'size'>;
 
 interface SelectProps extends HTMLSelectProps {
   options: SelectOption[];
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
+  size?: 's' | 'm';
 }
 
-export const Select = ({ options, value, onChange, className, ...otherProps }: SelectProps) => {
+export const Select = ({
+  options,
+  value,
+  onChange,
+  className,
+  size = 'm',
+  ...otherProps
+}: SelectProps) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange?.(e.target.value);
   };
 
   return (
-    <div className={classNames(styles.wrapper, className)}>
+    <div className={classNames(styles.wrapper, { [styles.small]: size === 's' }, className)}>
       <select className={styles.select} value={value} onChange={handleChange} {...otherProps}>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -33,7 +41,7 @@ export const Select = ({ options, value, onChange, className, ...otherProps }: S
           </option>
         ))}
       </select>
-      <ChevronDownIcon className={styles.icon} />
+      <ChevronDownIcon className={styles.icon} aria-hidden="true" />
     </div>
   );
 };

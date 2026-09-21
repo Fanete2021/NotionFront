@@ -9,6 +9,7 @@ export const ROUTES = {
   calendar: '/calendar',
   trash: '/trash',
   settings: '/settings',
+  pageSearch: '/search',
 } as const;
 
 export const PUBLIC_ROUTES = [ROUTES.login, ROUTES.registration] as const;
@@ -21,4 +22,5 @@ export const PRIVATE_ROUTES = [
   ROUTES.calendar,
   ROUTES.trash,
   ROUTES.settings,
+  ROUTES.pageSearch,
 ] as const;

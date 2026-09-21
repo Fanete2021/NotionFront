@@ -1,0 +1,17 @@
+.totalResult {
+  color: var(--color-search-list-text);
+}
+
+.searchBody {
+  padding: 24px 32px;
+}
+
+.list{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  padding-top: 16px;
+
+  list-style-type: none;
+}
