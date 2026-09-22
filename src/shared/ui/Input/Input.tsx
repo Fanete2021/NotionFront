@@ -1,6 +1,6 @@
 'use client';
 
-import { InputHTMLAttributes, ReactNode, useState } from 'react';
+import { forwardRef, InputHTMLAttributes, ReactNode, useState } from 'react';
 import cn from 'classnames';
 import styles from './Input.module.css';
 import { Typography } from '@/shared/ui/Typography';
@@ -31,7 +31,7 @@ interface InputProps extends HTMLInputProps {
   showPasswordToggle?: boolean;
 }
 
-export const Input = (props: InputProps) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>((props: InputProps, ref) => {
   const {
     className,
     value,
@@ -83,6 +83,7 @@ export const Input = (props: InputProps) => {
     <div className={cn(styles.inputWrapper, mods, className)}>
       {addonLeft && <div className={styles.addonLeft}>{addonLeft}</div>}
       <input
+        ref={ref}
         type={inputType}
         value={value}
         onChange={onChangeHandler}
@@ -132,4 +133,6 @@ export const Input = (props: InputProps) => {
     );
   }
   return input;
-};
+});
+
+Input.displayName = 'Input';

@@ -2,6 +2,7 @@
 
 import { useMemo, useEffect } from 'react';
 import classNames from 'classnames';
+import Link from 'next/link';
 import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
 import { staticSidebarItems } from '../../model';
@@ -14,9 +15,11 @@ import { ProjectFormModal } from '@/features/manage-project';
 import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { useGetPagesByWorkspaceQuery } from '@/entities/page';
+import { useGetMeQuery } from '@/entities/user';
 import { Input } from '@/shared/ui/Input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector } from '@/shared/lib';
+import { ROUTES } from '@shared/routes';
 
 interface SidebarProps {
   className?: string;
@@ -38,6 +41,8 @@ export function Sidebar({ className }: SidebarProps) {
     { workspaceId: currentWorkspaceId || '' },
     { skip: !currentWorkspaceId },
   );
+
+  const { data: authData } = useGetMeQuery();
 
   useEffect(() => {
     if (currentWorkspaceId) {
@@ -62,22 +67,30 @@ export function Sidebar({ className }: SidebarProps) {
     return items;
   }, [projectItems]);
 
-  const handleSearch = () => {};
-
   if (workspacesLoading) {
     return <SidebarSkeleton />;
   }
+
+  const searchLinkContent = (
+    <>
+      <SearchIcon className={styles.icon} aria-hidden="true" />
+      <span className={styles.searchLabel}>Поиск страниц...</span>
+    </>
+  );
+
   return (
     <aside className={classNames(styles.sidebar, className)}>
       <WorkspaceSwitcher />
       <div className={styles.top}>
-        <Input
-          className={styles.searchInput}
-          placeholder="Поиск страниц..."
-          addonLeft={<SearchIcon className={styles.icon} />}
-          disabled={!workspaceIsChoosed}
-          onChange={handleSearch}
-        />
+        {workspaceIsChoosed ? (
+          <Link href={ROUTES.pageSearch} className={styles.searchLink}>
+            {searchLinkContent}
+          </Link>
+        ) : (
+          <span className={styles.searchLink} role="link" aria-disabled="true">
+            {searchLinkContent}
+          </span>
+        )}
 
         <nav className={styles.navigation}>
           {sidebarItems.map((item) => {
@@ -97,7 +110,9 @@ export function Sidebar({ className }: SidebarProps) {
         <DocumentFormModal />
       </div>
 
-      <UserProfile name="Alex Kim" email="alex@acme.io" />
+      {authData && (
+        <UserProfile name={authData.name} email={authData.email} avatarUrl={authData.avatarUrl} />
+      )}
     </aside>
   );
 }

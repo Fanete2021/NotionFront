@@ -1,0 +1,17 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group .title {
+  color: var(--color-filter-group-title);
+  line-height: 20px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  list-style: none;
+}
