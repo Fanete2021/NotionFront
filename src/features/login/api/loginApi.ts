@@ -5,6 +5,7 @@ import { setAccessToken } from '@shared/api';
 export interface LoginRequest {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export const loginApi = baseApi.injectEndpoints({
