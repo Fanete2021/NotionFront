@@ -340,7 +340,7 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
               </div>
             )}
 
-            {editor.isActive('table') && (
+            {activeMarks?.table && (
               <div className={styles.tableMenuWrapper}>
                 <Button
                   variant="clear"
