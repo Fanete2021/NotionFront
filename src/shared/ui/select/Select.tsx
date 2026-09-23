@@ -18,6 +18,7 @@ interface SelectProps extends HTMLSelectProps {
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
+  size?: 's' | 'm';
   label?: string;
 }
 
@@ -26,6 +27,7 @@ export const Select = ({
   value,
   onChange,
   className,
+  size = 'm',
   label,
   ...otherProps
 }: SelectProps) => {
@@ -34,7 +36,7 @@ export const Select = ({
   };
 
   return (
-    <div className={classNames(styles.wrapper, className)}>
+    <div className={classNames(styles.wrapper, { [styles.small]: size === 's' }, className)}>
       {label && (
         <Typography variant="label" className={styles.label}>
           {label}
@@ -48,7 +50,7 @@ export const Select = ({
             </option>
           ))}
         </select>
-        <ChevronDownIcon className={styles.icon} />
+        <ChevronDownIcon className={styles.icon} aria-hidden="true" />
       </div>
     </div>
   );
