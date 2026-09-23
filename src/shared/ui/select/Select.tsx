@@ -11,7 +11,7 @@ export interface SelectOption {
   label: string;
 }
 
-type HTMLSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value' | 'onChange'>;
+type HTMLSelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, 'value' | 'onChange' | 'size'>;
 
 interface SelectProps extends HTMLSelectProps {
   options: SelectOption[];
