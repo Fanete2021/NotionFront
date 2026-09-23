@@ -4,7 +4,7 @@ import { WorkspaceModalsState } from '@/features/switch-workspace';
 import { ProjectModalsState } from '@/features/manage-project';
 import { InviteLinkModalState } from '@/features/create-invite-link';
 import { DocumentModalsState } from '@/features/manage-document';
-import { CreateEventModalState } from '@features/calendar';
+import type { CreateEventModalState } from '@features/create-calendar-event';
 import { currentWorkspaceReducer } from '@/entities/workspace';
 import { sessionReducer } from '@shared/api';
 import { baseApi } from '@shared/api/baseApi';

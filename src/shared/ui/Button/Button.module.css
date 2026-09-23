@@ -5,6 +5,8 @@
 
   cursor: pointer;
   color: var(--color-button-filled-text);
+
+  font-family: inherit;
 }
 
 .fullWidth {
@@ -22,6 +24,7 @@
   justify-content: center;
 
   /* размер меняется переменной со стороны вызова: --button-addon-size */
+
   svg {
     width: var(--button-addon-size, 16px);
     height: var(--button-addon-size, 16px);

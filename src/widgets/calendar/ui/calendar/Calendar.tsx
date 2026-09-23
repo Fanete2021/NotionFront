@@ -1,10 +1,11 @@
-import { CalendarHeader } from '../calendar-header/CalendarHeader';
-import styles from './Calendar.module.css';
+'use client';
+import { CalendarProvider } from '../../providers/calendar-provider/CalendarProvider';
+import { CalendarContent } from '../calendar-content/CalendarContent';
 
 export const Calendar = () => {
   return (
-    <div className={styles.calendar}>
-      <CalendarHeader />
-    </div>
+    <CalendarProvider>
+      <CalendarContent />
+    </CalendarProvider>
   );
 };

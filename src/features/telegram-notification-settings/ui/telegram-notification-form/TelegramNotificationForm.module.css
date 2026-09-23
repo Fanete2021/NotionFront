@@ -1,0 +1,196 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--color-text-body);
+}
+
+.sectionTitle {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.connectionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border-base);
+}
+
+.connectionCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 15px;
+  border: 1px solid var(--color-border-base);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgb(15 23 42 / 4%);
+}
+
+.telegramIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--color-telegram-icon);
+  background: var(--color-telegram-icon-bg);
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.account {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.accountName {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.connectionStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  line-height: 16px;
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  &[data-connected='true'] {
+    color: var(--color-success);
+  }
+}
+
+.connectionCard .connectionButton {
+  min-height: 32px;
+  flex-shrink: 0;
+  padding: 6px 12px;
+}
+
+.notificationSection {
+  min-width: 0;
+  margin: 0;
+  padding: 0 0 20px;
+  border: 0;
+  border-bottom: 1px solid var(--color-border-base);
+
+  legend {
+    margin-bottom: 16px;
+  }
+}
+
+.notificationList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settingText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.settingTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.description,
+.scheduleHint {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.toggle {
+  flex-shrink: 0;
+}
+
+.reminderField {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reminderSelect select {
+  height: 44px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.quietHoursSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quietHoursSchedule {
+  display: grid;
+  grid-template-columns: 100px auto 100px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.quietHoursSchedule .timeInput {
+  height: 44px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+
+  &:has(input:disabled) {
+    opacity: 0.5;
+    background: var(--color-bg-surface);
+  }
+
+  input {
+    font-family: inherit;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
+
+.timeSeparator {
+  color: var(--color-text-muted);
+}
+
+.form button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

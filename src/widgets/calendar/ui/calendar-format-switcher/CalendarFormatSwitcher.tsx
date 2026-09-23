@@ -1,9 +1,8 @@
 import classNames from 'classnames';
 import styles from './CalendarFormatSwitcher.module.css';
-import { calendarSwitcherItems } from '../../model/switchItems';
-import { DisplayFormat } from '@features/calendar';
+import { calendarSwitcherItems } from '../../model/mock-data/switchItems';
+import type { DisplayFormat } from '../../model/types/calendar-display-format';
 import { Button } from '@shared/ui/Button';
-import { Typography } from '@shared/ui/Typography';
 
 interface CalendarFormatSwitcherProps {
   selectedFormat: DisplayFormat;
@@ -18,17 +17,18 @@ export const CalendarFormatSwitcher = ({
     <div className={styles.switcher}>
       <ul className={styles.formatList}>
         {calendarSwitcherItems.map((item) => (
-          <Button key={item.id} variant="clear" onClick={() => onSelect(item.id)}>
-            <li
+          <li key={item.id}>
+            <Button
+              variant="clear"
+              onClick={() => onSelect(item.id)}
+              aria-pressed={item.id === selectedFormat}
               className={classNames(styles.formatItem, {
                 [styles.active]: item.id === selectedFormat,
               })}
             >
-              <Typography className={styles.format} variant="text-medium">
-                {item.format}
-              </Typography>
-            </li>
-          </Button>
+              {item.format}
+            </Button>
+          </li>
         ))}
       </ul>
     </div>

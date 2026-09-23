@@ -1,0 +1,54 @@
+button.calendarCell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  flex-direction: column;
+  row-gap: 3px;
+
+  min-width: 0;
+  padding: 8px;
+
+  border: 1px solid var(--color-border-base);
+  border-radius: 6px;
+
+  color: var(--color-calendar-cell-text);
+  font: inherit;
+  text-align: left;
+
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &[data-current-month='false'] {
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-surface);
+  }
+
+  &[data-selected='true'] {
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-calendar-cell-bg);
+    outline: none;
+  }
+
+  time[aria-current='date'] {
+    color: var(--color-calendar-cell-active);
+    font-weight: 500;
+    font-size: 11px;
+
+    background-color: var(--color-primary);
+
+    border-radius: 50%;
+
+    padding: 2px 6px;
+  }
+}
+
+.hiddenTasks {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+}
