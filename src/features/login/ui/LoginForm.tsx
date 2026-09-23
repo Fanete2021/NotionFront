@@ -23,6 +23,7 @@ import Eye from '@shared/assets/icons/eye.svg';
 interface LoginFormValues {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export const LoginForm = () => {
@@ -30,6 +31,7 @@ export const LoginForm = () => {
     defaultValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
     resolver: zodResolver(loginUserSchema),
   });
@@ -101,7 +103,19 @@ export const LoginForm = () => {
 
       <div className={styles.actions}>
         <div className={styles.rememberMe}>
-          <Checkbox className={styles.checkbox}>Запомнить меня</Checkbox>
+          <Controller
+            name="rememberMe"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                className={styles.checkbox}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              >
+                Запомнить меня
+              </Checkbox>
+            )}
+          />
         </div>
         <Link href={ROUTES.resetPassword} className={styles.forgotPasswordLink}>
           <Typography variant="text-medium" className={styles.forgotPasswordText}>
