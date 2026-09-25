@@ -1,0 +1,91 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px 12px;
+  align-items: start;
+}
+
+.field {
+  min-width: 0;
+  grid-column: span 2;
+
+  input::placeholder {
+    color: var(--color-field-placholder-text);
+  }
+}
+
+.half {
+  grid-column: span 3;
+}
+
+.field .timeInput {
+  height: 44px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+
+  input {
+    font-family: inherit;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.notificationSettings {
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+
+  padding: 16px;
+
+  background-color: var(--color-bg-surface);
+}
+
+.notificationTitle {
+  color: var(--color-notification-title);
+}
+
+.notificationRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.telegramLabel {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.telegramIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  width: 32px;
+  height: 32px;
+
+  background-color: var(--color-telegram-icon-bg);
+
+  color: var(--color-telegram-icon);
+}
+
+.telegramSend {
+  color: var(--color-notification-text);
+}
+
+.reminderSelect select {
+  background-color: var(--color-bg-muted);
+}
+
+.reminderLabel {
+  color: var(--color-reminder-label-text);
+}

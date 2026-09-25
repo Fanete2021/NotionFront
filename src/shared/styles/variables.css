@@ -290,4 +290,58 @@
   --color-search-list-time: #9CA3AF;
   /* Editor table */
   --color-table-header-bg: #f8f9fa;
+
+  /* CalendarHeader */
+  --color-calendar-header-title: #111827;
+  --color-calendar-switcher-text: #6B7280;
+
+  --color-calendar-swithcer-active: #6366F1;
+  --color-calendar-swithcer-bg-active: #EEF2FF;
+
+  /* CreateEventForm */
+  --color-notification-title: #6B7280;
+  --color-notification-text: #6B7280;
+
+  --color-telegram-icon-bg: #2563EB1A;
+  --color-telegram-icon: #2563EB;
+
+  --color-reminder-label-text: #1F2937;
+  --color-field-placholder-text: #1F2937;
+
+  /* CalendarView */
+  --color-calendar-cell-text: #1F2937;
+  --color-calendar-cell-active: #FFFFFF;
+
+  /* Calendar Panel */
+  --color-date-card-bg: #F3F4F6;
+
+  --color-date-card-weekday: #6B7280;
+  --color-date-card-date: #1F2937;
+
+  --color-divider-bg: #F3F4F6;
+
+  --color-task-card-bg: #FFFFFF;
+  --color-task-unviewd-bg: #EF4444;
+  --color-badge-border: #6366F14D;
+
+  --color-add-task-button-border: #6366F1;
+  --color-add-task-button-text: #6366F1;
+  --color-add-task-button-bg: #FFFFFF;
+  --color-add-task-button-outline-border: var(--color-add-task-button-border);
+  --color-add-task-button-outline-text: var(--color-add-task-button-text);
+
+  --color-calendar-cell-bg: #6366F10F;
+
+  --color-calendar-cell-badge-indigo: #6366F11A;
+  --color-calendar-cell-badge-red: #EF444414;
+  --color-calendar-cell-badge-yellow: #F59E0B1A;
+  --color-calendar-cell-badge-green: #10B9811A;
+
+  --color-calendar-cell-badge-border-indigo:#6366F14D;
+  --color-calendar-cell-badge-border-red:#EF44444D;
+  --color-calendar-cell-badge-border-yellow:#F59E0B4D;
+  --color-calendar-cell-badge-border-green: #10B9814D;
+
+  --color-calendar-cell-badge-text: #1F2937;
+
 }

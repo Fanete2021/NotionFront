@@ -12,7 +12,7 @@ const variantMap = {
   label: 'label',
   caption: 'span',
   'text-alt': 'p',
-  'text-micro': 'label',
+  'text-micro': 'p',
   'text-avatar': 'span',
   'text-modal': 'span',
   'text-label': 'p',

@@ -1,0 +1,42 @@
+.calendar {
+  min-width: 0;
+  padding: 24px 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.layout {
+  --day-panel-width: 280px;
+
+  display: grid;
+
+  grid-template-columns: 0 minmax(0, 1fr);
+  min-width: 0;
+
+  flex: 1;
+
+  transition: grid-template-columns 300ms ease;
+}
+
+.layout[data-panel-open='true'] {
+  grid-template-columns: var(--day-panel-width) minmax(0, 1fr);
+}
+
+.dayPanel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dayPanelContent {
+  display: flex;
+
+  width: var(--day-panel-width);
+
+  min-height: 100%;
+  padding: 20px;
+
+  border-right: 1px solid var(--color-border-base);
+  background-color: var(--color-bg-surface);
+}

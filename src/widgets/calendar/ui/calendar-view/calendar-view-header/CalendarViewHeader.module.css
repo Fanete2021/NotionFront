@@ -1,0 +1,11 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title::first-letter {
+  text-transform: uppercase;
+}
