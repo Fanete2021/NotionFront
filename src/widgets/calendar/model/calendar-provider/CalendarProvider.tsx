@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { CalendarContext } from '@widgets/calendar/context/calendar-context/calendarContext';
+import { CalendarContext } from '@widgets/calendar/model/calendar-context/calendarContext';
 
 interface CalendarProviderProps {
   children: ReactNode;

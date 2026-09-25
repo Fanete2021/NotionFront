@@ -1,3 +1,3 @@
 export { Calendar } from './ui/calendar/Calendar';
 
-export { useCalendar } from './context/calendar-context/useCalendar';
+export { useCalendar } from '@widgets/calendar/model/calendar-context/useCalendar';

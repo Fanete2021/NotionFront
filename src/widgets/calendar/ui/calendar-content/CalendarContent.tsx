@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCalendar } from '../../context/calendar-context/useCalendar';
+import { useCalendar } from '@widgets/calendar/model/calendar-context/useCalendar';
 import { CalendarHeader } from '../calendar-header/CalendarHeader';
 import { CalendarView } from '../calendar-view/CalendarView';
 import { DayTasksPanel } from '../day-tasks-panel/DayTasksPanel';

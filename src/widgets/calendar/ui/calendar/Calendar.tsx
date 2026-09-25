@@ -1,5 +1,5 @@
 'use client';
-import { CalendarProvider } from '../../providers/calendar-provider/CalendarProvider';
+import { CalendarProvider } from '@widgets/calendar/model/calendar-provider/CalendarProvider';
 import { CalendarContent } from '../calendar-content/CalendarContent';
 
 export const Calendar = () => {

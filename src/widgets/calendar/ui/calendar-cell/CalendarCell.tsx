@@ -1,5 +1,5 @@
-import styles from './CalendarSell.module.css';
-import { useCalendar } from '../../context/calendar-context/useCalendar';
+import styles from './CalendarCell.module.css';
+import { useCalendar } from '@widgets/calendar/model/calendar-context/useCalendar';
 import { TaskBadge } from '@widgets/calendar/ui/calendar-cell/task-badge/TaskBadge';
 import type { BadgeTask, CalendarCellData } from '@entities/calendar';
 import { Button } from '@shared/ui/Button';
@@ -17,11 +17,7 @@ export const CalendarCell = ({ cell, tasks = [] }: CalendarCellProps) => {
   const countHiddenTasks = tasks.length - visibleTasks.length;
 
   const handleClick = () => {
-    if (selectedDate === cell.date) {
-      selectDate(null);
-    } else {
-      selectDate(cell.date);
-    }
+    return selectedDate === cell.date ? selectDate(null) : selectDate(cell.date);
   };
 
   return (

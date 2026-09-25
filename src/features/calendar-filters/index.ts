@@ -1,1 +1,1 @@
-export { CalendarFilters } from './ui/CalendarFilters/CalendarFilters';
+export { CalendarFilters } from '@features/calendar-filters/ui/calendar-filters/CalendarFilters';
