@@ -11,9 +11,10 @@ button.calendarCell {
 
   border: 1px solid var(--color-border-base);
   border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
 
   color: var(--color-calendar-cell-text);
-  font: inherit;
   text-align: left;
 
   cursor: pointer;
@@ -36,9 +37,6 @@ button.calendarCell {
 
   time[aria-current='date'] {
     color: var(--color-calendar-cell-active);
-    font-weight: 500;
-    font-size: 11px;
-
     background-color: var(--color-primary);
 
     border-radius: 50%;
