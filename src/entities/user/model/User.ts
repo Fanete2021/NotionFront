@@ -11,3 +11,9 @@ export interface UserData {
   accessToken: string;
   user: Pick<User, 'id' | 'email'>;
 }
+
+export interface UpdateUserDto {
+  email: string;
+  name: string;
+  avatarUrl?: string | null;
+}
