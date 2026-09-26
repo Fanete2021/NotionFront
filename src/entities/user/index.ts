@@ -1,3 +1,3 @@
-export type { User, UserData } from './model/User';
+export type { User, UserData, UpdateUserDto } from './model/User';
 
-export { useGetMeQuery } from './api/userApi';
+export { useGetMeQuery, useUpdateUserProfileMutation } from './api/userApi';

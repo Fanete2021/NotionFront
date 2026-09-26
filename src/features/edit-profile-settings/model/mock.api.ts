@@ -5,6 +5,8 @@ export interface ProfileSettings {
   emailNotifications: boolean;
   mentionNotifications: boolean;
   telegramToken: string;
+  avatarUrl: string;
+  avatarFile?: File;
 }
 
 export const defaultProfileSettings: ProfileSettings = {
@@ -14,4 +16,6 @@ export const defaultProfileSettings: ProfileSettings = {
   emailNotifications: true,
   mentionNotifications: true,
   telegramToken: '',
+  avatarUrl: 'https://example.com/avatar.jpg',
+  avatarFile: undefined,
 };

@@ -5,6 +5,8 @@ export const profileSettingsSchema = z.object({
   firstName: z.string().min(1, 'Введите имя!'),
   lastName: z.string().min(1, 'Введите фамилию!'),
   email: z.string().min(1, 'Введите email!').regex(emailRegex, 'Введите корректный email'),
+  avatarUrl: z.string().trim(),
+  avatarFile: z.file().optional(),
   emailNotifications: z.boolean(),
   mentionNotifications: z.boolean(),
   telegramToken: z.string(),

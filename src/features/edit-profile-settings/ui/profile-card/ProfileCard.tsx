@@ -5,18 +5,17 @@ import { ProfileSettings } from '../../model/mock.api';
 import { Card } from '@/shared/ui/Card';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Typography } from '@/shared/ui/Typography';
-import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
-import CameraIcon from '@/shared/assets/icons/camera.svg';
+import { FileInput } from '@/shared/ui/file-input';
 
 interface ProfileCardProps {
   control: Control<ProfileSettings>;
 }
 
 export function ProfileCard({ control }: ProfileCardProps) {
-  const [firstName, lastName, email] = useWatch({
+  const [firstName, lastName, email, avatarUrl] = useWatch({
     control,
-    name: ['firstName', 'lastName', 'email'],
+    name: ['firstName', 'lastName', 'email', 'avatarUrl'],
   });
 
   const fullName = `${firstName} ${lastName}`.trim();
@@ -24,7 +23,7 @@ export function ProfileCard({ control }: ProfileCardProps) {
   return (
     <Card className={common.card} radius="m">
       <div className={styles.identity}>
-        <Avatar name={fullName} size="lg" />
+        <Avatar name={fullName} size="lg" src={avatarUrl} />
         <div className={styles.identityText}>
           <Typography variant="text-regular" className={styles.name}>
             {fullName}
@@ -33,14 +32,21 @@ export function ProfileCard({ control }: ProfileCardProps) {
             {email}
           </Typography>
         </div>
-        <Button
-          className={styles.photoButton}
-          variant="outline"
-          size="sm"
-          addonLeft={<CameraIcon />}
-        >
-          Изменить фото
-        </Button>
+        <Controller
+          name="avatarFile"
+          control={control}
+          render={({ field, fieldState }) => (
+            <FileInput
+              ref={field.ref}
+              name={field.name}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              accept="image/png,image/jpeg,image/webp"
+              error={fieldState.error?.message}
+            />
+          )}
+        />
       </div>
       <div className={styles.nameRow}>
         <Controller

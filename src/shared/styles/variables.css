@@ -290,4 +290,7 @@
   --color-search-list-time: #9CA3AF;
   /* Editor table */
   --color-table-header-bg: #f8f9fa;
+
+  --color-file-input-text: #6B7280;
+  --color-file-input-bg: #FFFFFF;
 }
