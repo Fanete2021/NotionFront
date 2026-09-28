@@ -84,9 +84,19 @@
 
 .closeButton {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
   padding: 0;
+
+  &.clear {
+    width: 20px;
+    height: 20px;
+  }
+
+  &.outline {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 6px;
+  }
 }
 
 .closeIcon {

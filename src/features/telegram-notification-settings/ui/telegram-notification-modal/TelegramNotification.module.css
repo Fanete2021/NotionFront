@@ -1,0 +1,69 @@
+.modal[role='dialog'] {
+  width: 600px;
+  box-shadow: 0 8px 32px rgb(15 23 42 / 16%);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.telegramIcon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--color-telegram-icon);
+  background: var(--color-telegram-icon-bg);
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  button.cancelButton,
+  button.saveButton {
+    min-height: 44px;
+    border-radius: 6px;
+    padding: 10px 24px;
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.actions .cancelButton {
+  --color-button-outline-text: var(--color-text-muted);
+}
