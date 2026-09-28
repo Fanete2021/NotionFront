@@ -11,7 +11,7 @@ export const RouteToastCloserProvider = ({ children }: { children: ReactNode }) 
     if (pathname === '/login') {
       toast.close();
     }
-  }, [pathname, close]);
+  }, [pathname]);
 
   return children;
 };
