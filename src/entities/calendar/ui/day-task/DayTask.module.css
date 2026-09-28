@@ -1,0 +1,42 @@
+.taskCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 12px 14px;
+
+  background-color: var(--color-task-card-bg);
+
+  border-radius: 6px;
+  border: 1px solid var(--color-border-base);
+
+  cursor: pointer;
+}
+
+.taskLabel[data-task-viewed='true'] {
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+}
+
+.circle {
+  display: block;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: var(--color-task-unviewd-bg);
+
+  width: 8px;
+  height: 8px;
+}
+
+.taskInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.projectBadge {
+  border: 1px solid var(--color-badge-border);
+}
