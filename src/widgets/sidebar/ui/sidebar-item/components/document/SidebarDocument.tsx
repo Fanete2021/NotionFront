@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarDocument.module.css';
 import { SidebarLink } from '../link/SidebarLink';
@@ -8,6 +10,7 @@ import { openEditDocumentModal } from '@/features/manage-document';
 import { useDeletePageMutation } from '@/entities/page';
 import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
+import DragHandleIcon from '@/shared/assets/icons/drag-handle.svg';
 import { Button } from '@/shared/ui/Button';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
@@ -22,6 +25,17 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [deletePage] = useDeletePageMutation();
+
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: item.id,
+    animateLayoutChanges: () => false,
+  });
+
+  const sortableStyle = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0 : 1,
+  };
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -79,7 +93,22 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
 
   return (
     <>
-      <div className={styles.document} onContextMenu={handleContextMenu}>
+      <div
+        ref={setNodeRef}
+        style={sortableStyle}
+        className={styles.document}
+        onContextMenu={handleContextMenu}
+        {...attributes}
+      >
+        <div
+          {...listeners}
+          className={styles.dragHandle}
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Перетащить документ"
+        >
+          <DragHandleIcon className={styles.dragHandleIcon} />
+        </div>
+
         <SidebarLink item={item} level={level} />
       </div>
 

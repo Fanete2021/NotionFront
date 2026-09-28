@@ -9,6 +9,7 @@ export interface Page {
   id: string;
   workspaceId: string;
   projectId: string | null;
+  parentPageId: string | null;
   title: string;
   icon?: string | null;
   type: PageType;
@@ -16,6 +17,11 @@ export interface Page {
   position: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface ReorderPagesDto {
+  projectId: string;
+  orderedIds: string[];
 }
 
 export interface CreatePageDto {

@@ -2,6 +2,7 @@ import {
   Page,
   CreatePageDto,
   UpdatePageDto,
+  ReorderPagesDto,
   PageContent,
   PageContentJson,
 } from '../model/page.types';
@@ -75,6 +76,18 @@ export const pageApi = baseApi.injectEndpoints({
       ],
     }),
 
+    reorderPages: builder.mutation<Page[], { workspaceId: string; data: ReorderPagesDto }>({
+      query: ({ workspaceId, data }) => ({
+        url: `/workspaces/${workspaceId}/pages/order`,
+        method: 'PATCH',
+        body: data,
+        extraOptions: { requiresAuth: true },
+      }),
+      invalidatesTags: (result, error, { workspaceId }) => [
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+      ],
+    }),
+
     deletePage: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
         url: `/pages/${id}`,
@@ -89,3 +102,14 @@ export const pageApi = baseApi.injectEndpoints({
   }),
   overrideExisting: false,
 });
+
+export const {
+  useGetPageByIdQuery,
+  useGetPageContentQuery,
+  useUpdatePageContentMutation,
+  useGetPagesByWorkspaceQuery,
+  useCreatePageMutation,
+  useUpdatePageMutation,
+  useDeletePageMutation,
+  useReorderPagesMutation,
+} = pageApi;

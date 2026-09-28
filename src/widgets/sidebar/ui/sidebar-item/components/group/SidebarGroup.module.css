@@ -1,3 +1,15 @@
+.groupWrapper {
+  width: 100%;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, outline-color 0.15s ease;
+  min-height: 32px;
+}
+
+.groupWrapperOver {
+  background-color: var(--color-sidebar-group-wrapper-bg);
+  outline: 1px dashed var(--color-sidebar-group-wrapper-bg-outline);
+}
+
 .group {
   width: 100%;
 }
@@ -20,9 +32,46 @@
   background: var(--color-sidebar-group-bg);
 }
 
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 20px;
+  flex-shrink: 0;
+  cursor: grab;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.group:hover .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.dragHandleIcon {
+  width: 18px;
+  height: 18px;
+}
+
 .children {
   display: flex;
   flex-direction: column;
+  padding-left: 20px;
+  min-height: 8px;
+}
+
+.emptyPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  font-size: 11px;
+  color: var(--color-text-muted);
   padding-left: 20px;
 }
 
