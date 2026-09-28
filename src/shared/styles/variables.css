@@ -291,6 +291,8 @@
   /* Editor table */
   --color-table-header-bg: #f8f9fa;
 
+  --color-file-input-text: #6B7280;
+  --color-file-input-bg: #FFFFFF;
   /* CalendarHeader */
   --color-calendar-header-title: #111827;
   --color-calendar-switcher-text: #6B7280;
