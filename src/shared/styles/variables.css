@@ -268,7 +268,7 @@
   --color-loader-overlay: rgba(255, 255, 255, 0.85);
   --color-loader-dot: #3B82F6;
   --color-loader-text: #6B7280;
-  --z-index-loader: 9999;
+  --z-index-loader: 50;
 
   /* EditorMenu */
   --color-editor-menu-title: #1F2937;
