@@ -2,27 +2,23 @@
 
 import styles from './Project.module.css';
 import { ProjectWorkspace, ProjectDocument } from '@/widgets/project';
-import { Typography } from '@shared/ui/Typography';
+import { DocumentHeader } from '@/widgets/document';
+import { useGetPageByIdQuery } from '@/entities/page';
 
-const MOCK_BREADCRUMBS = ['Документы', 'Дизайн-система', 'Компоненты'];
+interface ProjectPageProps {
+  pageId: string;
+  breadcrumbs: string[];
+}
 
-export const ProjectPage = () => {
+export const ProjectPage = ({ pageId, breadcrumbs }: ProjectPageProps) => {
+  const { data: page } = useGetPageByIdQuery(pageId);
+
+  if (!page) return null;
+
   return (
-    <ProjectWorkspace breadcrumbs={MOCK_BREADCRUMBS}>
+    <ProjectWorkspace breadcrumbs={breadcrumbs}>
       <main className={styles.main}>
-        <div className={styles.heading}>
-          <span className={styles.pageIcon} aria-hidden>
-            📐
-          </span>
-          <div className={styles.headingText}>
-            <Typography variant="h1" className={styles.title}>
-              Дизайн-система — Компоненты
-            </Typography>
-            <Typography variant="caption" className={styles.meta}>
-              Последнее изменение: Алекс Ким · 2 часа назад
-            </Typography>
-          </div>
-        </div>
+        <DocumentHeader page={page} />
         <div className={styles.document}>
           <ProjectDocument />
         </div>
