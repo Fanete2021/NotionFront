@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SidebarItem as SidebarItemType } from '../../../../model';
 import styles from './SidebarSection.module.css';
@@ -33,7 +33,18 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
     [workspaceId, dispatch],
   );
 
-  const children = item.children ?? [];
+  const sortableIds = useMemo(
+    () => (item.children ?? []).map((child) => child.id),
+    [item.children],
+  );
+
+  const childItems = useMemo(
+    () =>
+      (item.children ?? []).map((child) => (
+        <SidebarItem key={child.id} item={child} level={level + 1} />
+      )),
+    [item.children, level],
+  );
 
   return (
     <div className={styles.section}>
@@ -51,10 +62,8 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
         </Button>
       </div>
 
-      <SortableContext items={children.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-        {children.map((child) => (
-          <SidebarItem key={child.id} item={child} level={level + 1} />
-        ))}
+      <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+        {childItems}
       </SortableContext>
     </div>
   );
