@@ -3,25 +3,21 @@
 import { useState } from 'react';
 import styles from './TrashList.module.css';
 import { trashListColumns } from '@/widgets/trash-list/ui/TrashListColumns';
-import { trashItems } from '../model/mock.api';
+import { useGetTrashedPagesQuery } from '@/entities/page';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { Table } from '@/shared/ui/Table';
 import { Input } from '@/shared/ui/Input/Input';
 import { Typography } from '@/shared/ui/Typography/Typography';
+import { useAppSelector } from '@/shared/lib';
 
 export const TrashList = () => {
+  const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [search, setSearch] = useState('');
 
-  const handleSearch = (text: string) => {
-    setSearch(text);
-  };
-
-  const filteredItems = () => {
-    const value = search.toLowerCase();
-    return trashItems.filter(
-      (item) => item.title.toLowerCase().includes(value) || item.path.toLowerCase().includes(value),
-    );
-  };
+  const { data: trashItems = [], isLoading } = useGetTrashedPagesQuery(
+    { workspaceId, q: search || undefined },
+    { skip: !workspaceId },
+  );
 
   return (
     <section className={styles.wrapper}>
@@ -31,15 +27,18 @@ export const TrashList = () => {
           type="text"
           placeholder="Поиск по удалённым страницам..."
           value={search}
-          onChange={(text) => handleSearch(text)}
+          onChange={setSearch}
           addonLeft={<SearchIcon className={styles.icon} />}
         />
-        <Typography variant="text-regular">{filteredItems.length} удалённые страницы</Typography>
+        <Typography variant="text-regular" className={styles.counter}>
+          {trashItems.length} удалённые страницы
+        </Typography>
       </div>
       <Table
         columns={trashListColumns}
-        data={filteredItems()}
-        rowKey={'id'}
+        data={trashItems}
+        rowKey="id"
+        loading={isLoading}
         className={styles.table}
       />
     </section>
