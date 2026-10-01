@@ -1,19 +1,28 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import styles from './Project.module.css';
 import { ProjectWorkspace, ProjectDocument } from '@/widgets/project';
 import { DocumentHeader } from '@/widgets/document';
+import { NotFoundError } from '@/widgets/error';
 import { useGetPageByIdQuery } from '@/entities/page';
+import { useGetProjectByIdQuery } from '@/entities/project';
+import { Loader } from '@/shared/ui/loader';
 
-interface ProjectPageProps {
-  pageId: string;
-  breadcrumbs: string[];
-}
+export const ProjectPage = () => {
+  const params = useParams<{ id: string }>();
+  const pageId = params?.id ?? '';
 
-export const ProjectPage = ({ pageId, breadcrumbs }: ProjectPageProps) => {
-  const { data: page } = useGetPageByIdQuery(pageId);
+  const { data: page, isLoading } = useGetPageByIdQuery(pageId, { skip: !pageId });
+  const projectId = page?.projectId ?? '';
+  const { data: project } = useGetProjectByIdQuery(projectId, { skip: !projectId });
 
-  if (!page) return null;
+  if (isLoading) return <Loader />;
+  if (!page) return <NotFoundError />;
+
+  const breadcrumbs = ['Документы', project?.name].filter((crumb): crumb is string =>
+    Boolean(crumb),
+  );
 
   return (
     <ProjectWorkspace breadcrumbs={breadcrumbs}>
