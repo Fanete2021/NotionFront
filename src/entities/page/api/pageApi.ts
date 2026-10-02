@@ -87,6 +87,7 @@ export const pageApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Page', id },
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+        { type: 'Page', id: `TRASH_${workspaceId}` },
       ],
     }),
 
@@ -101,15 +102,16 @@ export const pageApi = baseApi.injectEndpoints({
       ],
     }),
 
-    restorePage: builder.mutation<Page, string>({
-      query: (id) => ({
+    restorePage: builder.mutation<Page, { id: string; workspaceId: string }>({
+      query: ({ id }) => ({
         url: `/pages/${id}/restore`,
         method: 'POST',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Page', id },
-        { type: 'Page', id: 'TRASH' },
+        { type: 'Page', id: `TRASH_${workspaceId}` },
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
       ],
     }),
 
@@ -121,6 +123,7 @@ export const pageApi = baseApi.injectEndpoints({
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, workspaceId) => [
         { type: 'Page', id: `TRASH_${workspaceId}` },
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
       ],
     }),
 

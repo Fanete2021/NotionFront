@@ -1,7 +1,7 @@
 import styles from './TrashList.module.css';
 import { TrashedPage, useRestorePageMutation } from '@/entities/page';
 import { useHardDeletePageMutation } from '@/entities/page';
-import { formatRelativeTime } from '@shared/lib';
+import { formatRelativeTime, useAppSelector } from '@shared/lib';
 import { TableColumn } from '@/shared/ui/Table/types';
 import PageIcon from '@/shared/assets/icons/page.svg';
 import RefreshIcon from '@/shared/assets/icons/refresh.svg';
@@ -11,6 +11,7 @@ import { Button } from '@/shared/ui/Button/Button';
 
 const RestoreButton = ({ pageId }: { pageId: string }) => {
   const [restorePage, { isLoading }] = useRestorePageMutation();
+  const workspaceId = useAppSelector((state) => state.currentWorkspace.id) ?? '';
 
   return (
     <Button
@@ -19,7 +20,7 @@ const RestoreButton = ({ pageId }: { pageId: string }) => {
       variant="filled"
       color="success"
       disabled={isLoading}
-      onClick={() => restorePage(pageId)}
+      onClick={() => restorePage({ id: pageId, workspaceId })}
     >
       {isLoading ? 'Восстановление…' : 'Восстановить'}
     </Button>

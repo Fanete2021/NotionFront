@@ -17,6 +17,7 @@ import DotsIcon from '@/shared/assets/icons/dots.svg';
 import { Button } from '@/shared/ui/Button';
 import { Typography } from '@/shared/ui/Typography';
 import { useAppDispatch, useDismissibleLayer } from '@/shared/lib';
+import { useAppSelector } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
 const DROPDOWN_SHIFT_RIGHT = 140;
@@ -27,6 +28,7 @@ interface SidebarGroupProps {
 }
 
 export function SidebarGroup({ item, level }: SidebarGroupProps) {
+  const workspaceId = useAppSelector((state) => state.currentWorkspace.id) ?? '';
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -90,11 +92,11 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     setIsDropdownOpen(false);
     if (!confirm(`Удалить проект "${item.title}"?`)) return;
     try {
-      await deleteProject(item.id).unwrap();
+      await deleteProject({ id: item.id, workspaceId }).unwrap();
     } catch (err) {
       console.error('Ошибка удаления проекта:', err);
     }
-  }, [deleteProject, item.id, item.title]);
+  }, [deleteProject, item.id, item.title, workspaceId]);
 
   return (
     <>
