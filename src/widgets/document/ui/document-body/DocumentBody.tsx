@@ -5,6 +5,7 @@ import styles from './DocumentBody.module.css';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { TextEditor } from '@features/text-editor';
 import { Page, PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { useUploadAttachment } from '@/entities/attachment';
 import { Typography } from '@/shared/ui/Typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
@@ -29,6 +30,7 @@ type DocumentBodyProps = {
 
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const [updateContent] = useUpdatePageContentMutation();
+  const uploadAttachment = useUploadAttachment(page.id);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [updatedAt, setUpdatedAt] = useState(content?.updatedAt ?? page.updatedAt);
@@ -91,7 +93,11 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
       </div>
 
       <div className={styles.document}>
-        <TextEditor content={content?.json ?? null} onChange={handleChange} />
+        <TextEditor
+          content={content?.json ?? null}
+          onChange={handleChange}
+          onUploadFile={uploadAttachment}
+        />
       </div>
     </main>
   );
