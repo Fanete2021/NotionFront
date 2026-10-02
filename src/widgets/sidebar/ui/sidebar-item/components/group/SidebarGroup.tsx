@@ -1,21 +1,18 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useDroppable } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import classNames from 'classnames';
 import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SidebarItem } from '../../../../../sidebar';
 import styles from './SidebarGroup.module.css';
-import { renderIcon } from '../../utils';
-import { SidebarItem } from '@/widgets/sidebar';
+import { useSidebarDnd } from '../../../sidebar/lib/SidebarDndContext';
+import { SortableGroupHeader } from '../../../sidebar-item/components/group/components/sortable-group-header/SortableGroupHeader';
+import { GroupContextMenu } from '../../../sidebar-item/components/group/components/group-context-menu/GroupContextMenu';
 import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { useDeleteProjectMutation } from '@/entities/project';
-import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
-import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
-import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
-import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import DocsIcon from '@/shared/assets/icons/docs.svg';
-import DotsIcon from '@/shared/assets/icons/dots.svg';
-import { Button } from '@/shared/ui/Button';
-import { Typography } from '@/shared/ui/Typography';
 import { useAppDispatch, useDismissibleLayer } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
@@ -34,15 +31,28 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; right: number } | null>(
     null,
   );
+
+  const { activeId: activeIdStr, overId: overIdStr } = useSidebarDnd();
+
+  const isOverSelfGroup = overIdStr === `group-${item.id}`;
+  const isOverOwnChild =
+    overIdStr !== null &&
+    !overIdStr.startsWith('group-') &&
+    (overIdStr === item.id || (item.children?.some((child) => child.id === overIdStr) ?? false));
+  const isDraggingSelf = overIdStr !== null && overIdStr === activeIdStr;
+  const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
+
   const moreRef = useDismissibleLayer<HTMLDivElement>({
     enabled: isDropdownOpen,
     onDismiss: () => setIsDropdownOpen(false),
   });
-  const contextMenuRef = useDismissibleLayer<HTMLDivElement>({
-    enabled: contextMenu !== null,
-    onDismiss: () => setContextMenu(null),
-  });
+
   const [deleteProject] = useDeleteProjectMutation();
+
+  const { setNodeRef: setGroupDroppableRef } = useDroppable({
+    id: `group-${item.id}`,
+    data: { type: 'group', projectId: item.id },
+  });
 
   const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
@@ -96,92 +106,54 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     }
   }, [deleteProject, item.id, item.title]);
 
+  const children = item.children ?? [];
+  const hasChildren = children.length > 0;
+
   return (
     <>
-      <div className={styles.group} onContextMenu={handleContextMenu}>
-        <div className={styles.groupHeader} onClick={handleToggle}>
-          <Button
-            variant="clear"
-            className={styles.arrowButton}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggle();
-            }}
-          >
-            {isOpen ? (
-              <ChevronDownIcon className={styles.arrow} />
-            ) : (
-              <ChevronRightIcon className={styles.arrow} />
-            )}
-          </Button>
-
-          {renderIcon(item, styles)}
-
-          {!item.icon && item.color && (
-            <span className={styles.colorDot} style={{ backgroundColor: item.color }} />
-          )}
-
-          <Typography className={styles.title} variant="label">
-            {item.title}
-          </Typography>
-
-          <div className={styles.moreWrapper} ref={moreRef}>
-            <Button size="sm" variant="clear" className={styles.moreBtn} onClick={handleMoreClick}>
-              <DotsIcon />
-            </Button>
-
-            {isDropdownOpen && dropdownPosition && (
-              <div
-                className={styles.dropdown}
-                style={{
-                  position: 'fixed',
-                  top: dropdownPosition.top,
-                  right: dropdownPosition.right,
-                }}
-              >
-                <Button variant="clear" className={styles.dropdownItem} onClick={handleEdit}>
-                  <PencilIcon className={styles.menuIcon} />
-                  Переименовать
-                </Button>
-                <div className={styles.menuDivider} />
-                <Button
-                  variant="clear"
-                  className={`${styles.dropdownItem} ${styles.menuItemDanger}`}
-                  onClick={handleDelete}
-                >
-                  <TrashIcon className={styles.menuIcon} />
-                  Удалить
-                </Button>
-              </div>
-            )}
-          </div>
+      <div
+        ref={setGroupDroppableRef}
+        className={classNames(styles.groupWrapper, {
+          [styles.groupWrapperOver]: isOverThisGroup,
+        })}
+      >
+        <div className={styles.group} onClick={handleToggle}>
+          <SortableGroupHeader
+            ref={moreRef}
+            item={item}
+            isOpen={isOpen}
+            isDropdownOpen={isDropdownOpen}
+            dropdownPosition={dropdownPosition}
+            onToggle={handleToggle}
+            onContextMenu={handleContextMenu}
+            onMoreClick={handleMoreClick}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </div>
 
-        {isOpen && item.children && item.children.length > 0 && (
-          <div className={styles.children}>
-            {item.children?.map((child) => (
-              <SidebarItem key={child.id} item={child} level={level + 1} />
-            ))}
+        {isOpen && hasChildren && (
+          <SortableContext items={children.map((c) => c.id)} strategy={verticalListSortingStrategy}>
+            <div className={styles.children}>
+              {children.map((child) => (
+                <SidebarItem key={child.id} item={child} level={level + 1} />
+              ))}
+            </div>
+          </SortableContext>
+        )}
+
+        {isOpen && !hasChildren && isOverThisGroup && (
+          <div className={styles.emptyPlaceholder}>
+            {isOverThisGroup ? 'Отпустите, чтобы переместить' : ''}
           </div>
         )}
       </div>
 
-      {contextMenu && (
-        <div
-          ref={contextMenuRef}
-          className={styles.contextMenu}
-          style={{
-            position: 'fixed',
-            top: contextMenu.y,
-            left: contextMenu.x,
-          }}
-        >
-          <Button variant="clear" className={styles.contextMenuItem} onClick={handleCreateDocument}>
-            <DocsIcon className={styles.menuIcon} />
-            Создать документ
-          </Button>
-        </div>
-      )}
+      <GroupContextMenu
+        isOpen={contextMenu !== null}
+        position={contextMenu}
+        onCreateDocument={handleCreateDocument}
+      />
     </>
   );
 }
