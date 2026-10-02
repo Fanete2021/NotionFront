@@ -40,3 +40,16 @@ export interface PageContent {
   json: PageContentJson;
   updatedAt: string;
 }
+
+export interface PageVersion {
+  id: string;
+  pageId: string;
+  authorId: string;
+  label: string;
+  createdAt: string;
+}
+
+export interface PageVersionList {
+  items: PageVersion[];
+  nextCursor: string | null;
+}

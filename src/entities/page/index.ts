@@ -8,6 +8,7 @@ export const {
   useUpdatePageMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
+  useGetPageVersionsQuery,
 } = pageApi;
 
 export { PAGE_TYPE } from './model/page.types';
@@ -19,4 +20,6 @@ export type {
   UpdatePageDto,
   PageContent,
   PageContentJson,
+  PageVersion,
+  PageVersionList,
 } from './model/page.types';
