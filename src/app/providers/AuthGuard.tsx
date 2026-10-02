@@ -25,12 +25,6 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const status = useAppSelector(selectSessionStatus);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line
-    setIsClient(true);
-  }, []);
 
   const isCurrentRoutePublic = pathname !== null && isPublicRoute(pathname);
   const isCurrentRoutePrivate = pathname !== null && isPrivateRoute(pathname);
@@ -40,18 +34,21 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   });
 
   useEffect(() => {
-    if (status === 'anonymous' && isCurrentRoutePrivate) {
-      router.replace(ROUTES.login);
-      toast.add({
-        type: 'error',
-        title: 'Ошибка перехода на страницу!',
-        description: 'Пожалуйста войдите в аккаунт или создайте новый для доступа к этой странице',
-      });
+    if (status !== 'anonymous' || !isCurrentRoutePrivate) {
+      return;
     }
+
+    toast.add({
+      type: 'error',
+      title: 'Ошибка перехода на страницу!',
+      description: 'Пожалуйста войдите в аккаунт или создайте новый для доступа к этой странице',
+    });
+
+    router.replace(ROUTES.login);
   }, [isCurrentRoutePrivate, router, status]);
 
   if (pathname === null) {
-    return <Loader />;
+    return <NotFoundError />;
   }
 
   if (isCurrentRoutePublic) {
@@ -60,10 +57,6 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   if (!isCurrentRoutePrivate) {
     return <NotFoundError />;
-  }
-
-  if (status === 'anonymous') {
-    return <Loader />;
   }
 
   if (userQuery.isError) {
