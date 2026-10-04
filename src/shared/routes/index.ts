@@ -1,6 +1,7 @@
 export const ROUTES = {
   home: '/',
   main: '/main',
+  join: '/join',
   login: '/login',
   registration: '/registration',
   resetPassword: '/reset-password',
@@ -17,6 +18,7 @@ export const PUBLIC_ROUTES = [ROUTES.login, ROUTES.registration] as const;
 export const PRIVATE_ROUTES = [
   ROUTES.home,
   ROUTES.main,
+  ROUTES.join,
   ROUTES.documents,
   ROUTES.projects,
   ROUTES.calendar,
