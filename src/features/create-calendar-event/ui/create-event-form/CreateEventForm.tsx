@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import styles from './CreateEventForm.module.css';
-import { Input } from '@shared/ui/Input';
+import { Input } from '@shared/ui/input';
 import { Select } from '@shared/ui/select';
 import Calendar from '@shared/assets/icons/calendar.svg';
 import Clock from '@shared/assets/icons/clock.svg';
-import { Typography } from '@shared/ui/Typography';
-import { Checkbox } from '@shared/ui/Checkbox';
-import { Card } from '@shared/ui/Card';
-import { Toggle } from '@shared/ui/Toggle';
+import { Typography } from '@shared/ui/typography';
+import { Checkbox } from '@shared/ui/checkbox';
+import { Card } from '@shared/ui/card';
+import { Toggle } from '@shared/ui/toggle';
 import TelegramIcon from '@shared/assets/icons/telegram.svg';
 
 export const CreateEventForm = () => {

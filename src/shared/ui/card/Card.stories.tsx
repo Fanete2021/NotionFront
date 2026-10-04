@@ -1,0 +1,37 @@
+import { Meta, StoryObj } from '@storybook/nextjs';
+import { Card } from '@shared/ui/card/Card';
+
+const meta = {
+  title: 'shared/card',
+  component: Card,
+  tags: ['autodocs'],
+  args: {
+    selected: false,
+    variant: 'outlined',
+    children: 'card content',
+  },
+} satisfies Meta<typeof Card>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    children: 'Basic card',
+  },
+};
+
+export const Selected: Story = {
+  args: {
+    children: 'Selected card',
+    selected: true,
+  },
+};
+
+export const Elevated: Story = {
+  args: {
+    children: 'Elevated card',
+    variant: 'elevated',
+  },
+};

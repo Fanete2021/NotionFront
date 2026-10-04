@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { LogOut } from 'lucide-react';
 import styles from './UserProfile.module.css';
-import { Avatar } from '@/shared/ui/Avatar';
-import { Typography } from '@/shared/ui/Typography';
+import { Avatar } from '@shared/ui/avatar';
+import { Typography } from '@shared/ui/typography';
 import { useAppDispatch, useDismissibleLayer } from '@shared/lib';
 import { loggedOut } from '@shared/api';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import MoreIcon from '@/shared/assets/icons/more.svg';
 import { ContextMenu } from '@shared/ui/context-menu';
 

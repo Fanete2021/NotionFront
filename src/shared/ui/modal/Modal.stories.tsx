@@ -2,8 +2,8 @@ import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 import { Modal } from './Modal';
-import { Button } from '../Button/Button';
-import { Typography } from '../Typography/Typography';
+import { Button } from '@shared/ui/button/Button';
+import { Typography } from '@shared/ui/typography/Typography';
 import '@shared/styles/global.css';
 
 const meta = {

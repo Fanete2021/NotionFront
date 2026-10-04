@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './Header.module.css';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 export const Header = () => {
   return (

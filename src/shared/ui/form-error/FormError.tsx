@@ -1,4 +1,4 @@
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import styles from './FormError.module.css';
 
 interface FormErrorProps {

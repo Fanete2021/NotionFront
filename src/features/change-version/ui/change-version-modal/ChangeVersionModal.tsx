@@ -4,7 +4,7 @@ import styles from './ChangeVersionModal.module.css';
 import { VersionList } from '../version-list/VersionList';
 import { VersionPreview } from '../version-preview/VersionPreview';
 import { Modal } from '@/shared/ui/modal';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 type ChangeVersionModalProps = {
   open: boolean;

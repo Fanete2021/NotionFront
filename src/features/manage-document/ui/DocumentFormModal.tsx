@@ -28,11 +28,11 @@ import {
 } from '@/entities/page';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
-import { Button } from '@/shared/ui/Button';
-import { Input } from '@/shared/ui/Input';
+import { Button } from '@shared/ui/button';
+import { Input } from '@/shared/ui/input';
 import { IconPicker, DOCUMENT_ICONS } from '@/shared/ui/icon-picker';
 import { Select } from '@/shared/ui/select';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { useAppSelector, useAppDispatch, useAppStore, useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { ROUTES } from '@/shared/routes';

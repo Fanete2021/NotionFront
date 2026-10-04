@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ErrorPage.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface ErrorPageProps {
   errorIcon: React.ReactNode;

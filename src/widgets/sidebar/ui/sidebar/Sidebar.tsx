@@ -16,7 +16,7 @@ import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { useGetPagesByWorkspaceQuery } from '@/entities/page';
 import { useGetMeQuery } from '@/entities/user';
-import { Input } from '@/shared/ui/Input';
+import { Input } from '@/shared/ui/input';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppSelector } from '@/shared/lib';
 import { ROUTES } from '@shared/routes';

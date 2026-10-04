@@ -6,8 +6,8 @@ import styles from './SidebarSection.module.css';
 import { SidebarItem } from '../../SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
-import { Typography } from '@/shared/ui/Typography';
-import { Button } from '@/shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 

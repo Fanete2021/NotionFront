@@ -1,5 +1,5 @@
 import styles from './ShareButton.module.css';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import ShareIcon from '@shared/assets/icons/share.svg';
 
 export const ShareButton = () => {

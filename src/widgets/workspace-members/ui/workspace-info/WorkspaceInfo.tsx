@@ -1,5 +1,5 @@
 import styles from './WorkspaceInfo.module.css';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface WorkspaceInfoProps {
   workspaceName: string;

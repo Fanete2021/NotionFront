@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import styles from '@/app/layout.module.css';
 import { settingsNavItems } from '@/widgets/settings-profile';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface SettingsSectionRouteProps {
   params: Promise<{ section: string }>;

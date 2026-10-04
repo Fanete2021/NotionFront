@@ -5,7 +5,7 @@ import styles from './DocumentBody.module.css';
 import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { TextEditor } from '@features/text-editor';
 import { Page, PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { isFetchBaseQueryError } from '@/shared/utils/error-utils';

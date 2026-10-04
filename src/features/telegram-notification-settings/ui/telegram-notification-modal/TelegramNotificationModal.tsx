@@ -3,7 +3,7 @@
 import styles from './TelegramNotification.module.css';
 import { TelegramNotificationForm } from '../telegram-notification-form/TelegramNotificationForm';
 import { Modal } from '@shared/ui/modal';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import TelegramIcon from '@shared/assets/icons/telegram.svg';
 import CheckIcon from '@shared/assets/icons/check.svg';
 

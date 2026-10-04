@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import styles from './DemoEditor.module.css';
-import { Typography } from '@shared/ui/Typography';
-import { Checkbox } from '@shared/ui/Checkbox';
-import { Avatar } from '@shared/ui/Avatar';
+import { Typography } from '@shared/ui/typography';
+import { Checkbox } from '@shared/ui/checkbox';
+import { Avatar } from '@shared/ui/avatar';
 
 export const DemoEditor = () => {
   return (

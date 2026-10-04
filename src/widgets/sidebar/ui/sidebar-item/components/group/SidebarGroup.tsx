@@ -14,8 +14,8 @@ import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import DocsIcon from '@/shared/assets/icons/docs.svg';
 import DotsIcon from '@/shared/assets/icons/dots.svg';
-import { Button } from '@/shared/ui/Button';
-import { Typography } from '@/shared/ui/Typography';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 import { useAppDispatch, useDismissibleLayer } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;

@@ -4,12 +4,12 @@ import { FC, useCallback, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import styles from './WorkspaceModal.module.css';
 import { Workspace } from '@/entities/workspace';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import CheckIcon from '@/shared/assets/icons/check.svg';
 import RadioCheckIcon from '@/shared/assets/icons/checkbox-checked.svg';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { Modal } from '@/shared/ui/modal';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface WorkspaceModalProps {
   isOpen: boolean;

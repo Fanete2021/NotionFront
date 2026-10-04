@@ -1,1 +1,1 @@
-export { TrashPage } from './Trash';
+export { TrashPage } from './ui/Trash';

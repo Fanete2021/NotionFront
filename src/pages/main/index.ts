@@ -1,4 +1,4 @@
-export { WorkspaceMainPage } from './Main';
+export { WorkspaceMainPage } from './ui/Main';
 
 export const metadata = {
   title: 'Проект | NotionFront',

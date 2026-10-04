@@ -1,8 +1,8 @@
 import styles from './ProjectComments.module.css';
-import { Typography } from '@shared/ui/Typography';
-import { Button } from '@shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import CloseIcon from '@shared/assets/icons/x-close-2.svg';
-import { Avatar } from '@shared/ui/Avatar';
+import { Avatar } from '@shared/ui/avatar';
 
 const mockCommentCards = [
   {

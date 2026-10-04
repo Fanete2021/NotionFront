@@ -4,7 +4,7 @@ import { ChangeEvent, SelectHTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './Select.module.css';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 export interface SelectOption {
   value: string;

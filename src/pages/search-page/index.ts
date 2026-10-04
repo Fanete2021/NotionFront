@@ -1,4 +1,4 @@
-export { SearchPage } from './SearchPage';
+export { SearchPage } from './ui/SearchPage';
 
 export const metadata = {
   title: 'Проект | NotionFront',

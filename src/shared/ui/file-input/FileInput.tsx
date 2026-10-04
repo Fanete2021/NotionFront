@@ -3,7 +3,7 @@
 import { forwardRef, type ChangeEvent, type InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 import styles from './FileInput.module.css';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import CameraIcon from '@/shared/assets/icons/camera.svg';
 
 type NativeFileInputProps = Omit<

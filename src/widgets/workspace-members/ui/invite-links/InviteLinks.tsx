@@ -8,8 +8,8 @@ import {
   useGetWorkspaceInvitesQuery,
   useRevokeWorkspaceInviteMutation,
 } from '@/entities/workspace-invite';
-import { Typography } from '@/shared/ui/Typography';
-import { Button } from '@/shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import GlobusIcon from '@/shared/assets/icons/globus.svg';
 import { useAppDispatch } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib/hooks';

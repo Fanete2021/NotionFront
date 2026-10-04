@@ -1,5 +1,5 @@
 import styles from './EditTelegramNotificationSettingsButton.module.css';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 interface EditTelegramNotificationSettingsButtonProps {
   onClick: () => void;

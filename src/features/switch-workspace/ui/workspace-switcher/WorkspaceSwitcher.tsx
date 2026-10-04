@@ -5,9 +5,9 @@ import styles from './WorkspaceSwitcher.module.css';
 import { openCreateWorkspaceModal, WorkspaceModal } from '../../index';
 import { CreateWorkspaceModal } from '../create-workspace-modal/CreateWorkspaceModal';
 import { setCurrentWorkspace, useGetWorkspacesQuery } from '@/entities/workspace';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { useAppSelector, useAppDispatch } from '@/shared/lib';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 export const WorkspaceSwitcher = () => {
   const dispatch = useAppDispatch();
