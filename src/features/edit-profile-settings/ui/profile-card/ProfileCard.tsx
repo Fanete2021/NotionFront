@@ -2,10 +2,10 @@ import { Control, Controller, useWatch } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './ProfileCard.module.css';
 import { ProfileSettings } from '../../model/mock.api';
-import { Card } from '@/shared/ui/Card';
-import { Avatar } from '@/shared/ui/Avatar';
-import { Typography } from '@/shared/ui/Typography';
-import { Input } from '@/shared/ui/Input';
+import { Card } from '@shared/ui/card';
+import { Avatar } from '@shared/ui/avatar';
+import { Typography } from '@shared/ui/typography';
+import { Input } from '@/shared/ui/input';
 import { FileInput } from '@/shared/ui/file-input';
 
 interface ProfileCardProps {

@@ -2,10 +2,10 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './ErrorDetails.module.css';
 import { formatErrorDate } from '../../../utils/formatErrorDate';
-import { Card } from '@shared/ui/Card';
+import { Card } from '@shared/ui/card';
 import Dropdown from '@shared/assets/icons/chevron-down.svg';
 import Warning from '@shared/assets/icons/danger-error.svg';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 type Mods = Record<string, boolean | string | undefined>;
 

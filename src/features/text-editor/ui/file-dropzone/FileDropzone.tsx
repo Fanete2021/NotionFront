@@ -1,7 +1,7 @@
 import styles from './FileDropzone.module.css';
 import { formatBytes } from '@features/text-editor/utils/formatBytes';
 import ImageIcon from '@shared/assets/icons/image-icon.svg';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { toast } from '@shared/ui/toast';
 
 interface FileDropzoneProps {

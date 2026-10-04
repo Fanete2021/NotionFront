@@ -1,7 +1,7 @@
 import { SlashItem } from '../../model/slash-items';
 import styles from './SlashMenu.module.css';
-import { Button } from '@shared/ui/Button';
-import { Typography } from '@shared/ui/Typography';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 
 type SlashMenuProps = {
   items: SlashItem[];

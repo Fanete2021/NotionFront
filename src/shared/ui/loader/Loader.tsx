@@ -1,4 +1,4 @@
-import { Typography } from '../Typography';
+import { Typography } from '../typography';
 import styles from './Loader.module.css';
 
 interface LoaderProps {

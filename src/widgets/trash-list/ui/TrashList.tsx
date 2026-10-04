@@ -5,9 +5,9 @@ import styles from './TrashList.module.css';
 import { trashListColumns } from '@/widgets/trash-list/ui/TrashListColumns';
 import { trashItems } from '../model/mock.api';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { Table } from '@/shared/ui/Table';
-import { Input } from '@/shared/ui/Input/Input';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Table } from '@shared/ui/table';
+import { Input } from '@/shared/ui/input/Input';
+import { Typography } from '@shared/ui/typography/Typography';
 
 export const TrashList = () => {
   const [search, setSearch] = useState('');

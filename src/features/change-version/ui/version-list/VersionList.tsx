@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './VersionList.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 type VersionItem = {
   id: string;

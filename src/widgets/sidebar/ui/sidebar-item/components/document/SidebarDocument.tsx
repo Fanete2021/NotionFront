@@ -8,7 +8,7 @@ import { openEditDocumentModal } from '@/features/manage-document';
 import { useDeletePageMutation } from '@/entities/page';
 import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarDocumentProps {

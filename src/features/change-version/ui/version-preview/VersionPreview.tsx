@@ -1,6 +1,6 @@
 import styles from './VersionPreview.module.css';
-import { Button } from '@shared/ui/Button';
-import { Typography } from '@shared/ui/Typography';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 import RefreshIcon from '@shared/assets/icons/refresh.svg';
 
 export const VersionPreview = () => {

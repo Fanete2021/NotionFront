@@ -1,5 +1,5 @@
 import styles from './PromoAdvantages.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface PromoAdvantagesProps {
   advantages: readonly string[];

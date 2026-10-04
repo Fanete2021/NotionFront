@@ -1,6 +1,6 @@
 import cn from 'classnames';
 import styles from './InviteLink.module.css';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface InviteLinkProps {
   title: string;

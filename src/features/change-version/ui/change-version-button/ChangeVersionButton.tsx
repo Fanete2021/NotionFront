@@ -1,7 +1,7 @@
 'use client';
 
 import styles from './ChangeVersionButton.module.css';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import ClockIcon from '@shared/assets/icons/clock.svg';
 
 type ChangeVersionButtonProps = {

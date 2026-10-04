@@ -1,11 +1,11 @@
 import styles from './MemberCard.module.css';
 import { roleLabels, WorkspaceRole, roleColors } from '../../model/role';
 import { WorkspaceMember } from '@/entities/workspace-members';
-import { Avatar } from '@/shared/ui/Avatar';
-import { Typography } from '@/shared/ui/Typography';
-import { Badge } from '@/shared/ui/Badge';
+import { Avatar } from '@shared/ui/avatar';
+import { Typography } from '@shared/ui/typography';
+import { Badge } from '@shared/ui/badge';
 import MoreIcon from '@/shared/assets/icons/more.svg';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 interface MemberCardProps {
   member: WorkspaceMember;

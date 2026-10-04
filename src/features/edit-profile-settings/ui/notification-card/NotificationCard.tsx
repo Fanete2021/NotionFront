@@ -2,9 +2,9 @@ import { Control, Controller, useWatch } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './NotificationCard.module.css';
 import { ProfileSettings } from '../../model/mock.api';
-import { Card } from '@/shared/ui/Card';
-import { Typography } from '@/shared/ui/Typography';
-import { Toggle } from '@/shared/ui/Toggle';
+import { Card } from '@shared/ui/card';
+import { Typography } from '@shared/ui/typography';
+import { Toggle } from '@shared/ui/toggle';
 
 interface NotificationCardProps {
   control: Control<ProfileSettings>;

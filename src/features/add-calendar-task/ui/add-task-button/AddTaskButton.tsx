@@ -1,5 +1,5 @@
 import styles from './AddTaskButton.module.css';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 
 interface AddTaskButtonProps {

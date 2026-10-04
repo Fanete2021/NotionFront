@@ -1,4 +1,4 @@
-export { CalendarPage } from './Calendar';
+export { CalendarPage } from './ui/Calendar';
 
 export const metadata = {
   title: 'Календарь | NotionFront',

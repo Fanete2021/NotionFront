@@ -1,9 +1,9 @@
 import styles from './DayTask.module.css';
 import type { DayTask as DayTaskData } from '../../model/types/day-task';
-import { Card } from '@shared/ui/Card';
-import { Checkbox } from '@shared/ui/Checkbox';
-import { Typography } from '@shared/ui/Typography';
-import { Badge } from '@shared/ui/Badge';
+import { Card } from '@shared/ui/card';
+import { Checkbox } from '@shared/ui/checkbox';
+import { Typography } from '@shared/ui/typography';
+import { Badge } from '@shared/ui/badge';
 
 interface DayTaskProps {
   dayTask: DayTaskData;
