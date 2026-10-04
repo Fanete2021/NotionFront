@@ -1,4 +1,4 @@
-import { UploadErrorReason } from '../model/attachment.types';
+import { UploadErrorReason } from './attachment.types';
 
 export class AttachmentUploadError extends Error {
   readonly reason: UploadErrorReason;

@@ -3,7 +3,7 @@ import { attachmentApi } from './api/attachmentApi';
 export const { usePresignAttachmentMutation, useConfirmAttachmentMutation } = attachmentApi;
 
 export { useUploadAttachment } from './lib/useUploadAttachment';
-export { AttachmentUploadError } from './lib/AttachmentUploadError';
+export { AttachmentUploadError } from './model/AttachmentUploadError';
 
 export {
   ATTACHMENT_STATUS,

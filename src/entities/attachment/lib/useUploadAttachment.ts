@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { attachmentApi } from '../api/attachmentApi';
 import { ATTACHMENT_CONTENT_TYPES, UPLOAD_ERROR_REASON } from '../model/attachment.types';
-import { AttachmentUploadError } from './AttachmentUploadError';
+import { AttachmentUploadError } from '../model/AttachmentUploadError';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { isFetchBaseQueryError } from '@/shared/utils/error-utils';
 
