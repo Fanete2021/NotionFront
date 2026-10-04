@@ -8,22 +8,11 @@ export const {
   useUpdatePageMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
-  useGetTrashedPagesQuery,
-  useRestorePageMutation,
-  useEmptyTrashMutation,
-  useHardDeletePageMutation,
 } = pageApi;
 
-export { PAGE_TYPE } from './model/page.types';
-
 export type {
-  Page,
-  PageType,
   CreatePageDto,
   UpdatePageDto,
   PageContent,
   PageContentJson,
-  TrashedPage,
-  EmptyTrashResult,
-  GetTrashParams,
 } from './model/page.types';

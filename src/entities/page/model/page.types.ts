@@ -1,22 +1,4 @@
-export const PAGE_TYPE = {
-  DOC: 'DOC',
-  ARTICLE: 'ARTICLE',
-} as const;
-
-export type PageType = (typeof PAGE_TYPE)[keyof typeof PAGE_TYPE];
-
-export interface Page {
-  id: string;
-  workspaceId: string;
-  projectId: string | null;
-  title: string;
-  icon?: string | null;
-  type: PageType;
-  authorId: string;
-  position: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { PageType } from '@/shared/const/pageType';
 
 export interface CreatePageDto {
   title: string;
@@ -39,34 +21,4 @@ export interface PageContent {
   pageId: string;
   json: PageContentJson;
   updatedAt: string;
-}
-
-export interface TrashedPageAuthor {
-  id: string;
-  name: string;
-  email: string;
-  avatarUrl: string | null;
-}
-
-export interface TrashedPage {
-  id: string;
-  workspaceId: string;
-  projectId: string | null;
-  title: string;
-  icon?: string | null;
-  type: PageType;
-  author: TrashedPageAuthor;
-  deletedAt: string;
-  deletedBy: TrashedPageAuthor | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface EmptyTrashResult {
-  deleted: number;
-}
-
-export interface GetTrashParams {
-  workspaceId: string | null;
-  q?: string;
 }

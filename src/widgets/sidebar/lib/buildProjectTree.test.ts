@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildProjectTree } from './buildProjectTree';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 
 const makeProject = (project: Partial<Project> & Pick<Project, 'id' | 'name'>): Project => ({
   workspaceId: 'workspace-1',

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import styles from './TrashList.module.css';
 import { trashListColumns } from '@/widgets/trash-list/ui/TrashListColumns';
-import { useGetTrashedPagesQuery } from '@/entities/page';
+import { useGetTrashedPagesQuery } from '@/entities/trash';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { Table } from '@/shared/ui/Table';
 import { Input } from '@/shared/ui/Input/Input';

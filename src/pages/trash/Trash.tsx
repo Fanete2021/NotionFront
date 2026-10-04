@@ -4,7 +4,7 @@ import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './Trash.module.css';
 import { TrashList } from '@/widgets/trash-list';
-import { useEmptyTrashMutation } from '@/entities/page';
+import { useEmptyTrashMutation } from '@/entities/trash';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';

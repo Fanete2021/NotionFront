@@ -1,6 +1,6 @@
 import styles from './TrashList.module.css';
-import { TrashedPage, useRestorePageMutation } from '@/entities/page';
-import { useHardDeletePageMutation } from '@/entities/page';
+import { TrashedPage, useRestorePageMutation } from '@/entities/trash';
+import { useHardDeletePageMutation } from '@/entities/trash';
 import { formatRelativeTime, useAppSelector } from '@shared/lib';
 import { TableColumn } from '@/shared/ui/Table/types';
 import PageIcon from '@/shared/assets/icons/page.svg';
