@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { TextEditor } from '@features/text-editor';
 import { PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { useUploadAttachment } from '@/entities/attachment';
 import { Page } from '@/shared/const/pageType';
 import { formatRelativeTime } from '@shared/lib';
 import { Typography } from '@/shared/ui/Typography';
@@ -30,6 +31,7 @@ type DocumentBodyProps = {
 
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const [updateContent] = useUpdatePageContentMutation();
+  const uploadAttachment = useUploadAttachment(page.id);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [updatedAt, setUpdatedAt] = useState(content?.updatedAt ?? page.updatedAt);
@@ -92,7 +94,11 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
       </div>
 
       <div className={styles.document}>
-        <TextEditor content={content?.json ?? null} onChange={handleChange} />
+        <TextEditor
+          content={content?.json ?? null}
+          onChange={handleChange}
+          onUploadFile={uploadAttachment}
+        />
       </div>
     </main>
   );
