@@ -8,6 +8,7 @@ interface GroupContextMenuProps {
   isOpen: boolean;
   position: { x: number; y: number } | null;
   onCreateDocument: () => void;
+  onClose: () => void;
 }
 
 export function GroupContextMenu({ isOpen, position, onCreateDocument }: GroupContextMenuProps) {

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
+import { DraggableAttributes } from '@dnd-kit/core';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarDocument.module.css';
 import { SidebarLink } from '../link/SidebarLink';
 import { openEditDocumentModal } from '@/features/manage-document';
@@ -15,27 +15,23 @@ import { Button } from '@/shared/ui/Button';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarDocumentProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
+  dragListeners?: SyntheticListenerMap;
+  dragAttributes?: DraggableAttributes;
 }
 
-export function SidebarDocument({ item, level }: SidebarDocumentProps) {
+export function SidebarDocument({
+  item,
+  level,
+  dragListeners,
+  dragAttributes,
+}: SidebarDocumentProps) {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [deletePage] = useDeletePageMutation();
-
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: item.id,
-    animateLayoutChanges: () => false,
-  });
-
-  const sortableStyle = {
-    transform: CSS.Translate.toString(transform),
-    transition,
-    opacity: isDragging ? 0 : 1,
-  };
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -73,7 +69,7 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
       openEditDocumentModal({
         documentId: item.id,
         title: item.title ?? '',
-        icon: typeof item.icon === 'string' ? item.icon : undefined,
+        icon: item.icon,
         type: item.documentType,
       }),
     );
@@ -93,15 +89,9 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
 
   return (
     <>
-      <div
-        ref={setNodeRef}
-        style={sortableStyle}
-        className={styles.document}
-        onContextMenu={handleContextMenu}
-        {...attributes}
-      >
+      <div className={styles.document} onContextMenu={handleContextMenu} {...dragAttributes}>
         <div
-          {...listeners}
+          {...dragListeners}
           className={styles.dragHandle}
           onClick={(e) => e.stopPropagation()}
           aria-label="Перетащить документ"

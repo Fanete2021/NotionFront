@@ -1,13 +1,13 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarLink.module.css';
 import { getPadding, isActiveLink, renderIcon } from '../../utils';
 import { NavLink } from '@/shared/ui/nav-link';
 
 interface SidebarLinkProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
 }
 

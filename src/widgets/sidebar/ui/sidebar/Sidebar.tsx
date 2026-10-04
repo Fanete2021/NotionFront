@@ -20,19 +20,17 @@ import styles from './Sidebar.module.css';
 import { UserProfile } from '../user-profile/UserProfile';
 import { staticSidebarItems } from '../../model';
 import { buildProjectTree } from '../../lib';
-import { SidebarSkeleton } from '@/widgets/sidebar/ui/sidebar-skeleton/SidebarSkeleton';
-import { SidebarItem } from '@/widgets/sidebar';
-import { DragPreview } from '@/widgets/sidebar/ui/drag-preview/DragPreview';
-import { SidebarDndProvider } from './lib/SidebarDndContext';
-import { findDragTargets } from './lib/findDragTargets';
-import { isSyncedById } from './lib/reorderUtils';
-import { handlePageMoveToProject } from './lib/handlePageMoveToProject';
-import { handleProjectReorder } from './lib/handleProjectReorder';
-import { handlePageReorderSameProject } from './lib/handlePageReorderSameProject';
-import { handlePageMoveToAnotherProject } from './lib/handlePageMoveToAnotherProject';
+import { SidebarSkeleton } from '../sidebar-skeleton/SidebarSkeleton';
+import { SidebarItem } from '../sidebar-item/SidebarItem';
+import { DragPreview } from '../drag-preview/DragPreview';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { DocumentFormModal } from '@/features/manage-document';
 import { ProjectFormModal } from '@/features/manage-project';
+import {
+  handleDragEnd as handleDragEndFeature,
+  SidebarDndProvider,
+  type DndItemType,
+} from '@/features/dnd-sidebar';
 import { useGetProjectsByWorkspaceQuery, useReorderProjectsMutation } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import {
@@ -63,6 +61,7 @@ export function Sidebar({ className }: SidebarProps) {
   const [localPages, setLocalPages] = useState<Page[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
+  const [activeType, setActiveType] = useState<DndItemType | null>(null);
 
   const activeIdRef = useRef<string | null>(null);
 
@@ -70,12 +69,16 @@ export function Sidebar({ className }: SidebarProps) {
     activeIdRef.current = activeId;
   }, [activeId]);
 
+  const isDragging = activeId !== null;
+
   const { data: projects, refetch: refetchProjects } = useGetProjectsByWorkspaceQuery(
     currentWorkspaceId || '',
     {
       skip: !currentWorkspaceId,
       refetchOnMountOrArgChange: true,
-      pollingInterval: 20000,
+      pollingInterval: isDragging ? 0 : 20000,
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
     },
   );
 
@@ -83,7 +86,9 @@ export function Sidebar({ className }: SidebarProps) {
     { workspaceId: currentWorkspaceId || '' },
     {
       skip: !currentWorkspaceId,
-      pollingInterval: 20000,
+      pollingInterval: isDragging ? 0 : 20000,
+      refetchOnFocus: false,
+      refetchOnReconnect: false,
     },
   );
 
@@ -98,8 +103,6 @@ export function Sidebar({ className }: SidebarProps) {
       refetchProjects();
     }
   }, [currentWorkspaceId, refetchProjects]);
-
-  const isDragging = activeId !== null;
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -148,6 +151,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
     setActiveId(String(event.active.id));
+    setActiveType((event.active.data.current?.type as DndItemType) ?? null);
   }, []);
 
   const handleDragOver = useCallback((event: DragOverEvent) => {
@@ -157,6 +161,7 @@ export function Sidebar({ className }: SidebarProps) {
   const handleDragCancel = useCallback(() => {
     setActiveId(null);
     setOverId(null);
+    setActiveType(null);
   }, []);
 
   const scheduleActiveIdReset = useCallback((droppedId: string) => {
@@ -165,96 +170,33 @@ export function Sidebar({ className }: SidebarProps) {
       if (activeIdRef.current === droppedId) {
         setActiveId(null);
       }
+      setActiveType(null);
     }, DROP_ANIMATION_DURATION);
   }, []);
 
   const handleDragEnd = useCallback(
     async (event: DragEndEvent) => {
-      const { active, over } = event;
-      const droppedId = String(active.id);
-
-      if (!over || active.id === over.id || !currentWorkspaceId) {
+      if (!currentWorkspaceId) {
         setActiveId(null);
         setOverId(null);
+        setActiveType(null);
         return;
       }
 
-      const sourceProjects = localProjects;
-      const sourcePages = localPages;
-
-      if (!isSyncedById(sourcePages, pages ?? [])) {
-        console.warn('localPages рассинхронизирован с сервером, пропускаем reorder');
-        scheduleActiveIdReset(droppedId);
-        return;
-      }
-
-      if (!isSyncedById(sourceProjects, projects ?? [])) {
-        console.warn('localProjects рассинхронизирован с сервером, пропускаем reorder');
-        scheduleActiveIdReset(droppedId);
-        return;
-      }
-
-      const { activeProject, overProject, activePage, overPage, targetProject } = findDragTargets(
+      await handleDragEndFeature({
         event,
-        sourceProjects,
-        sourcePages,
-      );
-
-      const sharedParams = {
-        droppedId,
         currentWorkspaceId,
-        allProjects: sourceProjects,
-        allPages: sourcePages,
-        fallbackProjects: projects ?? [],
-        fallbackPages: pages ?? [],
+        localProjects,
+        localPages,
+        serverProjects: projects ?? [],
+        serverPages: pages ?? [],
         setLocalProjects,
         setLocalPages,
+        reorderProjects,
+        reorderPages,
+        updatePage,
         scheduleActiveIdReset,
-      };
-
-      if (activePage && targetProject) {
-        await handlePageMoveToProject({
-          ...sharedParams,
-          activePage,
-          targetProject,
-          updatePage,
-          reorderPages,
-        });
-        return;
-      }
-
-      if (activeProject && overProject) {
-        await handleProjectReorder({
-          ...sharedParams,
-          activeProject,
-          overProject,
-          reorderProjects,
-        });
-        return;
-      }
-
-      if (activePage && overPage) {
-        if (activePage.projectId === overPage.projectId) {
-          await handlePageReorderSameProject({
-            ...sharedParams,
-            activePage,
-            overPage,
-            reorderPages,
-          });
-          return;
-        }
-
-        await handlePageMoveToAnotherProject({
-          ...sharedParams,
-          activePage,
-          overPage,
-          updatePage,
-          reorderPages,
-        });
-        return;
-      }
-
-      scheduleActiveIdReset(droppedId);
+      });
     },
     [
       localProjects,
@@ -281,7 +223,7 @@ export function Sidebar({ className }: SidebarProps) {
   );
 
   return (
-    <SidebarDndProvider value={{ activeId, overId }}>
+    <SidebarDndProvider value={{ activeId, overId, activeType }}>
       <aside className={classNames(styles.sidebar, className)}>
         <WorkspaceSwitcher />
         <div className={styles.top}>

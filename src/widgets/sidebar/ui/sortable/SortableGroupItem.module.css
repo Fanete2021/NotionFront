@@ -1,0 +1,28 @@
+.groupWrapper {
+  width: 100%;
+  border-radius: 6px;
+  transition: background-color 0.15s ease, outline-color 0.15s ease;
+  min-height: 32px;
+}
+
+.groupWrapperOver {
+  background-color: var(--color-sidebar-group-wrapper-bg);
+  outline: 1px dashed var(--color-sidebar-group-wrapper-bg-outline);
+}
+
+.children {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  min-height: 8px;
+}
+
+.emptyPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  padding-left: 20px;
+}

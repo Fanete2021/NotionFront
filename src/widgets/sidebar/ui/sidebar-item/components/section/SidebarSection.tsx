@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarSection.module.css';
 import { SidebarItem } from '../../SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
@@ -13,7 +13,7 @@ import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarSectionProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
 }
 

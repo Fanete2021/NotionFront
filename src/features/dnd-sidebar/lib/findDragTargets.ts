@@ -1,5 +1,5 @@
 import { DragEndEvent } from '@dnd-kit/core';
-import type { DragTargets } from './types';
+import type { DragTargets } from '../model/types';
 import { Project } from '@/entities/project';
 import { Page } from '@/entities/page';
 

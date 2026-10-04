@@ -7,7 +7,6 @@ import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TableKit } from '@tiptap/extension-table';
 import DragHandle from '@tiptap/extension-drag-handle-react';
-import { Dropcursor } from '@tiptap/extensions';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
@@ -64,11 +63,10 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
         link: {
           openOnClick: false,
         },
-      }),
-
-      Dropcursor.configure({
-        color: '#6366F1',
-        width: 2,
+        dropcursor: {
+          color: '#6366F1',
+          width: 2,
+        },
       }),
 
       TaskList,

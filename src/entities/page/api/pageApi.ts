@@ -81,8 +81,8 @@ export const pageApi = baseApi.injectEndpoints({
         url: `/workspaces/${workspaceId}/pages/order`,
         method: 'PATCH',
         body: data,
-        extraOptions: { requiresAuth: true },
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
       ],
@@ -102,14 +102,3 @@ export const pageApi = baseApi.injectEndpoints({
   }),
   overrideExisting: false,
 });
-
-export const {
-  useGetPageByIdQuery,
-  useGetPageContentQuery,
-  useUpdatePageContentMutation,
-  useGetPagesByWorkspaceQuery,
-  useCreatePageMutation,
-  useUpdatePageMutation,
-  useDeletePageMutation,
-  useReorderPagesMutation,
-} = pageApi;

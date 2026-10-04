@@ -1,4 +1,4 @@
-import { SidebarItem } from '../model/types/sidebar';
+import { SidebarItemData } from '../model/types/sidebar';
 import { Project } from '@/entities/project';
 import { Page } from '@/entities/page';
 import { ROUTES } from '@/shared/routes';
@@ -7,7 +7,7 @@ import { ROUTES } from '@/shared/routes';
  * Собирает дерево сайдбара: проекты вкладываются друг в друга через parentProjectId,
  * документы всегда лежат листьями внутри своего проекта.
  */
-export function buildProjectTree(projects: Project[], pages: Page[]): SidebarItem[] {
+export function buildProjectTree(projects: Project[], pages: Page[]): SidebarItemData[] {
   const subProjects = new Map<string | null, Project[]>();
   projects.forEach((project) => {
     const parentId = project.parentProjectId ?? null;
@@ -24,7 +24,7 @@ export function buildProjectTree(projects: Project[], pages: Page[]): SidebarIte
     projectPages.set(page.projectId, siblings);
   });
 
-  const toDocumentItem = (page: Page): SidebarItem => ({
+  const toDocumentItem = (page: Page): SidebarItemData => ({
     id: page.id,
     title: page.title,
     type: 'document',
@@ -35,7 +35,7 @@ export function buildProjectTree(projects: Project[], pages: Page[]): SidebarIte
     projectId: page.projectId ?? undefined,
   });
 
-  const toProjectItem = (project: Project): SidebarItem => {
+  const toProjectItem = (project: Project): SidebarItemData => {
     const childProjects = (subProjects.get(project.id) ?? [])
       .slice()
       .sort((a, b) => a.order - b.order)

@@ -1,46 +1,37 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { useDroppable } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import classNames from 'classnames';
-import { SidebarItem as SidebarItemType } from '../../../../model';
-import { SidebarItem } from '../../../../../sidebar';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarGroup.module.css';
-import { useSidebarDnd } from '../../../sidebar/lib/SidebarDndContext';
-import { SortableGroupHeader } from '../../../sidebar-item/components/group/components/sortable-group-header/SortableGroupHeader';
-import { GroupContextMenu } from '../../../sidebar-item/components/group/components/group-context-menu/GroupContextMenu';
+import { GroupDropdown } from './components/group-dropdown/GroupDropdown';
+import { GroupContextMenu } from './components/group-context-menu/GroupContextMenu';
+import { SortableGroupHeader } from '../../../sortable/SortableGroupHeader';
+import { SortableGroupItem } from '../../../sortable/SortableGroupItem';
 import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
+import { useSidebarDnd } from '@/features/dnd-sidebar';
 import { useDeleteProjectMutation } from '@/entities/project';
-import { useAppDispatch, useDismissibleLayer } from '@/shared/lib';
+import { useAppDispatch, useDismissibleLayer, useAppSelector } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
 const DROPDOWN_SHIFT_RIGHT = 140;
 
 interface SidebarGroupProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
 }
 
 export function SidebarGroup({ item, level }: SidebarGroupProps) {
   const dispatch = useAppDispatch();
+  const workspaceId = useAppSelector((state) => state.currentWorkspace.id) ?? '';
+  const { activeId } = useSidebarDnd();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const isDragging = activeId === item.id;
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; right: number } | null>(
     null,
   );
-
-  const { activeId: activeIdStr, overId: overIdStr } = useSidebarDnd();
-
-  const isOverSelfGroup = overIdStr === `group-${item.id}`;
-  const isOverOwnChild =
-    overIdStr !== null &&
-    !overIdStr.startsWith('group-') &&
-    (overIdStr === item.id || (item.children?.some((child) => child.id === overIdStr) ?? false));
-  const isDraggingSelf = overIdStr !== null && overIdStr === activeIdStr;
-  const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
 
   const moreRef = useDismissibleLayer<HTMLDivElement>({
     enabled: isDropdownOpen,
@@ -48,11 +39,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   });
 
   const [deleteProject] = useDeleteProjectMutation();
-
-  const { setNodeRef: setGroupDroppableRef } = useDroppable({
-    id: `group-${item.id}`,
-    data: { type: 'group', projectId: item.id },
-  });
 
   const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
 
@@ -66,6 +52,13 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
   }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      // eslint-disable-next-line
+      setIsOpen(false);
+    }
+  }, [isDragging]);
 
   useEffect(() => {
     if (isDropdownOpen && moreRef.current) {
@@ -91,7 +84,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         projectId: item.id,
         projectName: item.title || '',
         color: item.color,
-        icon: typeof item.icon === 'string' ? item.icon : undefined,
+        icon: item.icon,
       }),
     );
   }, [dispatch, item.id, item.title, item.color, item.icon]);
@@ -100,59 +93,39 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     setIsDropdownOpen(false);
     if (!confirm(`Удалить проект "${item.title}"?`)) return;
     try {
-      await deleteProject(item.id).unwrap();
+      await deleteProject({ id: item.id, workspaceId }).unwrap();
     } catch (err) {
       console.error('Ошибка удаления проекта:', err);
     }
-  }, [deleteProject, item.id, item.title]);
-
-  const children = item.children ?? [];
-  const hasChildren = children.length > 0;
+  }, [deleteProject, item.id, item.title, workspaceId]);
 
   return (
     <>
-      <div
-        ref={setGroupDroppableRef}
-        className={classNames(styles.groupWrapper, {
-          [styles.groupWrapperOver]: isOverThisGroup,
-        })}
-      >
+      <SortableGroupItem item={item} level={level} isOpen={isOpen}>
         <div className={styles.group} onClick={handleToggle}>
           <SortableGroupHeader
-            ref={moreRef}
             item={item}
             isOpen={isOpen}
             isDropdownOpen={isDropdownOpen}
-            dropdownPosition={dropdownPosition}
             onToggle={handleToggle}
             onContextMenu={handleContextMenu}
             onMoreClick={handleMoreClick}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
+          >
+            <GroupDropdown
+              isOpen={isDropdownOpen}
+              position={dropdownPosition}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          </SortableGroupHeader>
         </div>
-
-        {isOpen && hasChildren && (
-          <SortableContext items={children.map((c) => c.id)} strategy={verticalListSortingStrategy}>
-            <div className={styles.children}>
-              {children.map((child) => (
-                <SidebarItem key={child.id} item={child} level={level + 1} />
-              ))}
-            </div>
-          </SortableContext>
-        )}
-
-        {isOpen && !hasChildren && isOverThisGroup && (
-          <div className={styles.emptyPlaceholder}>
-            {isOverThisGroup ? 'Отпустите, чтобы переместить' : ''}
-          </div>
-        )}
-      </div>
+      </SortableGroupItem>
 
       <GroupContextMenu
         isOpen={contextMenu !== null}
         position={contextMenu}
         onCreateDocument={handleCreateDocument}
+        onClose={() => setContextMenu(null)}
       />
     </>
   );
