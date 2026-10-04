@@ -346,4 +346,10 @@
 
   --color-calendar-cell-badge-text: #1F2937;
 
+  /* TrashList */
+  --color-trash-list-refresh-button-bg: #10B9811A;
+  --color-trash-list-delete-button-bg: #EF444414;
+  --color-trash-list-row-text-color: #9CA3AF;
+  --color-trash-list-row-text-deleted-by-color: #6B7280;
+  --color-trash-list-row-text-deleted-at-color: #6B7280;
 }

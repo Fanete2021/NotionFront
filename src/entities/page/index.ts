@@ -10,11 +10,7 @@ export const {
   useDeletePageMutation,
 } = pageApi;
 
-export { PAGE_TYPE } from './model/page.types';
-
 export type {
-  Page,
-  PageType,
   CreatePageDto,
   UpdatePageDto,
   PageContent,

@@ -24,7 +24,11 @@ export function Table<T>({
               <th
                 key={String(column.key)}
                 style={{ width: column.width }}
-                className={classnames(styles.headCell, styles[column.align ?? 'left'])}
+                className={classnames(
+                  styles.headCell,
+                  styles[column.align ?? 'left'],
+                  column.className,
+                )}
               >
                 {column.title}
               </th>
@@ -59,7 +63,11 @@ export function Table<T>({
                 {columns.map((column) => (
                   <td
                     key={String(column.key)}
-                    className={classnames(styles.cell, styles[column.align ?? 'left'])}
+                    className={classnames(
+                      styles.cell,
+                      styles[column.align ?? 'left'],
+                      column.className,
+                    )}
                   >
                     {column.render ? column.render(row) : String(row[column.key as keyof T] ?? '')}
                   </td>

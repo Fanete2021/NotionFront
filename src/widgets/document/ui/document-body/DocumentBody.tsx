@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './DocumentBody.module.css';
-import { formatRelativeTime } from '../../lib/formatRelativeTime';
 import { TextEditor } from '@features/text-editor';
-import { Page, PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
+import { formatRelativeTime } from '@shared/lib';
 import { Typography } from '@/shared/ui/Typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';

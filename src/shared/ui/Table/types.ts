@@ -13,6 +13,8 @@ export interface TableColumn<T> {
   sortable?: boolean;
 
   render?: (row: T) => ReactNode;
+
+  className?: string;
 }
 
 export interface TableProps<T> {

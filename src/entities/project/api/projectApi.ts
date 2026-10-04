@@ -55,15 +55,17 @@ export const projectApi = baseApi.injectEndpoints({
       ],
     }),
 
-    deleteProject: builder.mutation<void, string>({
-      query: (id) => ({
+    deleteProject: builder.mutation<void, { id: string; workspaceId: string }>({
+      query: ({ id }) => ({
         url: `/projects/${id}`,
         method: 'DELETE',
         extraOptions: { requiresAuth: true },
       }),
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Project', id },
         { type: 'Project', id: 'LIST' },
+        { type: 'Page', id: `TRASH_${workspaceId}` },
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
       ],
     }),
 

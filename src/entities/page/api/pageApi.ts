@@ -1,10 +1,5 @@
-import {
-  Page,
-  CreatePageDto,
-  UpdatePageDto,
-  PageContent,
-  PageContentJson,
-} from '../model/page.types';
+import { CreatePageDto, UpdatePageDto, PageContent, PageContentJson } from '../model/page.types';
+import { Page } from '@/shared/const/pageType';
 import { baseApi } from '@/shared/api/baseApi';
 
 export const pageApi = baseApi.injectEndpoints({
@@ -84,6 +79,7 @@ export const pageApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Page', id },
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+        { type: 'Page', id: `TRASH_${workspaceId}` },
       ],
     }),
   }),
