@@ -1,3 +1,4 @@
+import { clearCurrentWorkspace } from '@/entities/workspace';
 import { baseApi } from '@shared/api/baseApi';
 import { loggedOut } from '@shared/api';
 
@@ -25,6 +26,7 @@ export const logoutApi = baseApi.injectEndpoints({
           await queryFulfilled;
         } finally {
           dispatch(loggedOut());
+          dispatch(clearCurrentWorkspace());
           dispatch(baseApi.util.resetApiState());
         }
       },
