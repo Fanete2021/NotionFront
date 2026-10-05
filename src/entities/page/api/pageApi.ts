@@ -1,4 +1,10 @@
-import { CreatePageDto, UpdatePageDto, PageContent, PageContentJson } from '../model/page.types';
+import {
+  CreatePageDto,
+  UpdatePageDto,
+  PageContent,
+  PageContentJson,
+  PageVersionList,
+} from '../model/page.types';
 import { Page } from '@/shared/const/pageType';
 import { baseApi } from '@/shared/api/baseApi';
 
@@ -81,6 +87,14 @@ export const pageApi = baseApi.injectEndpoints({
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
         { type: 'Page', id: `TRASH_${workspaceId}` },
       ],
+    }),
+
+    getPageVersions: builder.query<PageVersionList, string>({
+      query: (id) => ({
+        url: `/pages/${id}/versions`,
+      }),
+      extraOptions: { requiresAuth: true },
+      providesTags: (result, error, id) => [{ type: 'PageVersion', id }],
     }),
   }),
   overrideExisting: false,

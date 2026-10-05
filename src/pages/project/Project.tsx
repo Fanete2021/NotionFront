@@ -1,28 +1,33 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import styles from './Project.module.css';
 import { ProjectWorkspace, ProjectDocument } from '@/widgets/project';
-import { Typography } from '@shared/ui/Typography';
-
-const MOCK_BREADCRUMBS = ['Документы', 'Дизайн-система', 'Компоненты'];
+import { DocumentHeader } from '@/widgets/document';
+import { NotFoundError } from '@/widgets/error';
+import { useGetPageByIdQuery } from '@/entities/page';
+import { useGetProjectByIdQuery } from '@/entities/project';
+import { Loader } from '@/shared/ui/loader';
 
 export const ProjectPage = () => {
+  const params = useParams<{ id: string }>();
+  const pageId = params?.id ?? '';
+
+  const { data: page, isLoading } = useGetPageByIdQuery(pageId, { skip: !pageId });
+  const projectId = page?.projectId ?? '';
+  const { data: project } = useGetProjectByIdQuery(projectId, { skip: !projectId });
+
+  if (isLoading) return <Loader />;
+  if (!page) return <NotFoundError />;
+
+  const breadcrumbs = ['Документы', project?.name].filter((crumb): crumb is string =>
+    Boolean(crumb),
+  );
+
   return (
-    <ProjectWorkspace breadcrumbs={MOCK_BREADCRUMBS}>
+    <ProjectWorkspace breadcrumbs={breadcrumbs}>
       <main className={styles.main}>
-        <div className={styles.heading}>
-          <span className={styles.pageIcon} aria-hidden>
-            📐
-          </span>
-          <div className={styles.headingText}>
-            <Typography variant="h1" className={styles.title}>
-              Дизайн-система — Компоненты
-            </Typography>
-            <Typography variant="caption" className={styles.meta}>
-              Последнее изменение: Алекс Ким · 2 часа назад
-            </Typography>
-          </div>
-        </div>
+        <DocumentHeader page={page} />
         <div className={styles.document}>
           <ProjectDocument />
         </div>
