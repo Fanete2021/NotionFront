@@ -6,3 +6,5 @@ export {
   useMutationWithError,
   useDebounce,
 } from './hooks';
+
+export { formatRelativeTime } from './format-relative-time/formatRelativeTime';

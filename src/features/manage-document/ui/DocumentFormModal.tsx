@@ -18,15 +18,9 @@ import {
   DocumentType,
   documentFormSchema,
 } from '../utils/validationDocumentFormConfig';
-import {
-  Page,
-  PageType,
-  PAGE_TYPE,
-  CreatePageDto,
-  useCreatePageMutation,
-  useUpdatePageMutation,
-} from '@/entities/page';
+import { CreatePageDto, useCreatePageMutation, useUpdatePageMutation } from '@/entities/page';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
+import { Page, PageType, PAGE_TYPE } from '@/shared/const/pageType';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';

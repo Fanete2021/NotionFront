@@ -1,5 +1,5 @@
 import { FC, SVGProps } from 'react';
-import { PageType } from '@/entities/page';
+import { PageType } from '@/shared/const/pageType';
 
 export interface SidebarItem {
   id: string;

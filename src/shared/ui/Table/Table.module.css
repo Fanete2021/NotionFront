@@ -23,6 +23,10 @@
   color: var(--color-text-muted);
 }
 
+.headCell:nth-child(3) {
+  font-size: 12px;
+}
+
 .cell {
   padding: 16px 20px;
 

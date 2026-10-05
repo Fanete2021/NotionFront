@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { DocumentHeader } from '../document-header/DocumentHeader';
 import { TextEditor } from '@features/text-editor';
-import { Page, PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { useUploadAttachment } from '@/entities/attachment';
+import { Page } from '@/shared/const/pageType';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { isFetchBaseQueryError } from '@/shared/utils/error-utils';
 import { useDebounce } from '@/shared/lib';
@@ -20,6 +22,7 @@ type DocumentBodyProps = {
 
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const [updateContent] = useUpdatePageContentMutation();
+  const uploadAttachment = useUploadAttachment(page.id);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [updatedAt, setUpdatedAt] = useState(content?.updatedAt ?? page.updatedAt);
@@ -68,7 +71,11 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
       <DocumentHeader page={page} updatedAt={updatedAt} saveError={saveError} isSaving={isSaving} />
 
       <div className={styles.document}>
-        <TextEditor content={content?.json ?? null} onChange={handleChange} />
+        <TextEditor
+          content={content?.json ?? null}
+          onChange={handleChange}
+          onUploadFile={uploadAttachment}
+        />
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PAGE_TYPE, PageType } from '@/entities/page';
+import { PAGE_TYPE, PageType } from '@/shared/const/pageType';
 
 export interface DocumentModalsState {
   isCreateDocumentModalOpen: boolean;

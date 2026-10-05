@@ -1,6 +1,5 @@
 import { SidebarItem } from './types/sidebar';
 import HomeIcon from '@/shared/assets/icons/home.svg';
-import DocsIcon from '@/shared/assets/icons/docs.svg';
 import CalendarIcon from '@/shared/assets/icons/calendar.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import GearIcon from '@/shared/assets/icons/gear-icon-2.svg';
@@ -12,13 +11,6 @@ export const staticSidebarItems: SidebarItem[] = [
     type: 'link',
     href: '/main',
     icon: HomeIcon,
-  },
-  {
-    id: 'documents',
-    title: 'Документы',
-    type: 'link',
-    href: '/documents',
-    icon: DocsIcon,
   },
   {
     id: 'projects-section',
