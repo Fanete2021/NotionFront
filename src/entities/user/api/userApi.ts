@@ -1,4 +1,4 @@
-import { UpdateUserDto, User } from '../model/User';
+import { UpdateUserDto, User } from '../model/user.types';
 import { baseApi } from '@shared/api/baseApi';
 
 export const userApi = baseApi.injectEndpoints({

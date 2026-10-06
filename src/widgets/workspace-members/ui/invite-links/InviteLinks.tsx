@@ -1,5 +1,7 @@
 'use client';
 
+import { error } from 'next/dist/build/output/log';
+import { useEffect, useRef } from 'react';
 import styles from './InviteLinks.module.css';
 import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
 import { buildInviteUrl } from '../../utils/url';
@@ -15,6 +17,8 @@ import { useAppDispatch } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib/hooks';
 import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { isFetchBaseQueryError } from '@shared/utils/error-utils';
+import { toast } from '@shared/ui/toast';
 
 interface InviteLinksProps {
   workspaceId: string;
@@ -22,11 +26,13 @@ interface InviteLinksProps {
 
 export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   const dispatch = useAppDispatch();
+  const notifiedWorkspaceRef = useRef<string | null>(null);
 
   const {
     data: invites,
     isLoading,
     isError,
+    error: getInviteError,
   } = useGetWorkspaceInvitesQuery(workspaceId, {
     skip: !workspaceId,
   });
@@ -63,12 +69,33 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
 
   const links = invites ?? [];
 
+  const isForbidden =
+    isFetchBaseQueryError(getInviteError) && getInviteError.status === HTTP_STATUS.FORBIDDEN;
+  const permissionMessage =
+    'У вас недостаточно прав для просмотра и создания ссылок для приглашения в рабочее пространство';
+
+  useEffect(() => {
+    if (!isForbidden) {
+      notifiedWorkspaceRef.current = null;
+      return;
+    }
+
+    if (notifiedWorkspaceRef.current === workspaceId) return;
+    notifiedWorkspaceRef.current = workspaceId;
+
+    toast.add({
+      type: 'info',
+      title: 'Приглашения',
+      description: permissionMessage,
+    });
+  }, [isForbidden, workspaceId]);
+
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;
   }
 
   if (isError) {
-    return <div className={styles.error}>Ошибка загрузки ссылок</div>;
+    return null;
   }
 
   return (
@@ -82,7 +109,7 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
 
       <div className={styles.links}>
         {links.map((invite) => {
-          const url = buildInviteUrl(invite.id);
+          const url = buildInviteUrl(invite.token);
           return (
             <InviteLink
               key={invite.id}
