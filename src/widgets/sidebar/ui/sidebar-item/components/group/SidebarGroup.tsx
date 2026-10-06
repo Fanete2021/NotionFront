@@ -9,7 +9,7 @@ import { SortableGroupHeader } from '../../../sortable/SortableGroupHeader';
 import { SortableGroupItem } from '../../../sortable/SortableGroupItem';
 import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
-import { useSidebarDnd } from '@/features/dnd-sidebar';
+import { toggleGroup } from '@/features/dnd-sidebar';
 import { useDeleteProjectMutation } from '@/entities/project';
 import { useAppDispatch, useDismissibleLayer, useAppSelector } from '@/shared/lib';
 
@@ -22,12 +22,10 @@ interface SidebarGroupProps {
 }
 
 export function SidebarGroup({ item, level }: SidebarGroupProps) {
-  const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id) ?? '';
-  const { activeId } = useSidebarDnd();
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector((state) => (state.sidebarUi.openGroupIds ?? []).includes(item.id));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isDragging = activeId === item.id;
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; right: number } | null>(
     null,
@@ -40,7 +38,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
 
   const [deleteProject] = useDeleteProjectMutation();
 
-  const handleToggle = useCallback(() => setIsOpen((prev) => !prev), []);
+  const handleToggle = useCallback(() => dispatch(toggleGroup(item.id)), [dispatch, item.id]);
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -52,13 +50,6 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
   }, []);
-
-  useEffect(() => {
-    if (isDragging) {
-      // eslint-disable-next-line
-      setIsOpen(false);
-    }
-  }, [isDragging]);
 
   useEffect(() => {
     if (isDropdownOpen && moreRef.current) {

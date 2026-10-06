@@ -1,7 +1,7 @@
 import { DragEndEvent } from '@dnd-kit/core';
-import type { DragTargets } from '../model/types';
+import type { DragTargets } from '../../model/types';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 
 const GROUP_PREFIX = 'group-';
 

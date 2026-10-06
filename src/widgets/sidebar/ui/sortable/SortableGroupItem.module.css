@@ -1,7 +1,9 @@
 .groupWrapper {
   width: 100%;
   border-radius: 6px;
-  transition: background-color 0.15s ease, outline-color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    outline-color 0.15s ease;
   min-height: 32px;
 }
 

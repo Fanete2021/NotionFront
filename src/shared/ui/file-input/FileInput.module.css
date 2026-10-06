@@ -1,0 +1,79 @@
+.container {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 11px;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: 6px;
+  background: var(--color-file-input-bg);
+  color: var(--color-file-input-text);
+  cursor: pointer;
+  white-space: nowrap;
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+
+  &:focus-within {
+    border-color: var(--color-primary);
+    outline: 2px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+    outline-offset: 2px;
+  }
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.hasValue {
+  border-color: #667085;
+  color: #c4cedd;
+}
+
+.error {
+  border-color: var(--color-danger);
+
+  &:hover,
+  &:focus-within {
+    border-color: var(--color-danger);
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+
+  &:hover {
+    border-color: #3f4651;
+    background: #090b10;
+    color: #9ca7b8;
+  }
+}
+
+.errorLabel {
+  color: var(--color-danger);
+}

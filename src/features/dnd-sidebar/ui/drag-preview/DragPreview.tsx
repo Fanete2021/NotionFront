@@ -2,7 +2,7 @@
 
 import styles from './DragPreview.module.css';
 import { Project } from '@/entities/project';
-import { Page, PAGE_TYPE } from '@/entities/page';
+import { Page, PAGE_TYPE } from '@/shared/const/pageType';
 import { Typography } from '@/shared/ui/Typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
 import PageIcon from '@shared/assets/icons/page.svg';

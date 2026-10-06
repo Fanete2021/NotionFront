@@ -1,0 +1,56 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  width: 100%;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-divider-bg);
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon {
+  min-width: 0;
+
+  display: block;
+
+  width: 16px;
+  height: 16px;
+}
+
+.dateCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  padding: 12px 10px;
+
+  background-color: var(--color-date-card-bg);
+}
+
+.weekDay {
+  color: var(--color-date-card-weekday);
+}
+
+.date {
+  color: var(--color-date-card-date);
+  font-size: 15px;
+  line-height: 22px;
+}

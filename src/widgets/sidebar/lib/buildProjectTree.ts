@@ -1,6 +1,6 @@
 import { SidebarItemData } from '../model/types/sidebar';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 import { ROUTES } from '@/shared/routes';
 
 /**

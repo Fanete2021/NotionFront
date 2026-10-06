@@ -1,9 +1,14 @@
 import { flushSync } from 'react-dom';
 import { DragEndEvent } from '@dnd-kit/core';
-import { findDragTargets } from './findDragTargets';
-import { getPageSiblings, getProjectSiblings, isSyncedById, moveItem } from './reorderUtils';
+import { findDragTargets } from '../findDragTargets/findDragTargets';
+import {
+  getPageSiblings,
+  getProjectSiblings,
+  isSyncedById,
+  moveItem,
+} from '../reorderUtils/reorderUtils';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 
 type ReorderProjectsTrigger = (args: {
   workspaceId: string;

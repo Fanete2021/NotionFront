@@ -1,4 +1,4 @@
-import { PageType } from '@/entities/page';
+import { PageType } from '@/shared/const/pageType';
 
 export interface SidebarItemData {
   id: string;

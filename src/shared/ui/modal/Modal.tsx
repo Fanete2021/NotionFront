@@ -11,6 +11,7 @@ import CloseIcon from '@/shared/assets/icons/x-close-2.svg';
 
 // Ширина панели: sm — 420px, md — 460px, lg — 560px, xl — 760px
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
+export type CloseButtonVariant = 'clear' | 'outline';
 
 interface ModalProps {
   isOpen: boolean;
@@ -28,6 +29,8 @@ interface ModalProps {
   noBodyPadding?: boolean;
   size?: ModalSize;
   container?: Element | DocumentFragment;
+
+  closeButtonVariant?: CloseButtonVariant;
 }
 
 export const Modal = ({
@@ -44,6 +47,7 @@ export const Modal = ({
   noBodyPadding = false,
   size = 'sm',
   container,
+  closeButtonVariant = 'clear',
 }: ModalProps) => {
   const modalRef = useDismissibleLayer<HTMLDivElement>({
     enabled: isOpen,
@@ -79,6 +83,7 @@ export const Modal = ({
           ref={modalRef}
           role="dialog"
           aria-modal="true"
+          aria-label={title}
         >
           <div className={classNames(styles.header, { [styles.withDivider]: headerDivider })}>
             <div className={styles.headerMain}>{headerContent}</div>
@@ -86,7 +91,9 @@ export const Modal = ({
               type="button"
               variant="clear"
               size="sm"
-              className={styles.closeButton}
+              className={classNames(styles.closeButton, {
+                [styles[closeButtonVariant]]: closeButtonVariant,
+              })}
               aria-label="Закрыть"
               onClick={onClose}
             >

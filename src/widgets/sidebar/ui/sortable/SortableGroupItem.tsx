@@ -26,7 +26,9 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
     !overId.startsWith('group-') &&
     (overId === item.id ||
       (item.children?.some((child: SidebarItemData) => child.id === overId) ?? false));
-  const isDraggingSelf = overId !== null && overId === activeId;
+
+  const isDraggingSelf = activeId === item.id;
+
   const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
 
   const { setNodeRef: setGroupDroppableRef } = useDroppable({

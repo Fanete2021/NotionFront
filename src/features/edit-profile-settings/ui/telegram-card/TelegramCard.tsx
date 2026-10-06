@@ -1,4 +1,4 @@
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, useWatch } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './TelegramCard.module.css';
 import { ProfileSettings } from '../../model/mock.api';
@@ -13,6 +13,10 @@ interface TelegramCardProps {
 }
 
 export function TelegramCard({ control }: TelegramCardProps) {
+  const [telegramToken] = useWatch({
+    control,
+    name: ['telegramToken'],
+  });
   return (
     <Card className={common.card} radius="m">
       <div className={styles.telegramHeader}>

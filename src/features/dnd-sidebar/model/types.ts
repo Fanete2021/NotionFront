@@ -1,6 +1,6 @@
 import { DragEndEvent } from '@dnd-kit/core';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 
 export interface DragTargets {
   activeProject: Project | undefined;

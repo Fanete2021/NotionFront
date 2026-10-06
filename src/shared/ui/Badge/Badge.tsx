@@ -13,16 +13,18 @@ interface BadgeProps extends React.ComponentPropsWithRef<'div'> {
   text: string;
   color?: string;
   bgColor?: string;
+  border?: string;
 }
 
-export const Badge = ({ className, status, text, color, bgColor }: BadgeProps) => {
+export const Badge = ({ className, status, text, color, bgColor, border }: BadgeProps) => {
   const isConnected = status === 'connected';
 
   const customStyle =
-    color || bgColor
+    color || bgColor || border
       ? {
           color: color ?? 'inherit',
           backgroundColor: bgColor ?? 'transparent',
+          border: border ?? 'none',
         }
       : undefined;
 

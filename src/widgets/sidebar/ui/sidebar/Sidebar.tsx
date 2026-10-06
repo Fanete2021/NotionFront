@@ -22,7 +22,7 @@ import { staticSidebarItems } from '../../model';
 import { buildProjectTree } from '../../lib';
 import { SidebarSkeleton } from '../sidebar-skeleton/SidebarSkeleton';
 import { SidebarItem } from '../sidebar-item/SidebarItem';
-import { DragPreview } from '../drag-preview/DragPreview';
+import { closeAllGroups, DragPreview } from '@/features/dnd-sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { DocumentFormModal } from '@/features/manage-document';
 import { ProjectFormModal } from '@/features/manage-project';
@@ -40,9 +40,9 @@ import {
 } from '@/entities/page';
 import { useGetMeQuery } from '@/entities/user';
 import type { Project } from '@/entities/project';
-import type { Page } from '@/entities/page';
+import type { Page } from '@/shared/const/pageType';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { useAppSelector } from '@/shared/lib';
+import { useAppDispatch, useAppSelector } from '@/shared/lib';
 import { ROUTES } from '@shared/routes';
 
 interface SidebarProps {
@@ -53,6 +53,8 @@ const DROP_ANIMATION_DURATION = 300;
 
 export function Sidebar({ className }: SidebarProps) {
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
+
+  const dispatch = useAppDispatch();
 
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
   const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
@@ -149,10 +151,14 @@ export function Sidebar({ className }: SidebarProps) {
     return closestCenter(args);
   }, []);
 
-  const handleDragStart = useCallback((event: DragStartEvent) => {
-    setActiveId(String(event.active.id));
-    setActiveType((event.active.data.current?.type as DndItemType) ?? null);
-  }, []);
+  const handleDragStart = useCallback(
+    (event: DragStartEvent) => {
+      setActiveId(String(event.active.id));
+      setActiveType((event.active.data.current?.type as DndItemType) ?? null);
+      dispatch(closeAllGroups());
+    },
+    [dispatch],
+  );
 
   const handleDragOver = useCallback((event: DragOverEvent) => {
     setOverId(event.over ? String(event.over.id) : null);
@@ -174,42 +180,29 @@ export function Sidebar({ className }: SidebarProps) {
     }, DROP_ANIMATION_DURATION);
   }, []);
 
-  const handleDragEnd = useCallback(
-    async (event: DragEndEvent) => {
-      if (!currentWorkspaceId) {
-        setActiveId(null);
-        setOverId(null);
-        setActiveType(null);
-        return;
-      }
+  const handleDragEnd = async (event: DragEndEvent) => {
+    if (!currentWorkspaceId) {
+      setActiveId(null);
+      setOverId(null);
+      setActiveType(null);
+      return;
+    }
 
-      await handleDragEndFeature({
-        event,
-        currentWorkspaceId,
-        localProjects,
-        localPages,
-        serverProjects: projects ?? [],
-        serverPages: pages ?? [],
-        setLocalProjects,
-        setLocalPages,
-        reorderProjects,
-        reorderPages,
-        updatePage,
-        scheduleActiveIdReset,
-      });
-    },
-    [
+    await handleDragEndFeature({
+      event,
+      currentWorkspaceId,
       localProjects,
       localPages,
-      projects,
-      pages,
-      currentWorkspaceId,
+      serverProjects: projects ?? [],
+      serverPages: pages ?? [],
+      setLocalProjects,
+      setLocalPages,
       reorderProjects,
       reorderPages,
       updatePage,
       scheduleActiveIdReset,
-    ],
-  );
+    });
+  };
 
   if (workspacesLoading) {
     return <SidebarSkeleton />;

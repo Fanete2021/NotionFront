@@ -20,10 +20,6 @@
   margin: 0;
 }
 
-.photoButton {
-  flex-shrink: 0;
-}
-
 .nameRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
