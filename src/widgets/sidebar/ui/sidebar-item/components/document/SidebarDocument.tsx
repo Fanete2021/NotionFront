@@ -1,22 +1,32 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { SidebarItem as SidebarItemType } from '../../../../model';
+import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
+import { DraggableAttributes } from '@dnd-kit/core';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarDocument.module.css';
 import { SidebarLink } from '../link/SidebarLink';
 import { openEditDocumentModal } from '@/features/manage-document';
 import { useDeletePageMutation } from '@/entities/page';
 import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
+import DragHandleIcon from '@/shared/assets/icons/drag-handle.svg';
 import { Button } from '@/shared/ui/Button';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarDocumentProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
+  dragListeners?: SyntheticListenerMap;
+  dragAttributes?: DraggableAttributes;
 }
 
-export function SidebarDocument({ item, level }: SidebarDocumentProps) {
+export function SidebarDocument({
+  item,
+  level,
+  dragListeners,
+  dragAttributes,
+}: SidebarDocumentProps) {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
@@ -59,7 +69,7 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
       openEditDocumentModal({
         documentId: item.id,
         title: item.title ?? '',
-        icon: typeof item.icon === 'string' ? item.icon : undefined,
+        icon: item.icon,
         type: item.documentType,
       }),
     );
@@ -79,7 +89,16 @@ export function SidebarDocument({ item, level }: SidebarDocumentProps) {
 
   return (
     <>
-      <div className={styles.document} onContextMenu={handleContextMenu}>
+      <div className={styles.document} onContextMenu={handleContextMenu} {...dragAttributes}>
+        <div
+          {...dragListeners}
+          className={styles.dragHandle}
+          onClick={(e) => e.stopPropagation()}
+          aria-label="Перетащить документ"
+        >
+          <DragHandleIcon className={styles.dragHandleIcon} />
+        </div>
+
         <SidebarLink item={item} level={level} />
       </div>
 

@@ -1,4 +1,4 @@
-import { SidebarItem } from '../../../model';
+import { SidebarItemData } from '../../../model';
 import { getIconByName } from '@/shared/ui/icon-picker';
 
 const BASE_PADDING = 16;
@@ -16,17 +16,11 @@ export function isActiveLink(pathname: string | null, href?: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export const renderIcon = (item: SidebarItem, styles: Record<string, string>) => {
+export const renderIcon = (item: SidebarItemData, styles: Record<string, string>) => {
   if (!item.icon) return null;
 
   const style = item.color ? { color: item.color } : undefined;
 
-  if (typeof item.icon === 'string') {
-    const Icon = getIconByName(item.icon);
-
-    return Icon ? <Icon className={styles.icon} style={style} /> : null;
-  }
-
-  const IconComponent = item.icon;
-  return <IconComponent className={styles.icon} style={style} />;
+  const Icon = getIconByName(item.icon);
+  return Icon ? <Icon className={styles.icon} style={style} /> : null;
 };

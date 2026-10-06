@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { SidebarItem as SidebarItemType } from '../../../../model';
+import { useCallback, useMemo } from 'react';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { SidebarItemData } from '../../../../model';
 import styles from './SidebarSection.module.css';
 import { SidebarItem } from '../../SidebarItem';
 import { openCreateProjectModal } from '@/features/manage-project';
@@ -12,18 +13,15 @@ import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarSectionProps {
-  item: SidebarItemType;
+  item: SidebarItemData;
   level: number;
 }
 
 export function SidebarSection({ item, level }: SidebarSectionProps) {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
-  const [isOpen, setIsOpen] = useState(true);
   const { data: workspaces } = useGetWorkspacesQuery();
   const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
-
-  const handleToggle = () => setIsOpen((prev) => !prev);
 
   const handleCreateProject = useCallback(
     (e: React.MouseEvent) => {
@@ -35,9 +33,22 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
     [workspaceId, dispatch],
   );
 
+  const sortableIds = useMemo(
+    () => (item.children ?? []).map((child) => child.id),
+    [item.children],
+  );
+
+  const childItems = useMemo(
+    () =>
+      (item.children ?? []).map((child) => (
+        <SidebarItem key={child.id} item={child} level={level + 1} />
+      )),
+    [item.children, level],
+  );
+
   return (
     <div className={styles.section}>
-      <div className={styles.sectionHeader} onClick={handleToggle}>
+      <div className={styles.sectionHeader}>
         <Typography className={styles.sectionTitle} variant="label">
           {item.title}
         </Typography>
@@ -51,10 +62,9 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
         </Button>
       </div>
 
-      {isOpen &&
-        item.children?.map((child) => (
-          <SidebarItem key={child.id} item={child} level={level + 1} />
-        ))}
+      <SortableContext items={sortableIds} strategy={verticalListSortingStrategy}>
+        {childItems}
+      </SortableContext>
     </div>
   );
 }

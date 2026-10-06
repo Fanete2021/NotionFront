@@ -9,6 +9,7 @@ export interface Page {
   id: string;
   workspaceId: string;
   projectId: string | null;
+  parentPageId: string | null;
   title: string;
   icon?: string | null;
   type: PageType;

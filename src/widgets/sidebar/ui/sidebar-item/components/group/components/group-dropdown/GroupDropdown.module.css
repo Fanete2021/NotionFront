@@ -1,37 +1,4 @@
-.document {
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;
-}
-
-.dragHandle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 20px;
-  flex-shrink: 0;
-  cursor: grab;
-  color: var(--color-text-muted);
-  opacity: 0;
-  transition: opacity 0.15s ease;
-}
-
-.document:hover .dragHandle {
-  opacity: 1;
-}
-
-.dragHandle:active {
-  cursor: grabbing;
-}
-
-.dragHandleIcon {
-  width: 18px;
-  height: 18px;
-}
-
-.contextMenu {
+.dropdown {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -41,11 +8,11 @@
   border-radius: 10px;
   background: var(--color-sidebar-bg);
   box-shadow: 0 8px 24px var(--color-context-menu-shadow);
-  z-index: var(--z-index-context-menu);
   animation: fadeIn 0.15s ease;
+  z-index: var(--z-index-dropdown);
 }
 
-.contextMenu .contextMenuItem {
+.dropdownItem {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -63,15 +30,15 @@
   transition: background 0.15s;
 }
 
-.contextMenu .contextMenuItem:hover {
+.dropdownItem:hover {
   background: var(--color-bg-surface);
 }
 
-.contextMenu .menuItemDanger {
+.menuItemDanger {
   color: var(--color-danger);
 }
 
-.contextMenu .menuItemDanger:hover {
+.menuItemDanger:hover {
   background: var(--color-context-menu-hover-bg);
 }
 

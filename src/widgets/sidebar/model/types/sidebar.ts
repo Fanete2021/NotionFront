@@ -1,14 +1,13 @@
-import { FC, SVGProps } from 'react';
 import { PageType } from '@/shared/const/pageType';
 
-export interface SidebarItem {
+export interface SidebarItemData {
   id: string;
   title?: string;
   type: 'link' | 'section' | 'group' | 'divider' | 'document';
   href?: string;
-  icon?: FC<SVGProps<SVGSVGElement>> | string;
+  icon?: string;
   color?: string;
-  children?: SidebarItem[];
+  children?: SidebarItemData[];
   workspaceId?: string;
   projectId?: string;
   documentId?: string;

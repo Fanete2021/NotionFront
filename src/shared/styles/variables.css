@@ -45,6 +45,9 @@
   --color-sidebar-divider-bg: #E5E5E5;
   --color-sidebar-section-bg-hover: #F9FAFB;
   --color-sidebar-button: #9CA3AF;
+  --color-sidebar-group-wrapper-bg: rgba(37, 99, 235, 0.08);
+  --color-sidebar-group-wrapper-bg-outline: rgba(37, 99, 235, 0.4);
+  --color-sidebar-preview-shadow: rgba(0, 0, 0, 0.15);
 
   /* project */
   --color-project-default: #6366F1;
