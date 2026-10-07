@@ -35,3 +35,27 @@ export interface PageVersionList {
   items: PageVersion[];
   nextCursor: string | null;
 }
+
+export interface UserPageData {
+  id: string;
+  name: string;
+  avatar?: string | null;
+}
+
+export type PageJoinResponse =
+  | {
+      ok: true;
+      users: UserPageData[];
+    }
+  | {
+      ok: false;
+    };
+
+export interface PagePresenceData {
+  pageId: string;
+  users: UserPageData[];
+}
+
+export type PageLeaveResponse = {
+  ok: true;
+};

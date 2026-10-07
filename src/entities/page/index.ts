@@ -19,3 +19,5 @@ export type {
   PageVersion,
   PageVersionList,
 } from './model/page.types';
+
+export { usePagePresence } from './model/hooks/usePagePresence';

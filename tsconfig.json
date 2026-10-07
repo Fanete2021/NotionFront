@@ -33,7 +33,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "node_modules/.pnpm/storybook@10.5.0_@types+react@19.2.17_prettier@3.9.6_react@19.2.4/node_modules/storybook/dist/manager/runtime.js"
   ],
   "exclude": ["node_modules"]
 }

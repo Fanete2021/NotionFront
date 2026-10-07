@@ -9,9 +9,10 @@ import { ChangeVersionModal } from '@/features/change-version';
 type ProjectWorkspaceProps = {
   children: React.ReactNode;
   breadcrumbs: string[];
+  pageId: string;
 };
 
-export const ProjectWorkspace = ({ children, breadcrumbs }: ProjectWorkspaceProps) => {
+export const ProjectWorkspace = ({ children, breadcrumbs, pageId }: ProjectWorkspaceProps) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
@@ -22,6 +23,7 @@ export const ProjectWorkspace = ({ children, breadcrumbs }: ProjectWorkspaceProp
           breadcrumbs={breadcrumbs}
           onCommentsClick={() => setIsCommentsOpen((open) => !open)}
           onHistoryClick={() => setIsHistoryOpen(true)}
+          pageId={pageId}
         />
         <div className={styles.content}>{children}</div>
       </div>

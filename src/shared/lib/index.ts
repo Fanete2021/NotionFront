@@ -5,6 +5,9 @@ export {
   useLockBodyScroll,
   useMutationWithError,
   useDebounce,
+  useSocket,
 } from './hooks';
+
+export { SocketContext } from './socket/socket-context';
 
 export { formatRelativeTime } from './format-relative-time/formatRelativeTime';
