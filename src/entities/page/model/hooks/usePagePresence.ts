@@ -32,23 +32,23 @@ export const usePagePresence = (pageId: string) => {
         return;
       }
       setStatus('joining');
-
       socket
         .timeout(5000)
         .emit(
           'page:join',
           { pageId: pageId },
-          (error: Error | null, response: PageJoinResponse) => {
-            if (status === 'ready') {
+          (error: Error | null, response: PageJoinResponse | null) => {
+            if (!active) {
               return;
             }
 
             if (error) {
               setStatus('error');
               console.log('Не удалось получить подтверждение от сервера за 5 секунд');
+              return;
             }
 
-            if (!response.ok) {
+            if (!response?.ok) {
               console.error('Сервер не подтвердил вход в документ');
               setStatus('error');
               return;
@@ -85,16 +85,16 @@ export const usePagePresence = (pageId: string) => {
       active = false;
       socket.off('page:presence', handlePresence);
       socket.off('connect', handleJoinPage);
-      socket.off('disconnect', handleLeavePage);
+      socket.off('disconnect', handleDisconnect);
 
       if (socket.connected) {
         handleLeavePage();
       }
     };
-  }, [pageId, socket, status]);
+  }, [pageId, socket]);
 
   return {
-    users,
+    users: status === 'ready' ? users : null,
     count: status === 'ready' ? users.length : null,
     status,
   };

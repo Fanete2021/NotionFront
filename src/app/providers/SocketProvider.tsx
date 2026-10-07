@@ -2,8 +2,8 @@
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
-import { createSocketConnection, refreshAccessToken } from '@shared/api';
-import { SocketContext, useAppSelector, useAppStore } from '@shared/lib';
+import { createSocketConnection } from '@shared/api';
+import { SocketContext, useAppSelector } from '@shared/lib';
 
 interface SocketProviderProps {
   children: ReactNode;
@@ -13,10 +13,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
   const socketRef = useRef<Socket | null>(null);
   const accessToken = useAppSelector((state) => state.session.accessToken);
   const [socket, setSocket] = useState<Socket | null>(null);
-  const store = useAppStore();
 
   useEffect(() => {
-    let active = true;
     if (!accessToken) {
       socketRef.current = null;
       return;
@@ -45,21 +43,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
 
     async function handleConnectError(error: Error) {
       console.error('[socket] connect_error:', error.message);
-      if (error.message === 'Unauthorized') {
-        const nextAccessToken = await refreshAccessToken(store);
-
-        if (!active || !nextAccessToken) {
-          return;
-        }
-
-        if (nextAccessToken === accessToken) {
-          socket.auth = {
-            token: nextAccessToken,
-          };
-
-          socket.connect();
-        }
-      }
     }
 
     socket.on('connect', handleConnect);
@@ -70,7 +53,6 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     setSocket(socket);
 
     return () => {
-      active = false;
       socket.disconnect();
 
       socket.off('connect', handleConnect);
@@ -79,7 +61,7 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
 
       setSocket(null);
     };
-  }, [accessToken, store]);
+  }, [accessToken]);
 
   return <SocketContext.Provider value={{ socket: socket }}>{children}</SocketContext.Provider>;
 };

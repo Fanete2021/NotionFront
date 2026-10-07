@@ -1,7 +1,6 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import classNames from 'classnames';
+import { Fragment } from 'react';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
 import { ChangeVersionButton } from '@/features/change-version';
@@ -52,10 +51,16 @@ export const ProjectHeader = ({
       </nav>
       <div className={styles.actions}>
         <div className={styles.avatars}>
-          {pageId && (
+          {pageId && users && (
             <div className={styles.avatars}>
               {users.map((user) => (
-                <Avatar key={user.id} name={user.name} size="sm" className={styles.avatar} />
+                <Avatar
+                  src={user.avatar}
+                  key={user.id}
+                  name={user.name}
+                  size="sm"
+                  className={styles.avatar}
+                />
               ))}
             </div>
           )}
