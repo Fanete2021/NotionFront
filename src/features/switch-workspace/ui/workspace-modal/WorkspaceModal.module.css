@@ -61,6 +61,11 @@
     &:hover {
       background: var(--color-bg-muted);
     }
+
+    .createButton[aria-disabled='true'] {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 }
 
@@ -69,10 +74,11 @@
   flex-direction: column;
   gap: 6px;
   overflow-y: auto;
-  max-height: 240px;
   padding-bottom: 12px;
   margin-bottom: 16px;
   border-bottom: 1px solid var(--color-border-base);
+  scrollbar-gutter: stable;
+  max-height: calc((50px * 3) + (8px * 2));
 }
 
 .workspaceAvatar {
@@ -131,6 +137,7 @@
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
   flex-shrink: 0;
+
   svg {
     width: 16px;
     height: 16px;
