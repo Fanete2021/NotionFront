@@ -13,6 +13,10 @@
   cursor: pointer;
 }
 
+.taskCard * {
+  cursor: pointer;
+}
+
 .taskLabel[data-task-viewed='true'] {
   display: flex;
   column-gap: 10px;

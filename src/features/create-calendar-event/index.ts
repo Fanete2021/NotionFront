@@ -9,5 +9,6 @@ export type { CreateEventModalState } from './model/slices/createEventModalSlice
 export {
   createEventModalReducer,
   openCreateEventModal,
+  openEditEventModal,
   closeCreateEventModal,
 } from './model/slices/createEventModalSlice';
