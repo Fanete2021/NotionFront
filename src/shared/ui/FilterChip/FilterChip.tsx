@@ -6,11 +6,13 @@ import styles from './FilterChip.module.css';
 
 type FilterChipColor = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'neutral';
 
-type FilterChipProps = React.ComponentProps<'span'> & {
+type FilterChipProps = Omit<React.ComponentProps<'button'>, 'color'> & {
   label: React.ReactNode;
   color?: FilterChipColor;
   appearance?: 'filter' | 'add';
   showRemove?: boolean;
+  active?: boolean;
+  onRemove?: () => void;
 };
 
 const colorClassName: Record<FilterChipColor, string> = {
@@ -22,18 +24,34 @@ const colorClassName: Record<FilterChipColor, string> = {
   neutral: styles.colorNeutral,
 };
 
-export const FilterChip = ({
+export function FilterChip({
   label,
   color = 'neutral',
   appearance = 'filter',
   showRemove = false,
+  active = false,
+  onRemove,
   className,
+  onClick,
+  type,
   ...props
-}: FilterChipProps) => {
-  const filterChipClasses = classNames(styles.filterChip, colorClassName[color], className);
+}: FilterChipProps) {
+  const filterChipClasses = classNames(
+    styles.filterChip,
+    colorClassName[color],
+    { [styles.active]: active },
+    className,
+  );
 
   return (
-    <span className={filterChipClasses} {...props}>
+    <button
+      type={type ?? 'button'}
+      className={filterChipClasses}
+      aria-pressed={active}
+      data-active={active || undefined}
+      onClick={onClick}
+      {...props}
+    >
       {appearance === 'add' ? (
         <span className={styles.addPlus}>+</span>
       ) : (
@@ -41,10 +59,19 @@ export const FilterChip = ({
       )}
       <span>{label}</span>
       {appearance === 'filter' && showRemove && (
-        <button type="button" className={styles.removeCross}>
+        <span
+          role="button"
+          tabIndex={-1}
+          className={styles.removeCross}
+          aria-label="Удалить"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove?.();
+          }}
+        >
           ×
-        </button>
+        </span>
       )}
-    </span>
+    </button>
   );
-};
+}
