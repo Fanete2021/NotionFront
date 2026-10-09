@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import { StoreProvider } from '@/app/providers/StoreProvider';
+import { SocketProvider } from '@/app/providers/SocketProvider';
 import '@shared/styles/global.css';
 import { Toaster } from '@shared/ui/toast';
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ru" className={inter.variable}>
       <body>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <SocketProvider>{children}</SocketProvider>
+        </StoreProvider>
         <Toaster />
       </body>
     </html>
