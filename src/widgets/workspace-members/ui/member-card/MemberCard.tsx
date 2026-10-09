@@ -14,8 +14,8 @@ interface MemberCardProps {
 export const MemberCard = ({ member }: MemberCardProps) => {
   const { userInfo, role } = member;
 
-  const name = `Пользователь ${userInfo.id.slice(0, 8)}`;
-  const email = `user-${userInfo.id.slice(0, 8)}@example.com`;
+  const name = `${userInfo.name}`;
+  const email = `${userInfo.email}`;
   const roleLabel = roleLabels[role as WorkspaceRole] || role;
   const colors = roleColors[role as WorkspaceRole] || roleColors.VIEWER;
 
