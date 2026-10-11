@@ -14,10 +14,13 @@
   width: 100%;
 }
 
+.group a {
+  gap: var(--sidebar-item-gap-group);
+}
+
 .children {
   display: flex;
   flex-direction: column;
-  padding-left: 20px;
   min-height: 8px;
 }
 

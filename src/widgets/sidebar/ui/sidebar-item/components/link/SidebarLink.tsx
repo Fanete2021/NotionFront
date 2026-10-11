@@ -16,25 +16,22 @@ export function SidebarLink({ item, level }: SidebarLinkProps) {
   const active = isActiveLink(pathname, item.href);
   const paddingLeft = level === 0 ? 8 : getPadding(level);
 
-  const icon = renderIcon(item, styles);
-  const withArrowPlaceholder = level > 0;
+  const icon = renderIcon(item);
   const withColorDot = !item.icon && Boolean(item.color);
-  const withAddons = withArrowPlaceholder || Boolean(icon) || withColorDot;
+  const withAddons = Boolean(icon) || withColorDot;
 
   return (
     <NavLink
       href={item.href ?? '#'}
       className={styles.link}
+      data-item-type={item.type}
       active={active}
       size="sm"
       labelVariant="text-regular"
-      style={{
-        paddingInlineStart: paddingLeft,
-      }}
+      style={{ paddingInlineStart: paddingLeft }}
       addonLeft={
         withAddons ? (
           <span className={styles.addons}>
-            {withArrowPlaceholder && <span className={styles.arrowPlaceholder} />}
             {icon}
             {withColorDot && (
               <span className={styles.colorDot} style={{ backgroundColor: item.color }} />

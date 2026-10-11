@@ -75,7 +75,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         projectId: item.id,
         projectName: item.title || '',
         color: item.color,
-        icon: item.icon,
+        icon: typeof item.icon === 'string' ? item.icon : null,
       }),
     );
   }, [dispatch, item.id, item.title, item.color, item.icon]);

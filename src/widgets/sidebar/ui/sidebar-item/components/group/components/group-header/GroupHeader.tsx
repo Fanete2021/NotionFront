@@ -66,7 +66,7 @@ export const GroupHeader = forwardRef<HTMLDivElement, GroupHeaderProps>(function
         )}
       </Button>
 
-      {renderIcon(item, styles)}
+      {renderIcon(item)}
 
       {!item.icon && item.color && (
         <span className={styles.colorDot} style={{ backgroundColor: item.color }} />

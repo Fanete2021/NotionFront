@@ -41,7 +41,7 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
   const childItems = useMemo(
     () =>
       (item.children ?? []).map((child) => (
-        <SidebarItem key={child.id} item={child} level={level + 1} />
+        <SidebarItem key={child.id} item={child} level={level} />
       )),
     [item.children, level],
   );
