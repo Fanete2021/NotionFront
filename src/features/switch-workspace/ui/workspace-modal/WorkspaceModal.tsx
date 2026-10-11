@@ -10,6 +10,7 @@ import RadioCheckIcon from '@/shared/assets/icons/checkbox-checked.svg';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 import { Modal } from '@/shared/ui/modal';
 import { Typography } from '@/shared/ui/Typography';
+import { toast } from '@shared/ui/toast';
 
 interface WorkspaceModalProps {
   isOpen: boolean;
@@ -30,6 +31,8 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
 }) => {
   const [selectedId, setSelectedId] = useState<string | null>(currentWorkspaceId);
 
+  const isWorkspaceLimitReached = workspaces.length >= 10;
+
   useEffect(() => {
     if (isOpen) {
       //eslint-disable-next-line
@@ -48,8 +51,17 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
   }, [selectedId, onSelect]);
 
   const handleOpenCreateModal = useCallback(() => {
+    if (isWorkspaceLimitReached) {
+      toast.add({
+        type: 'warning',
+        title: 'Количество рабочих пространств',
+        description:
+          'Нельзя создать больше 10 рабочих пространств, сперва удалите одно из существующих',
+      });
+      return;
+    }
     onOpenCreateModal();
-  }, [onOpenCreateModal]);
+  }, [isWorkspaceLimitReached, onOpenCreateModal]);
 
   const header = (
     <div className={styles.heading}>
@@ -132,6 +144,7 @@ export const WorkspaceModal: FC<WorkspaceModalProps> = ({
           className={styles.createButton}
           fullWidth
           onClick={handleOpenCreateModal}
+          aria-disabled={isWorkspaceLimitReached}
         >
           <span className={styles.createIcon} aria-hidden>
             <PlusIcon />

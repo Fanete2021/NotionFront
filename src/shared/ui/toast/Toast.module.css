@@ -6,7 +6,7 @@
   width: calc(100% - 32px);
   max-width: 384px;
   margin-inline: 0;
-  z-index: 100;
+  z-index: 10002;
   outline: none;
   pointer-events: none;
 }
