@@ -49,6 +49,12 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     router.replace(ROUTES.login);
   }, [isCurrentRoutePrivate, pathname, router, status]);
 
+  useEffect(() => {
+    if (pathname === '/') {
+      router.replace(ROUTES.main);
+    }
+  }, [pathname, router]);
+
   if (pathname === null) {
     return <NotFoundError />;
   }
