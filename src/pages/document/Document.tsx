@@ -64,7 +64,7 @@ export const DocumentPage = () => {
   );
 
   return (
-    <ProjectWorkspace breadcrumbs={breadcrumbs} pageId={pageQuery.data.id}>
+    <ProjectWorkspace breadcrumbs={breadcrumbs}>
       <DocumentBody
         key={pageQuery.data.id}
         page={pageQuery.data}

@@ -18,6 +18,9 @@ export type {
   PageContentJson,
   PageVersion,
   PageVersionList,
+  UserPageData,
 } from './model/page.types';
 
 export { usePagePresence } from './model/hooks/usePagePresence';
+
+export { PageSessionContext, usePageSession } from './model/page-session-context';

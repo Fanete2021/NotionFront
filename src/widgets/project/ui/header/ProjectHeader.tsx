@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
 import { ChangeVersionButton } from '@/features/change-version';
-import { usePagePresence } from '@entities/page';
+import { usePageSession, UserPageData } from '@entities/page';
 import { Button } from '@shared/ui/Button';
 import { Typography } from '@shared/ui/Typography';
 import { Avatar } from '@shared/ui/Avatar';
@@ -23,17 +23,15 @@ interface ProjectHeaderProps {
   breadcrumbs: string[];
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
-  pageId: string;
 }
 
 export const ProjectHeader = ({
   breadcrumbs,
   onCommentsClick,
   onHistoryClick,
-  pageId,
 }: ProjectHeaderProps) => {
-  const { users } = usePagePresence(pageId);
-
+  const session = usePageSession();
+  const users = session?.users ?? [];
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -51,19 +49,17 @@ export const ProjectHeader = ({
       </nav>
       <div className={styles.actions}>
         <div className={styles.avatars}>
-          {pageId && users && (
-            <div className={styles.avatars}>
-              {users.map((user) => (
-                <Avatar
-                  src={user.avatar}
-                  key={user.id}
-                  name={user.name}
-                  size="sm"
-                  className={styles.avatar}
-                />
-              ))}
-            </div>
-          )}
+          <div className={styles.avatars}>
+            {users.map((user) => (
+              <Avatar
+                src={user.avatar}
+                key={user.id}
+                name={user.name}
+                size="sm"
+                className={styles.avatar}
+              />
+            ))}
+          </div>
           <span className={styles.actionsDivider} />
         </div>
         <ShareButton />

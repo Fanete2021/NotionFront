@@ -1,18 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { ProjectHeader } from '../header/ProjectHeader';
 import { ProjectComments } from '../comments/ProjectComments';
 import styles from './ProjectWorkspace.module.css';
 import { ChangeVersionModal } from '@/features/change-version';
 
 type ProjectWorkspaceProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   breadcrumbs: string[];
-  pageId: string;
 };
 
-export const ProjectWorkspace = ({ children, breadcrumbs, pageId }: ProjectWorkspaceProps) => {
+export const ProjectWorkspace = ({ children, breadcrumbs }: ProjectWorkspaceProps) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
@@ -23,7 +22,6 @@ export const ProjectWorkspace = ({ children, breadcrumbs, pageId }: ProjectWorks
           breadcrumbs={breadcrumbs}
           onCommentsClick={() => setIsCommentsOpen((open) => !open)}
           onHistoryClick={() => setIsHistoryOpen(true)}
-          pageId={pageId}
         />
         <div className={styles.content}>{children}</div>
       </div>

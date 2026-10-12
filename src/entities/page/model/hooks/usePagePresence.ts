@@ -49,7 +49,7 @@ export const usePagePresence = (pageId: string) => {
             }
 
             if (!response?.ok) {
-              console.error('Сервер не подтвердил вход в документ');
+              console.log('Сервер не подтвердил вход в документ');
               setStatus('error');
               return;
             }
@@ -61,11 +61,23 @@ export const usePagePresence = (pageId: string) => {
     }
 
     function handleLeavePage() {
-      socket?.emit('page:leave', { pageId: pageId }, (response: PageLeaveResponse) => {
-        if (!response.ok) {
-          return;
-        }
-      });
+      socket?.emit(
+        'page:leave',
+        { pageId: pageId },
+        (error: Error | null, response: PageLeaveResponse) => {
+          if (error) {
+            setStatus('error');
+            console.log(
+              'Не удалось осуществить выход из комнаты, произошла ошибка при отправке запроса',
+            );
+          }
+          if (!response.ok) {
+            setStatus('error');
+            console.log('Сервер вернул false при попытке выйти из документа');
+            return;
+          }
+        },
+      );
     }
 
     function handleDisconnect() {
@@ -83,6 +95,7 @@ export const usePagePresence = (pageId: string) => {
 
     return () => {
       active = false;
+
       socket.off('page:presence', handlePresence);
       socket.off('connect', handleJoinPage);
       socket.off('disconnect', handleDisconnect);

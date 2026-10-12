@@ -2,14 +2,26 @@
 
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
+import { PageSessionContext, usePagePresence } from '@entities/page';
 import { createSocketConnection } from '@shared/api';
 import { SocketContext, useAppSelector } from '@shared/lib';
 
+const PageSessionProvider = ({ children, pageId }: SocketProviderProps) => {
+  const presence = usePagePresence(pageId);
+
+  return (
+    <PageSessionContext.Provider value={{ pageId, ...presence }}>
+      {children}
+    </PageSessionContext.Provider>
+  );
+};
+
 interface SocketProviderProps {
   children: ReactNode;
+  pageId: string;
 }
 
-export const SocketProvider = ({ children }: SocketProviderProps) => {
+export const SocketProvider = ({ children, pageId }: SocketProviderProps) => {
   const socketRef = useRef<Socket | null>(null);
   const accessToken = useAppSelector((state) => state.session.accessToken);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -22,7 +34,11 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
 
     const existingSocket = socketRef.current;
     const socket =
-      existingSocket ?? createSocketConnection('http://localhost:8000/pages', accessToken);
+      existingSocket ??
+      createSocketConnection(
+        process.env.NEXT_PUBLIC_BASE_SOCKET_URL ?? 'http://localhost:8000/pages',
+        accessToken,
+      );
 
     socketRef.current = socket;
 
@@ -63,5 +79,9 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
     };
   }, [accessToken]);
 
-  return <SocketContext.Provider value={{ socket: socket }}>{children}</SocketContext.Provider>;
+  return (
+    <SocketContext.Provider value={{ socket }}>
+      <PageSessionProvider pageId={pageId}>{children}</PageSessionProvider>
+    </SocketContext.Provider>
+  );
 };
