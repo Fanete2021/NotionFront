@@ -19,7 +19,6 @@ import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
 import { UploadFileContext, type UploadFile } from './model/uploadFileContext';
 import { Button } from '@shared/ui/button';
-import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
 import TableIcon from '@shared/assets/icons/editor-table.svg';

@@ -12,7 +12,6 @@ import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import { Button } from '@shared/ui/button';
 import DragHandleIcon from '@/shared/assets/icons/drag-handle.svg';
-import { Button } from '@/shared/ui/Button';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
 
 interface SidebarDocumentProps {

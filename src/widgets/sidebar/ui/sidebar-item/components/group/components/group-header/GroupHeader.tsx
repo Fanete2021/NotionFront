@@ -11,8 +11,8 @@ import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
 import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
 import DotsIcon from '@/shared/assets/icons/dots.svg';
 import DragHandleIcon from '@/shared/assets/icons/drag-handle.svg';
-import { Button } from '@/shared/ui/Button';
-import { Typography } from '@/shared/ui/Typography';
+import { Button } from '@/shared/ui/button';
+import { Typography } from '@/shared/ui/typography';
 
 export interface GroupHeaderProps {
   item: SidebarItemData;
