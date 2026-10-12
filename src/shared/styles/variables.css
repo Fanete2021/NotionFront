@@ -49,6 +49,10 @@
   --color-sidebar-group-wrapper-bg-outline: rgba(37, 99, 235, 0.4);
   --color-sidebar-preview-shadow: rgba(0, 0, 0, 0.15);
 
+  --sidebar-item-gap-static: 8px;
+  --sidebar-item-gap-document: 4px;
+  --sidebar-item-gap-group: 5px;
+
   /* project */
   --color-project-default: #6366F1;
   --color-version-card-title: #1F2937;

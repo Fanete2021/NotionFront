@@ -69,7 +69,7 @@ export function SidebarDocument({
       openEditDocumentModal({
         documentId: item.id,
         title: item.title ?? '',
-        icon: item.icon,
+        icon: typeof item.icon === 'string' ? item.icon : null,
         type: item.documentType,
       }),
     );

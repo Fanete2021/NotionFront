@@ -1,8 +1,10 @@
+import { ComponentType } from 'react';
 import { SidebarItemData } from '../../../model';
+import styles from './utils.module.css';
 import { getIconByName } from '@/shared/ui/icon-picker';
 
-const BASE_PADDING = 16;
-const LEVEL_OFFSET = 0;
+const BASE_PADDING = 8;
+const LEVEL_OFFSET = 24;
 const MIN_PADDING = 4;
 
 export function getPadding(level: number) {
@@ -16,11 +18,20 @@ export function isActiveLink(pathname: string | null, href?: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export const renderIcon = (item: SidebarItemData, styles: Record<string, string>) => {
+type IconComponent = ComponentType<{ className?: string }>;
+
+export const renderIcon = (item: SidebarItemData) => {
   if (!item.icon) return null;
 
-  const style = item.color ? { color: item.color } : undefined;
+  if (typeof item.icon !== 'string') {
+    const Icon = item.icon as IconComponent;
+    return <Icon className={styles.icon} />;
+  }
 
-  const Icon = getIconByName(item.icon);
-  return Icon ? <Icon className={styles.icon} style={style} /> : null;
+  const IconFromMap = getIconByName(item.icon);
+  if (IconFromMap) {
+    return <IconFromMap className={styles.icon} />;
+  }
+
+  return <span className={styles.icon}>{item.icon}</span>;
 };

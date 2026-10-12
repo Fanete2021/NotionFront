@@ -239,16 +239,9 @@ export function Sidebar({ className }: SidebarProps) {
             onDragCancel={handleDragCancel}
           >
             <nav className={styles.navigation}>
-              {sidebarItems.map((item) => {
-                let level = 0;
-                if (item.type === 'section') {
-                  level = 0;
-                } else if (item.type === 'group' && item.projectId) {
-                  level = 1;
-                }
-
-                return <SidebarItem key={item.id} item={item} level={level} />;
-              })}
+              {sidebarItems.map((item) => (
+                <SidebarItem key={item.id} item={item} level={0} />
+              ))}
             </nav>
 
             <DragOverlay dropAnimation={null}>
