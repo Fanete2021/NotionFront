@@ -18,6 +18,7 @@ import { ROUTES } from '@shared/routes';
 import { useMutationWithError } from '@/shared/lib';
 import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
 import Eye from '@shared/assets/icons/eye.svg';
 
 interface LoginFormValues {
@@ -43,7 +44,7 @@ export const LoginForm = () => {
     error: errorMessage,
   } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
     onSuccess: () => {
-      router.replace('/main');
+      router.replace(takeAuthReturnTo() ?? ROUTES.main);
       reset();
     },
     fieldMap: {

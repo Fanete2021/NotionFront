@@ -56,7 +56,10 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: ['WorkspaceInvite', 'WorkspaceMember'],
+      invalidatesTags: (_result, error) =>
+        error
+          ? []
+          : ['WorkspaceInvite', 'WorkspaceMember', { type: 'Workspace' as const, id: 'LIST' }],
     }),
   }),
   overrideExisting: false,

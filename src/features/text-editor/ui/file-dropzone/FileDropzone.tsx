@@ -10,6 +10,7 @@ interface FileDropzoneProps {
   formatsLabel: string;
   maxFileSize: number;
   hint: string;
+  disabled?: boolean;
 }
 
 export const FileDropzone = ({
@@ -18,10 +19,11 @@ export const FileDropzone = ({
   hint,
   acceptedExtensions,
   formatsLabel,
+  disabled = false,
 }: FileDropzoneProps) => {
   const maxFileSizeMB = formatBytes(maxFileSize, 'MB');
   const handleUploadFile = (file?: File) => {
-    if (!file) return;
+    if (!file || disabled) return;
 
     const isAccepted = acceptedExtensions.some((extension) =>
       file.name.toLowerCase().endsWith(extension),
@@ -68,6 +70,7 @@ export const FileDropzone = ({
         hidden
         type="file"
         name="filepicker"
+        disabled={disabled}
         accept={acceptedExtensions.join(',')}
         onChange={(event) => {
           handleUploadFile(event.target.files?.[0]);

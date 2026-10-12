@@ -7,7 +7,6 @@ import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TableKit } from '@tiptap/extension-table';
 import DragHandle from '@tiptap/extension-drag-handle-react';
-import { Dropcursor } from '@tiptap/extensions';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
@@ -18,7 +17,9 @@ import { SlashCommands } from './lib/slash-commands';
 import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
 import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
+import { UploadFileContext, type UploadFile } from './model/uploadFileContext';
 import { Button } from '@shared/ui/button';
+import { Button } from '@shared/ui/Button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
 import TableIcon from '@shared/assets/icons/editor-table.svg';
@@ -41,13 +42,21 @@ type TextEditorProps = {
   content?: string | Record<string, unknown> | null;
   editable?: boolean;
   onChange?: (json: Record<string, unknown>) => void;
+  onUploadFile?: UploadFile;
 };
+
+const uploadLocalFile: UploadFile = (file) => Promise.resolve(URL.createObjectURL(file));
 
 function isTextSelection(selection: Selection): selection is TextSelection {
   return selection instanceof TextSelection;
 }
 
-export const TextEditor = ({ content = '', editable = true, onChange }: TextEditorProps) => {
+export const TextEditor = ({
+  content = '',
+  editable = true,
+  onChange,
+  onUploadFile,
+}: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);
 
@@ -64,11 +73,10 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
         link: {
           openOnClick: false,
         },
-      }),
-
-      Dropcursor.configure({
-        color: '#6366F1',
-        width: 2,
+        dropcursor: {
+          color: '#6366F1',
+          width: 2,
+        },
       }),
 
       TaskList,
@@ -420,7 +428,9 @@ export const TextEditor = ({ content = '', editable = true, onChange }: TextEdit
           </BubbleMenu>
         </>
       )}
-      <EditorContent editor={editor} />
+      <UploadFileContext value={onUploadFile ?? uploadLocalFile}>
+        <EditorContent editor={editor} />
+      </UploadFileContext>
     </div>
   );
 };

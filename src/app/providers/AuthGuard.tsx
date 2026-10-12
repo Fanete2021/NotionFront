@@ -1,14 +1,15 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { loggedOut, selectSessionStatus } from '../store';
+import { selectSessionStatus } from '../store';
 import { NotFoundError, UnexpectedError } from '@widgets/error';
 import { useGetMeQuery } from '@entities/user';
 import { PRIVATE_ROUTES, PUBLIC_ROUTES, ROUTES } from '@shared/routes';
 import { useAppSelector } from '@/shared/lib';
 import { Loader } from '@/shared/ui/loader';
 import { toast } from '@/shared/ui/toast';
+import { rememberAuthReturnTo } from '@/shared/lib/authReturnTo';
 
 type AuthGuardProps = {
   children: ReactNode;
@@ -34,7 +35,7 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   });
 
   useEffect(() => {
-    if (status !== 'anonymous' || !isCurrentRoutePrivate) {
+    if (status !== 'anonymous' || !isCurrentRoutePrivate || !pathname) {
       return;
     }
 
@@ -44,8 +45,15 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
       description: 'Пожалуйста войдите в аккаунт или создайте новый для доступа к этой странице',
     });
 
+    rememberAuthReturnTo(`${pathname}${window.location.search}`);
     router.replace(ROUTES.login);
-  }, [isCurrentRoutePrivate, router, status]);
+  }, [isCurrentRoutePrivate, pathname, router, status]);
+
+  useEffect(() => {
+    if (pathname === '/') {
+      router.replace(ROUTES.main);
+    }
+  }, [pathname, router]);
 
   if (pathname === null) {
     return <NotFoundError />;
@@ -57,6 +65,10 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   if (!isCurrentRoutePrivate) {
     return <NotFoundError />;
+  }
+
+  if (status === 'anonymous') {
+    return <Loader />;
   }
 
   if (userQuery.isError) {

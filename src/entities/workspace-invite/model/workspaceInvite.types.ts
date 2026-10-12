@@ -19,8 +19,10 @@ export interface WorkspaceInviteSummaryEntity {
   workspaceId: string;
   type: InviteType;
   role: InviteRole;
+  token: string;
   createdBy: string;
   createdAt: string;
+  expiresAt: string;
 }
 
 export interface RedeemWorkspaceInviteDto {

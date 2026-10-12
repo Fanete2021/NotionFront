@@ -6,13 +6,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  background-color: var(--color-bg-surface);
 
-  padding: 12px 30px;
+  padding: 9px 40px;
 
   border-bottom: 1px solid var(--color-border-base);
 
   .icon {
     color: var(--color-search-icon);
+  }
+
+  .counter {
+    line-height: 22px;
   }
 }
 
@@ -40,9 +46,14 @@
   color: var(--color-placeholder);
 }
 
-.counter {
+.toolbar .counter {
   color: var(--color-text-muted);
+  line-height: 22px;
   font-size: 14px;
+}
+
+.pageColumn.pageColumn {
+  padding: 7px 0 7px 40px;
 }
 
 .iconWrapper {
@@ -61,6 +72,10 @@
   gap: 7px;
 }
 
+.actionsColumn.actionsColumn {
+  padding-right: 1px;
+}
+
 .actions {
   display: flex;
   gap: 8px;
@@ -68,6 +83,14 @@
   .refresh,
   .delete {
     padding: 4px 10px;
+  }
+
+  .refresh {
+    background-color: var(--color-trash-list-refresh-button-bg);
+  }
+
+  .delete {
+    background-color: var(--color-trash-list-delete-button-bg);
   }
 }
 
@@ -81,14 +104,23 @@
   width: 13px;
 }
 
-.page {
-  .info {
-    .label {
-      margin: 0;
-    }
-  }
+.label {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text-primary);
 }
 
 .description {
-  color: var(--color-text-muted);
+  color: var(--color-trash-list-row-text-color);
+  line-height: 22px;
+}
+
+.deletedByColumn.deletedByColumn {
+  color: var(--color-trash-list-row-text-deleted-by-color);
+}
+
+.deletedAtColumn.deletedAtColumn {
+  color: var(--color-trash-list-row-text-deleted-at-color);
+  line-height: 16px;
+  font-size: 12px;
 }

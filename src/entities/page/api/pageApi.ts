@@ -1,10 +1,12 @@
 import {
-  Page,
   CreatePageDto,
   UpdatePageDto,
+  ReorderPagesDto,
   PageContent,
   PageContentJson,
+  PageVersionList,
 } from '../model/page.types';
+import { Page } from '@/shared/const/pageType';
 import { baseApi } from '@/shared/api/baseApi';
 
 export const pageApi = baseApi.injectEndpoints({
@@ -75,6 +77,18 @@ export const pageApi = baseApi.injectEndpoints({
       ],
     }),
 
+    reorderPages: builder.mutation<Page[], { workspaceId: string; data: ReorderPagesDto }>({
+      query: ({ workspaceId, data }) => ({
+        url: `/workspaces/${workspaceId}/pages/order`,
+        method: 'PATCH',
+        body: data,
+      }),
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { workspaceId }) => [
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+      ],
+    }),
+
     deletePage: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
         url: `/pages/${id}`,
@@ -84,7 +98,16 @@ export const pageApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Page', id },
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+        { type: 'Page', id: `TRASH_${workspaceId}` },
       ],
+    }),
+
+    getPageVersions: builder.query<PageVersionList, string>({
+      query: (id) => ({
+        url: `/pages/${id}/versions`,
+      }),
+      extraOptions: { requiresAuth: true },
+      providesTags: (result, error, id) => [{ type: 'PageVersion', id }],
     }),
   }),
   overrideExisting: false,

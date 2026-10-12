@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildProjectTree } from './buildProjectTree';
 import { Project } from '@/entities/project';
-import { Page } from '@/entities/page';
+import { Page } from '@/shared/const/pageType';
 
 const makeProject = (project: Partial<Project> & Pick<Project, 'id' | 'name'>): Project => ({
   workspaceId: 'workspace-1',
@@ -24,6 +24,7 @@ const makePage = (page: Partial<Page> & Pick<Page, 'id' | 'title'>): Page => ({
   createdAt: '2026-06-01T00:00:00.000Z',
   updatedAt: '2026-06-01T00:00:00.000Z',
   ...page,
+  parentPageId: page.parentPageId ?? null,
 });
 
 describe('buildProjectTree', () => {

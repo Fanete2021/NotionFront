@@ -17,3 +17,10 @@ export interface UpdateUserDto {
   name: string;
   avatarUrl?: string | null;
 }
+
+export interface UserInfo {
+  id: string;
+  email: string;
+  name: string;
+  avatarUrl?: string | null;
+}

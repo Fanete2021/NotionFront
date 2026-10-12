@@ -6,17 +6,18 @@ export const {
   useGetPageContentQuery,
   useCreatePageMutation,
   useUpdatePageMutation,
+  useReorderPagesMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
+  useGetPageVersionsQuery,
 } = pageApi;
 
-export { PAGE_TYPE } from './model/page.types';
-
 export type {
-  Page,
-  PageType,
   CreatePageDto,
   UpdatePageDto,
+  ReorderPagesDto,
   PageContent,
   PageContentJson,
+  PageVersion,
+  PageVersionList,
 } from './model/page.types';

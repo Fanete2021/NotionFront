@@ -19,6 +19,8 @@ import Eye from '@shared/assets/icons/eye.svg';
 import { FormError } from '@/shared/ui/form-error';
 import { useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
+import { ROUTES } from '@/shared/routes';
 
 interface RegistrationFormValues {
   name: string;
@@ -54,7 +56,7 @@ export const RegistrationForm = () => {
   } = useMutationWithError(useRegisterMutation, {
     onSuccess: () => {
       clearRegistrationDraft();
-      router.replace('/main');
+      router.replace(takeAuthReturnTo() ?? ROUTES.main);
     },
     fieldMap: {
       [HTTP_STATUS.CONFLICT]: {

@@ -4,6 +4,7 @@ import { WorkspaceModalsState } from '@/features/switch-workspace';
 import { ProjectModalsState } from '@/features/manage-project';
 import { InviteLinkModalState } from '@/features/create-invite-link';
 import { DocumentModalsState } from '@/features/manage-document';
+import { SidebarUiState, sidebarUiReducer } from '@/features/dnd-sidebar';
 import type { CreateEventModalState } from '@features/create-calendar-event';
 import { currentWorkspaceReducer } from '@/entities/workspace';
 import { sessionReducer } from '@shared/api';
@@ -12,6 +13,7 @@ import { baseApi } from '@shared/api/baseApi';
 const staticReducers = {
   session: sessionReducer,
   currentWorkspace: currentWorkspaceReducer,
+  sidebarUi: sidebarUiReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 };
 
@@ -50,6 +52,7 @@ export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = StaticRootState & {
   session: ReturnType<typeof sessionReducer>;
   currentWorkspace: ReturnType<typeof currentWorkspaceReducer>;
+  sidebarUi: SidebarUiState;
   workspaceModals?: WorkspaceModalsState;
   projectModals?: ProjectModalsState;
   documentModals?: DocumentModalsState;
