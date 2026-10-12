@@ -18,20 +18,25 @@ export function isActiveLink(pathname: string | null, href?: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-type IconComponent = ComponentType<{ className?: string }>;
+type IconComponent = ComponentType<{
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+  style?: React.CSSProperties;
+}>;
 
 export const renderIcon = (item: SidebarItemData) => {
   if (!item.icon) return null;
 
   if (typeof item.icon !== 'string') {
     const Icon = item.icon as IconComponent;
-    return <Icon className={styles.icon} />;
+    return <Icon className={styles.iconSvg} width={16} height={16} />;
   }
 
   const IconFromMap = getIconByName(item.icon);
   if (IconFromMap) {
-    return <IconFromMap className={styles.icon} />;
+    return <IconFromMap className={styles.iconSvg} width={16} height={16} />;
   }
 
-  return <span className={styles.icon}>{item.icon}</span>;
+  return <span className={styles.iconEmoji}>{item.icon}</span>;
 };
