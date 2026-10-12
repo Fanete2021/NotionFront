@@ -1,13 +1,14 @@
 import styles from './TrashList.module.css';
+import { TrashItem } from '@/widgets/trash-list/model/mock.api';
 import { TrashedPage, useRestorePageMutation } from '@/entities/trash';
 import { useHardDeletePageMutation } from '@/entities/trash';
+import { TableColumn } from '@shared/ui/table/types';
 import { formatRelativeTime, useAppSelector } from '@shared/lib';
-import { TableColumn } from '@/shared/ui/Table/types';
 import PageIcon from '@/shared/assets/icons/page.svg';
 import RefreshIcon from '@/shared/assets/icons/refresh.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import { Typography } from '@/shared/ui/Typography/Typography';
-import { Button } from '@/shared/ui/Button/Button';
+import { Typography } from '@shared/ui/typography/Typography';
+import { Button } from '@shared/ui/button/Button';
 
 const RestoreButton = ({ pageId }: { pageId: string }) => {
   const [restorePage, { isLoading }] = useRestorePageMutation();

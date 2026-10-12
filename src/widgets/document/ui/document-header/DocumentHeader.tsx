@@ -6,7 +6,7 @@ import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 import { useGetMeQuery } from '@/entities/user';
 import type { Page } from '@/shared/const/pageType';
 import { formatRelativeTime } from '@/shared/lib/format-relative-time/formatRelativeTime';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@/shared/ui/typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
 
 interface DocumentHeaderProps {

@@ -2,7 +2,7 @@ import styles from './SearchFilters.module.css';
 import { workspaceChangeDateFilterItems } from '../../model/filterItems';
 import { ProjectFilter } from '@features/search-workspace-content';
 import { FilterGroup } from '@entities/workspace-search-filters';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface SearchFiltersProps {
   dateId: string | null;

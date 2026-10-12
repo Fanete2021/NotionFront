@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './InviteLink.module.css';
-import { Typography } from '@/shared/ui/Typography';
-import { Button } from '@/shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import CopyIcon from '@shared/assets/icons/copy.svg';
 
 interface InviteLinkItemProps {

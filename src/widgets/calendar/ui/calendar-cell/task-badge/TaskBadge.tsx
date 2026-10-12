@@ -1,6 +1,6 @@
 import styles from './TaskBadge.module.css';
 import type { BadgeTask } from '@entities/calendar';
-import { Badge } from '@shared/ui/Badge';
+import { Badge } from '@shared/ui/badge';
 
 interface TaskBadgeProps {
   task: BadgeTask;

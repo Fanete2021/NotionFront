@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import styles from './CalendarFormatSwitcher.module.css';
 import { calendarSwitcherItems } from '../../model/mock-data/switchItems';
 import type { DisplayFormat } from '../../model/types/calendar-display-format';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 interface CalendarFormatSwitcherProps {
   selectedFormat: DisplayFormat;

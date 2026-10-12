@@ -1,5 +1,5 @@
 import styles from './WeekDays.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 

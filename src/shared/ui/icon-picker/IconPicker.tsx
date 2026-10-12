@@ -4,7 +4,7 @@ import { ElementType, FC, HTMLAttributes } from 'react';
 import classNames from 'classnames';
 import styles from './IconPicker.module.css';
 import { PROJECT_ICONS } from './icons';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 interface IconPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'color'> {
   selectedIcon: string | null;

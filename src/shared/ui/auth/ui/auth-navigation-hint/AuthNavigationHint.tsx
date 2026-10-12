@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import styles from './AuthNavigationHint.module.css';
 
 interface AuthNavigationHintProps {

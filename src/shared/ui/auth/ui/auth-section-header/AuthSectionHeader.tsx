@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styles from './AuthSectionHeader.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 type AuthSectionHeaderVariant = 'promo' | 'form';
 

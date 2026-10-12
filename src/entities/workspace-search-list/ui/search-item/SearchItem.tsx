@@ -1,8 +1,8 @@
 import styles from './SearchItem.module.css';
 import type { SearchItem as SearchItemData } from '../../model/types/searchItem';
-import { Card } from '@shared/ui/Card';
-import { Button } from '@shared/ui/Button';
-import { Typography } from '@shared/ui/Typography';
+import { Card } from '@shared/ui/card';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 
 interface SearchItemProps {
   searchItem: SearchItemData;

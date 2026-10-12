@@ -40,6 +40,7 @@ import {
 } from '@/entities/page';
 import { useGetMeQuery } from '@/entities/user';
 import type { Project } from '@/entities/project';
+import { Input } from '@/shared/ui/input';
 import type { Page } from '@/shared/const/pageType';
 import SearchIcon from '@/shared/assets/icons/search.svg';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';

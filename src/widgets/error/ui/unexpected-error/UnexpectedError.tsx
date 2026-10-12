@@ -6,8 +6,8 @@ import { ErrorPage } from '../ErrorPage';
 import { ErrorDetails } from './error-details/ErrorDetails';
 import styles from '../ErrorPage.module.css';
 import UnexpectedErrorIcon from '@shared/assets/icons/unknown-error-page.svg';
-import { Typography } from '@shared/ui/Typography';
-import { Button } from '@shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import Home from '@shared/assets/icons/home.svg';
 import Retry from '@shared/assets/icons/refresh.svg';
 
