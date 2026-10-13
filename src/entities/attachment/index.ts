@@ -1,6 +1,4 @@
-import { attachmentApi } from './api/attachmentApi';
-
-export const { usePresignAttachmentMutation, useConfirmAttachmentMutation } = attachmentApi;
+export { usePresignAttachmentMutation, useConfirmAttachmentMutation } from './api/attachmentApi';
 
 export { useUploadAttachment } from './lib/useUploadAttachment';
 export { AttachmentUploadError } from './model/AttachmentUploadError';

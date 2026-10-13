@@ -36,7 +36,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
       setSaveError(null);
       isDirtyRef.current = false;
       try {
-        const saved = await updateContent({ id: page.id, json }).unwrap();
+        const saved = await updateContent({ id: page.id, body: json }).unwrap();
         setUpdatedAt(saved.updatedAt);
       } catch (err) {
         isDirtyRef.current = true;
@@ -61,7 +61,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   useEffect(() => {
     return () => {
       if (isDirtyRef.current && latestJsonRef.current) {
-        updateContent({ id: page.id, json: latestJsonRef.current });
+        updateContent({ id: page.id, body: latestJsonRef.current });
       }
     };
   }, [page.id, updateContent]);

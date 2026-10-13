@@ -1,21 +1,15 @@
-import { UserData } from '@/entities/user';
+import type { RegistrationDto } from '../model/registration.types';
+import { AuthResult } from '@/entities/user';
 import { clearCurrentWorkspace } from '@/entities/workspace';
-import { baseApi } from '@shared/api/baseApi';
-import { setAccessToken } from '@shared/api';
-
-interface RegistrationRequest {
-  email: string;
-  password: string;
-  name: string;
-}
+import { baseApi, setAccessToken } from '@/shared/api';
 
 export const registerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<UserData, RegistrationRequest>({
-      query: (body) => ({
-        url: '/auth/register',
+    register: builder.mutation<AuthResult, { body: RegistrationDto }>({
+      query: ({ body }) => ({
+        url: 'auth/register',
         method: 'POST',
-        body: body,
+        body,
       }),
 
       extraOptions: {

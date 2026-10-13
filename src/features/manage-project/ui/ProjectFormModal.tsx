@@ -177,7 +177,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       }
       await createProject({
         workspaceId,
-        data: {
+        body: {
           name: trimmed,
           color: colorToSend,
           icon: icon ?? undefined,
@@ -191,7 +191,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       }
       await updateProject({
         id: projectId ?? '',
-        data: {
+        body: {
           name: trimmed,
           color: colorToSend,
           icon: icon === null ? null : (icon ?? undefined),

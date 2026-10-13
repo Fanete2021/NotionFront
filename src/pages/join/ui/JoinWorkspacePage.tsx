@@ -24,7 +24,7 @@ export const JoinWorkspacePage = () => {
     execute: redeemToken,
     error: redeemTokenError,
     resetError,
-  } = useMutationWithError<WorkspaceMember, RedeemWorkspaceInviteDto>(
+  } = useMutationWithError<WorkspaceMember, { body: RedeemWorkspaceInviteDto }>(
     useRedeemWorkspaceInviteMutation,
   );
 
@@ -35,7 +35,7 @@ export const JoinWorkspacePage = () => {
     attemptRef.current = attemptKey;
     const performMutation = async () => {
       try {
-        const member = await redeemToken({ token });
+        const member = await redeemToken({ body: { token } });
         if (typeof member?.workspaceId !== 'string' || !member.workspaceId) {
           setResponseError('Сервер не вернул ID рабочего пространства');
           return;

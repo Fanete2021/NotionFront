@@ -1,11 +1,12 @@
 import { Workspace, CreateWorkspaceDto, UpdateWorkspaceDto } from '../model/workspace.types';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const workspaceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getWorkspaces: builder.query<Workspace[], void>({
       query: () => ({
-        url: '/workspaces',
+        url: 'workspaces',
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result) =>
@@ -19,15 +20,16 @@ export const workspaceApi = baseApi.injectEndpoints({
 
     getWorkspaceById: builder.query<Workspace, string>({
       query: (id) => ({
-        url: `/workspaces/${id}`,
+        url: `workspaces/${id}`,
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'Workspace', id }],
     }),
 
-    createWorkspace: builder.mutation<Workspace, CreateWorkspaceDto>({
-      query: (body) => ({
-        url: '/workspaces',
+    createWorkspace: builder.mutation<Workspace, { body: CreateWorkspaceDto }>({
+      query: ({ body }) => ({
+        url: 'workspaces',
         method: 'POST',
         body,
       }),
@@ -35,11 +37,11 @@ export const workspaceApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error) => (error ? [] : [{ type: 'Workspace', id: 'LIST' }]),
     }),
 
-    updateWorkspace: builder.mutation<Workspace, { id: string; data: UpdateWorkspaceDto }>({
-      query: ({ id, data }) => ({
-        url: `/workspaces/${id}`,
+    updateWorkspace: builder.mutation<Workspace, { id: string; body: UpdateWorkspaceDto }>({
+      query: ({ id, body }) => ({
+        url: `workspaces/${id}`,
         method: 'PATCH',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { id }) =>
@@ -53,7 +55,7 @@ export const workspaceApi = baseApi.injectEndpoints({
 
     deleteWorkspace: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/workspaces/${id}`,
+        url: `workspaces/${id}`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },

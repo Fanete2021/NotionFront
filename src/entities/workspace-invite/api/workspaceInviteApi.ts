@@ -1,31 +1,31 @@
 import {
   CreateWorkspaceInviteDto,
-  WorkspaceInviteEntity,
-  WorkspaceInviteSummaryEntity,
+  CreateWorkspaceInviteResult,
+  WorkspaceInviteSummary,
   RedeemWorkspaceInviteDto,
   WorkspaceMember,
 } from '../model/workspaceInvite.types';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const workspaceInviteApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createWorkspaceInvite: builder.mutation<
-      WorkspaceInviteEntity,
-      { workspaceId: string; data: CreateWorkspaceInviteDto }
+      CreateWorkspaceInviteResult,
+      { workspaceId: string; body: CreateWorkspaceInviteDto }
     >({
-      query: ({ workspaceId, data }) => ({
-        url: `/workspaces/${workspaceId}/invites`,
+      query: ({ workspaceId, body }) => ({
+        url: `workspaces/${workspaceId}/invites`,
         method: 'POST',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) =>
         error ? [] : [{ type: 'WorkspaceInvite', id: `WORKSPACE_${workspaceId}` }],
     }),
 
-    getWorkspaceInvites: builder.query<WorkspaceInviteSummaryEntity[], string>({
+    getWorkspaceInvites: builder.query<WorkspaceInviteSummary[], string>({
       query: (workspaceId) => ({
-        url: `/workspaces/${workspaceId}/invites`,
+        url: `workspaces/${workspaceId}/invites`,
         method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
@@ -40,7 +40,7 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
 
     revokeWorkspaceInvite: builder.mutation<void, { workspaceId: string; inviteId: string }>({
       query: ({ workspaceId, inviteId }) => ({
-        url: `/workspaces/${workspaceId}/invites/${inviteId}`,
+        url: `workspaces/${workspaceId}/invites/${inviteId}`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
@@ -53,17 +53,21 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
             ],
     }),
 
-    redeemWorkspaceInvite: builder.mutation<WorkspaceMember, RedeemWorkspaceInviteDto>({
-      query: (data) => ({
-        url: '/invites/redeem',
+    redeemWorkspaceInvite: builder.mutation<WorkspaceMember, { body: RedeemWorkspaceInviteDto }>({
+      query: ({ body }) => ({
+        url: 'invites/redeem',
         method: 'POST',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (_result, error) =>
-        error
+      invalidatesTags: (result, error) =>
+        error || !result
           ? []
-          : ['WorkspaceInvite', 'WorkspaceMember', { type: 'Workspace' as const, id: 'LIST' }],
+          : [
+              { type: 'WorkspaceInvite', id: `WORKSPACE_${result.workspaceId}` },
+              { type: 'WorkspaceMember', id: `WORKSPACE_${result.workspaceId}` },
+              { type: 'Workspace', id: 'LIST' },
+            ],
     }),
   }),
   overrideExisting: false,

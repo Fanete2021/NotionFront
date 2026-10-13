@@ -6,8 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import styles from './RegistrationForm.module.css';
 import { useRegisterMutation } from '../api/registerApi';
+import type { RegistrationDto } from '../model/registration.types';
 import { registerUserSchema } from '../utils/validationRegisterFormConfig';
 import { useRegistrationDraft } from '../model/useRegistrationDraft';
+import type { AuthResult } from '@/entities/user';
 import { Input } from '@shared/ui/input';
 import { Checkbox } from '@shared/ui/checkbox';
 import { Button } from '@shared/ui/button';
@@ -53,7 +55,7 @@ export const RegistrationForm = () => {
     fieldErrors,
     hasError,
     resetError,
-  } = useMutationWithError(useRegisterMutation, {
+  } = useMutationWithError<AuthResult, { body: RegistrationDto }>(useRegisterMutation, {
     onSuccess: () => {
       clearRegistrationDraft();
       router.replace(takeAuthReturnTo() ?? ROUTES.main);
@@ -82,9 +84,11 @@ export const RegistrationForm = () => {
     resetError();
 
     await register({
-      email: values.email,
-      password: values.password,
-      name: `${values.name} ${values.surname}`,
+      body: {
+        email: values.email,
+        password: values.password,
+        name: `${values.name} ${values.surname}`,
+      },
     });
   };
 

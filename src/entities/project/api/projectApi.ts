@@ -4,13 +4,14 @@ import {
   UpdateProjectDto,
   ReorderProjectsDto,
 } from '../model/project.types';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const projectApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProjectsByWorkspace: builder.query<Project[], string>({
       query: (workspaceId) => ({
-        url: `/workspaces/${workspaceId}/projects`,
+        url: `workspaces/${workspaceId}/projects`,
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, workspaceId) =>
@@ -24,28 +25,29 @@ export const projectApi = baseApi.injectEndpoints({
 
     getProjectById: builder.query<Project, string>({
       query: (id) => ({
-        url: `/projects/${id}`,
+        url: `projects/${id}`,
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'Project', id }],
     }),
 
-    createProject: builder.mutation<Project, { workspaceId: string; data: CreateProjectDto }>({
-      query: ({ workspaceId, data }) => ({
-        url: `/workspaces/${workspaceId}/projects`,
+    createProject: builder.mutation<Project, { workspaceId: string; body: CreateProjectDto }>({
+      query: ({ workspaceId, body }) => ({
+        url: `workspaces/${workspaceId}/projects`,
         method: 'POST',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) =>
         error ? [] : [{ type: 'Project', id: `WORKSPACE_${workspaceId}` }],
     }),
 
-    updateProject: builder.mutation<Project, { id: string; data: UpdateProjectDto }>({
-      query: ({ id, data }) => ({
-        url: `/projects/${id}`,
+    updateProject: builder.mutation<Project, { id: string; body: UpdateProjectDto }>({
+      query: ({ id, body }) => ({
+        url: `projects/${id}`,
         method: 'PATCH',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { id }) =>
@@ -59,7 +61,7 @@ export const projectApi = baseApi.injectEndpoints({
 
     deleteProject: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
-        url: `/projects/${id}`,
+        url: `projects/${id}`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
@@ -74,12 +76,12 @@ export const projectApi = baseApi.injectEndpoints({
             ],
     }),
 
-    reorderProjects: builder.mutation<Project[], { workspaceId: string; data: ReorderProjectsDto }>(
+    reorderProjects: builder.mutation<Project[], { workspaceId: string; body: ReorderProjectsDto }>(
       {
-        query: ({ workspaceId, data }) => ({
-          url: `/workspaces/${workspaceId}/projects/order`,
+        query: ({ workspaceId, body }) => ({
+          url: `workspaces/${workspaceId}/projects/order`,
           method: 'PATCH',
-          body: data,
+          body,
         }),
         extraOptions: { requiresAuth: true },
         invalidatesTags: (result, error, { workspaceId }) =>

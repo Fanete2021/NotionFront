@@ -9,8 +9,8 @@ export type {
   InviteType,
   InviteRole,
   CreateWorkspaceInviteDto,
-  WorkspaceInviteEntity,
-  WorkspaceInviteSummaryEntity,
+  CreateWorkspaceInviteResult,
+  WorkspaceInviteSummary,
   RedeemWorkspaceInviteDto,
   WorkspaceMember,
 } from './model/workspaceInvite.types';

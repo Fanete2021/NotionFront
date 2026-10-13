@@ -8,7 +8,7 @@ import { baseApi } from '@/shared/api';
 export const workspaceMembersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getWorkspaceMembers: builder.query<WorkspaceMember[], string>({
-      query: (workspaceId) => `/workspaces/${workspaceId}/members`,
+      query: (workspaceId) => ({ url: `workspaces/${workspaceId}/members`, method: 'GET' }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, workspaceId) =>
         result
@@ -24,7 +24,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
       { workspaceId: string; body: AddWorkspaceMemberDto }
     >({
       query: ({ workspaceId, body }) => ({
-        url: `/workspaces/${workspaceId}/members`,
+        url: `workspaces/${workspaceId}/members`,
         method: 'POST',
         body,
       }),
@@ -38,7 +38,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
       { workspaceId: string; userId: string; body: UpdateMemberRoleDto }
     >({
       query: ({ workspaceId, userId, body }) => ({
-        url: `/workspaces/${workspaceId}/members/${userId}`,
+        url: `workspaces/${workspaceId}/members/${userId}`,
         method: 'PATCH',
         body,
       }),
@@ -49,7 +49,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
 
     removeMember: builder.mutation<void, { workspaceId: string; userId: string }>({
       query: ({ workspaceId, userId }) => ({
-        url: `/workspaces/${workspaceId}/members/${userId}`,
+        url: `workspaces/${workspaceId}/members/${userId}`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },

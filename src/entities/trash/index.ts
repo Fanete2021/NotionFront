@@ -1,10 +1,8 @@
-import { trashApi } from './api/trashApi';
-
-export const {
+export {
   useGetTrashedPagesQuery,
   useEmptyTrashMutation,
   useRestorePageMutation,
   useHardDeletePageMutation,
-} = trashApi;
+} from './api/trashApi';
 
 export type { TrashedPage, GetTrashParams, EmptyTrashResult } from './model/trash.types';

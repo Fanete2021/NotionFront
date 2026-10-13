@@ -3,13 +3,13 @@ import {
   PresignAttachmentDto,
   PresignAttachmentResult,
 } from '../model/attachment.types';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const attachmentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    presignAttachment: builder.mutation<PresignAttachmentResult, PresignAttachmentDto>({
-      query: (body) => ({
-        url: '/attachments/presign',
+    presignAttachment: builder.mutation<PresignAttachmentResult, { body: PresignAttachmentDto }>({
+      query: ({ body }) => ({
+        url: 'attachments/presign',
         method: 'POST',
         body,
       }),
@@ -18,7 +18,7 @@ export const attachmentApi = baseApi.injectEndpoints({
 
     confirmAttachment: builder.mutation<Attachment, string>({
       query: (id) => ({
-        url: `/attachments/${id}/confirm`,
+        url: `attachments/${id}/confirm`,
         method: 'POST',
       }),
       extraOptions: { requiresAuth: true },
@@ -26,3 +26,5 @@ export const attachmentApi = baseApi.injectEndpoints({
   }),
   overrideExisting: false,
 });
+
+export const { usePresignAttachmentMutation, useConfirmAttachmentMutation } = attachmentApi;

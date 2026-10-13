@@ -1,21 +1,15 @@
-import { UserData } from '@/entities/user';
+import type { LoginDto } from '../model/login.types';
+import { AuthResult } from '@/entities/user';
 import { clearCurrentWorkspace } from '@/entities/workspace';
-import { baseApi } from '@shared/api/baseApi';
-import { setAccessToken } from '@shared/api';
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
+import { baseApi, setAccessToken } from '@/shared/api';
 
 export const loginApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<UserData, LoginRequest>({
-      query: (body) => ({
-        url: '/auth/login',
+    login: builder.mutation<AuthResult, { body: LoginDto }>({
+      query: ({ body }) => ({
+        url: 'auth/login',
         method: 'POST',
-        body: body,
+        body,
       }),
 
       extraOptions: {

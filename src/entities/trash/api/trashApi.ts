@@ -1,11 +1,12 @@
 import { EmptyTrashResult, GetTrashParams, TrashedPage } from '../model/trash.types';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const trashApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getTrashedPages: builder.query<TrashedPage[], GetTrashParams>({
       query: ({ workspaceId, q }) => ({
-        url: `/workspaces/${workspaceId}/pages/trash`,
+        url: `workspaces/${workspaceId}/pages/trash`,
+        method: 'GET',
         params: q ? { q } : undefined,
       }),
       extraOptions: { requiresAuth: true },
@@ -16,22 +17,17 @@ export const trashApi = baseApi.injectEndpoints({
 
     emptyTrash: builder.mutation<EmptyTrashResult, string>({
       query: (workspaceId) => ({
-        url: `/workspaces/${workspaceId}/pages/trash`,
+        url: `workspaces/${workspaceId}/pages/trash`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, workspaceId) =>
-        error
-          ? []
-          : [
-              { type: 'Page', id: `TRASH_${workspaceId}` },
-              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-            ],
+        error ? [] : [{ type: 'Page', id: `TRASH_${workspaceId}` }],
     }),
 
     restorePage: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
-        url: `/pages/${id}/restore`,
+        url: `pages/${id}/restore`,
         method: 'POST',
       }),
       extraOptions: { requiresAuth: true },
@@ -47,7 +43,7 @@ export const trashApi = baseApi.injectEndpoints({
 
     hardDeletePage: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
-        url: `/pages/${id}/hard`,
+        url: `pages/${id}/hard`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
@@ -57,3 +53,10 @@ export const trashApi = baseApi.injectEndpoints({
   }),
   overrideExisting: false,
 });
+
+export const {
+  useGetTrashedPagesQuery,
+  useEmptyTrashMutation,
+  useRestorePageMutation,
+  useHardDeletePageMutation,
+} = trashApi;
