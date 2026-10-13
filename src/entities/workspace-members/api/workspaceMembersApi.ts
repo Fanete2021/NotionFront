@@ -9,6 +9,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getWorkspaceMembers: builder.query<WorkspaceMember[], string>({
       query: (workspaceId) => `/workspaces/${workspaceId}/members`,
+      extraOptions: { requiresAuth: true },
       providesTags: (result, error, workspaceId) =>
         result
           ? [
@@ -27,6 +28,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         method: 'POST',
         body,
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
       ],
@@ -41,6 +43,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
       ],
@@ -51,6 +54,7 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         url: `/workspaces/${workspaceId}/members/${userId}`,
         method: 'DELETE',
       }),
+      extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
       ],
