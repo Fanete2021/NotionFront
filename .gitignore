@@ -13,3 +13,5 @@ pnpm-workspace.yaml
 *.env
 .image-prev
 .env.tmp.*
+
+/AGENTS.MD

@@ -1,10 +1,10 @@
 'use client';
 
 import { Fragment } from 'react';
-import classNames from 'classnames';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
 import { ChangeVersionButton } from '@/features/change-version';
+import { usePageSession, UserPageData } from '@entities/page';
 import { Button } from '@shared/ui/button';
 import { Typography } from '@shared/ui/typography';
 import { Avatar } from '@shared/ui/avatar';
@@ -13,22 +13,25 @@ import ChevronRightIcon from '@shared/assets/icons/chevron-right-2.svg';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
 import MoreIcon from '@shared/assets/icons/more.svg';
 
-const mockAvatars = [
-  { id: '1', name: 'Женя Л.', className: styles.avatarGreen },
-  { id: '2', name: 'Марк Р.', className: styles.avatarOrange },
-];
+interface Avatar {
+  id: string;
+  name: string;
+  className?: string;
+}
 
-type ProjectHeaderProps = {
+interface ProjectHeaderProps {
   breadcrumbs: string[];
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
-};
+}
 
 export const ProjectHeader = ({
   breadcrumbs,
   onCommentsClick,
   onHistoryClick,
 }: ProjectHeaderProps) => {
+  const session = usePageSession();
+  const users = session?.users ?? [];
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -46,14 +49,17 @@ export const ProjectHeader = ({
       </nav>
       <div className={styles.actions}>
         <div className={styles.avatars}>
-          {mockAvatars.map((user) => (
-            <Avatar
-              key={user.id}
-              name={user.name}
-              size="sm"
-              className={classNames(styles.avatar, user.className)}
-            />
-          ))}
+          <div className={styles.avatars}>
+            {users.map((user) => (
+              <Avatar
+                src={user.avatar}
+                key={user.id}
+                name={user.name}
+                size="sm"
+                className={styles.avatar}
+              />
+            ))}
+          </div>
           <span className={styles.actionsDivider} />
         </div>
         <ShareButton />

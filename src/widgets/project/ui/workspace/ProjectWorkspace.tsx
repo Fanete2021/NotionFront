@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { ProjectHeader } from '../header/ProjectHeader';
 import { ProjectComments } from '../comments/ProjectComments';
 import styles from './ProjectWorkspace.module.css';
 import { ChangeVersionModal } from '@/features/change-version';
 
 type ProjectWorkspaceProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   breadcrumbs: string[];
 };
 
