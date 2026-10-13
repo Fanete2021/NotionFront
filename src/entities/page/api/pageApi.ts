@@ -34,7 +34,13 @@ export const pageApi = baseApi.injectEndpoints({
         body: json,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id }) => [{ type: 'PageContent', id }],
+      invalidatesTags: (result, error, { id }) =>
+        error
+          ? []
+          : [
+              { type: 'PageContent', id },
+              { type: 'PageVersion', id },
+            ],
     }),
 
     getPagesByWorkspace: builder.query<Page[], { workspaceId: string; projectId?: string }>({
@@ -59,9 +65,8 @@ export const pageApi = baseApi.injectEndpoints({
         body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'Page', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     updatePage: builder.mutation<Page, { id: string; workspaceId: string; data: UpdatePageDto }>({
@@ -71,10 +76,13 @@ export const pageApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Page', id },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
     reorderPages: builder.mutation<Page[], { workspaceId: string; data: ReorderPagesDto }>({
@@ -84,9 +92,8 @@ export const pageApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'Page', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     deletePage: builder.mutation<void, { id: string; workspaceId: string }>({
@@ -95,11 +102,14 @@ export const pageApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Page', id },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+              { type: 'Page', id: `TRASH_${workspaceId}` },
+            ],
     }),
 
     getPageVersions: builder.query<PageVersionList, string>({

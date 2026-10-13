@@ -32,7 +32,7 @@ export const workspaceApi = baseApi.injectEndpoints({
         body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: [{ type: 'Workspace', id: 'LIST' }],
+      invalidatesTags: (result, error) => (error ? [] : [{ type: 'Workspace', id: 'LIST' }]),
     }),
 
     updateWorkspace: builder.mutation<Workspace, { id: string; data: UpdateWorkspaceDto }>({
@@ -42,10 +42,13 @@ export const workspaceApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'Workspace', id },
-        { type: 'Workspace', id: 'LIST' },
-      ],
+      invalidatesTags: (result, error, { id }) =>
+        error
+          ? []
+          : [
+              { type: 'Workspace', id },
+              { type: 'Workspace', id: 'LIST' },
+            ],
     }),
 
     deleteWorkspace: builder.mutation<void, string>({
@@ -54,10 +57,13 @@ export const workspaceApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, id) => [
-        { type: 'Workspace', id },
-        { type: 'Workspace', id: 'LIST' },
-      ],
+      invalidatesTags: (result, error, id) =>
+        error
+          ? []
+          : [
+              { type: 'Workspace', id },
+              { type: 'Workspace', id: 'LIST' },
+            ],
     }),
   }),
   overrideExisting: false,

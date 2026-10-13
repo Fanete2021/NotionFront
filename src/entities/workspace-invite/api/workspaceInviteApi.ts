@@ -19,7 +19,8 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: ['WorkspaceInvite'],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceInvite', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     getWorkspaceInvites: builder.query<WorkspaceInviteSummaryEntity[], string>({
@@ -28,13 +29,13 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
-      providesTags: (result) =>
+      providesTags: (result, error, workspaceId) =>
         result
           ? [
               ...result.map(({ id }) => ({ type: 'WorkspaceInvite' as const, id })),
-              { type: 'WorkspaceInvite', id: 'LIST' },
+              { type: 'WorkspaceInvite', id: `WORKSPACE_${workspaceId}` },
             ]
-          : [{ type: 'WorkspaceInvite', id: 'LIST' }],
+          : [{ type: 'WorkspaceInvite', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     revokeWorkspaceInvite: builder.mutation<void, { workspaceId: string; inviteId: string }>({
@@ -43,10 +44,13 @@ export const workspaceInviteApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { inviteId }) => [
-        { type: 'WorkspaceInvite', id: inviteId },
-        { type: 'WorkspaceInvite', id: 'LIST' },
-      ],
+      invalidatesTags: (result, error, { workspaceId, inviteId }) =>
+        error
+          ? []
+          : [
+              { type: 'WorkspaceInvite', id: inviteId },
+              { type: 'WorkspaceInvite', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
     redeemWorkspaceInvite: builder.mutation<WorkspaceMember, RedeemWorkspaceInviteDto>({

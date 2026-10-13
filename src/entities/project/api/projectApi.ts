@@ -37,9 +37,8 @@ export const projectApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Project', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'Project', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     updateProject: builder.mutation<Project, { id: string; data: UpdateProjectDto }>({
@@ -49,10 +48,13 @@ export const projectApi = baseApi.injectEndpoints({
         body: data,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id }) => [
-        { type: 'Project', id },
-        { type: 'Project', id: 'LIST' },
-      ],
+      invalidatesTags: (result, error, { id }) =>
+        error || !result
+          ? []
+          : [
+              { type: 'Project', id },
+              { type: 'Project', id: `WORKSPACE_${result.workspaceId}` },
+            ],
     }),
 
     deleteProject: builder.mutation<void, { id: string; workspaceId: string }>({
@@ -61,12 +63,15 @@ export const projectApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Project', id },
-        { type: 'Project', id: 'LIST' },
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Project', id },
+              { type: 'Project', id: `WORKSPACE_${workspaceId}` },
+              { type: 'Page', id: `TRASH_${workspaceId}` },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
     reorderProjects: builder.mutation<Project[], { workspaceId: string; data: ReorderProjectsDto }>(
@@ -77,9 +82,8 @@ export const projectApi = baseApi.injectEndpoints({
           body: data,
         }),
         extraOptions: { requiresAuth: true },
-        invalidatesTags: (result, error, { workspaceId }) => [
-          { type: 'Project', id: `WORKSPACE_${workspaceId}` },
-        ],
+        invalidatesTags: (result, error, { workspaceId }) =>
+          error ? [] : [{ type: 'Project', id: `WORKSPACE_${workspaceId}` }],
       },
     ),
   }),

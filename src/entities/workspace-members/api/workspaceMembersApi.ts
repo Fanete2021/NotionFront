@@ -29,9 +29,8 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     updateMemberRole: builder.mutation<
@@ -44,9 +43,8 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     removeMember: builder.mutation<void, { workspaceId: string; userId: string }>({
@@ -55,9 +53,8 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
   }),
   overrideExisting: false,

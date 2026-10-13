@@ -20,10 +20,13 @@ export const trashApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, workspaceId) => [
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, workspaceId) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id: `TRASH_${workspaceId}` },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
     restorePage: builder.mutation<void, { id: string; workspaceId: string }>({
@@ -32,11 +35,14 @@ export const trashApi = baseApi.injectEndpoints({
         method: 'POST',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Page', id },
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id },
+              { type: 'Page', id: `TRASH_${workspaceId}` },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
     hardDeletePage: builder.mutation<void, { id: string; workspaceId: string }>({
@@ -45,9 +51,8 @@ export const trashApi = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'Page', id: `TRASH_${workspaceId}` }],
     }),
   }),
   overrideExisting: false,

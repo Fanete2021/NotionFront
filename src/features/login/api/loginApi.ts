@@ -17,7 +17,6 @@ export const loginApi = baseApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      invalidatesTags: ['User', 'Session'],
 
       extraOptions: {
         requiresAuth: false,
