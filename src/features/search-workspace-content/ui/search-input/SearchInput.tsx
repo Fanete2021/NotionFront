@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import styles from './SearchInput.module.css';
-import { Input } from '@shared/ui/Input';
+import { Input } from '@shared/ui/input';
 import SearchBig from '@shared/assets/icons/search-big.svg';
 
 export const SearchInput = () => {

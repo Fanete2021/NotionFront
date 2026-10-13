@@ -1,4 +1,4 @@
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import Globus from '@shared/assets/icons/globus.svg';
 
 export const OAuthGoogle = () => {

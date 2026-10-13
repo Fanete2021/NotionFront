@@ -4,7 +4,7 @@ import { ComponentProps, ReactNode } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import styles from './NavLink.module.css';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 export type NavLinkSize = 'sm' | 'md';
 

@@ -1,5 +1,15 @@
-.link {
+.link.link {
   margin-bottom: 2px;
+  display: flex;
+  gap: 8px;
+}
+
+.link[data-item-type='link'] {
+  gap: var(--sidebar-item-gap-static);
+}
+
+.link[data-item-type='document'] {
+  gap: var(--sidebar-item-gap-document);
 }
 
 .addons {

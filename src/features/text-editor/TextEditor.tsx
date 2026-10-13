@@ -7,7 +7,6 @@ import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { TableKit } from '@tiptap/extension-table';
 import DragHandle from '@tiptap/extension-drag-handle-react';
-import { Dropcursor } from '@tiptap/extensions';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
@@ -19,11 +18,11 @@ import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
 import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
 import { UploadFileContext, type UploadFile } from './model/uploadFileContext';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
 import TableIcon from '@shared/assets/icons/editor-table.svg';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import XCloseIcon from '@shared/assets/icons/x-close-2.svg';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 import DivideIcon from '@shared/assets/icons/divide.svg';
@@ -73,11 +72,10 @@ export const TextEditor = ({
         link: {
           openOnClick: false,
         },
-      }),
-
-      Dropcursor.configure({
-        color: '#6366F1',
-        width: 2,
+        dropcursor: {
+          color: '#6366F1',
+          width: 2,
+        },
       }),
 
       TaskList,

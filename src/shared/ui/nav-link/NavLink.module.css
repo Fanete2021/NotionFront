@@ -35,12 +35,6 @@
   flex-shrink: 0;
 }
 
-.addonLeft svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-}
-
 .label {
   flex: 1;
   min-width: 0;

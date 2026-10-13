@@ -1,6 +1,7 @@
 import {
   CreatePageDto,
   UpdatePageDto,
+  ReorderPagesDto,
   PageContent,
   PageContentJson,
   PageVersionList,
@@ -72,6 +73,18 @@ export const pageApi = baseApi.injectEndpoints({
       extraOptions: { requiresAuth: true },
       invalidatesTags: (result, error, { id, workspaceId }) => [
         { type: 'Page', id },
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+      ],
+    }),
+
+    reorderPages: builder.mutation<Page[], { workspaceId: string; data: ReorderPagesDto }>({
+      query: ({ workspaceId, data }) => ({
+        url: `/workspaces/${workspaceId}/pages/order`,
+        method: 'PATCH',
+        body: data,
+      }),
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { workspaceId }) => [
         { type: 'Page', id: `WORKSPACE_${workspaceId}` },
       ],
     }),

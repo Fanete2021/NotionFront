@@ -45,6 +45,13 @@
   --color-sidebar-divider-bg: #E5E5E5;
   --color-sidebar-section-bg-hover: #F9FAFB;
   --color-sidebar-button: #9CA3AF;
+  --color-sidebar-group-wrapper-bg: rgba(37, 99, 235, 0.08);
+  --color-sidebar-group-wrapper-bg-outline: rgba(37, 99, 235, 0.4);
+  --color-sidebar-preview-shadow: rgba(0, 0, 0, 0.15);
+
+  --sidebar-item-gap-static: 8px;
+  --sidebar-item-gap-document: 5px;
+  --sidebar-item-gap-group: 5px;
 
   /* project */
   --color-project-default: #6366F1;
@@ -94,7 +101,7 @@
   /*  Search Input  */
   --color-search-icon: #9CA3AF;
 
-  /*  Table  */
+  /*  table  */
   --color-table-bg: #FFFFFF;
 
   /* other */
@@ -146,7 +153,7 @@
   --color-app-grade: #FFFFFFb2;
   --color-grade-star: #FBBF24;
 
-  /* Checkbox */
+  /* checkbox */
   --color-checkbox-label: #1F2937;
   --color-checkbox-checked: #6B7280;
   --color-checkbox-disabled: #6B7280;

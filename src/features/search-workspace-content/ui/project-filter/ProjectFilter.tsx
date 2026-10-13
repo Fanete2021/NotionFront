@@ -2,7 +2,7 @@
 
 import { useId } from 'react';
 import styles from './ProjectFilter.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { Select } from '@shared/ui/select';
 
 export const ProjectFilter = () => {

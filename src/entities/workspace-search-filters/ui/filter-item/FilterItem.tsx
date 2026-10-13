@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import styles from './FilterItem.module.css';
 import { FilterOption } from '../../model/types/filterItem';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 interface FilterItemProps {
   option: FilterOption;

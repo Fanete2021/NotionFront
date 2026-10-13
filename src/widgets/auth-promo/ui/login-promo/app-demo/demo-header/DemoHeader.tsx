@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import styles from './DemoHeader.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 export const DemoHeader = () => {
   return (

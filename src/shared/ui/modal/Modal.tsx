@@ -4,9 +4,9 @@ import { type ReactNode } from 'react';
 import classNames from 'classnames';
 import styles from './Modal.module.css';
 import { useDismissibleLayer, useLockBodyScroll } from '@/shared/lib/hooks';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import { Portal } from '@/shared/ui/portal';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import CloseIcon from '@/shared/assets/icons/x-close-2.svg';
 
 // Ширина панели: sm — 420px, md — 460px, lg — 560px, xl — 760px

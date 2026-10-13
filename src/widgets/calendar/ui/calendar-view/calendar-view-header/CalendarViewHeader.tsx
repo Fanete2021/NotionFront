@@ -1,6 +1,6 @@
 import styles from './CalendarViewHeader.module.css';
 import { CalendarFilters } from '@features/calendar-filters';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface CalendarViewHeaderProps {
   month: Date;

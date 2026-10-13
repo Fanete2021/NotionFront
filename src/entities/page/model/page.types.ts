@@ -1,5 +1,10 @@
 import { PageType } from '@/shared/const/pageType';
 
+export interface ReorderPagesDto {
+  projectId: string;
+  orderedIds: string[];
+}
+
 export interface CreatePageDto {
   title: string;
   workspaceId: string;

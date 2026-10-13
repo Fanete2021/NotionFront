@@ -1,7 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import { createToastManager, Toaster } from './Toast';
 
 type ToastManager = ReturnType<typeof createToastManager>;

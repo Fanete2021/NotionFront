@@ -6,6 +6,7 @@ export const {
   useGetPageContentQuery,
   useCreatePageMutation,
   useUpdatePageMutation,
+  useReorderPagesMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
   useGetPageVersionsQuery,
@@ -14,6 +15,7 @@ export const {
 export type {
   CreatePageDto,
   UpdatePageDto,
+  ReorderPagesDto,
   PageContent,
   PageContentJson,
   PageVersion,

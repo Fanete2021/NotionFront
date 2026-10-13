@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import classNames from 'classnames';
 
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import styles from './Toast.module.css';
 
 export const toast = ToastPrimitive.createToastManager();

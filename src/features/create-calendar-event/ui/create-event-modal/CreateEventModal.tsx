@@ -8,8 +8,8 @@ import {
 import { selectIsCreateEventModalOpen } from '@entities/calendar';
 import { Modal } from '@shared/ui/modal';
 import { useAppDispatch, useAppSelector, useAppStore } from '@shared/lib';
-import { Typography } from '@shared/ui/Typography';
-import { Button } from '@shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 
 export const CreateEventModal = () => {

@@ -8,10 +8,10 @@ import {
   notificationTypes,
   reminderOptions,
 } from '../../model/notificationSettings';
-import { Button } from '@shared/ui/Button';
-import { Input } from '@shared/ui/Input';
+import { Button } from '@shared/ui/button';
+import { Input } from '@shared/ui/input';
 import { Select } from '@shared/ui/select';
-import { Toggle } from '@shared/ui/Toggle';
+import { Toggle } from '@shared/ui/toggle';
 import TelegramIcon from '@shared/assets/icons/telegram.svg';
 
 const handleToggleKeyDown = (event: KeyboardEvent<HTMLDivElement>, onToggle: () => void) => {
