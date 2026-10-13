@@ -2,7 +2,7 @@ import {
   WorkspaceMember,
   AddWorkspaceMemberDto,
   UpdateMemberRoleDto,
-} from '../model/workspaceMember';
+} from '../model/workspaceMember.types';
 import { baseApi } from '@/shared/api';
 
 export const workspaceMembersApi = baseApi.injectEndpoints({
