@@ -15,6 +15,7 @@ import { NotificationsCard } from '../notifications-card/NotificationsCard';
 import {
   type CalendarEvent,
   useCreateCalendarEventMutation,
+  useDeleteCalendarEventMutation,
   useUpdateCalendarEventMutation,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
@@ -24,7 +25,9 @@ import Calendar from '@shared/assets/icons/calendar.svg';
 import Clock from '@shared/assets/icons/clock.svg';
 import { Button } from '@shared/ui/Button';
 import PlusIcon from '@shared/assets/icons/plus.svg';
-import { useAppDispatch, useAppSelector } from '@shared/lib';
+import { useAppDispatch, useAppSelector, useMutationWithError } from '@shared/lib';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
+import { FormError } from '@/shared/ui/form-error';
 
 interface CreateEventFormProps {
   event?: CalendarEvent;
@@ -33,6 +36,7 @@ interface CreateEventFormProps {
 export const CreateEventForm = ({ event }: CreateEventFormProps) => {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
+  const defaultDate = useAppSelector((state) => state.createEventModal?.defaultDate ?? null);
 
   const { data: projects = [] } = useGetProjectsByWorkspaceQuery(workspaceId!, {
     skip: !workspaceId,
@@ -43,11 +47,76 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
     [projects],
   );
 
-  const [createEvent, { isLoading: isCreating }] = useCreateCalendarEventMutation();
-  const [updateEvent, { isLoading: isUpdating }] = useUpdateCalendarEventMutation();
+  const {
+    execute: createEvent,
+    isLoading: isCreating,
+    error: createError,
+    fieldErrors: createFieldErrors,
+  } = useMutationWithError(useCreateCalendarEventMutation, {
+    onSuccess: () => dispatch(closeCreateEventModal()),
+    fieldMap: {
+      [HTTP_STATUS.UNPROCESSABLE_ENTITY]: {
+        field: 'endTime',
+        message: 'Время окончания должно быть позже начала',
+      },
+      [HTTP_STATUS.FORBIDDEN]: {
+        field: 'root',
+        message: 'Нет прав на создание события в этом проекте',
+      },
+      [HTTP_STATUS.NOT_FOUND]: {
+        field: 'root',
+        message: 'Проект или воркспейс не найден',
+      },
+    },
+  });
+  const {
+    execute: updateEvent,
+    isLoading: isUpdating,
+    error: updateError,
+    fieldErrors: updateFieldErrors,
+  } = useMutationWithError(useUpdateCalendarEventMutation, {
+    onSuccess: () => dispatch(closeCreateEventModal()),
+    fieldMap: {
+      [HTTP_STATUS.UNPROCESSABLE_ENTITY]: {
+        field: 'endTime',
+        message: 'Время окончания должно быть позже начала',
+      },
+      [HTTP_STATUS.FORBIDDEN]: {
+        field: 'root',
+        message: 'Нет прав на создание события в этом проекте',
+      },
+      [HTTP_STATUS.NOT_FOUND]: {
+        field: 'project',
+        message: 'Проект или воркспейс не найден',
+      },
+    },
+  });
   const isLoading = isCreating || isUpdating;
+  const fieldErrors = event ? updateFieldErrors : createFieldErrors;
 
-  const defaultValues = useMemo(() => buildEventFormDefaults(event), [event]);
+  const {
+    execute: deleteEvent,
+    isLoading: isDeleting,
+    error: deleteError,
+    fieldErrors: deleteFieldErrors,
+  } = useMutationWithError(useDeleteCalendarEventMutation, {
+    onSuccess: () => dispatch(closeCreateEventModal()),
+    fieldMap: {
+      [HTTP_STATUS.FORBIDDEN]: {
+        field: 'root',
+        message: 'Нет прав на удаление этого события',
+      },
+      [HTTP_STATUS.NOT_FOUND]: {
+        field: 'root',
+        message: 'Событие не найдено',
+      },
+    },
+  });
+
+  const defaultValues = useMemo(
+    () => buildEventFormDefaults(event, defaultDate),
+    [event, defaultDate],
+  );
 
   const { control, handleSubmit, reset } = useForm<
     CreateCalendarEventFormInput,
@@ -57,6 +126,13 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
     resolver: zodResolver(createCalendarEventFormSchema),
     defaultValues,
   });
+
+  const handleDelete = async () => {
+    if (!event || !workspaceId) return;
+    if (!confirm(`Удалить событие "${event.title}"?`)) return;
+
+    await deleteEvent({ id: event.id, workspaceId });
+  };
 
   useEffect(() => {
     reset(defaultValues);
@@ -70,34 +146,29 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
 
     const { startAt, endAt } = toIsoRange(values.date, values.startTime, values.endTime);
 
-    try {
-      if (event) {
-        await updateEvent({
-          id: event.id,
-          workspaceId,
-          body: {
-            title: values.title,
-            startAt,
-            endAt,
-            allDay: false,
-            projectId: values.project ?? null,
-          },
-        }).unwrap();
-      } else {
-        await createEvent({
-          workspaceId,
-          body: {
-            title: values.title,
-            startAt,
-            endAt,
-            allDay: false,
-            ...(values.project ? { projectId: values.project } : {}),
-          },
-        }).unwrap();
-      }
-      dispatch(closeCreateEventModal());
-    } catch (e) {
-      console.error('[CreateEventForm] submit error', e);
+    if (event) {
+      await updateEvent({
+        id: event.id,
+        workspaceId,
+        body: {
+          title: values.title,
+          startAt,
+          endAt,
+          allDay: false,
+          projectId: values.project ?? null,
+        },
+      });
+    } else {
+      await createEvent({
+        workspaceId,
+        body: {
+          title: values.title,
+          startAt,
+          endAt,
+          allDay: false,
+          ...(values.project ? { projectId: values.project } : {}),
+        },
+      });
     }
   };
 
@@ -188,7 +259,7 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
               value={field.value ?? ''}
               onChange={field.onChange}
               onBlur={field.onBlur}
-              error={fieldState.error?.message}
+              error={fieldState.error?.message ?? fieldErrors.endTime}
             />
           )}
         />
@@ -202,10 +273,11 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
             <Select
               label="Проект"
               placeholder="Без проекта"
+              placeholderDisabled={false}
               options={projectOptions}
               name={field.name}
               value={field.value ?? ''}
-              onChange={(value) => field.onChange(value === '' ? undefined : value)}
+              onChange={field.onChange}
               onBlur={field.onBlur}
             />
           )}
@@ -248,10 +320,28 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
 
       <NotificationsCard className={styles.full} />
 
+      <FormError
+        message={
+          fieldErrors.root ?? deleteFieldErrors.root ?? createError ?? updateError ?? deleteError
+        }
+      />
+
       <div className={styles.actions}>
         <Button type="button" variant="outline" onClick={handleCancel} disabled={isLoading}>
           Отмена
         </Button>
+
+        {event && (
+          <Button
+            variant="outline"
+            color="danger"
+            onClick={handleDelete}
+            disabled={isLoading || isDeleting}
+          >
+            {isDeleting ? 'Удаление...' : 'Удалить'}
+          </Button>
+        )}
+
         <Button
           variant="filled"
           type="submit"

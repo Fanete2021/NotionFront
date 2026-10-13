@@ -4,20 +4,23 @@ import { CalendarEvent } from '@/entities/calendar';
 export interface CreateEventModalState {
   isCreateEventModalOpen: boolean;
   event: CalendarEvent | null;
+  defaultDate: string | null;
 }
 
 const initialState: CreateEventModalState = {
   isCreateEventModalOpen: false,
   event: null,
+  defaultDate: null,
 };
 
 const createEventModalSlice = createSlice({
   name: 'createEventSlice',
   initialState,
   reducers: {
-    openCreateEventModal: (state) => {
+    openCreateEventModal: (state, action: PayloadAction<{ defaultDate?: string } | undefined>) => {
       state.isCreateEventModalOpen = true;
       state.event = null;
+      state.defaultDate = action.payload?.defaultDate ?? null;
     },
 
     openEditEventModal: (state, action: PayloadAction<CalendarEvent>) => {

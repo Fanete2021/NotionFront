@@ -2,7 +2,13 @@ import { useMemo } from 'react';
 import styles from './MonthGrid.module.css';
 import { getMonthGridItems } from '../../../utils/gridItems';
 import { CalendarCell } from '../../calendar-cell/CalendarCell';
-import { eventToBadgeTask, useGetCalendarEventsQuery, type BadgeTask } from '@entities/calendar';
+import { getMonthGridRange } from './utils/getMonthRange';
+import {
+  eventToBadgeTask,
+  selectActiveProjectId,
+  useGetCalendarEventsQuery,
+  type BadgeTask,
+} from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
 import { useAppSelector } from '@shared/lib';
 
@@ -12,22 +18,18 @@ interface MonthGridProps {
 
 export const MonthGrid = ({ month }: MonthGridProps) => {
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
+  const activeProjectId = useAppSelector(selectActiveProjectId);
   const currentMonth = useMemo(() => month ?? new Date(), [month]);
 
-  const from = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString();
-
-  const to = new Date(
-    currentMonth.getFullYear(),
-    currentMonth.getMonth() + 1,
-    0,
-    23,
-    59,
-    59,
-    999,
-  ).toISOString();
+  const { from, to } = useMemo(() => getMonthGridRange(currentMonth), [currentMonth]);
 
   const { data: events = [] } = useGetCalendarEventsQuery(
-    { workspaceId: workspaceId!, from, to },
+    {
+      workspaceId: workspaceId!,
+      from,
+      to,
+      ...(activeProjectId ? { projectId: activeProjectId } : {}),
+    },
     { skip: !workspaceId },
   );
 

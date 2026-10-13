@@ -1,19 +1,48 @@
-import { useState } from 'react';
 import styles from './CalendarFilters.module.css';
-import { useGetProjectsByWorkspaceQuery } from '@entities/project';
+import type { Project } from '@entities/project';
 import { FilterChip } from '@shared/ui/FilterChip';
-import { useAppSelector } from '@shared/lib';
 
 const PALETTE = ['primary', 'success', 'warning', 'danger', 'info', 'neutral'] as const;
 
-export const CalendarFilters = () => {
-  const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
-  const { data: projects = [] } = useGetProjectsByWorkspaceQuery(workspaceId!, {
-    skip: !workspaceId,
-  });
-  const [activeId, setActiveId] = useState<string | null>(null);
+interface CalendarFiltersBaseProps {
+  projects: Project[];
+}
+
+interface SingleSelectProps extends CalendarFiltersBaseProps {
+  multi?: false;
+  activeProjectId: string | null;
+  onChange: (id: string | null) => void;
+}
+
+interface MultiSelectProps extends CalendarFiltersBaseProps {
+  multi: true;
+  selectedIds: string[];
+  onToggle: (id: string) => void;
+}
+
+type CalendarFiltersProps = SingleSelectProps | MultiSelectProps;
+
+export const CalendarFilters = (props: CalendarFiltersProps) => {
+  const { projects } = props;
 
   if (!projects.length) return null;
+
+  if (props.multi) {
+    return (
+      <ul className={styles.filtersList}>
+        {projects.map((p, i) => (
+          <li key={p.id}>
+            <FilterChip
+              label={p.name}
+              color={PALETTE[i % PALETTE.length]}
+              active={props.selectedIds.includes(p.id)}
+              onClick={() => props.onToggle(p.id)}
+            />
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   return (
     <ul className={styles.filtersList}>
@@ -21,8 +50,8 @@ export const CalendarFilters = () => {
         <FilterChip
           label="Все"
           color="neutral"
-          active={activeId === null}
-          onClick={() => setActiveId(null)}
+          active={props.activeProjectId === null}
+          onClick={() => props.onChange(null)}
         />
       </li>
       {projects.map((p, i) => (
@@ -30,8 +59,8 @@ export const CalendarFilters = () => {
           <FilterChip
             label={p.name}
             color={PALETTE[i % PALETTE.length]}
-            active={activeId === p.id}
-            onClick={() => setActiveId(p.id)}
+            active={props.activeProjectId === p.id}
+            onClick={() => props.onChange(p.id)}
           />
         </li>
       ))}

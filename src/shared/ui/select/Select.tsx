@@ -21,6 +21,7 @@ interface SelectProps extends HTMLSelectProps {
   size?: 's' | 'm';
   label?: string;
   placeholder?: string;
+  placeholderDisabled?: boolean;
 }
 
 export const Select = ({
@@ -31,13 +32,12 @@ export const Select = ({
   size = 'm',
   label,
   placeholder,
+  placeholderDisabled,
   ...otherProps
 }: SelectProps) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     onChange?.(e.target.value);
   };
-
-  const isControlled = value !== undefined;
 
   return (
     <div className={classNames(styles.wrapper, { [styles.small]: size === 's' }, className)}>
@@ -49,12 +49,12 @@ export const Select = ({
       <div className={styles.container}>
         <select
           className={styles.select}
-          {...(isControlled ? { value: value ?? '' } : {})}
+          value={value ?? ''}
           onChange={handleChange}
           {...otherProps}
         >
           {placeholder !== undefined && (
-            <option value="" disabled hidden>
+            <option value="" disabled={placeholderDisabled} hidden={placeholderDisabled}>
               {placeholder}
             </option>
           )}

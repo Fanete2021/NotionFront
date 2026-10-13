@@ -10,6 +10,7 @@ import {
   DayTask,
   DayTaskData,
   eventToDayTask,
+  selectDayPanelProjectIds,
   useGetCalendarEventsQuery,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
@@ -22,6 +23,7 @@ interface DayTasksPanelProps {
 export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => {
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
+  const selectedProjectIds = useAppSelector(selectDayPanelProjectIds);
   const { selectedDate } = useCalendar();
 
   const dayKey = selectedDate ?? new Date().toISOString().slice(0, 10);
@@ -29,7 +31,11 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
   const to = new Date(`${dayKey}T23:59:59.999`).toISOString();
 
   const { data: events = [] } = useGetCalendarEventsQuery(
-    { workspaceId: workspaceId!, from, to },
+    {
+      workspaceId: workspaceId!,
+      from,
+      to,
+    },
     { skip: !workspaceId },
   );
 
@@ -42,20 +48,26 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
     [projects],
   );
 
+  const filteredEvents = useMemo(() => {
+    if (selectedProjectIds.length === 0) return events;
+    const set = new Set(selectedProjectIds);
+    return events.filter((e) => e.projectId !== null && set.has(e.projectId));
+  }, [events, selectedProjectIds]);
+
   const tasks = useMemo(
     () =>
-      events.map((e) => {
+      filteredEvents.map((e) => {
         const projectName = e.projectId
           ? (projectsById[e.projectId]?.name ?? 'Без проекта')
           : 'Без проекта';
         return eventToDayTask(e, projectName);
       }),
-    [events, projectsById],
+    [filteredEvents, projectsById],
   );
 
   const handleAddDayTask = useCallback(() => {
-    dispatch(openCreateEventModal());
-  }, [dispatch]);
+    dispatch(openCreateEventModal({ defaultDate: selectedDate ?? undefined }));
+  }, [dispatch, selectedDate]);
 
   const handleEditDayTask = useCallback(
     (task: DayTaskData) => {
@@ -69,8 +81,8 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
   return (
     <div className={styles.panel}>
       <DayTasksHeader />
-      {tasks.map((t) => (
-        <DayTask key={t.id} dayTask={t} onClick={handleEditDayTask} />
+      {tasks.map((t, i) => (
+        <DayTask key={t.id ?? `${t.label}-${i}`} dayTask={t} onClick={handleEditDayTask} />
       ))}
       <footer className={styles.footer}>
         <EditTelegramNotificationSettingsButton onClick={onManageNotifications} />

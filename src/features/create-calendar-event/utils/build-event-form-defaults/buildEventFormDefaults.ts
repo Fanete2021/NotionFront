@@ -13,8 +13,14 @@ const CREATE_DEFAULTS: Partial<CreateCalendarEventFormInput> = {
 
 export const buildEventFormDefaults = (
   event?: CalendarEvent,
+  defaultDate?: string | null,
 ): Partial<CreateCalendarEventFormInput> => {
-  if (!event) return CREATE_DEFAULTS;
+  if (!event) {
+    return {
+      ...CREATE_DEFAULTS,
+      date: defaultDate ? new Date(`${defaultDate}T00:00:00`) : undefined,
+    };
+  }
 
   return {
     title: event.title,

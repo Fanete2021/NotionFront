@@ -5,6 +5,8 @@ export {
   selectEditingEvent,
 } from './model/selectors/selectIsCreateEventModalOpen';
 
+export { selectActiveProjectId } from './model/selectors/selectActiveProjectId';
+
 export type { CalendarCell as CalendarCellData } from './model/types/calendar-cell';
 
 export { DayTask } from './ui/day-task/DayTask';
@@ -31,3 +33,8 @@ export type {
 } from './model/types/calendar.types';
 
 export { eventToBadgeTask, eventToDayTask } from './model/utils/eventMappers';
+
+export {
+  selectDayPanelFiltersOpen,
+  selectDayPanelProjectIds,
+} from './model/selectors/selectDayPanelFilters';
