@@ -1,7 +1,6 @@
 import { fn } from 'storybook/test';
 import type { Meta, StoryObj } from '@storybook/nextjs';
-
-import { Toggle } from '@shared/ui/toggle/Toggle';
+import { Toggle } from '@/shared/ui/toggle';
 
 const meta = {
   title: 'shared/toggle',

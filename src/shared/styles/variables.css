@@ -307,6 +307,9 @@
   --color-calendar-swithcer-active: #6366F1;
   --color-calendar-swithcer-bg-active: #EEF2FF;
 
+  /* Calendar */
+  --color-calendar-primary-soft: rgba(99, 102, 241, 0.12);
+
   /* CreateEventForm */
   --color-notification-title: #6B7280;
   --color-notification-text: #6B7280;

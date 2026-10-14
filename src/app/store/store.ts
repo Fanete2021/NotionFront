@@ -5,7 +5,8 @@ import { ProjectModalsState } from '@/features/manage-project';
 import { InviteLinkModalState } from '@/features/create-invite-link';
 import { DocumentModalsState } from '@/features/manage-document';
 import { SidebarUiState, sidebarUiReducer } from '@/features/dnd-sidebar';
-import type { CreateEventModalState } from '@features/create-calendar-event';
+import type { CalendarFiltersState, CreateEventModalState } from '@features/create-calendar-event';
+import { DayPanelFiltersState } from '@/features/create-calendar-event';
 import { currentWorkspaceReducer } from '@/entities/workspace';
 import { sessionReducer } from '@shared/api';
 import { baseApi } from '@shared/api/baseApi';
@@ -58,5 +59,7 @@ export type RootState = StaticRootState & {
   documentModals?: DocumentModalsState;
   inviteLinkModal?: InviteLinkModalState;
   createEventModal?: CreateEventModalState;
+  calendarFilters?: CalendarFiltersState;
+  dayPanelFilters?: DayPanelFiltersState;
 };
 export type AppDispatch = AppStore['dispatch'];
