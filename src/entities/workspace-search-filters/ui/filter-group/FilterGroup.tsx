@@ -1,7 +1,7 @@
 import styles from './FilterGroup.module.css';
 import { FilterItem } from '@entities/workspace-search-filters/ui/filter-item/FilterItem';
 import { FilterOption } from '../../model/types/filterItem';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface FilterGroupProps {
   title: string;

@@ -1,8 +1,8 @@
 import styles from './RegistrationPromo.module.css';
-import { AppReviews } from './ui/app-reviews/AppReviews';
+import { AppReviews } from '@widgets/auth-promo/ui/registration-promo/app-reviews/AppReviews';
 import { PromoAdvantages } from '../promo-advantages/PromoAdvantages';
 import Logo from '@shared/assets/icons/Logo Badge.svg';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { AuthSectionHeader } from '@shared/ui/auth';
 
 export const REGISTRATION_ADVANTAGES = [

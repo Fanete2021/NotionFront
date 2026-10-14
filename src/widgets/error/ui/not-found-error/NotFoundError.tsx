@@ -7,9 +7,9 @@ import NotFoundPage from '@shared/assets/icons/not-found-404-page.svg';
 import HomeFilled from '@shared/assets/icons/house-filled.svg';
 import Search from '@shared/assets/icons/search.svg';
 import ArrowLeft from '@shared/assets/icons/arrow-left.svg';
-import { Typography } from '@shared/ui/Typography';
-import { Button } from '@shared/ui/Button';
-import { Input } from '@shared/ui/Input';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
+import { Input } from '@shared/ui/input';
 
 export const NotFoundError = () => {
   const router = useRouter();

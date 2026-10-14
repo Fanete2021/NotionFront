@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import styles from './TextDivider.module.css';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface TextDividerProps {
   children: ReactNode;

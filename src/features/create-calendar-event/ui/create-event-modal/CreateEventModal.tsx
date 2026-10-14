@@ -7,7 +7,7 @@ import {
 import { selectIsCreateEventModalOpen, selectEditingEvent } from '@entities/calendar';
 import { Modal } from '@shared/ui/modal';
 import { useAppDispatch, useAppSelector, useAppStore } from '@shared/lib';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 export const CreateEventModal = () => {
   const dispatch = useAppDispatch();

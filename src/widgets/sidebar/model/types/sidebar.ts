@@ -1,3 +1,4 @@
+import { ComponentType } from 'react';
 import { PageType } from '@/shared/const/pageType';
 
 export interface SidebarItemData {
@@ -5,7 +6,7 @@ export interface SidebarItemData {
   title?: string;
   type: 'link' | 'section' | 'group' | 'divider' | 'document';
   href?: string;
-  icon?: string;
+  icon?: string | ComponentType<{ className?: string }>;
   color?: string;
   children?: SidebarItemData[];
   workspaceId?: string;

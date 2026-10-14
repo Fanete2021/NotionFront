@@ -1,7 +1,7 @@
 import { MemberCard } from '../member-card/MemberCard';
 import styles from './MemberList.module.css';
 import { WorkspaceMember } from '@/entities/workspace-members';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface MemberListProps {
   members: WorkspaceMember[];

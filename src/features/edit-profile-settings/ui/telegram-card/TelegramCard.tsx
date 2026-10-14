@@ -2,10 +2,10 @@ import { Control, Controller, useWatch } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './TelegramCard.module.css';
 import { ProfileSettings } from '../../model/mock.api';
-import { Card } from '@/shared/ui/Card';
-import { Typography } from '@/shared/ui/Typography';
-import { Button } from '@/shared/ui/Button';
-import { Input } from '@/shared/ui/Input';
+import { Card } from '@shared/ui/card';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
+import { Input } from '@/shared/ui/input';
 import TelegramIcon from '@/shared/assets/icons/telegram.svg';
 
 interface TelegramCardProps {

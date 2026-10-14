@@ -1,6 +1,6 @@
 import styles from './CreateCalendarActionButton.module.css';
 import { openCreateEventModal } from '@features/create-calendar-event/model/slices/createEventModalSlice';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 import { useAppDispatch } from '@shared/lib';
 

@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import styles from './GroupDropdown.module.css';
 import PencilIcon from '@shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@shared/assets/icons/trash-2.svg';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@/shared/ui/button';
 
 interface GroupDropdownProps {
   isOpen: boolean;

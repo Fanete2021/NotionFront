@@ -11,6 +11,14 @@ import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { toggleGroup } from '@/features/dnd-sidebar';
 import { useDeleteProjectMutation } from '@/entities/project';
+import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
+import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
+import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
+import TrashIcon from '@/shared/assets/icons/trash-2.svg';
+import DocsIcon from '@/shared/assets/icons/docs.svg';
+import DotsIcon from '@/shared/assets/icons/dots.svg';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 import { useAppDispatch, useDismissibleLayer, useAppSelector } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
@@ -75,7 +83,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         projectId: item.id,
         projectName: item.title || '',
         color: item.color,
-        icon: item.icon,
+        icon: typeof item.icon === 'string' ? item.icon : null,
       }),
     );
   }, [dispatch, item.id, item.title, item.color, item.icon]);

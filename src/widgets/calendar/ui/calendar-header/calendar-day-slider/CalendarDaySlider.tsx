@@ -3,7 +3,7 @@ import styles from './CalendarDaySlider.module.css';
 import { useCalendar } from '@widgets/calendar';
 import ChevronLeft from '@shared/assets/icons/chevron-left.svg';
 import ChevronRight from '@shared/assets/icons/chevron-right-2.svg';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 
 export const CalendarDaySlider = () => {
   const { changeMonth, goToToday } = useCalendar();

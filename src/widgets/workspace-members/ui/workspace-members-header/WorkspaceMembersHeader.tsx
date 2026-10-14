@@ -1,5 +1,5 @@
 import styles from './WorkspaceMembersHeader.module.css';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 export const WorkspaceMembersHeader = () => {
   return (

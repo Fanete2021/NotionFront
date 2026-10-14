@@ -1,4 +1,4 @@
-export { DocumentPage } from './Document';
+export { DocumentPage } from './ui/Document';
 
 export const metadata = {
   title: 'Документ | NotionFront',

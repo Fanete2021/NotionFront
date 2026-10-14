@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
 import styles from './SettingsProfileNav.module.css';
 import { settingsNavItems } from '../../model/navItems';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { NavLink } from '@/shared/ui/nav-link';
 
 interface SettingsProfileNavProps {

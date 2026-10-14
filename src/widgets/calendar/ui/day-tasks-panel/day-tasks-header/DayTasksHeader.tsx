@@ -10,8 +10,8 @@ import {
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
 import { selectDayPanelFiltersOpen, selectDayPanelProjectIds } from '@/entities/calendar';
 import { useAppDispatch, useAppSelector, useDismissibleLayer } from '@shared/lib';
-import { Typography } from '@shared/ui/Typography';
-import { Button } from '@shared/ui/Button';
+import { Typography } from '@shared/ui/typography';
+import { Button } from '@shared/ui/button';
 import FilterIcon from '@shared/assets/icons/filter.svg';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 

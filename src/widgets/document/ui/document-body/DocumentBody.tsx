@@ -69,7 +69,6 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   return (
     <main className={styles.main}>
       <DocumentHeader page={page} updatedAt={updatedAt} saveError={saveError} isSaving={isSaving} />
-
       <div className={styles.document}>
         <TextEditor
           content={content?.json ?? null}

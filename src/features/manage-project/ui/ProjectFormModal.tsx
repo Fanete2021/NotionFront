@@ -10,13 +10,13 @@ import {
 import { useCreateProjectMutation, useUpdateProjectMutation } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Modal } from '@/shared/ui/modal';
-import { Button } from '@/shared/ui/Button';
-import { Input } from '@/shared/ui/Input';
+import { Button } from '@shared/ui/button';
+import { Input } from '@/shared/ui/input';
 import { ColorPicker } from '@/shared/ui/color-picker';
 import { Colors } from '@/shared/const/colors';
 import { IconPicker } from '@/shared/ui/icon-picker';
 import { Select } from '@/shared/ui/select';
-import { Typography } from '@/shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';

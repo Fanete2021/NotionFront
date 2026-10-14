@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import styles from './NotificationsCard.module.css';
-import { Typography } from '@shared/ui/Typography';
-import { Checkbox } from '@shared/ui/Checkbox';
-import { Card } from '@shared/ui/Card';
+import { Typography } from '@shared/ui/typography';
+import { Checkbox } from '@shared/ui/checkbox';
+import { Card } from '@shared/ui/card';
 import { Select } from '@shared/ui/select';
-import { Toggle } from '@shared/ui/Toggle';
+import { Toggle } from '@shared/ui/toggle';
 import TelegramIcon from '@shared/assets/icons/telegram.svg';
 
 interface NotificationsCardProps {

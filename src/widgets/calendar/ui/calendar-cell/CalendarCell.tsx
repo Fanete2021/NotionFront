@@ -2,8 +2,8 @@ import styles from './CalendarCell.module.css';
 import { useCalendar } from '@widgets/calendar/model/calendar-context/useCalendar';
 import { TaskBadge } from '@widgets/calendar/ui/calendar-cell/task-badge/TaskBadge';
 import type { BadgeTask, CalendarCellData } from '@entities/calendar';
-import { Button } from '@shared/ui/Button';
-import { Typography } from '@shared/ui/Typography';
+import { Button } from '@shared/ui/button';
+import { Typography } from '@shared/ui/typography';
 
 interface CalendarCellProps {
   cell: CalendarCellData;

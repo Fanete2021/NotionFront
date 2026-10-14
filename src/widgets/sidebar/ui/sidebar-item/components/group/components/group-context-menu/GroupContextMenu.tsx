@@ -2,7 +2,7 @@
 
 import styles from './GroupContextMenu.module.css';
 import DocsIcon from '@shared/assets/icons/docs.svg';
-import { Button } from '@/shared/ui/Button';
+import { Button } from '@/shared/ui/button';
 
 interface GroupContextMenuProps {
   isOpen: boolean;

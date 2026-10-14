@@ -1,6 +1,6 @@
 import styles from './CalendarFilters.module.css';
 import type { Project } from '@entities/project';
-import { FilterChip } from '@shared/ui/FilterChip';
+import { FilterChip } from '@shared/ui/filter-chip';
 
 const PALETTE = ['primary', 'success', 'warning', 'danger', 'info', 'neutral'] as const;
 

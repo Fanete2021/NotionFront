@@ -4,7 +4,7 @@ import { setActiveProjectId } from '@/features/create-calendar-event';
 import { selectActiveProjectId } from '@/entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@/entities/project';
 import { useAppDispatch, useAppSelector } from '@/shared/lib';
-import { Typography } from '@shared/ui/Typography';
+import { Typography } from '@shared/ui/typography';
 
 interface CalendarViewHeaderProps {
   month: Date;

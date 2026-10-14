@@ -1,4 +1,5 @@
 import { UserData } from '@/entities/user';
+import { clearCurrentWorkspace } from '@/entities/workspace';
 import { baseApi } from '@shared/api/baseApi';
 import { setAccessToken } from '@shared/api';
 
@@ -27,8 +28,8 @@ export const loginApi = baseApi.injectEndpoints({
           const { data } = await queryFulfilled;
 
           dispatch(setAccessToken(data.accessToken));
-
-          dispatch(baseApi.util.invalidateTags(['User', 'Session']));
+          dispatch(clearCurrentWorkspace());
+          dispatch(baseApi.util.resetApiState());
         } catch {
           // Ошибка обрабатывается состоянием RTK Query
         }

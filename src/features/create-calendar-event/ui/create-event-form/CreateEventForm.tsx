@@ -19,11 +19,11 @@ import {
   useUpdateCalendarEventMutation,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
-import { Input } from '@shared/ui/Input';
+import { Input } from '@shared/ui/input';
 import { Select } from '@shared/ui/select';
 import Calendar from '@shared/assets/icons/calendar.svg';
 import Clock from '@shared/assets/icons/clock.svg';
-import { Button } from '@shared/ui/Button';
+import { Button } from '@shared/ui/button';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 import { useAppDispatch, useAppSelector, useMutationWithError } from '@shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
