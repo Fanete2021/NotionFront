@@ -112,6 +112,7 @@ export const DocumentFormModal: FC = () => {
     isLoading: isCreating,
     error: createError,
     fieldErrors: createFieldErrors,
+    resetError: resetCreateError,
   } = useMutationWithError<Page, CreatePageDto>(useCreatePageMutation, {
     onSuccess: (createdPage) => {
       dispatch(closeCreateDocumentModal());
@@ -138,6 +139,7 @@ export const DocumentFormModal: FC = () => {
     isLoading: isUpdating,
     error: updateError,
     fieldErrors: updateFieldErrors,
+    resetError: resetUpdateError,
   } = useMutationWithError(useUpdatePageMutation, {
     onSuccess: () => {
       dispatch(closeEditDocumentModal());
@@ -165,13 +167,25 @@ export const DocumentFormModal: FC = () => {
   useEffect(() => {
     if (!isOpen) return;
 
+    resetCreateError();
+    resetUpdateError();
     reset({
       title: isCreate ? '' : currentTitle,
       type: isCreate ? DOCUMENT_TYPE.DOCUMENT : PAGE_TO_DOCUMENT_TYPE[currentType],
       icon: isCreate ? null : currentIcon,
       workspaceId: currentWorkspaceId ?? '',
     });
-  }, [isOpen, isCreate, currentTitle, currentType, currentIcon, currentWorkspaceId, reset]);
+  }, [
+    isOpen,
+    isCreate,
+    currentTitle,
+    currentType,
+    currentIcon,
+    currentWorkspaceId,
+    reset,
+    resetCreateError,
+    resetUpdateError,
+  ]);
 
   const onSubmit: SubmitHandler<DocumentFormValues> = async (values) => {
     try {

@@ -1,20 +1,13 @@
 import type { CalendarEvent } from '../types/calendar.types';
 import type { BadgeTask } from '../types/badge-task';
 import type { DayTask } from '../types/day-task';
-
-const toDateKey = (iso: string) => {
-  const d = new Date(iso);
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-};
+import { toDateKey } from '@/shared/lib/date/toDateKey';
 
 const PALETTE: BadgeTask['color'][] = ['indigo', 'green', 'yellow', 'red'];
 
 export const eventToBadgeTask = (e: CalendarEvent, index = 0, projectName?: string): BadgeTask => ({
   id: e.id,
-  date: toDateKey(e.startAt),
+  date: toDateKey(new Date(e.startAt)),
   name: e.title,
   color: PALETTE[index % PALETTE.length],
   projectName,
