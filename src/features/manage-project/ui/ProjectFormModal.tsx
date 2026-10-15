@@ -84,6 +84,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     execute: createProject,
     isLoading: isCreating,
     error: createError,
+    resetError: resetCreateError,
   } = useMutationWithError(useCreateProjectMutation, {
     onSuccess: () => {
       handleClose();
@@ -104,6 +105,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     execute: updateProject,
     isLoading: isUpdating,
     error: updateError,
+    resetError: resetUpdateError,
   } = useMutationWithError(useUpdateProjectMutation, {
     onSuccess: () => {
       handleClose();
@@ -125,6 +127,8 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
 
   useEffect(() => {
     if (isOpen) {
+      resetCreateError();
+      resetUpdateError();
       if (isCreate) {
         //eslint-disable-next-line
         setName('');
@@ -146,6 +150,8 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     currentIcon,
     sourceWorkspaceId,
     currentWorkspaceId,
+    resetCreateError,
+    resetUpdateError,
   ]);
 
   const handleClose = useCallback(() => {
