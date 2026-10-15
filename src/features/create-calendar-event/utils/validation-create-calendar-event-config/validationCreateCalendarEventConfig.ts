@@ -43,6 +43,7 @@ export const createCalendarEventFormSchema = z
     taskType: z.string().trim().min(1, 'Выберите элемент из списка'),
     repeatable: z.string().trim().min(1, 'Выберите элемент из списка'),
     notifications: z.boolean().default(false),
+    reminderMinutes: z.enum(['5', '15', '30', '60']).default('15'),
     telegramSend: z.boolean().default(false),
   })
   .refine((values) => values.endTime > values.startTime, {

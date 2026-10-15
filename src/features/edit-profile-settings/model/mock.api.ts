@@ -1,13 +1,4 @@
-export interface ProfileSettings {
-  firstName: string;
-  lastName: string;
-  email: string;
-  emailNotifications: boolean;
-  mentionNotifications: boolean;
-  telegramToken: string;
-  avatarUrl: string;
-  avatarFile?: File;
-}
+import type { ProfileSettings } from '../utils/validationProfileSettingsConfig';
 
 export const defaultProfileSettings: ProfileSettings = {
   firstName: 'Алекс',

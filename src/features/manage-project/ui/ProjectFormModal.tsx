@@ -1,7 +1,10 @@
 'use client';
 
-import { FC, useState, useEffect, useCallback } from 'react';
+import { FC, useEffect, useCallback } from 'react';
+import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './ProjectFormModal.module.css';
+import { projectFormSchema, type ProjectFormValues } from '../utils/validationProjectFormConfig';
 import {
   closeCreateProjectModal,
   closeEditProjectModal,
@@ -70,20 +73,22 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     label: workspace.name,
   }));
 
-  const [name, setName] = useState(isCreate ? '' : currentName);
-  const [color, setColor] = useState<string | null>(
-    isCreate || currentColor === null ? DEFAULT_COLOR : currentColor,
-  );
-  const [icon, setIcon] = useState<string | null>(isCreate ? null : (currentIcon ?? null));
-  const [workspaceId, setWorkspaceId] = useState<string | null>(
-    isCreate ? sourceWorkspaceId : currentWorkspaceId,
-  );
-  const [error, setError] = useState<string | null>(null);
+  const { control, handleSubmit, reset, setError } = useForm<ProjectFormValues>({
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: {
+      name: '',
+      color: DEFAULT_COLOR,
+      icon: null,
+      workspaceId: '',
+    },
+  });
+  const [name, color] = useWatch({ control, name: ['name', 'color'] });
 
   const {
     execute: createProject,
     isLoading: isCreating,
     error: createError,
+    fieldErrors: createFieldErrors,
   } = useMutationWithError(useCreateProjectMutation, {
     onSuccess: () => {
       handleClose();
@@ -104,6 +109,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     execute: updateProject,
     isLoading: isUpdating,
     error: updateError,
+    fieldErrors: updateFieldErrors,
   } = useMutationWithError(useUpdateProjectMutation, {
     onSuccess: () => {
       handleClose();
@@ -122,22 +128,17 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
 
   const isLoading = isCreate ? isCreating : isUpdating;
   const mutationError = isCreate ? createError : updateError;
+  const fieldErrors = isCreate ? createFieldErrors : updateFieldErrors;
 
   useEffect(() => {
-    if (isOpen) {
-      if (isCreate) {
-        //eslint-disable-next-line
-        setName('');
-        setColor(DEFAULT_COLOR);
-        setIcon(null);
-      } else {
-        setName(currentName);
-        setColor(currentColor ?? DEFAULT_COLOR);
-        setIcon(currentIcon ?? null);
-      }
-      setWorkspaceId(isCreate ? sourceWorkspaceId : currentWorkspaceId);
-      setError(null);
-    }
+    if (!isOpen) return;
+
+    reset({
+      name: isCreate ? '' : currentName,
+      color: isCreate ? DEFAULT_COLOR : (currentColor ?? DEFAULT_COLOR),
+      icon: isCreate ? null : (currentIcon ?? null),
+      workspaceId: (isCreate ? sourceWorkspaceId : currentWorkspaceId) ?? '',
+    });
   }, [
     isOpen,
     isCreate,
@@ -146,6 +147,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     currentIcon,
     sourceWorkspaceId,
     currentWorkspaceId,
+    reset,
   ]);
 
   const handleClose = useCallback(() => {
@@ -154,49 +156,48 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     } else {
       dispatch(closeEditProjectModal());
     }
-    setError(null);
   }, [isCreate, dispatch]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    const trimmed = name.trim();
-    if (!trimmed) {
-      setError('Название проекта обязательно');
-      return;
-    }
-
-    const isDefaultColor = color === DEFAULT_COLOR;
+  const onSubmit: SubmitHandler<ProjectFormValues> = async (values) => {
+    const isDefaultColor = values.color === DEFAULT_COLOR;
     const shouldSendColor = !(isDefaultColor && (isCreate || currentColor === null));
-    const colorToSend = shouldSendColor ? (color ?? undefined) : undefined;
+    const colorToSend = shouldSendColor ? (values.color ?? undefined) : undefined;
 
-    if (isCreate) {
-      if (!workspaceId) {
-        setError('Workspace не найден');
-        return;
+    try {
+      if (isCreate) {
+        if (!values.workspaceId) {
+          setError('workspaceId', { message: 'Рабочее пространство не выбрано' });
+          return;
+        }
+
+        await createProject({
+          workspaceId: values.workspaceId,
+          data: {
+            name: values.name,
+            color: colorToSend,
+            icon: values.icon ?? undefined,
+          },
+        });
+      } else {
+        const hasChanges =
+          values.name !== currentName ||
+          values.color !== currentColor ||
+          values.icon !== currentIcon;
+        if (!hasChanges) {
+          handleClose();
+          return;
+        }
+        await updateProject({
+          id: projectId ?? '',
+          data: {
+            name: values.name,
+            color: colorToSend,
+            icon: values.icon,
+          },
+        });
       }
-      await createProject({
-        workspaceId,
-        data: {
-          name: trimmed,
-          color: colorToSend,
-          icon: icon ?? undefined,
-        },
-      });
-    } else {
-      const hasChanges = trimmed !== currentName || color !== currentColor || icon !== currentIcon;
-      if (!hasChanges) {
-        handleClose();
-        return;
-      }
-      await updateProject({
-        id: projectId ?? '',
-        data: {
-          name: trimmed,
-          color: colorToSend,
-          icon: icon === null ? null : (icon ?? undefined),
-        },
-      });
+    } catch (error) {
+      console.error('Ошибка при сохранении проекта:', error);
     }
   };
 
@@ -238,26 +239,42 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       header={header}
       footer={footer}
     >
-      <form id={formId} onSubmit={handleSubmit} className={styles.form}>
+      <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.field}>
-          <Input
-            id="projectName"
-            type="text"
-            label="Название"
-            value={name}
-            onChange={(str) => setName(str)}
-            placeholder="Название проекта..."
-            autoFocus
-            disabled={isLoading}
+          <Controller
+            name="name"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Input
+                {...field}
+                id="projectName"
+                type="text"
+                label="Название"
+                error={fieldState.error?.message ?? fieldErrors.name}
+                placeholder="Название проекта..."
+                autoFocus
+                disabled={isLoading}
+              />
+            )}
           />
-          <FormError message={error || mutationError} />
+          <FormError message={mutationError} />
         </div>
 
         <div className={styles.field}>
           <Typography variant="caption" className={styles.label}>
             Цвет
           </Typography>
-          <ColorPicker selectedColor={color} onChange={setColor} />
+          <Controller
+            name="color"
+            control={control}
+            render={({ field }) => (
+              <ColorPicker
+                selectedColor={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+              />
+            )}
+          />
         </div>
 
         <div className={styles.field}>
@@ -267,19 +284,38 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
               (необязательно)
             </Typography>
           </Typography>
-          <IconPicker selectedIcon={icon} onChange={setIcon} color={color} />
+          <Controller
+            name="icon"
+            control={control}
+            render={({ field }) => (
+              <IconPicker selectedIcon={field.value} onChange={field.onChange} color={color} />
+            )}
+          />
         </div>
 
         <div className={styles.field}>
           <Typography variant="label" htmlFor={`${formId}Workspace`} className={styles.label}>
             Рабочее пространство
           </Typography>
-          <Select
-            id={`${formId}Workspace`}
-            value={workspaceId ?? ''}
-            onChange={setWorkspaceId}
-            options={workspaceOptions}
-            disabled={isLoading || !isCreate}
+          <Controller
+            name="workspaceId"
+            control={control}
+            render={({ field, fieldState }) => (
+              <>
+                <Select
+                  id={`${formId}Workspace`}
+                  name={field.name}
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  options={workspaceOptions}
+                  placeholder="Выберите рабочее пространство"
+                  placeholderDisabled
+                  disabled={isLoading || !isCreate}
+                />
+                <FormError message={fieldState.error?.message ?? null} />
+              </>
+            )}
           />
         </div>
       </form>
