@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
 import { LoginRequest, useLoginMutation } from '../api/loginApi';
-import { loginUserSchema } from '../utils/validationLoginFormConfig';
+import { loginUserSchema, type LoginFormValues } from '../utils/validationLoginFormConfig';
 import { UserData } from '@/entities/user';
 import { Input } from '@shared/ui/input';
 import { Checkbox } from '@shared/ui/checkbox';
@@ -20,12 +20,6 @@ import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
 import Eye from '@shared/assets/icons/eye.svg';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
 
 export const LoginForm = () => {
   const { handleSubmit, control, reset } = useForm<LoginFormValues>({
@@ -63,7 +57,6 @@ export const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.loginForm}>
       <Controller
         name="email"
-        rules={{ required: 'Введите email' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -81,7 +74,6 @@ export const LoginForm = () => {
 
       <Controller
         name="password"
-        rules={{ required: 'Введите пароль' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -109,6 +101,9 @@ export const LoginForm = () => {
             control={control}
             render={({ field }) => (
               <Checkbox
+                name={field.name}
+                ref={field.ref}
+                onBlur={field.onBlur}
                 className={styles.checkbox}
                 checked={field.value}
                 onCheckedChange={field.onChange}

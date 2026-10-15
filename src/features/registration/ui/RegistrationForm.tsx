@@ -6,7 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import styles from './RegistrationForm.module.css';
 import { useRegisterMutation } from '../api/registerApi';
-import { registerUserSchema } from '../utils/validationRegisterFormConfig';
+import {
+  registerUserSchema,
+  type RegistrationFormValues,
+} from '../utils/validationRegisterFormConfig';
 import { useRegistrationDraft } from '../model/useRegistrationDraft';
 import { Input } from '@shared/ui/input';
 import { Checkbox } from '@shared/ui/checkbox';
@@ -22,14 +25,6 @@ import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
 import { ROUTES } from '@/shared/routes';
 
-interface RegistrationFormValues {
-  name: string;
-  surname: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export const RegistrationForm = () => {
   const { handleSubmit, control, reset, setError, clearErrors, subscribe } =
     useForm<RegistrationFormValues>({
@@ -39,6 +34,7 @@ export const RegistrationForm = () => {
         email: '',
         password: '',
         confirmPassword: '',
+        acceptTerms: false,
       },
       resolver: zodResolver(registerUserSchema),
     });
@@ -98,6 +94,7 @@ export const RegistrationForm = () => {
         email: draft.email,
         password: '',
         confirmPassword: '',
+        acceptTerms: false,
       });
     }
 
@@ -124,7 +121,6 @@ export const RegistrationForm = () => {
         <Controller
           name="name"
           control={control}
-          rules={{ required: 'Введите Имя' }}
           render={({ field, fieldState }) => (
             <Input
               name={field.name}
@@ -142,7 +138,6 @@ export const RegistrationForm = () => {
         <Controller
           name="surname"
           control={control}
-          rules={{ required: 'Введите Фамилию' }}
           render={({ field, fieldState }) => (
             <Input
               name={field.name}
@@ -159,7 +154,6 @@ export const RegistrationForm = () => {
       </div>
       <Controller
         name="email"
-        rules={{ required: 'Введите email' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -176,7 +170,6 @@ export const RegistrationForm = () => {
       />
       <Controller
         name="password"
-        rules={{ required: 'Введите пароль' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -197,7 +190,6 @@ export const RegistrationForm = () => {
       <Controller
         name="confirmPassword"
         control={control}
-        rules={{ required: 'Подтвердите пароль' }}
         render={({ field, fieldState }) => (
           <Input
             name={field.name}
@@ -214,7 +206,25 @@ export const RegistrationForm = () => {
       />
 
       <div className={styles.privacy}>
-        <Checkbox>Я принимаю Условия использования и Политику конфиденциальности</Checkbox>
+        <Controller
+          name="acceptTerms"
+          control={control}
+          render={({ field, fieldState }) => (
+            <div>
+              <Checkbox
+                ref={field.ref}
+                name={field.name}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+                onBlur={field.onBlur}
+                aria-invalid={fieldState.invalid}
+              >
+                Я принимаю Условия использования и Политику конфиденциальности
+              </Checkbox>
+              <FormError message={fieldState.error?.message ?? null} />
+            </div>
+          )}
+        />
       </div>
 
       <FormError message={errorMessage} />

@@ -8,6 +8,7 @@ const CREATE_DEFAULTS: Partial<CreateCalendarEventFormInput> = {
   taskType: 'meet',
   repeatable: 'no-repeat',
   notifications: false,
+  reminderMinutes: '15',
   telegramSend: true,
 };
 
@@ -31,6 +32,7 @@ export const buildEventFormDefaults = (
     taskType: 'meet',
     repeatable: 'no-repeat',
     notifications: false,
+    reminderMinutes: '15',
     telegramSend: true,
   };
 };

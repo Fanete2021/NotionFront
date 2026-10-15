@@ -1,7 +1,13 @@
 'use client';
 
-import { FC, useState, useEffect, useCallback } from 'react';
+import { FC, useEffect, useCallback } from 'react';
+import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './CreateWorkspaceModal.module.css';
+import {
+  createWorkspaceFormSchema,
+  type CreateWorkspaceFormValues,
+} from '../../utils/validationCreateWorkspaceFormConfig';
 import {
   closeCreateWorkspaceModal,
   workspaceModalsReducer,
@@ -19,11 +25,16 @@ import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { FormError } from '@/shared/ui/form-error';
 import PlusIcon from '@/shared/assets/icons/plus.svg';
 
+const FORM_ID = 'createWorkspaceForm';
+
 export const CreateWorkspaceModal: FC = () => {
   const store = useAppStore();
   const dispatch = useAppDispatch();
-  const [name, setName] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const { control, handleSubmit, reset } = useForm<CreateWorkspaceFormValues>({
+    resolver: zodResolver(createWorkspaceFormSchema),
+    defaultValues: { name: '' },
+  });
+  const name = useWatch({ control, name: 'name' });
 
   useEffect(() => {
     store.injectReducer('workspaceModals', workspaceModalsReducer);
@@ -35,9 +46,10 @@ export const CreateWorkspaceModal: FC = () => {
     execute: createWorkspace,
     isLoading,
     error: mutationError,
+    fieldErrors,
   } = useMutationWithError<Workspace, { name: string }>(useCreateWorkspaceMutation, {
     onSuccess: (newWorkspace) => {
-      setName('');
+      reset();
       dispatch(closeCreateWorkspaceModal());
       dispatch(setCurrentWorkspace(newWorkspace.id));
     },
@@ -55,36 +67,22 @@ export const CreateWorkspaceModal: FC = () => {
 
   useEffect(() => {
     if (isOpen) {
-      //eslint-disable-next-line
-      setName('');
-      setError(null);
+      reset();
     }
-  }, [isOpen]);
+  }, [isOpen, reset]);
 
-  const handleCreate = useCallback(async () => {
-    setError(null);
-    const trimmed = name.trim();
-    if (!trimmed) {
-      setError('Название обязательно');
-      return;
+  const onSubmit: SubmitHandler<CreateWorkspaceFormValues> = async (values) => {
+    try {
+      await createWorkspace(values);
+    } catch (error) {
+      console.error('Ошибка при создании рабочего пространства:', error);
     }
-    await createWorkspace({ name: trimmed });
-  }, [name, createWorkspace]);
+  };
 
   const handleClose = useCallback(() => {
-    setName('');
-    setError(null);
+    reset();
     dispatch(closeCreateWorkspaceModal());
-  }, [dispatch]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && !isLoading && name.trim()) {
-        handleCreate();
-      }
-    },
-    [isLoading, name, handleCreate],
-  );
+  }, [dispatch, reset]);
 
   const header = (
     <div className={styles.heading}>
@@ -104,8 +102,8 @@ export const CreateWorkspaceModal: FC = () => {
       </Button>
       <Button
         variant="filled"
-        type="button"
-        onClick={handleCreate}
+        type="submit"
+        form={FORM_ID}
         className={styles.submitButton}
         addonLeft={<PlusIcon className={styles.submitIcon} />}
         disabled={isLoading || !name.trim()}
@@ -124,19 +122,24 @@ export const CreateWorkspaceModal: FC = () => {
       header={header}
       footer={footer}
     >
-      <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-        <Input
-          id="workspaceName"
-          type="text"
-          value={name}
-          label="Название"
-          onChange={(str) => setName(str)}
-          placeholder="Название рабочего пространства..."
-          autoFocus
-          disabled={isLoading}
-          onKeyDown={handleKeyDown}
+      <form id={FORM_ID} className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Input
+              {...field}
+              id="workspaceName"
+              type="text"
+              label="Название"
+              error={fieldState.error?.message ?? fieldErrors.name}
+              placeholder="Название рабочего пространства..."
+              autoFocus
+              disabled={isLoading}
+            />
+          )}
         />
-        <FormError message={error || mutationError} />
+        <FormError message={mutationError} />
       </form>
     </Modal>
   );

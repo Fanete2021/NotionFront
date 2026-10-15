@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import styles from './InviteLink.module.css';
-import { Typography } from '@shared/ui/typography';
 
 interface InviteLinkProps {
   title: string;
@@ -10,13 +9,9 @@ interface InviteLinkProps {
 
 export function InviteLink({ title, subtitle, className }: InviteLinkProps) {
   return (
-    <div className={cn(styles.inviteLink, className)}>
-      <Typography className={styles.title} variant="text-medium">
-        {title}
-      </Typography>
-      <Typography className={styles.subtitle} variant="caption">
-        {subtitle}
-      </Typography>
-    </div>
+    <span className={cn(styles.inviteLink, className)}>
+      <span className={styles.title}>{title}</span>
+      <span className={styles.subtitle}>{subtitle}</span>
+    </span>
   );
 }

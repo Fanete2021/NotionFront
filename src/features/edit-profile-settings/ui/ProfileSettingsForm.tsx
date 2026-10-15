@@ -8,8 +8,11 @@ import styles from './ProfileSettingsForm.module.css';
 import { ProfileCard } from './profile-card';
 import { NotificationCard } from './notification-card';
 import { TelegramCard } from './telegram-card';
-import { defaultProfileSettings, ProfileSettings } from '../model/mock.api';
-import { profileSettingsSchema } from '../utils/validationProfileSettingsConfig';
+import { defaultProfileSettings } from '../model/mock.api';
+import {
+  profileSettingsSchema,
+  type ProfileSettings,
+} from '../utils/validationProfileSettingsConfig';
 import { UpdateUserDto, useGetMeQuery, User, useUpdateUserProfileMutation } from '@entities/user';
 import { Typography } from '@shared/ui/typography';
 import { Button } from '@shared/ui/button';
@@ -35,7 +38,6 @@ export function ProfileSettingsForm({ className }: ProfileSettingsFormProps) {
     execute: updateUser,
     isLoading: isUpdating,
     error: updateError,
-    fieldErrors: updateFieldErrors,
   } = useMutationWithError<User, { data: UpdateUserDto }>(useUpdateUserProfileMutation, {
     fieldMap: {
       [HTTP_STATUS.BAD_REQUEST]: {
