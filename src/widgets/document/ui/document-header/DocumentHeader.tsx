@@ -8,6 +8,7 @@ import type { Page } from '@/shared/const/pageType';
 import { formatRelativeTime } from '@/shared/lib/format-relative-time/formatRelativeTime';
 import { Typography } from '@/shared/ui/typography';
 import { getIconByName } from '@/shared/ui/icon-picker';
+import { useRelativeTimeTick } from '@/shared/lib';
 
 interface DocumentHeaderProps {
   page: Page;
@@ -32,6 +33,8 @@ export const DocumentHeader = ({ page, updatedAt, saveError, isSaving }: Documen
 
   const { data: authData } = useGetMeQuery();
 
+  useRelativeTimeTick(30_000);
+
   const latestVersion = versions?.items?.[0];
   const editorId = latestVersion?.authorId ?? page.authorId ?? '';
 
@@ -40,11 +43,13 @@ export const DocumentHeader = ({ page, updatedAt, saveError, isSaving }: Documen
     authData?.name ??
     'Неизвестный';
 
-  const editedAt = updatedAt ?? latestVersion?.createdAt ?? page.updatedAt;
+  const editedAt = updatedAt ?? latestVersion?.createdAt;
 
   const meta = isSaving
     ? 'Сохранение…'
-    : `Последнее изменение: ${editorName} · ${formatRelativeTime(editedAt)}`;
+    : editedAt
+      ? `Последнее изменение: ${editorName} · ${formatRelativeTime(editedAt)}`
+      : `Автор ${editorName}`;
 
   return (
     <div className={styles.heading}>

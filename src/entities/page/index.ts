@@ -26,3 +26,6 @@ export type {
 export { usePagePresence } from './model/hooks/usePagePresence';
 
 export { PageSessionContext, usePageSession } from './model/page-session-context';
+
+export { YjsSocketProvider } from './model/yjs-provider/YjsSocketProvider';
+export { useYjsProvider } from './model/yjs-provider/useYjsProvider';
