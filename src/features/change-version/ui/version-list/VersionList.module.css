@@ -20,6 +20,16 @@
   flex-grow: 1;
   min-height: 0;
   overflow-y: auto;
+
+  .more {
+    margin-top: 8px;
+  }
+
+  .moreError {
+    display: block;
+    margin-top: 8px;
+    color: var(--color-danger);
+  }
 }
 
 .card {
@@ -51,4 +61,20 @@
 
 .card:hover:not(.cardSelected) {
   background: var(--color-version-card-hover-bg);
+}
+
+.skeleton {
+  margin-top: 4px;
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 12px;
+
+  .stateTitle {
+    color: var(--color-text-primary);
+  }
 }

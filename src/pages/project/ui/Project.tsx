@@ -26,7 +26,7 @@ export const ProjectPage = () => {
   );
 
   return (
-    <ProjectWorkspace breadcrumbs={breadcrumbs}>
+    <ProjectWorkspace breadcrumbs={breadcrumbs} page={page}>
       <main className={styles.main}>
         <DocumentHeader page={page} />
         <div className={styles.document}>
