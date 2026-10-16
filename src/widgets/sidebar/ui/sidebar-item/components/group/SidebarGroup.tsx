@@ -54,6 +54,8 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
     setContextMenu({ x: e.clientX, y: e.clientY });
   }, []);
 
+  const handleCloseContextMenu = useCallback(() => setContextMenu(null), []);
+
   const handleMoreClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setIsDropdownOpen((prev) => !prev);
@@ -124,7 +126,7 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
         isOpen={contextMenu !== null}
         position={contextMenu}
         onCreateDocument={handleCreateDocument}
-        onClose={() => setContextMenu(null)}
+        onClose={handleCloseContextMenu}
       />
     </>
   );

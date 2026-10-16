@@ -18,6 +18,7 @@ export function GroupContextMenu({
   onCreateDocument,
   onClose,
 }: GroupContextMenuProps) {
+  // Закрываем меню по клику снаружи (в том числе правому) и по Escape
   const menuRef = useDismissibleLayer<HTMLDivElement>({
     enabled: isOpen && position !== null,
     onDismiss: onClose,
