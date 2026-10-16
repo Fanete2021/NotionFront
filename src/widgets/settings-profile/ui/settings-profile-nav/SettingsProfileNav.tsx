@@ -22,9 +22,9 @@ export const SettingsProfileNav: FC<SettingsProfileNavProps> = ({ className }) =
       </Typography>
 
       <ul className={styles.list}>
-        {settingsNavItems.map(({ id, title, href, icon: Icon }) => (
+        {settingsNavItems.map(({ id, title, href }) => (
           <li key={id}>
-            <NavLink href={href} active={pathname === href} addonLeft={<Icon />}>
+            <NavLink href={href} active={pathname === href} className={styles.link}>
               {title}
             </NavLink>
           </li>
