@@ -41,21 +41,11 @@ const textColors = [
 ] as const;
 
 type TextEditorProps = {
-  /**
-   * Fallback-контент, когда Yjs-провайдер не подключён.
-   * В коллаборативном режиме игнорируется — состояние придёт из `yjs:sync`.
-   */
   content?: string | Record<string, unknown> | null;
   editable?: boolean;
-  /**
-   * Fallback onChange для офлайн-режима.
-   * В коллаборативном режиме изменения уходят через Yjs, onChange не вызывается.
-   */
   onChange?: (json: Record<string, unknown>) => void;
   onUploadFile?: UploadFile;
-  /** Yjs-провайдер. Если null — редактор работает как обычно. */
   provider?: YjsSocketProvider | null;
-  /** Данные текущего пользователя для курсора. */
   user?: { name: string; color: string } | null;
 };
 
