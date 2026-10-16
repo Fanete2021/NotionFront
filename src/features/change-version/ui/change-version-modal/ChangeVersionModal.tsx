@@ -1,17 +1,30 @@
 'use client';
 
 import styles from './ChangeVersionModal.module.css';
-import { VersionList } from '../version-list/VersionList';
-import { VersionPreview } from '../version-preview/VersionPreview';
+import { VersionHistory } from '../version-history/VersionHistory';
+import type { PageContent } from '@/entities/page';
+import type { Page } from '@/shared/const/pageType';
 import { Modal } from '@/shared/ui/modal';
 import { Typography } from '@shared/ui/typography';
 
 type ChangeVersionModalProps = {
   open: boolean;
   onClose: () => void;
+  page: Page;
+  onRestored?: (content: PageContent) => void;
 };
 
-export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) => {
+export const ChangeVersionModal = ({
+  open,
+  onClose,
+  page,
+  onRestored,
+}: ChangeVersionModalProps) => {
+  const handleRestored = (content: PageContent) => {
+    onRestored?.(content);
+    onClose();
+  };
+
   return (
     <Modal
       isOpen={open}
@@ -27,15 +40,14 @@ export const ChangeVersionModal = ({ open, onClose }: ChangeVersionModalProps) =
               История изменений
             </Typography>
             <Typography variant="caption" className={styles.headingSubtitle}>
-              Дизайн-система — Компоненты
+              {page.title}
             </Typography>
           </div>
         </div>
       }
     >
       <div className={styles.layout}>
-        <VersionList />
-        <VersionPreview />
+        <VersionHistory page={page} onRestored={handleRestored} />
       </div>
     </Modal>
   );
