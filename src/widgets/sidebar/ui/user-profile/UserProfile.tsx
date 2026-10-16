@@ -40,11 +40,10 @@ export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
           allDevices: false,
         },
       });
+      setIsMenuOpen(false);
     } catch (error) {
       console.log(error);
     }
-
-    setIsMenuOpen(false);
   };
 
   return (
@@ -90,9 +89,9 @@ export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
                 {isLoggingOut ? 'Выход' : 'Выйти'}
               </Button>
             </li>
+            <FormError message={logoutError} />
           </ContextMenu>
         )}
-        <FormError message={logoutError} />
       </div>
     </div>
   );
