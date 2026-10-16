@@ -1,20 +1,15 @@
-import { UserData } from '@/entities/user';
-import { baseApi } from '@shared/api/baseApi';
-import { setAccessToken } from '@shared/api';
-
-interface RegistrationRequest {
-  email: string;
-  password: string;
-  name: string;
-}
+import type { RegistrationDto } from '../model/registration.types';
+import { AuthResult } from '@/entities/user';
+import { clearCurrentWorkspace } from '@/entities/workspace';
+import { baseApi, setAccessToken } from '@/shared/api';
 
 export const registerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    register: builder.mutation<UserData, RegistrationRequest>({
-      query: (body) => ({
-        url: '/auth/register',
+    register: builder.mutation<AuthResult, { body: RegistrationDto }>({
+      query: ({ body }) => ({
+        url: 'auth/register',
         method: 'POST',
-        body: body,
+        body,
       }),
 
       extraOptions: {
@@ -27,7 +22,8 @@ export const registerApi = baseApi.injectEndpoints({
 
           dispatch(setAccessToken(data.accessToken));
 
-          dispatch(baseApi.util.invalidateTags(['User', 'Session']));
+          dispatch(clearCurrentWorkspace());
+          dispatch(baseApi.util.resetApiState());
         } catch {
           // Ошибка обрабатывается состоянием RTK Query
         }

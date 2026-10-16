@@ -6,7 +6,7 @@ export interface CreateWorkspaceInviteDto {
   role: InviteRole;
 }
 
-export interface WorkspaceInviteEntity {
+export interface CreateWorkspaceInviteResult {
   token: string;
   url: string;
   type: InviteType;
@@ -14,7 +14,7 @@ export interface WorkspaceInviteEntity {
   expiresAt: string | null;
 }
 
-export interface WorkspaceInviteSummaryEntity {
+export interface WorkspaceInviteSummary {
   id: string;
   workspaceId: string;
   type: InviteType;

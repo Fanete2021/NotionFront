@@ -1,5 +1,5 @@
 import { UpdateUserDto, User } from '../model/user.types';
-import { baseApi } from '@shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,19 +13,13 @@ export const userApi = baseApi.injectEndpoints({
       },
       providesTags: [{ type: 'User', id: 'ME' }, 'Session'],
     }),
-    updateUserProfile: builder.mutation<User, { data: UpdateUserDto }>({
-      query: ({ data }) => ({
-        url: '/users/me',
+    updateUserProfile: builder.mutation<User, { body: UpdateUserDto }>({
+      query: ({ body }) => ({
+        url: 'users/me',
         method: 'PATCH',
-        body: data,
+        body,
       }),
-      invalidatesTags: (result) =>
-        result
-          ? [
-              { type: 'User', id: result.id },
-              { type: 'User', id: 'ME' },
-            ]
-          : [],
+      invalidatesTags: (result, error) => (error || !result ? [] : [{ type: 'User', id: 'ME' }]),
       extraOptions: {
         requiresAuth: true,
       },

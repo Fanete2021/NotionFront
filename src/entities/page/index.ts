@@ -1,6 +1,4 @@
-import { pageApi } from './api/pageApi';
-
-export const {
+export {
   useGetPagesByWorkspaceQuery,
   useGetPageByIdQuery,
   useGetPageContentQuery,
@@ -10,7 +8,7 @@ export const {
   useUpdatePageContentMutation,
   useDeletePageMutation,
   useGetPageVersionsQuery,
-} = pageApi;
+} from './api/pageApi';
 
 export type {
   CreatePageDto,
