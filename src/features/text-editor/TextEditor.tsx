@@ -8,6 +8,8 @@ import StarterKit from '@tiptap/starter-kit';
 import { TableKit } from '@tiptap/extension-table';
 import DragHandle from '@tiptap/extension-drag-handle-react';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
+import Collaboration from '@tiptap/extension-collaboration';
+import CollaborationCaret from '@tiptap/extension-collaboration-caret';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
 import { useState, useEffect, useRef } from 'react';
@@ -18,6 +20,7 @@ import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
 import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
 import { UploadFileContext, type UploadFile } from './model/uploadFileContext';
+import type { YjsSocketProvider } from '@/entities/page';
 import { Button } from '@shared/ui/button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
@@ -38,10 +41,22 @@ const textColors = [
 ] as const;
 
 type TextEditorProps = {
+  /**
+   * Fallback-контент, когда Yjs-провайдер не подключён.
+   * В коллаборативном режиме игнорируется — состояние придёт из `yjs:sync`.
+   */
   content?: string | Record<string, unknown> | null;
   editable?: boolean;
+  /**
+   * Fallback onChange для офлайн-режима.
+   * В коллаборативном режиме изменения уходят через Yjs, onChange не вызывается.
+   */
   onChange?: (json: Record<string, unknown>) => void;
   onUploadFile?: UploadFile;
+  /** Yjs-провайдер. Если null — редактор работает как обычно. */
+  provider?: YjsSocketProvider | null;
+  /** Данные текущего пользователя для курсора. */
+  user?: { name: string; color: string } | null;
 };
 
 const uploadLocalFile: UploadFile = (file) => Promise.resolve(URL.createObjectURL(file));
@@ -55,6 +70,8 @@ export const TextEditor = ({
   editable = true,
   onChange,
   onUploadFile,
+  provider,
+  user,
 }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);
@@ -65,63 +82,75 @@ export const TextEditor = ({
   }, [onChange]);
 
   const initialJsonRef = useRef<string | null>(null);
+  const isCollaborative = Boolean(provider);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        link: {
-          openOnClick: false,
+  const editor = useEditor(
+    {
+      extensions: [
+        StarterKit.configure({
+          link: { openOnClick: false },
+          dropcursor: { color: '#6366F1', width: 2 },
+          ...(isCollaborative ? { undoRedo: false } : {}),
+        }),
+
+        TaskList,
+        TaskItem.configure({ nested: true }),
+
+        SlashCommands,
+        TextStyle,
+        Color,
+        Image,
+        ImageUploadNode,
+        VideoUploadNode,
+        VideoNode,
+
+        TableKit.configure({
+          table: { resizable: true },
+        }),
+
+        ...(provider
+          ? [
+              Collaboration.configure({
+                document: provider.doc,
+              }),
+              CollaborationCaret.configure({
+                provider,
+                user: user ?? { name: 'Гость', color: '#6366F1' },
+              }),
+            ]
+          : []),
+      ],
+      content: isCollaborative ? undefined : ((content ?? '') as Content),
+      editable,
+      immediatelyRender: false,
+      onUpdate: ({ editor: ed }) => {
+        if (isCollaborative) return;
+
+        const json = ed.getJSON();
+        const serialized = JSON.stringify(json);
+
+        if (initialJsonRef.current === null) {
+          initialJsonRef.current = serialized;
+          return;
+        }
+        if (serialized === initialJsonRef.current) return;
+
+        onChangeRef.current?.(json as Record<string, unknown>);
+      },
+      editorProps: {
+        attributes: {
+          class: styles.editor,
         },
-        dropcursor: {
-          color: '#6366F1',
-          width: 2,
-        },
-      }),
-
-      TaskList,
-      TaskItem.configure({
-        nested: true,
-      }),
-
-      SlashCommands,
-      TextStyle,
-      Color,
-      Image,
-      ImageUploadNode,
-      VideoUploadNode,
-      VideoNode,
-
-      TableKit.configure({
-        table: { resizable: true },
-      }),
-    ],
-    content: (content ?? '') as Content,
-    editable,
-    immediatelyRender: false,
-    onUpdate: ({ editor: ed }) => {
-      const json = ed.getJSON();
-      const serialized = JSON.stringify(json);
-
-      if (initialJsonRef.current === null) {
-        initialJsonRef.current = serialized;
-        return;
-      }
-      if (serialized === initialJsonRef.current) return;
-
-      onChangeRef.current?.(json as Record<string, unknown>);
-    },
-    editorProps: {
-      attributes: {
-        class: styles.editor,
       },
     },
-  });
+    [provider, user?.name, user?.color],
+  );
 
   useEffect(() => {
-    if (editor && initialJsonRef.current === null) {
+    if (editor && initialJsonRef.current === null && !isCollaborative) {
       initialJsonRef.current = JSON.stringify(editor.getJSON());
     }
-  }, [editor]);
+  }, [editor, isCollaborative]);
 
   useEffect(() => {
     editor?.setEditable(editable);
@@ -180,11 +209,9 @@ export const TextEditor = ({
 
   const handleShouldShow = () => {
     if (!editable || !editor) return false;
-
     if (editor.isActive('table')) return true;
 
     const selection = editor?.state.selection;
-
     return selection ? isTextSelection(selection) && !selection.empty : false;
   };
 
