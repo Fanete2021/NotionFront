@@ -4,13 +4,14 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { LogOut } from 'lucide-react';
 import styles from './UserProfile.module.css';
+import { useLogoutMutation } from '@features/auth';
 import { Avatar } from '@shared/ui/avatar';
 import { Typography } from '@shared/ui/typography';
-import { useAppDispatch, useDismissibleLayer } from '@shared/lib';
-import { loggedOut } from '@shared/api';
+import { useDismissibleLayer, useMutationWithError } from '@shared/lib';
 import { Button } from '@shared/ui/button';
 import MoreIcon from '@/shared/assets/icons/more.svg';
 import { ContextMenu } from '@shared/ui/context-menu';
+import { FormError } from '@shared/ui/form-error';
 
 interface UserProfileProps {
   name: string;
@@ -26,11 +27,24 @@ export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
     onDismiss: () => setIsMenuOpen(false),
   });
 
-  const dispatch = useAppDispatch();
+  const {
+    execute: profileLogout,
+    isLoading: isLoggingOut,
+    error: logoutError,
+  } = useMutationWithError(useLogoutMutation);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await profileLogout({
+        body: {
+          allDevices: false,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
     setIsMenuOpen(false);
-    dispatch(loggedOut());
   };
 
   return (
@@ -69,14 +83,16 @@ export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
                 variant="clear"
                 className={classNames(styles.profileAction, styles.logout)}
                 role="menuitem"
+                disabled={isLoggingOut}
                 onClick={handleLogout}
               >
                 <LogOut className={styles.actionIcon} aria-hidden="true" />
-                Выйти
+                {isLoggingOut ? 'Выход' : 'Выйти'}
               </Button>
             </li>
           </ContextMenu>
         )}
+        <FormError message={logoutError} />
       </div>
     </div>
   );
