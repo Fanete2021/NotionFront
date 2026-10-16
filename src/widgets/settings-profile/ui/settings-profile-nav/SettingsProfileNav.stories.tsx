@@ -28,14 +28,6 @@ export const ProfileActive: Story = {
   },
 };
 
-export const BillingActive: Story = {
-  parameters: {
-    nextjs: {
-      navigation: { pathname: '/settings/billing' },
-    },
-  },
-};
-
 export const NothingActive: Story = {
   parameters: {
     nextjs: {
