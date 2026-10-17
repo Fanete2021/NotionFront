@@ -11,9 +11,10 @@ export const ROUTES = {
   trash: '/trash',
   settings: '/settings',
   pageSearch: '/search',
+  publicFeed: '/feed',
 } as const;
 
-export const PUBLIC_ROUTES = [ROUTES.login, ROUTES.registration] as const;
+export const PUBLIC_ROUTES = [ROUTES.login, ROUTES.registration, ROUTES.publicFeed] as const;
 
 export const PRIVATE_ROUTES = [
   ROUTES.home,

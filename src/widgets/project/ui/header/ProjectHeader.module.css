@@ -9,26 +9,10 @@
   border-bottom: 1px solid var(--color-border-base);
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--color-text-muted);
-}
-
-.nav > * {
-  margin: 0;
-}
-
-.navCurrent {
-  color: var(--color-text-primary);
-}
-
-.chevron {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  color: var(--color-text-muted);
+.header .nav {
+  --breadcrumbs-gap: 4px;
+  font-size: 14px;
+  line-height: 24px;
 }
 
 .actions {
