@@ -5,6 +5,7 @@ import { ProjectHeader } from '../header/ProjectHeader';
 import { ProjectComments } from '../comments/ProjectComments';
 import styles from './ProjectWorkspace.module.css';
 import { ChangeVersionModal } from '@/features/change-version';
+import { PublishPageModal } from '@features/publish-page';
 import type { PageContent } from '@/entities/page';
 import type { Page } from '@/shared/const/pageType';
 
@@ -23,6 +24,7 @@ export const ProjectWorkspace = ({
 }: ProjectWorkspaceProps) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isPublicationOpen, setIsPublicationOpen] = useState(false);
 
   return (
     <div className={styles.root}>
@@ -31,6 +33,7 @@ export const ProjectWorkspace = ({
           breadcrumbs={breadcrumbs}
           onCommentsClick={() => setIsCommentsOpen((open) => !open)}
           onHistoryClick={() => setIsHistoryOpen(true)}
+          onPublishClick={() => setIsPublicationOpen(true)}
         />
         <div className={styles.content}>{children}</div>
       </div>
@@ -40,6 +43,11 @@ export const ProjectWorkspace = ({
         onClose={() => setIsHistoryOpen(false)}
         page={page}
         onRestored={onVersionRestored}
+      />
+      <PublishPageModal
+        isOpen={isPublicationOpen}
+        onClose={() => setIsPublicationOpen(false)}
+        page={page}
       />
     </div>
   );

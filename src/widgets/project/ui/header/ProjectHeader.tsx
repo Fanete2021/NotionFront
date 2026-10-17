@@ -21,12 +21,14 @@ interface ProjectHeaderProps {
   breadcrumbs: string[];
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
+  onPublishClick?: () => void;
 }
 
 export const ProjectHeader = ({
   breadcrumbs,
   onCommentsClick,
   onHistoryClick,
+  onPublishClick,
 }: ProjectHeaderProps) => {
   const session = usePageSession();
   const users = session?.users ?? [];
@@ -54,6 +56,7 @@ export const ProjectHeader = ({
           variant="filled"
           size="sm"
           addonLeft={<GlobusIcon className={styles.icon} />}
+          onClick={onPublishClick}
         >
           Публикация
         </Button>

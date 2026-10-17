@@ -1,0 +1,21 @@
+.modal {
+  font-family: var(--font-inter), var(--font-sans), sans-serif;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.heading .title {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 400;
+}
+
+.heading .subtitle {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--color-text-muted);
+}
