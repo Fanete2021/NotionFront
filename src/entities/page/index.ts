@@ -7,7 +7,8 @@ export {
   useReorderPagesMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
-  useGetPageVersionsQuery,
+  useGetPageVersionsInfiniteQuery,
+  useRestorePageVersionMutation,
 } from './api/pageApi';
 
 export type {
@@ -19,6 +20,7 @@ export type {
   PageVersion,
   PageVersionList,
   UserPageData,
+  RestorePageVersionDto,
 } from './model/page.types';
 
 export { usePagePresence } from './model/hooks/usePagePresence';

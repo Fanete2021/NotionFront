@@ -18,11 +18,10 @@ export const logoutApi = baseApi.injectEndpoints({
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-        } finally {
           dispatch(loggedOut());
           dispatch(clearCurrentWorkspace());
           dispatch(baseApi.util.resetApiState());
-        }
+        } catch {}
       },
     }),
   }),

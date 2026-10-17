@@ -5,6 +5,7 @@ import {
   PageContent,
   PageContentJson,
   PageVersionList,
+  RestorePageVersionDto,
 } from '../model/page.types';
 import { Page } from '@/shared/const/pageType';
 import { baseApi } from '@/shared/api';
@@ -115,13 +116,34 @@ export const pageApi = baseApi.injectEndpoints({
             ],
     }),
 
-    getPageVersions: builder.query<PageVersionList, string>({
-      query: (id) => ({
-        url: `pages/${id}/versions`,
+    getPageVersions: builder.infiniteQuery<PageVersionList, string, string | null>({
+      infiniteQueryOptions: {
+        initialPageParam: null,
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        refetchCachedPages: false,
+      },
+      query: ({ queryArg, pageParam }) => ({
+        url: `pages/${queryArg}/versions`,
         method: 'GET',
+        params: pageParam ? { cursor: pageParam } : undefined,
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'PageVersion', id }],
+    }),
+
+    restorePageVersion: builder.mutation<PageContent, RestorePageVersionDto>({
+      query: ({ versionId }) => ({
+        url: `versions/${versionId}/restore`,
+        method: 'POST',
+      }),
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { pageId }) =>
+        error
+          ? []
+          : [
+              { type: 'PageContent', id: pageId },
+              { type: 'PageVersion', id: pageId },
+            ],
     }),
   }),
   overrideExisting: false,
@@ -136,5 +158,6 @@ export const {
   useReorderPagesMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
-  useGetPageVersionsQuery,
+  useGetPageVersionsInfiniteQuery,
+  useRestorePageVersionMutation,
 } = pageApi;

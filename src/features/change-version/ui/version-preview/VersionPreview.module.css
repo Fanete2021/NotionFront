@@ -5,6 +5,16 @@
   flex-direction: column;
   gap: 16px;
   padding: 24px 32px;
+
+  .error {
+    color: var(--color-danger);
+  }
+}
+
+.rootEmpty {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .previewHeader {
@@ -44,9 +54,9 @@
 
 .pageIcon {
   align-self: flex-start;
-  font-size: 14px;
-  line-height: 1;
-  font-weight: 700;
+  width: 20px;
+  height: 20px;
+  color: var(--color-page-emoji);
 }
 
 .documentCard > * {
@@ -56,11 +66,6 @@
 .documentTitle {
   font-weight: 700;
   line-height: 30px;
-  color: var(--color-text-primary);
-}
-
-.documentSection {
-  font-weight: 400;
   color: var(--color-text-primary);
 }
 
