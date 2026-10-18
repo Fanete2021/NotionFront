@@ -6,15 +6,58 @@
   overflow-wrap: anywhere;
 }
 
-.content > p + p {
+.content > * + * {
   margin-top: 24px;
 }
 
+.content h1,
 .content h2,
 .content h3,
 .content h4 {
   color: var(--color-text-primary);
   font-weight: 700;
+}
+
+.content h5,
+.content h6 {
+  margin: 32px 0 20px;
+  color: var(--color-text-primary);
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.content a {
+  color: var(--color-primary);
+  text-underline-offset: 3px;
+}
+
+.content ul:not(.checklist),
+.content ol {
+  margin-block: 24px;
+  padding-left: 28px;
+}
+
+.content li + li {
+  margin-top: 8px;
+}
+
+.content hr {
+  border: 0;
+  border-top: 1px solid var(--color-border-base);
+  margin-block: 32px;
+}
+
+.content :not(pre) > code {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: var(--color-bg-muted);
+  font-size: 0.9em;
+}
+
+.content h1 {
+  margin: 60px 0 36px;
+  font-size: 32px;
+  line-height: 40px;
 }
 
 .content h2 {
@@ -74,6 +117,24 @@
   list-style: none;
 }
 
+.checklist > .taskItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 0;
+}
+
+.taskItem > div {
+  flex: 1;
+  min-width: 0;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.taskItem:has(> .checklistLabel > [data-checked]) > div {
+  color: var(--color-text-muted);
+}
+
 .checklist .checklistLabel {
   align-items: flex-start;
   gap: 12px;
@@ -102,10 +163,14 @@
 
 .media {
   display: block;
-  width: 100%;
+  max-width: 100%;
   height: auto;
   border-radius: 4px 4px 16px 16px;
   margin-block: 40px 48px;
+}
+
+.content video {
+  width: 100%;
 }
 
 .media:first-child {
@@ -116,7 +181,36 @@
   margin-bottom: 0;
 }
 
-.content pre:focus-visible {
+.tableWrapper {
+  overflow-x: auto;
+  margin-block: 32px;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.content th,
+.content td {
+  min-width: 100px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border-strong);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content th {
+  background: var(--color-bg-surface);
+}
+
+.notice {
+  margin-block: 24px;
+  color: var(--color-text-muted);
+}
+
+.content pre:focus-visible,
+.content a:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 4px;
   border-radius: 4px;

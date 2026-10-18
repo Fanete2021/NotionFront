@@ -4,21 +4,26 @@ import { useState } from 'react';
 import styles from './PublicFeedPage.module.css';
 import { PublicFeed } from '@widgets/public-feed';
 import { PublicHeader } from '@widgets/public-header';
-import { mockPublishedDocuments } from '@entities/published-document';
 import { Input } from '@shared/ui/input';
 import SearchIcon from '@shared/assets/icons/search.svg';
 
 export const PublicFeedPage = () => {
   const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
+  const [cursorHistory, setCursorHistory] = useState<(string | undefined)[]>([undefined]);
+  const page = cursorHistory.length;
+  const cursor = cursorHistory[page - 1];
 
   const handleSearch = (value: string) => {
     setSearch(value);
-    setPage(1);
   };
 
-  const handlePageChange = (nextPage: number) => {
-    setPage(nextPage);
+  const handleNextPage = (nextCursor: string) => {
+    setCursorHistory((history) => [...history, nextCursor]);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handlePreviousPage = () => {
+    setCursorHistory((history) => (history.length > 1 ? history.slice(0, -1) : history));
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
@@ -38,10 +43,11 @@ export const PublicFeedPage = () => {
         }
       />
       <PublicFeed
-        documents={mockPublishedDocuments}
         search={search}
         page={page}
-        onPageChange={handlePageChange}
+        cursor={cursor}
+        onNextPage={handleNextPage}
+        onPreviousPage={handlePreviousPage}
         onResetSearch={() => handleSearch('')}
       />
     </>

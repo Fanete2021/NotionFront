@@ -41,7 +41,7 @@ export const PublishPageModal = ({ isOpen, onClose, page, onSubmit }: PublishPag
       <PublishPageForm
         key={page.id}
         id={formId}
-        defaultValues={{ isPublic: true, title: page.title, description: '', slug: page.id }}
+        defaultValues={{ title: page.title, description: '' }}
         onCancel={onClose}
         onSubmit={onSubmit}
       />

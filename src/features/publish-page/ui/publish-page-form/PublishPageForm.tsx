@@ -1,6 +1,6 @@
 'use client';
 
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './PublishPageForm.module.css';
 import {
@@ -8,10 +8,8 @@ import {
   type PublishPageFormValues,
 } from '../../model/publishPageFormSchema';
 import { Button } from '@shared/ui/button';
-import { Card } from '@shared/ui/card';
 import { FormError } from '@shared/ui/form-error';
 import { Input } from '@shared/ui/input';
-import { Toggle } from '@shared/ui/toggle';
 import { Typography } from '@shared/ui/typography';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
 
@@ -37,49 +35,9 @@ export const PublishPageForm = ({
     defaultValues,
     resolver: zodResolver(publishPageFormSchema),
   });
-  const isPublic = useWatch({ control, name: 'isPublic' });
-
   return (
     <form id={id} onSubmit={handleSubmit((values) => onSubmit?.(values))} noValidate>
       <div className={styles.fields}>
-        <Card radius="m" className={styles.accessCard}>
-          <span className={styles.accessIcon} aria-hidden="true">
-            <GlobusIcon />
-          </span>
-          <div className={styles.accessText}>
-            <Typography id={`${id}-access`} className={styles.accessTitle}>
-              Публичный доступ
-            </Typography>
-            <Typography id={`${id}-access-description`} className={styles.accessDescription}>
-              Любой с ссылкой может просматривать
-            </Typography>
-          </div>
-          <Controller
-            name="isPublic"
-            control={control}
-            render={({ field }) => {
-              const toggle = () => field.onChange(!field.value);
-
-              return (
-                <Toggle
-                  checked={field.value}
-                  className={styles.toggle}
-                  onToggle={toggle}
-                  onBlur={field.onBlur}
-                  onKeyDown={(event) => {
-                    if (event.key === ' ' || event.key === 'Enter') {
-                      event.preventDefault();
-                      toggle();
-                    }
-                  }}
-                  aria-labelledby={`${id}-access`}
-                  aria-describedby={`${id}-access-description`}
-                />
-              );
-            }}
-          />
-        </Card>
-
         <fieldset className={styles.seo}>
           <legend className={styles.legend}>SEO-настройки</legend>
           <div className={styles.seoFields}>
@@ -128,35 +86,6 @@ export const PublishPageForm = ({
                 </div>
               )}
             </div>
-
-            <div className={styles.field}>
-              <Typography variant="label" htmlFor={`${id}-slug`} className={styles.label}>
-                Пользовательский URL-слаг
-              </Typography>
-              <Controller
-                name="slug"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    {...field}
-                    id={`${id}-slug`}
-                    className={styles.slugInput}
-                    placeholder="design-system-components"
-                    addonLeft={<span className={styles.urlPrefix}>acme.notify.ru/</span>}
-                    aria-invalid={Boolean(errors.slug)}
-                    aria-describedby={errors.slug ? `${id}-slug-error` : undefined}
-                    autoCapitalize="none"
-                    autoCorrect="off"
-                    spellCheck={false}
-                  />
-                )}
-              />
-              {errors.slug && (
-                <div id={`${id}-slug-error`} role="alert">
-                  <FormError message={errors.slug.message ?? null} />
-                </div>
-              )}
-            </div>
           </div>
         </fieldset>
       </div>
@@ -174,7 +103,6 @@ export const PublishPageForm = ({
             variant="filled"
             className={styles.submitButton}
             addonLeft={<GlobusIcon />}
-            disabled={!isPublic}
           >
             Опубликовать
           </Button>

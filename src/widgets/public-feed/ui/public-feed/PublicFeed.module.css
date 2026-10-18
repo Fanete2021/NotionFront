@@ -27,6 +27,18 @@
   gap: 64px;
 }
 
+.intro .searchHint {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.loadingItem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .meta {
   display: flex;
   align-items: center;
@@ -111,14 +123,16 @@
 }
 
 .pagination .pageNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  color: var(--color-text-muted);
+  background: var(--color-sidebar-item-active);
+  color: var(--color-primary);
 }
 
-.pagination .activePage,
-.pageNumber:hover,
 .pageDirection:hover:not(:disabled) {
   background: var(--color-sidebar-item-active);
   color: var(--color-primary);

@@ -1,19 +1,19 @@
 import type { ReactNode } from 'react';
 import styles from './ArticleView.module.css';
 import { ArticleHeader } from './article-header/ArticleHeader';
-import type { PublishedDocument } from '@entities/published-document';
+import type { PublicArticleDetailEntity } from '@entities/published-document';
 import { ROUTES } from '@shared/routes';
 import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 
 type ArticleViewProps = {
-  document: PublishedDocument;
+  document: PublicArticleDetailEntity;
   children: ReactNode;
 };
 
 export const ArticleView = ({ document, children }: ArticleViewProps) => {
   const breadcrumbs = [
     { label: 'Публичная лента', href: ROUTES.publicFeed },
-    { label: document.breadcrumbTitle },
+    { label: document.title },
   ];
 
   return (

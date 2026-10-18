@@ -5,6 +5,12 @@
   margin-bottom: 20px;
 }
 
+.icon svg {
+  display: block;
+  width: 32px;
+  height: 40px;
+}
+
 .articleHeader .title {
   font-size: 42px;
   line-height: 52px;
@@ -33,12 +39,6 @@
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;
-}
-
-.authorDescription {
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--color-placeholder);
 }
 
 .details,
