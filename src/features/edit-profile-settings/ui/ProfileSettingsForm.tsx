@@ -35,7 +35,6 @@ export function ProfileSettingsForm({ className }: ProfileSettingsFormProps) {
     execute: updateUser,
     isLoading: isUpdating,
     error: updateError,
-    fieldErrors: updateFieldErrors,
   } = useMutationWithError<User, { body: UpdateUserDto }>(useUpdateUserProfileMutation, {
     fieldMap: {
       [HTTP_STATUS.BAD_REQUEST]: {

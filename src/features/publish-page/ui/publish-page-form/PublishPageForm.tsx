@@ -1,31 +1,29 @@
 'use client';
 
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './PublishPageForm.module.css';
 import {
   publishPageFormSchema,
   type PublishPageFormValues,
 } from '../../model/publishPageFormSchema';
+import { usePublishArticleMutation } from '@entities/published-document';
+import { PublishPageDto, PublishPageResponse } from '@entities/published-document';
 import { Button } from '@shared/ui/button';
 import { FormError } from '@shared/ui/form-error';
 import { Input } from '@shared/ui/input';
 import { Typography } from '@shared/ui/typography';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
+import { useMutationWithError } from '@shared/lib';
 
 type PublishPageFormProps = {
   id: string;
+  pageId: string;
   defaultValues: PublishPageFormValues;
   onCancel: () => void;
-  onSubmit?: (values: PublishPageFormValues) => void;
 };
 
-export const PublishPageForm = ({
-  id,
-  defaultValues,
-  onCancel,
-  onSubmit,
-}: PublishPageFormProps) => {
+export const PublishPageForm = ({ pageId, id, defaultValues, onCancel }: PublishPageFormProps) => {
   const {
     control,
     register,
@@ -35,8 +33,35 @@ export const PublishPageForm = ({
     defaultValues,
     resolver: zodResolver(publishPageFormSchema),
   });
+
+  const {
+    execute: publishArticle,
+    isLoading: isPublishing,
+    error: publishArticleError,
+    resetError,
+  } = useMutationWithError<PublishPageResponse, { pageId: string; body: PublishPageDto }>(
+    usePublishArticleMutation,
+  );
+
+  const onSubmit: SubmitHandler<PublishPageFormValues> = async (values) => {
+    try {
+      const payload: PublishPageDto = {
+        seoTitle: values.title,
+        seoDescription: values.description,
+        status: 'PUBLISHED',
+      };
+
+      await publishArticle({ pageId, body: payload });
+
+      onCancel();
+      resetError();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <form id={id} onSubmit={handleSubmit((values) => onSubmit?.(values))} noValidate>
+    <form id={id} onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className={styles.fields}>
         <fieldset className={styles.seo}>
           <legend className={styles.legend}>SEO-настройки</legend>
@@ -103,11 +128,13 @@ export const PublishPageForm = ({
             variant="filled"
             className={styles.submitButton}
             addonLeft={<GlobusIcon />}
+            disabled={isPublishing}
           >
-            Опубликовать
+            {isPublishing ? 'Публикация...' : 'Опубликовать'}
           </Button>
         </div>
       </div>
+      <FormError message={publishArticleError} />
     </form>
   );
 };

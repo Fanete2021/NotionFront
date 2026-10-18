@@ -3,7 +3,6 @@
 import { useId } from 'react';
 import styles from './PublishPageModal.module.css';
 import { PublishPageForm } from '../publish-page-form/PublishPageForm';
-import type { PublishPageFormValues } from '../../model/publishPageFormSchema';
 import type { Page } from '@shared/const/pageType';
 import { Modal } from '@shared/ui/modal';
 import { Typography } from '@shared/ui/typography';
@@ -11,13 +10,11 @@ import { Typography } from '@shared/ui/typography';
 type PublishPageModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  page: Pick<Page, 'id' | 'title'>;
-  onSubmit?: (values: PublishPageFormValues) => void;
+  page: Pick<Page, 'id' | 'title' | 'seoTitle' | 'seoDescription'>;
 };
 
-export const PublishPageModal = ({ isOpen, onClose, page, onSubmit }: PublishPageModalProps) => {
+export const PublishPageModal = ({ isOpen, onClose, page }: PublishPageModalProps) => {
   const formId = useId();
-
   return (
     <Modal
       isOpen={isOpen}
@@ -41,9 +38,12 @@ export const PublishPageModal = ({ isOpen, onClose, page, onSubmit }: PublishPag
       <PublishPageForm
         key={page.id}
         id={formId}
-        defaultValues={{ title: page.title, description: '' }}
+        pageId={page.id}
+        defaultValues={{
+          title: page.seoTitle ?? page.title,
+          description: page.seoDescription ?? '',
+        }}
         onCancel={onClose}
-        onSubmit={onSubmit}
       />
     </Modal>
   );

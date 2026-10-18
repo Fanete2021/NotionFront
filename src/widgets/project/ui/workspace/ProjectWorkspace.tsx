@@ -25,7 +25,6 @@ export const ProjectWorkspace = ({
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isPublicationOpen, setIsPublicationOpen] = useState(false);
-
   return (
     <div className={styles.root}>
       <div className={styles.main}>

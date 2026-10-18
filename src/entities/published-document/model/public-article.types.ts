@@ -1,11 +1,22 @@
 import type { JSONContent } from '@tiptap/core';
+import type { Page } from '@shared/const/pageType';
 
 export type PagePublishType = 'DRAFT' | 'PUBLISHED' | 'HIDDEN';
 
 export interface PublishPageDto {
-  seoTitle?: string;
-  seoDescription?: string;
+  seoTitle: string;
+  seoDescription: string;
   status: PagePublishType;
+}
+
+export interface PublishPageResponse extends Omit<Page, 'projectId' | 'parentPageId'> {
+  projectId?: string | null;
+  parentPageId?: string | null;
+  slug?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  publicationStatus?: PagePublishType | null;
+  publishedAt?: string | null;
 }
 
 export interface PublicArticleAuthorEntity {
