@@ -36,23 +36,35 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const uploadAttachment = useUploadAttachment(page.id);
 
   const [canEdit, setCanEdit] = useState(false);
+  const [isSynced, setIsSynced] = useState(false);
   const [lastEditedAt, setLastEditedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (!provider) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCanEdit(false);
+      setIsSynced(false);
       return;
     }
+
     setCanEdit(provider.canEdit);
-    return provider.onCanEditChange(setCanEdit);
+    setIsSynced(provider.isSynced);
+
+    const unsubCanEdit = provider.onCanEditChange(setCanEdit);
+    const unsubSynced = provider.onSyncedChange(setIsSynced);
+
+    return () => {
+      unsubCanEdit();
+      unsubSynced();
+    };
   }, [provider]);
 
   useEffect(() => {
     if (!provider) return;
 
-    const onUpdate = (_update: Uint8Array, origin: unknown) => {
-      if (origin === 'remote') return;
+    const onUpdate = () => {
+      const now = new Date().toISOString();
+      console.log('[DocumentBody] lastEditedAt =', now);
       setLastEditedAt(new Date().toISOString());
     };
 
@@ -62,6 +74,8 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
     };
   }, [provider]);
 
+  const editable = canEdit && isSynced;
+
   return (
     <main className={styles.main}>
       <DocumentHeader page={page} updatedAt={lastEditedAt ?? undefined} />
@@ -69,7 +83,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
         <TextEditor
           provider={provider}
           user={user}
-          editable={canEdit}
+          editable={editable}
           content={content?.json ?? null}
           onUploadFile={uploadAttachment}
         />

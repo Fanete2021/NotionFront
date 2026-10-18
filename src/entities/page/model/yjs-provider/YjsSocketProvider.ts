@@ -69,6 +69,8 @@ export class YjsSocketProvider {
 
   private readonly canEditListeners = new Set<(value: boolean) => void>();
 
+  private readonly syncedListeners = new Set<(value: boolean) => void>();
+
   constructor({ socket, pageId, user }: YjsSocketProviderOptions) {
     this.socket = socket;
     this.pageId = pageId;
@@ -81,18 +83,24 @@ export class YjsSocketProvider {
       this.socket.emit('yjs:update', { pageId, update: Array.from(update) });
     };
 
-    const handleRemoteUpdate = (payload: { pageId: string; update: unknown }): void => {
+    const handleRemoteUpdate = (
+      payload: { pageId: string; update: unknown },
+      isInitialSync = false,
+    ): void => {
       if (this.destroyed) return;
       if (!payload || payload.pageId !== this.pageId) return;
 
       const update = toUint8(payload.update);
-      if (!update) {
-        console.warn('[YjsSocketProvider] toUint8 FAIL', payload.update);
-        return;
-      }
+      if (!update) return;
 
-      Y.applyUpdate(this.doc, update, 'remote');
-      this.synced = true;
+      try {
+        Y.applyUpdate(this.doc, update, 'remote');
+        if (isInitialSync) {
+          this.setSynced(true);
+        }
+      } catch {
+        // Y.Doc мог быть уничтожен в гонке
+      }
     };
 
     const handleLocalAwareness = (
@@ -104,6 +112,7 @@ export class YjsSocketProvider {
 
       const clients = [...changes.added, ...changes.updated, ...changes.removed];
       const update = encodeAwarenessUpdate(this.awareness, clients);
+      if (update.byteLength === 0) return;
       this.socket.emit('yjs:awareness', { pageId, update: Array.from(update) });
     };
 
@@ -112,17 +121,23 @@ export class YjsSocketProvider {
       if (!payload || payload.pageId !== this.pageId) return;
 
       const update = toUint8(payload.update);
-      if (!update) return;
+      if (!update || update.byteLength === 0) return;
 
-      applyAwarenessUpdate(this.awareness, update, 'remote');
+      try {
+        applyAwarenessUpdate(this.awareness, update, 'remote');
+      } catch {
+        // awareness мог быть уничтожен в гонке
+      }
     };
 
     const handleSync = (payload: { pageId: string; update: unknown }): void => {
-      handleRemoteUpdate(payload);
+      handleRemoteUpdate(payload, true);
     };
+
     const handleUpdate = (payload: { pageId: string; update: unknown }): void => {
       handleRemoteUpdate(payload);
     };
+
     const handleAwareness = (payload: { pageId: string; update: unknown }): void => {
       handleRemoteAwareness(payload);
     };
@@ -166,12 +181,23 @@ export class YjsSocketProvider {
     return this.canEditValue;
   }
 
+  onSyncedChange(listener: (value: boolean) => void): () => void {
+    if (this.destroyed) {
+      listener(this.synced);
+      return () => {};
+    }
+    this.syncedListeners.add(listener);
+    listener(this.synced);
+    return () => {
+      this.syncedListeners.delete(listener);
+    };
+  }
+
   onCanEditChange(listener: (value: boolean) => void): () => void {
     if (this.destroyed) {
       listener(this.canEditValue);
       return () => {};
     }
-
     this.canEditListeners.add(listener);
     listener(this.canEditValue);
     return () => {
@@ -179,8 +205,18 @@ export class YjsSocketProvider {
     };
   }
 
+  private setSynced(value: boolean): void {
+    if (this.destroyed) return;
+    if (this.synced === value) return;
+    this.synced = value;
+    for (const listener of this.syncedListeners) {
+      listener(value);
+    }
+  }
+
   private setCanEdit(value: boolean): void {
     if (this.destroyed) return;
+    if (this.canEditValue === value) return;
     this.canEditValue = value;
     for (const listener of this.canEditListeners) {
       listener(value);
@@ -198,19 +234,20 @@ export class YjsSocketProvider {
     try {
       removeAwarenessStates(this.awareness, [this.doc.clientID], 'server');
     } catch {
-      // awareness мог быть уже уничтожен другим вызовом destroy
+      // awareness мог быть уже уничтожен
     }
 
     for (const off of this.cleanup) {
       try {
         off();
       } catch {
-        // игнорируем: слушатель мог быть снят раньше
+        // слушатель мог быть снят раньше
       }
     }
     this.cleanup.length = 0;
 
     this.canEditListeners.clear();
+    this.syncedListeners.clear();
 
     try {
       this.awareness.destroy();
