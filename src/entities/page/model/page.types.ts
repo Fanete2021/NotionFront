@@ -51,6 +51,7 @@ export type PageJoinResponse =
   | {
       ok: true;
       users: UserPageData[];
+      canEdit: boolean;
     }
   | {
       ok: false;
