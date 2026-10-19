@@ -2,7 +2,7 @@
 
 import styles from './DocumentHeader.module.css';
 import { RelativeTime } from '../relative-time/RelativeTime';
-import { useGetPageVersionsQuery } from '@/entities/page';
+import { useGetPageVersionsInfiniteQuery } from '@/entities/page';
 import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 import { useGetMeQuery } from '@/entities/user';
 import type { Page } from '@/shared/const/pageType';
@@ -22,7 +22,7 @@ const renderPageIcon = (icon: string | null | undefined, className: string) => {
 };
 
 export const DocumentHeader = ({ page, updatedAt, saveError, isSaving }: DocumentHeaderProps) => {
-  const { data: versions } = useGetPageVersionsQuery(page.id, { skip: !page.id });
+  const { data: versions } = useGetPageVersionsInfiniteQuery(page.id, { skip: !page.id });
   const { data: members } = useGetWorkspaceMembersQuery(page.workspaceId, {
     skip: !page.workspaceId,
   });
