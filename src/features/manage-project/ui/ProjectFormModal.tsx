@@ -164,20 +164,21 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     const colorToSend = shouldSendColor ? (values.color ?? undefined) : undefined;
 
     if (isCreate) {
-      if (!workspaceId) {
-        setError('Workspace не найден');
+      if (!values.workspaceId) {
+        setError('workspaceId', { message: 'Рабочее пространство не выбрано' });
         return;
       }
       await createProject({
-        workspaceId,
+        workspaceId: values.workspaceId,
         body: {
-          name: trimmed,
+          name: values.name,
           color: colorToSend,
-          icon: icon ?? undefined,
+          icon: values.icon ?? undefined,
         },
       });
     } else {
-      const hasChanges = trimmed !== currentName || color !== currentColor || icon !== currentIcon;
+      const hasChanges =
+        values.name !== currentName || values.color !== currentColor || values.icon !== currentIcon;
       if (!hasChanges) {
         handleClose();
         return;
@@ -185,9 +186,9 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
       await updateProject({
         id: projectId ?? '',
         body: {
-          name: trimmed,
+          name: values.name,
           color: colorToSend,
-          icon: icon === null ? null : (icon ?? undefined),
+          icon: values.icon,
         },
       });
     }

@@ -7,7 +7,10 @@ import { useEffect } from 'react';
 import styles from './RegistrationForm.module.css';
 import { useRegisterMutation } from '../api/registerApi';
 import type { RegistrationDto } from '../model/registration.types';
-import { registerUserSchema } from '../utils/validationRegisterFormConfig';
+import {
+  registerUserSchema,
+  type RegistrationFormValues,
+} from '../utils/validationRegisterFormConfig';
 import { useRegistrationDraft } from '../model/useRegistrationDraft';
 import type { AuthResult } from '@/entities/user';
 import { Input } from '@shared/ui/input';
