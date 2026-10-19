@@ -1,16 +1,6 @@
-export interface NotificationSettings {
-  isConnected: boolean;
-  eventReminders: boolean;
-  dailySummary: boolean;
-  taskUpdates: boolean;
-  scheduleConflicts: boolean;
-  reminderMinutes: string;
-  quietHours: boolean;
-  quietHoursStart: string;
-  quietHoursEnd: string;
-}
+import type { TelegramNotificationSettingsFormValues } from '../utils/validationTelegramNotificationSettingsConfig';
 
-export const initialNotificationSettings: NotificationSettings = {
+export const initialNotificationSettings: TelegramNotificationSettingsFormValues = {
   isConnected: true,
   eventReminders: true,
   dailySummary: true,
