@@ -113,7 +113,7 @@ export const DocumentFormModal: FC = () => {
     error: createError,
     fieldErrors: createFieldErrors,
     resetError: resetCreateError,
-  } = useMutationWithError<Page, CreatePageDto>(useCreatePageMutation, {
+  } = useMutationWithError<Page, { body: CreatePageDto }>(useCreatePageMutation, {
     onSuccess: (createdPage) => {
       dispatch(closeCreateDocumentModal());
       router.push(`${ROUTES.documents}/${createdPage.id}`);
@@ -195,11 +195,13 @@ export const DocumentFormModal: FC = () => {
           return;
         }
         await createPage({
-          title: values.title,
-          workspaceId: values.workspaceId,
-          projectId,
-          icon: values.icon ?? undefined,
-          type: DOCUMENT_TO_PAGE_TYPE[values.type],
+          body: {
+            title: values.title,
+            workspaceId: values.workspaceId,
+            projectId,
+            icon: values.icon ?? undefined,
+            type: DOCUMENT_TO_PAGE_TYPE[values.type],
+          },
         });
       } else {
         if (!documentId) {
@@ -209,7 +211,7 @@ export const DocumentFormModal: FC = () => {
         await updatePage({
           id: documentId,
           workspaceId: values.workspaceId,
-          data: {
+          body: {
             title: values.title,
             icon: values.icon,
             type: DOCUMENT_TO_PAGE_TYPE[values.type],

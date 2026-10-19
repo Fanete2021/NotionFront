@@ -14,3 +14,37 @@ body {
   font-family: var(--font-sans), sans-serif;
   line-height: 1.6;
 }
+
+.tiptap .collaboration-carets__caret {
+  border-left: 2px solid;
+  border-right: none;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+  transition: opacity 0.15s ease;
+}
+
+.tiptap .collaboration-carets__label {
+  position: absolute;
+  top: -1.6em;
+  left: -1px;
+  border-radius: 3px 3px 3px 0;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  padding: 2px 6px;
+  white-space: nowrap;
+
+  color: var(--color-tiptap-caret-bg);
+  user-select: none;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.tiptap .collaboration-carets__selection {
+  border-radius: 2px;
+  padding: 1px 0;
+}

@@ -13,7 +13,6 @@ export const baseApi = createApi({
     'Page',
     'PageContent',
     'PageVersion',
-    'WorkspaceMember',
     'WorkspaceInvite',
     'CalendarEvent',
   ],

@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
-import { LoginRequest, useLoginMutation } from '../api/loginApi';
-import { loginUserSchema } from '../utils/validationLoginFormConfig';
-import { UserData } from '@/entities/user';
+import { useLoginMutation } from '../api/loginApi';
+import type { LoginDto } from '../model/login.types';
+import { loginUserSchema, type LoginFormValues } from '../utils/validationLoginFormConfig';
+import type { AuthResult } from '@/entities/user';
 import { Input } from '@shared/ui/input';
 import { Checkbox } from '@shared/ui/checkbox';
 import { Button } from '@shared/ui/button';
@@ -20,12 +21,6 @@ import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
 import Eye from '@shared/assets/icons/eye.svg';
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
 
 export const LoginForm = () => {
   const { handleSubmit, control, reset } = useForm<LoginFormValues>({
@@ -42,7 +37,7 @@ export const LoginForm = () => {
     execute: login,
     isLoading,
     error: errorMessage,
-  } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
+  } = useMutationWithError<AuthResult, { body: LoginDto }>(useLoginMutation, {
     onSuccess: () => {
       router.replace(takeAuthReturnTo() ?? ROUTES.main);
       reset();
@@ -56,14 +51,13 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
-    await login(values);
+    await login({ body: values });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.loginForm}>
       <Controller
         name="email"
-        rules={{ required: 'Введите email' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -81,7 +75,6 @@ export const LoginForm = () => {
 
       <Controller
         name="password"
-        rules={{ required: 'Введите пароль' }}
         control={control}
         render={({ field, fieldState }) => (
           <Input
@@ -109,6 +102,9 @@ export const LoginForm = () => {
             control={control}
             render={({ field }) => (
               <Checkbox
+                name={field.name}
+                ref={field.ref}
+                onBlur={field.onBlur}
                 className={styles.checkbox}
                 checked={field.value}
                 onCheckedChange={field.onChange}

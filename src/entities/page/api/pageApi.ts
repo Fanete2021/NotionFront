@@ -5,15 +5,17 @@ import {
   PageContent,
   PageContentJson,
   PageVersionList,
+  RestorePageVersionDto,
 } from '../model/page.types';
 import { Page } from '@/shared/const/pageType';
-import { baseApi } from '@/shared/api/baseApi';
+import { baseApi } from '@/shared/api';
 
 export const pageApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPageById: builder.query<Page, string>({
       query: (id) => ({
-        url: `/pages/${id}`,
+        url: `pages/${id}`,
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'Page', id }],
@@ -21,25 +23,33 @@ export const pageApi = baseApi.injectEndpoints({
 
     getPageContent: builder.query<PageContent, string>({
       query: (id) => ({
-        url: `/pages/${id}/content`,
+        url: `pages/${id}/content`,
+        method: 'GET',
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'PageContent', id }],
     }),
 
-    updatePageContent: builder.mutation<PageContent, { id: string; json: PageContentJson }>({
-      query: ({ id, json }) => ({
-        url: `/pages/${id}/content`,
+    updatePageContent: builder.mutation<PageContent, { id: string; body: PageContentJson }>({
+      query: ({ id, body }) => ({
+        url: `pages/${id}/content`,
         method: 'PUT',
-        body: json,
+        body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id }) => [{ type: 'PageContent', id }],
+      invalidatesTags: (result, error, { id }) =>
+        error
+          ? []
+          : [
+              { type: 'PageContent', id },
+              { type: 'PageVersion', id },
+            ],
     }),
 
     getPagesByWorkspace: builder.query<Page[], { workspaceId: string; projectId?: string }>({
       query: ({ workspaceId, projectId }) => ({
-        url: `/workspaces/${workspaceId}/pages`,
+        url: `workspaces/${workspaceId}/pages`,
+        method: 'GET',
         params: projectId ? { projectId } : undefined,
       }),
       extraOptions: { requiresAuth: true },
@@ -52,63 +62,102 @@ export const pageApi = baseApi.injectEndpoints({
           : [{ type: 'Page' as const, id: `WORKSPACE_${workspaceId}` }],
     }),
 
-    createPage: builder.mutation<Page, CreatePageDto>({
-      query: (body) => ({
-        url: '/pages',
+    createPage: builder.mutation<Page, { body: CreatePageDto }>({
+      query: ({ body }) => ({
+        url: 'pages',
         method: 'POST',
         body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { body: { workspaceId } }) =>
+        error ? [] : [{ type: 'Page', id: `WORKSPACE_${workspaceId}` }],
     }),
 
-    updatePage: builder.mutation<Page, { id: string; workspaceId: string; data: UpdatePageDto }>({
-      query: ({ id, data }) => ({
-        url: `/pages/${id}`,
+    updatePage: builder.mutation<Page, { id: string; workspaceId: string; body: UpdatePageDto }>({
+      query: ({ id, body }) => ({
+        url: `pages/${id}`,
         method: 'PATCH',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Page', id },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+            ],
     }),
 
-    reorderPages: builder.mutation<Page[], { workspaceId: string; data: ReorderPagesDto }>({
-      query: ({ workspaceId, data }) => ({
-        url: `/workspaces/${workspaceId}/pages/order`,
+    reorderPages: builder.mutation<Page[], { workspaceId: string; body: ReorderPagesDto }>({
+      query: ({ workspaceId, body }) => ({
+        url: `workspaces/${workspaceId}/pages/order`,
         method: 'PATCH',
-        body: data,
+        body,
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'Page', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     deletePage: builder.mutation<void, { id: string; workspaceId: string }>({
       query: ({ id }) => ({
-        url: `/pages/${id}`,
+        url: `pages/${id}`,
         method: 'DELETE',
       }),
       extraOptions: { requiresAuth: true },
-      invalidatesTags: (result, error, { id, workspaceId }) => [
-        { type: 'Page', id },
-        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
-        { type: 'Page', id: `TRASH_${workspaceId}` },
-      ],
+      invalidatesTags: (result, error, { id, workspaceId }) =>
+        error
+          ? []
+          : [
+              { type: 'Page', id },
+              { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+              { type: 'Page', id: `TRASH_${workspaceId}` },
+            ],
     }),
 
-    getPageVersions: builder.query<PageVersionList, string>({
-      query: (id) => ({
-        url: `/pages/${id}/versions`,
+    getPageVersions: builder.infiniteQuery<PageVersionList, string, string | null>({
+      infiniteQueryOptions: {
+        initialPageParam: null,
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        refetchCachedPages: false,
+      },
+      query: ({ queryArg, pageParam }) => ({
+        url: `pages/${queryArg}/versions`,
+        method: 'GET',
+        params: pageParam ? { cursor: pageParam } : undefined,
       }),
       extraOptions: { requiresAuth: true },
       providesTags: (result, error, id) => [{ type: 'PageVersion', id }],
     }),
+
+    restorePageVersion: builder.mutation<PageContent, RestorePageVersionDto>({
+      query: ({ versionId }) => ({
+        url: `versions/${versionId}/restore`,
+        method: 'POST',
+      }),
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { pageId }) =>
+        error
+          ? []
+          : [
+              { type: 'PageContent', id: pageId },
+              { type: 'PageVersion', id: pageId },
+            ],
+    }),
   }),
   overrideExisting: false,
 });
+
+export const {
+  useGetPagesByWorkspaceQuery,
+  useGetPageByIdQuery,
+  useGetPageContentQuery,
+  useCreatePageMutation,
+  useUpdatePageMutation,
+  useReorderPagesMutation,
+  useUpdatePageContentMutation,
+  useDeletePageMutation,
+  useGetPageVersionsInfiniteQuery,
+  useRestorePageVersionMutation,
+} = pageApi;

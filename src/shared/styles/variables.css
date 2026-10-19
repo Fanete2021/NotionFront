@@ -362,4 +362,7 @@
   --color-trash-list-row-text-color: #9CA3AF;
   --color-trash-list-row-text-deleted-by-color: #6B7280;
   --color-trash-list-row-text-deleted-at-color: #6B7280;
+
+  /* TipTap */
+  --color-tiptap-caret-bg: #FFFFFF;
 }

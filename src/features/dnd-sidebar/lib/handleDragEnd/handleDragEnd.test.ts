@@ -123,11 +123,11 @@ describe('handleDragEnd', () => {
     expect(params.updatePage).toHaveBeenCalledWith({
       id: 'p1',
       workspaceId: 'workspace-1',
-      data: { projectId: 'proj-2' },
+      body: { projectId: 'proj-2' },
     });
     expect(params.reorderPages).toHaveBeenCalledWith({
       workspaceId: 'workspace-1',
-      data: { projectId: 'proj-2', orderedIds: ['p1'] },
+      body: { projectId: 'proj-2', orderedIds: ['p1'] },
     });
   });
 
@@ -160,7 +160,7 @@ describe('handleDragEnd', () => {
 
     expect(params.reorderProjects).toHaveBeenCalledWith({
       workspaceId: 'workspace-1',
-      data: { parentProjectId: null, orderedIds: ['b', 'a'] },
+      body: { parentProjectId: null, orderedIds: ['b', 'a'] },
     });
   });
 
@@ -189,7 +189,7 @@ describe('handleDragEnd', () => {
 
     expect(params.reorderPages).toHaveBeenCalledWith({
       workspaceId: 'workspace-1',
-      data: { projectId: 'proj-1', orderedIds: ['p2', 'p1'] },
+      body: { projectId: 'proj-1', orderedIds: ['p2', 'p1'] },
     });
   });
 
