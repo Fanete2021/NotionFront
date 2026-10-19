@@ -1,4 +1,4 @@
-export type { WorkspaceMember, WorkspaceRole } from './model/workspaceMember';
+export type { WorkspaceMember, WorkspaceRole } from './model/workspaceMember.types';
 export {
   useGetWorkspaceMembersQuery,
   useAddWorkspaceMemberMutation,

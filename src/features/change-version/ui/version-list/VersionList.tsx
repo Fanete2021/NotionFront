@@ -1,27 +1,39 @@
 'use client';
 
-import { useState } from 'react';
 import classNames from 'classnames';
 import styles from './VersionList.module.css';
+import { formatVersionDate } from '../../lib/formatVersionDate';
+import type { VersionItem } from '../../model/version.types';
+import { Button } from '@shared/ui/button';
+import { Skeleton } from '@shared/ui/skeleton';
 import { Typography } from '@shared/ui/typography';
 
-type VersionItem = {
-  id: string;
-  time: string;
-  author: string;
-  summary: string;
+const SKELETON_CARDS = [1, 2, 3, 4];
+
+type VersionListProps = {
+  versions: VersionItem[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  isLoading: boolean;
+  isError: boolean;
+  onRetry: () => void;
+  hasMore: boolean;
+  isLoadingMore: boolean;
+  onLoadMore: () => void;
 };
 
-const mockVersions: VersionItem[] = [
-  { id: '1', time: 'Сегодня, 14:14', author: 'Алекс Ким', summary: 'Добавлен блок с кодом' },
-  { id: '2', time: 'Сегодня, 11:52', author: 'Женя Ли', summary: 'Обновлён чеклист' },
-  { id: '3', time: 'Вчера, 16:30', author: 'Марк Р.', summary: 'Изменён заголовок' },
-  { id: '4', time: '12 янв., 9:00', author: 'Алекс Ким', summary: 'Страница создана' },
-  { id: '5', time: '11 янв., 18:40', author: 'Женя Ли', summary: 'Поправлены отступы' },
-];
-
-export const VersionList = () => {
-  const [selectedId, setSelectedId] = useState(mockVersions[0].id);
+export const VersionList = ({
+  versions,
+  selectedId,
+  onSelect,
+  isLoading,
+  isError,
+  onRetry,
+  hasMore,
+  isLoadingMore,
+  onLoadMore,
+}: VersionListProps) => {
+  const isEmpty = versions.length === 0;
 
   return (
     <div className={styles.root}>
@@ -29,23 +41,73 @@ export const VersionList = () => {
         Версии
       </Typography>
       <div className={styles.cards}>
-        {mockVersions.map((version) => (
+        {isLoading &&
+          SKELETON_CARDS.map((card) => (
+            <Skeleton
+              key={card}
+              width="100%"
+              height={60}
+              borderRadius={6}
+              className={styles.skeleton}
+            />
+          ))}
+
+        {!isLoading && isEmpty && isError && (
+          <div className={styles.state} role="alert">
+            <Typography variant="caption">Не удалось загрузить историю изменений</Typography>
+            <Button type="button" variant="outline" size="sm" onClick={onRetry}>
+              Повторить
+            </Button>
+          </div>
+        )}
+
+        {!isLoading && isEmpty && !isError && (
+          <div className={styles.state}>
+            <Typography variant="label" className={styles.stateTitle}>
+              Версий пока нет
+            </Typography>
+            <Typography variant="caption">
+              Они появятся автоматически по мере редактирования документа
+            </Typography>
+          </div>
+        )}
+
+        {versions.map((version) => (
           <button
             key={version.id}
             type="button"
+            aria-pressed={version.id === selectedId}
             className={classNames(styles.card, {
               [styles.cardSelected]: version.id === selectedId,
             })}
-            onClick={() => setSelectedId(version.id)}
+            onClick={() => onSelect(version.id)}
           >
             <Typography variant="label" className={styles.cardTitle}>
-              {version.time}
+              {formatVersionDate(version.createdAt)}
             </Typography>
-            <Typography variant="caption">
-              {version.author} · {version.summary}
-            </Typography>
+            <Typography variant="caption">{version.authorName}</Typography>
           </button>
         ))}
+
+        {!isEmpty && isError && (
+          <Typography variant="caption" className={styles.moreError} role="alert">
+            Не удалось загрузить версии
+          </Typography>
+        )}
+
+        {!isEmpty && hasMore && (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            fullWidth
+            className={styles.more}
+            disabled={isLoadingMore}
+            onClick={onLoadMore}
+          >
+            {isLoadingMore ? 'Загрузка…' : 'Показать ещё'}
+          </Button>
+        )}
       </div>
     </div>
   );

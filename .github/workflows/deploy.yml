@@ -48,7 +48,8 @@ jobs:
 
       - run: pnpm build
         env:
-          NEXT_PUBLIC_BASE_API_URL: ${{ vars.NEXT_PUBLIC_BASE_API_URL }}
+          NEXT_PUBLIC_BASE_API_URL: ${{ vars.NEXT_PUBLIC_BASE_API_URL }},
+          NEXT_PUBLIC_BASE_SOCKET_URL: ${{vars.NEXT_PUBLIC_BASE_SOCKET_URL}}
 
   build:
     name: Build and push image
@@ -107,6 +108,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
           build-args: |
             NEXT_PUBLIC_BASE_API_URL=${{ vars.NEXT_PUBLIC_BASE_API_URL }}
+            NEXT_PUBLIC_BASE_SOCKET_URL=${{ vars.NEXT_PUBLIC_BASE_SOCKET_URL }}
             VCS_URL=${{ github.server_url }}/${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

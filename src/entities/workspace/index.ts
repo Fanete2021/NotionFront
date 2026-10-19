@@ -1,14 +1,12 @@
-import { workspaceApi } from './api/workspaceApi';
-
-export const {
+export {
   useGetWorkspacesQuery,
   useGetWorkspaceByIdQuery,
   useCreateWorkspaceMutation,
   useUpdateWorkspaceMutation,
   useDeleteWorkspaceMutation,
-} = workspaceApi;
+} from './api/workspaceApi';
 
-export type { Workspace } from './model/workspace.types';
+export type { Workspace, CreateWorkspaceDto, UpdateWorkspaceDto } from './model/workspace.types';
 
 export {
   currentWorkspaceReducer,

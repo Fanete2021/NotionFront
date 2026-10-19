@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
-import { LoginRequest, useLoginMutation } from '../api/loginApi';
+import { useLoginMutation } from '../api/loginApi';
+import type { LoginDto } from '../model/login.types';
 import { loginUserSchema } from '../utils/validationLoginFormConfig';
-import { UserData } from '@/entities/user';
+import { AuthResult } from '@/entities/user';
 import { Input } from '@shared/ui/input';
 import { Checkbox } from '@shared/ui/checkbox';
 import { Button } from '@shared/ui/button';
@@ -42,7 +43,7 @@ export const LoginForm = () => {
     execute: login,
     isLoading,
     error: errorMessage,
-  } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
+  } = useMutationWithError<AuthResult, { body: LoginDto }>(useLoginMutation, {
     onSuccess: () => {
       router.replace(takeAuthReturnTo() ?? ROUTES.main);
       reset();
@@ -56,7 +57,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
-    await login(values);
+    await login({ body: values });
   };
 
   return (

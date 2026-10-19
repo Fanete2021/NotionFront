@@ -28,7 +28,7 @@ export const DocumentHeader = ({ page, updatedAt, saveError, isSaving }: Documen
   });
   const { data: authData } = useGetMeQuery();
 
-  const latestVersion = versions?.items?.[0];
+  const latestVersion = versions?.pages[0]?.items[0];
   const editorId = latestVersion?.authorId ?? page.authorId ?? '';
 
   const editorName =

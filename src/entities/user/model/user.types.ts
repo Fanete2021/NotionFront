@@ -7,7 +7,7 @@ export interface User {
   updatedAt: string;
 }
 
-export interface UserData {
+export interface AuthResult {
   accessToken: string;
   user: Pick<User, 'id' | 'email'>;
 }

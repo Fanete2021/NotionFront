@@ -8,7 +8,7 @@ import {
 } from '../../slice/workspaceModalsSlice';
 import { setCurrentWorkspace } from '@/entities/workspace';
 import { useCreateWorkspaceMutation } from '@/entities/workspace';
-import { Workspace } from '@/entities/workspace';
+import { Workspace, CreateWorkspaceDto } from '@/entities/workspace';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/shared/lib';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@shared/ui/button';
@@ -35,7 +35,7 @@ export const CreateWorkspaceModal: FC = () => {
     execute: createWorkspace,
     isLoading,
     error: mutationError,
-  } = useMutationWithError<Workspace, { name: string }>(useCreateWorkspaceMutation, {
+  } = useMutationWithError<Workspace, { body: CreateWorkspaceDto }>(useCreateWorkspaceMutation, {
     onSuccess: (newWorkspace) => {
       setName('');
       dispatch(closeCreateWorkspaceModal());
@@ -68,7 +68,7 @@ export const CreateWorkspaceModal: FC = () => {
       setError('Название обязательно');
       return;
     }
-    await createWorkspace({ name: trimmed });
+    await createWorkspace({ body: { name: trimmed } });
   }, [name, createWorkspace]);
 
   const handleClose = useCallback(() => {

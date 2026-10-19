@@ -1,6 +1,4 @@
-import { pageApi } from './api/pageApi';
-
-export const {
+export {
   useGetPagesByWorkspaceQuery,
   useGetPageByIdQuery,
   useGetPageContentQuery,
@@ -9,8 +7,9 @@ export const {
   useReorderPagesMutation,
   useUpdatePageContentMutation,
   useDeletePageMutation,
-  useGetPageVersionsQuery,
-} = pageApi;
+  useGetPageVersionsInfiniteQuery,
+  useRestorePageVersionMutation,
+} from './api/pageApi';
 
 export type {
   CreatePageDto,
@@ -21,6 +20,7 @@ export type {
   PageVersion,
   PageVersionList,
   UserPageData,
+  RestorePageVersionDto,
 } from './model/page.types';
 
 export { usePagePresence } from './model/hooks/usePagePresence';

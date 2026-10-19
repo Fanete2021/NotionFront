@@ -32,7 +32,7 @@ export interface PageVersion {
   id: string;
   pageId: string;
   authorId: string;
-  label: string;
+  label: string | null;
   createdAt: string;
 }
 
@@ -65,3 +65,8 @@ export interface PagePresenceData {
 export type PageLeaveResponse = {
   ok: true;
 };
+
+export interface RestorePageVersionDto {
+  versionId: string;
+  pageId: string;
+}

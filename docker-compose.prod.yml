@@ -1,6 +1,7 @@
 services:
   frontend:
     image: "${REGISTRY_IMAGE:?Set REGISTRY_IMAGE in .env}:${IMAGE_TAG:-latest}"
+    container_name: notionfront
     restart: unless-stopped
     init: true
     environment:
@@ -21,3 +22,8 @@ services:
       retries: 3
     security_opt:
       - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "5"
