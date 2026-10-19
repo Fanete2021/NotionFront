@@ -16,6 +16,8 @@ interface MonthGridProps {
   month?: Date;
 }
 
+const EMPTY_TASKS: BadgeTask[] = [];
+
 export const MonthGrid = ({ month }: MonthGridProps) => {
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const activeProjectId = useAppSelector(selectActiveProjectId);
@@ -44,13 +46,25 @@ export const MonthGrid = ({ month }: MonthGridProps) => {
 
   const gridItems = useMemo(() => getMonthGridItems(currentMonth), [currentMonth]);
 
-  const badgeTasks: BadgeTask[] = useMemo(
-    () =>
-      events.map((e, i) =>
-        eventToBadgeTask(e, i, e.projectId ? projectsById[e.projectId]?.name : undefined),
-      ),
-    [events, projectsById],
-  );
+  const tasksByDate = useMemo(() => {
+    const grouped = new Map<string, BadgeTask[]>();
+
+    events.forEach((event, index) => {
+      const task = eventToBadgeTask(
+        event,
+        index,
+        event.projectId ? projectsById[event.projectId]?.name : undefined,
+      );
+      const tasks = grouped.get(task.date);
+      if (tasks) {
+        tasks.push(task);
+      } else {
+        grouped.set(task.date, [task]);
+      }
+    });
+
+    return grouped;
+  }, [events, projectsById]);
 
   return (
     <div className={styles.monthGrid}>
@@ -58,7 +72,7 @@ export const MonthGrid = ({ month }: MonthGridProps) => {
         <CalendarCell
           key={cell.date}
           cell={cell}
-          tasks={badgeTasks.filter((t) => t.date === cell.date)}
+          tasks={tasksByDate.get(cell.date) ?? EMPTY_TASKS}
         />
       ))}
     </div>

@@ -12,3 +12,4 @@ export {
 export { SocketContext } from './socket/socket-context';
 
 export { formatRelativeTime } from './format-relative-time/formatRelativeTime';
+export { toDateKey } from './date/toDateKey';

@@ -1,6 +1,5 @@
 'use client';
 
-import { error } from 'next/dist/build/output/log';
 import { useEffect, useRef } from 'react';
 import styles from './InviteLinks.module.css';
 import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
@@ -41,8 +40,8 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
     execute: revokeInvite,
     isLoading: isRevoking,
     error: revokeError,
+    fieldErrors: revokeFieldErrors,
   } = useMutationWithError(useRevokeWorkspaceInviteMutation, {
-    onSuccess: () => {},
     fieldMap: {
       [HTTP_STATUS.FORBIDDEN]: {
         field: 'type',
@@ -123,7 +122,7 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
         })}
       </div>
 
-      <FormError message={revokeError} />
+      <FormError message={revokeFieldErrors.type ?? revokeFieldErrors.id ?? revokeError} />
 
       <Button
         variant="outline"

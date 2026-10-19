@@ -88,6 +88,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     execute: createProject,
     isLoading: isCreating,
     error: createError,
+    resetError: resetCreateError,
     fieldErrors: createFieldErrors,
   } = useMutationWithError(useCreateProjectMutation, {
     onSuccess: () => {
@@ -110,6 +111,7 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     isLoading: isUpdating,
     error: updateError,
     fieldErrors: updateFieldErrors,
+    resetError: resetUpdateError,
   } = useMutationWithError(useUpdateProjectMutation, {
     onSuccess: () => {
       handleClose();
@@ -133,6 +135,8 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
   useEffect(() => {
     if (!isOpen) return;
 
+    resetCreateError();
+    resetUpdateError();
     reset({
       name: isCreate ? '' : currentName,
       color: isCreate ? DEFAULT_COLOR : (currentColor ?? DEFAULT_COLOR),
@@ -148,6 +152,8 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     sourceWorkspaceId,
     currentWorkspaceId,
     reset,
+    resetCreateError,
+    resetUpdateError,
   ]);
 
   const handleClose = useCallback(() => {
