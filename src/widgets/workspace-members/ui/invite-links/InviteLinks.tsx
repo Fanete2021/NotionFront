@@ -1,7 +1,5 @@
 'use client';
 
-import { error } from 'next/dist/build/output/log';
-import { useEffect, useRef } from 'react';
 import styles from './InviteLinks.module.css';
 import { InviteLink } from '@/widgets/workspace-members/ui/invite-link/InviteLink';
 import { buildInviteUrl } from '../../utils/url';
@@ -26,7 +24,6 @@ interface InviteLinksProps {
 
 export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   const dispatch = useAppDispatch();
-  const notifiedWorkspaceRef = useRef<string | null>(null);
 
   const {
     data: invites,
@@ -64,6 +61,14 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   };
 
   const handleCreateLink = () => {
+    if (isForbidden) {
+      toast.add({
+        type: 'info',
+        title: 'Приглашения',
+        description: permissionMessage,
+      });
+      return;
+    }
     dispatch(openInviteLinkModal({ workspaceId }));
   };
 
@@ -74,24 +79,21 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   const permissionMessage =
     'У вас недостаточно прав для просмотра и создания ссылок для приглашения в рабочее пространство';
 
-  useEffect(() => {
-    if (!isForbidden) {
-      notifiedWorkspaceRef.current = null;
-      return;
-    }
-
-    if (notifiedWorkspaceRef.current === workspaceId) return;
-    notifiedWorkspaceRef.current = workspaceId;
-
-    toast.add({
-      type: 'info',
-      title: 'Приглашения',
-      description: permissionMessage,
-    });
-  }, [isForbidden, workspaceId]);
-
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;
+  }
+
+  if (isForbidden) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.titleBlock}>
+          <Typography variant="label" className={styles.sectionTitle}>
+            🔒 Ссылки для вступления
+          </Typography>
+        </div>
+        <div className={styles.forbiddenMessage}>{permissionMessage}</div>
+      </div>
+    );
   }
 
   if (isError) {
