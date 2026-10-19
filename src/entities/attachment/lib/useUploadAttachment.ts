@@ -32,10 +32,12 @@ export const useUploadAttachment = (pageId: string) => {
 
       try {
         const { attachmentId, uploadUrl, method, headers } = await presign({
-          pageId,
-          fileName: file.name,
-          contentType: file.type,
-          size: file.size,
+          body: {
+            pageId,
+            fileName: file.name,
+            contentType: file.type,
+            size: file.size,
+          },
         }).unwrap();
 
         signal?.throwIfAborted();

@@ -3,3 +3,4 @@ export { useDismissibleLayer, type DismissReason } from './useDismissibleLayer';
 export { useLockBodyScroll } from './useLockBodyScroll';
 export { useDebounce } from './useDebounce';
 export { useSocket } from './useSocket';
+export { useRelativeTimeTick } from './useRelativeTimeTick';

@@ -36,7 +36,7 @@ export const LoginForm = () => {
     execute: login,
     isLoading,
     error: errorMessage,
-  } = useMutationWithError<UserData, LoginRequest>(useLoginMutation, {
+  } = useMutationWithError<AuthResult, { body: LoginDto }>(useLoginMutation, {
     onSuccess: () => {
       router.replace(takeAuthReturnTo() ?? ROUTES.main);
       reset();
@@ -50,7 +50,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
-    await login(values);
+    await login({ body: values });
   };
 
   return (

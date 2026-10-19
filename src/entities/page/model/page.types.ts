@@ -32,7 +32,7 @@ export interface PageVersion {
   id: string;
   pageId: string;
   authorId: string;
-  label: string;
+  label: string | null;
   createdAt: string;
 }
 
@@ -51,6 +51,7 @@ export type PageJoinResponse =
   | {
       ok: true;
       users: UserPageData[];
+      canEdit: boolean;
     }
   | {
       ok: false;
@@ -64,3 +65,8 @@ export interface PagePresenceData {
 export type PageLeaveResponse = {
   ok: true;
 };
+
+export interface RestorePageVersionDto {
+  versionId: string;
+  pageId: string;
+}

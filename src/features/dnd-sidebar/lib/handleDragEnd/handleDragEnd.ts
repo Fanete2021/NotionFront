@@ -12,18 +12,18 @@ import { Page } from '@/shared/const/pageType';
 
 type ReorderProjectsTrigger = (args: {
   workspaceId: string;
-  data: { parentProjectId: string | null; orderedIds: string[] };
+  body: { parentProjectId: string | null; orderedIds: string[] };
 }) => { unwrap: () => Promise<unknown> };
 
 type ReorderPagesTrigger = (args: {
   workspaceId: string;
-  data: { projectId: string; orderedIds: string[] };
+  body: { projectId: string; orderedIds: string[] };
 }) => { unwrap: () => Promise<unknown> };
 
 type UpdatePageTrigger = (args: {
   id: string;
   workspaceId: string;
-  data: { projectId: string };
+  body: { projectId: string };
 }) => { unwrap: () => Promise<unknown> };
 
 interface HandleDragEndParams {
@@ -110,7 +110,7 @@ export async function handleDragEnd({
       await updatePage({
         id: activePage.id,
         workspaceId: currentWorkspaceId,
-        data: { projectId: targetProject.id },
+        body: { projectId: targetProject.id },
       }).unwrap();
     } catch (err) {
       console.error('Ошибка перемещения в группу (updatePage):', err);
@@ -121,7 +121,7 @@ export async function handleDragEnd({
     try {
       await reorderPages({
         workspaceId: currentWorkspaceId,
-        data: {
+        body: {
           projectId: targetProject.id,
           orderedIds: newOrder.map((p) => p.id),
         },
@@ -163,7 +163,7 @@ export async function handleDragEnd({
     try {
       await reorderProjects({
         workspaceId: currentWorkspaceId,
-        data: {
+        body: {
           parentProjectId: activeProject.parentProjectId ?? null,
           orderedIds: reordered.map((p) => p.id),
         },
@@ -207,7 +207,7 @@ export async function handleDragEnd({
       try {
         await reorderPages({
           workspaceId: currentWorkspaceId,
-          data: {
+          body: {
             projectId: activePage.projectId,
             orderedIds: reordered.map((p) => p.id),
           },
@@ -249,7 +249,7 @@ export async function handleDragEnd({
       await updatePage({
         id: activePage.id,
         workspaceId: currentWorkspaceId,
-        data: { projectId: overPage.projectId },
+        body: { projectId: overPage.projectId },
       }).unwrap();
     } catch (err) {
       console.error('Ошибка перемещения страницы (updatePage):', err);
@@ -260,7 +260,7 @@ export async function handleDragEnd({
     try {
       await reorderPages({
         workspaceId: currentWorkspaceId,
-        data: {
+        body: {
           projectId: overPage.projectId,
           orderedIds: newOrder.map((p) => p.id),
         },

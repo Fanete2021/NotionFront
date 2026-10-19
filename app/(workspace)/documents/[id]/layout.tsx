@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { SocketProvider } from '@widgets/document';
+import { DocumentProviders } from '@widgets/document';
 
 interface DocumentLayoutProps {
   children: ReactNode;
@@ -8,6 +8,5 @@ interface DocumentLayoutProps {
 
 export default async function DocumentLayout({ children, params }: DocumentLayoutProps) {
   const { id } = await params;
-
-  return <SocketProvider pageId={id}>{children}</SocketProvider>;
+  return <DocumentProviders pageId={id}>{children}</DocumentProviders>;
 }

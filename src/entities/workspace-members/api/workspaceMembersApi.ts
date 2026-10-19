@@ -2,13 +2,14 @@ import {
   WorkspaceMember,
   AddWorkspaceMemberDto,
   UpdateMemberRoleDto,
-} from '../model/workspaceMember';
+} from '../model/workspaceMember.types';
 import { baseApi } from '@/shared/api';
 
 export const workspaceMembersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getWorkspaceMembers: builder.query<WorkspaceMember[], string>({
-      query: (workspaceId) => `/workspaces/${workspaceId}/members`,
+      query: (workspaceId) => ({ url: `workspaces/${workspaceId}/members`, method: 'GET' }),
+      extraOptions: { requiresAuth: true },
       providesTags: (result, error, workspaceId) =>
         result
           ? [
@@ -23,13 +24,13 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
       { workspaceId: string; body: AddWorkspaceMemberDto }
     >({
       query: ({ workspaceId, body }) => ({
-        url: `/workspaces/${workspaceId}/members`,
+        url: `workspaces/${workspaceId}/members`,
         method: 'POST',
         body,
       }),
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     updateMemberRole: builder.mutation<
@@ -37,23 +38,23 @@ export const workspaceMembersApi = baseApi.injectEndpoints({
       { workspaceId: string; userId: string; body: UpdateMemberRoleDto }
     >({
       query: ({ workspaceId, userId, body }) => ({
-        url: `/workspaces/${workspaceId}/members/${userId}`,
+        url: `workspaces/${workspaceId}/members/${userId}`,
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
 
     removeMember: builder.mutation<void, { workspaceId: string; userId: string }>({
       query: ({ workspaceId, userId }) => ({
-        url: `/workspaces/${workspaceId}/members/${userId}`,
+        url: `workspaces/${workspaceId}/members/${userId}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, { workspaceId }) => [
-        { type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` },
-      ],
+      extraOptions: { requiresAuth: true },
+      invalidatesTags: (result, error, { workspaceId }) =>
+        error ? [] : [{ type: 'WorkspaceMember', id: `WORKSPACE_${workspaceId}` }],
     }),
   }),
   overrideExisting: false,

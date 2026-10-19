@@ -163,41 +163,33 @@ export const ProjectFormModal: FC<ProjectFormModalProps> = ({ mode }) => {
     const shouldSendColor = !(isDefaultColor && (isCreate || currentColor === null));
     const colorToSend = shouldSendColor ? (values.color ?? undefined) : undefined;
 
-    try {
-      if (isCreate) {
-        if (!values.workspaceId) {
-          setError('workspaceId', { message: 'Рабочее пространство не выбрано' });
-          return;
-        }
-
-        await createProject({
-          workspaceId: values.workspaceId,
-          data: {
-            name: values.name,
-            color: colorToSend,
-            icon: values.icon ?? undefined,
-          },
-        });
-      } else {
-        const hasChanges =
-          values.name !== currentName ||
-          values.color !== currentColor ||
-          values.icon !== currentIcon;
-        if (!hasChanges) {
-          handleClose();
-          return;
-        }
-        await updateProject({
-          id: projectId ?? '',
-          data: {
-            name: values.name,
-            color: colorToSend,
-            icon: values.icon,
-          },
-        });
+    if (isCreate) {
+      if (!workspaceId) {
+        setError('Workspace не найден');
+        return;
       }
-    } catch (error) {
-      console.error('Ошибка при сохранении проекта:', error);
+      await createProject({
+        workspaceId,
+        body: {
+          name: trimmed,
+          color: colorToSend,
+          icon: icon ?? undefined,
+        },
+      });
+    } else {
+      const hasChanges = trimmed !== currentName || color !== currentColor || icon !== currentIcon;
+      if (!hasChanges) {
+        handleClose();
+        return;
+      }
+      await updateProject({
+        id: projectId ?? '',
+        body: {
+          name: trimmed,
+          color: colorToSend,
+          icon: icon === null ? null : (icon ?? undefined),
+        },
+      });
     }
   };
 

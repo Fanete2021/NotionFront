@@ -38,7 +38,8 @@ export function ProfileSettingsForm({ className }: ProfileSettingsFormProps) {
     execute: updateUser,
     isLoading: isUpdating,
     error: updateError,
-  } = useMutationWithError<User, { data: UpdateUserDto }>(useUpdateUserProfileMutation, {
+    fieldErrors: updateFieldErrors,
+  } = useMutationWithError<User, { body: UpdateUserDto }>(useUpdateUserProfileMutation, {
     fieldMap: {
       [HTTP_STATUS.BAD_REQUEST]: {
         field: 'firstName',
@@ -67,7 +68,7 @@ export function ProfileSettingsForm({ className }: ProfileSettingsFormProps) {
         name: fullName,
         avatarUrl: 'example@mail.com',
       };
-      await updateUser({ data: payload });
+      await updateUser({ body: payload });
     } catch (err) {
       console.log(err);
     }

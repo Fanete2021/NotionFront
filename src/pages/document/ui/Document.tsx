@@ -1,10 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { DocumentBody } from '@widgets/document';
 import { ProjectWorkspace } from '@widgets/project';
 import { NotFoundError, UnexpectedError } from '@widgets/error';
-import { useGetPageByIdQuery, useGetPageContentQuery } from '@entities/page';
+import { type PageContent, useGetPageByIdQuery, useGetPageContentQuery } from '@entities/page';
 import { useGetProjectByIdQuery } from '@entities/project';
 import { HTTP_STATUS } from '@shared/const/httpStatus';
 import { isFetchBaseQueryError } from '@shared/utils/error-utils';
@@ -13,6 +14,7 @@ import { Loader } from '@shared/ui/loader';
 export const DocumentPage = () => {
   const params = useParams<{ id: string }>();
   const documentId = params?.id ?? '';
+  const [restoredContent, setRestoredContent] = useState<PageContent | null>(null);
 
   const pageQuery = useGetPageByIdQuery(documentId, { skip: !documentId });
   const contentQuery = useGetPageContentQuery(documentId, { skip: !documentId });
@@ -63,12 +65,18 @@ export const DocumentPage = () => {
     (crumb): crumb is string => Boolean(crumb),
   );
 
+  const restored = restoredContent?.pageId === documentId ? restoredContent : null;
+
   return (
-    <ProjectWorkspace breadcrumbs={breadcrumbs}>
+    <ProjectWorkspace
+      breadcrumbs={breadcrumbs}
+      page={pageQuery.data}
+      onVersionRestored={setRestoredContent}
+    >
       <DocumentBody
-        key={pageQuery.data.id}
+        key={`${pageQuery.data.id}:${restored?.updatedAt ?? ''}`}
         page={pageQuery.data}
-        content={contentQuery.data ?? null}
+        content={restored ?? contentQuery.data ?? null}
       />
     </ProjectWorkspace>
   );
