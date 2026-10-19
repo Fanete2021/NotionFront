@@ -46,6 +46,7 @@ export const CreateWorkspaceModal: FC = () => {
     execute: createWorkspace,
     isLoading,
     error: mutationError,
+    fieldErrors,
   } = useMutationWithError<Workspace, { body: CreateWorkspaceDto }>(useCreateWorkspaceMutation, {
     onSuccess: (newWorkspace) => {
       reset();
@@ -70,14 +71,13 @@ export const CreateWorkspaceModal: FC = () => {
     }
   }, [isOpen, reset]);
 
-  const onSubmit: SubmitHandler<CreateWorkspaceFormValues> = async (values) => {
+  const onSubmit: SubmitHandler<CreateWorkspaceFormValues> = async () => {
     try {
-      await createWorkspace(values);
+      await createWorkspace({ body: { name: name.trim() } });
     } catch (error) {
       console.error('Ошибка при создании рабочего пространства:', error);
     }
-    await createWorkspace({ body: { name: trimmed } });
-  }, [name, createWorkspace]);
+  };
 
   const handleClose = useCallback(() => {
     reset();
