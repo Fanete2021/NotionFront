@@ -1,12 +1,10 @@
-export type { PublishedDocument, PublishedDocumentBlock } from './model/types';
-
-export { mockPublishedDocuments } from './model/mockDocuments';
-
 export {
   useGetArticleListQuery,
   useGetArticleSlugQuery,
   usePublishArticleMutation,
 } from './api/publicArticleApi';
+
+export { getPublicArticle } from './api/getPublicArticle';
 
 export type {
   PublicArticleEntity,
