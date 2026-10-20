@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { DocumentBody } from '@widgets/document';
+import { DocumentBody, DocumentBodySkeleton } from '@widgets/document';
 import { ProjectWorkspace } from '@widgets/project';
 import { NotFoundError, UnexpectedError } from '@widgets/error';
 import { type PageContent, useGetPageByIdQuery, useGetPageContentQuery } from '@entities/page';
 import { useGetProjectByIdQuery } from '@entities/project';
 import { HTTP_STATUS } from '@shared/const/httpStatus';
 import { isFetchBaseQueryError } from '@shared/utils/error-utils';
-import { Loader } from '@shared/ui/loader';
 
 export const DocumentPage = () => {
   const params = useParams<{ id: string }>();
@@ -22,17 +21,19 @@ export const DocumentPage = () => {
   const projectId = pageQuery.data?.projectId ?? '';
   const projectQuery = useGetProjectByIdQuery(projectId, { skip: !projectId });
 
-  if (pageQuery.isLoading || contentQuery.isLoading) {
-    return <Loader />;
+  if (pageQuery.isLoading) {
+    return (
+      <ProjectWorkspace breadcrumbs={[]} page={null} onVersionRestored={setRestoredContent}>
+        <DocumentBodySkeleton />
+      </ProjectWorkspace>
+    );
   }
 
   if (pageQuery.isError) {
     const isNotFound =
       isFetchBaseQueryError(pageQuery.error) && pageQuery.error.status === HTTP_STATUS.NOT_FOUND;
 
-    if (isNotFound) {
-      return <NotFoundError />;
-    }
+    if (isNotFound) return <NotFoundError />;
 
     return (
       <UnexpectedError
@@ -43,9 +44,7 @@ export const DocumentPage = () => {
     );
   }
 
-  if (!pageQuery.data) {
-    return <NotFoundError />;
-  }
+  if (!pageQuery.data) return <NotFoundError />;
 
   const isContentMissing =
     isFetchBaseQueryError(contentQuery.error) &&
@@ -73,11 +72,15 @@ export const DocumentPage = () => {
       page={pageQuery.data}
       onVersionRestored={setRestoredContent}
     >
-      <DocumentBody
-        key={`${pageQuery.data.id}:${restored?.updatedAt ?? ''}`}
-        page={pageQuery.data}
-        content={restored ?? contentQuery.data ?? null}
-      />
+      {contentQuery.isLoading ? (
+        <DocumentBodySkeleton />
+      ) : (
+        <DocumentBody
+          key={`${pageQuery.data.id}:${restored?.updatedAt ?? ''}`}
+          page={pageQuery.data}
+          content={restored ?? contentQuery.data ?? null}
+        />
+      )}
     </ProjectWorkspace>
   );
 };

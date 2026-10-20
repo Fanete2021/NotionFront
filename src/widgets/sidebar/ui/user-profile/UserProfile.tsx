@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import styles from './UserProfile.module.css';
 import { useLogoutMutation } from '@features/auth';
 import { Avatar } from '@shared/ui/avatar';
@@ -12,6 +13,7 @@ import { Button } from '@shared/ui/button';
 import MoreIcon from '@/shared/assets/icons/more.svg';
 import { ContextMenu } from '@shared/ui/context-menu';
 import { FormError } from '@shared/ui/form-error';
+import { ROUTES } from '@shared/routes';
 
 interface UserProfileProps {
   name: string;
@@ -21,6 +23,7 @@ interface UserProfileProps {
 
 export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const actionsRef = useDismissibleLayer<HTMLDivElement>({
     enabled: isMenuOpen,
@@ -31,15 +34,15 @@ export function UserProfile({ name, email, avatarUrl }: UserProfileProps) {
     execute: profileLogout,
     isLoading: isLoggingOut,
     error: logoutError,
-  } = useMutationWithError(useLogoutMutation);
+  } = useMutationWithError(useLogoutMutation, {
+    onSuccess: () => {
+      router.replace(ROUTES.login);
+    },
+  });
 
   const handleLogout = async () => {
     try {
-      await profileLogout({
-        body: {
-          allDevices: false,
-        },
-      });
+      await profileLogout({ body: { allDevices: false } });
       setIsMenuOpen(false);
     } catch (error) {
       console.log(error);

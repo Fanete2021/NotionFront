@@ -4,10 +4,12 @@ import { WorkspaceInfo } from './workspace-info/WorkspaceInfo';
 import { InviteLinks } from './invite-links/InviteLinks';
 import { MemberList } from './member-list/MemberList';
 import styles from './WorkspaceMembers.module.css';
-import { WorkspaceMembersHeader } from '@/widgets/workspace-members/ui/workspace-members-header/WorkspaceMembersHeader';
+import { WorkspaceMembersHeader } from '../ui/workspace-members-header/WorkspaceMembersHeader';
 import { WorkspaceMembersSkeleton } from './workspace-members-skeleton/WorkspaceMembersSkeleton';
 import { CreateInviteLinkModal } from '@/features/create-invite-link';
 import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
+import { isFetchBaseQueryError } from '@/shared/utils/error-utils';
+import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
 interface WorkspaceMembersProps {
   workspaceId: string;
@@ -28,16 +30,22 @@ export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMember
   }
 
   if (error) {
-    return <div className={styles.error}>Ошибка загрузки участников</div>;
+    const isForbidden = isFetchBaseQueryError(error) && error.status === HTTP_STATUS.FORBIDDEN;
+
+    return (
+      <div className={styles.error}>
+        {isForbidden ? 'У вас нет прав для просмотра участников' : 'Ошибка загрузки участников'}
+      </div>
+    );
   }
 
   return (
     <>
       <WorkspaceMembersHeader />
       <div className={styles.container}>
-        <WorkspaceInfo workspaceName={workspaceName} memberCount={members?.length || 0} />
+        <WorkspaceInfo workspaceName={workspaceName} memberCount={members?.length ?? 0} />
         <InviteLinks workspaceId={workspaceId} />
-        <MemberList members={members || []} />
+        <MemberList members={members ?? []} />
       </div>
 
       <CreateInviteLinkModal />

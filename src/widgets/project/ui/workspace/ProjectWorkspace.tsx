@@ -11,7 +11,7 @@ import type { Page } from '@/shared/const/pageType';
 type ProjectWorkspaceProps = {
   children: ReactNode;
   breadcrumbs: string[];
-  page: Page;
+  page: Page | null;
   onVersionRestored?: (content: PageContent) => void;
 };
 
