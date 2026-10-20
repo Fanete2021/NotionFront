@@ -7,6 +7,7 @@ import { TextEditor } from '@features/text-editor';
 import { PageContent, useYjsProvider } from '@/entities/page';
 import { useUploadAttachment } from '@/entities/attachment';
 import { useGetMeQuery } from '@/entities/user';
+import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 import { Page } from '@/shared/const/pageType';
 
 type DocumentBodyProps = {
@@ -27,6 +28,10 @@ const pickColor = (seed: string): string => {
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const { data: authData } = useGetMeQuery();
 
+  const { data: members } = useGetWorkspaceMembersQuery(page.workspaceId, {
+    skip: !page.workspaceId,
+  });
+
   const user = useMemo(
     () => (authData ? { name: authData.name, color: pickColor(authData.id) } : null),
     [authData],
@@ -37,11 +42,10 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
 
   const [canEdit, setCanEdit] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
-  const [lastEditedAt, setLastEditedAt] = useState<string | null>(null);
 
   useEffect(() => {
     if (!provider) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // eslint-disable-next-line
       setCanEdit(false);
       setIsSynced(false);
       return;
@@ -59,26 +63,19 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
     };
   }, [provider]);
 
-  useEffect(() => {
-    if (!provider) return;
-
-    const onUpdate = () => {
-      const now = new Date().toISOString();
-      console.log('[DocumentBody] lastEditedAt =', now);
-      setLastEditedAt(new Date().toISOString());
-    };
-
-    provider.doc.on('update', onUpdate);
-    return () => {
-      provider.doc.off('update', onUpdate);
-    };
-  }, [provider]);
-
   const editable = canEdit && isSynced;
+
+  const serverUpdatedAt = content?.updatedAt ?? page.updatedAt;
+
+  const authorId = page.authorId ?? authData?.id ?? '';
+  const authorName =
+    members?.find((m) => m.userInfo.id === authorId)?.userInfo.name ??
+    authData?.name ??
+    'Неизвестный';
 
   return (
     <main className={styles.main}>
-      <DocumentHeader page={page} updatedAt={lastEditedAt ?? undefined} />
+      <DocumentHeader page={page} updatedAt={serverUpdatedAt} authorName={authorName} />
       <div className={styles.document}>
         <TextEditor
           provider={provider}

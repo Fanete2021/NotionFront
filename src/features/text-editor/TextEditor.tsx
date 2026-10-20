@@ -114,16 +114,17 @@ export const TextEditor = ({
       editable,
       immediatelyRender: false,
       onUpdate: ({ editor: ed }) => {
-        if (isCollaborative) return;
-
         const json = ed.getJSON();
-        const serialized = JSON.stringify(json);
 
-        if (initialJsonRef.current === null) {
-          initialJsonRef.current = serialized;
-          return;
+        if (!isCollaborative) {
+          const serialized = JSON.stringify(json);
+
+          if (initialJsonRef.current === null) {
+            initialJsonRef.current = serialized;
+            return;
+          }
+          if (serialized === initialJsonRef.current) return;
         }
-        if (serialized === initialJsonRef.current) return;
 
         onChangeRef.current?.(json as Record<string, unknown>);
       },
@@ -133,7 +134,7 @@ export const TextEditor = ({
         },
       },
     },
-    [provider, user?.name, user?.color],
+    [provider],
   );
 
   useEffect(() => {
