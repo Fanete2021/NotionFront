@@ -1,6 +1,6 @@
 import 'server-only';
 import { cache } from 'react';
-import { PublicArticleDetailEntity } from '@entities/published-document';
+import type { PublicArticleDetailEntity } from '../model/public-article.types';
 
 export const getPublicArticle = cache(
   async (slug: string): Promise<PublicArticleDetailEntity | null> => {

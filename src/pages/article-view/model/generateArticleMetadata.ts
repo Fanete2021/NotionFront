@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getPublicArticle } from '@entities/published-document';
+import { getPublicArticle } from '@entities/published-document/server';
 
 type ArticleMetadataProps = {
   params: Promise<{ slug: string }>;

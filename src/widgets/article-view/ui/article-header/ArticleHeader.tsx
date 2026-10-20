@@ -1,6 +1,6 @@
 import styles from './ArticleHeader.module.css';
 import type { PublicArticleDetailEntity } from '@entities/published-document';
-import { formatRelativeTime } from '@shared/lib';
+import { formatRelativeTime } from '@shared/lib/format-relative-time/formatRelativeTime';
 import { getTiptapText } from '@shared/lib/tiptap/getTiptapText';
 import { getIconByName } from '@shared/ui/icon-picker';
 import { Avatar } from '@shared/ui/avatar';
@@ -15,7 +15,7 @@ type ArticleHeaderProps = {
   >;
 };
 
-const CHARACTERS_PER_MINUTE = 1200;
+const CHARACTERS_PER_MINUTE = 250;
 
 const renderArticleIcon = (icon: string) => {
   const Icon = getIconByName(icon);

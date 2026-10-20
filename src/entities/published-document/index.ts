@@ -4,8 +4,6 @@ export {
   usePublishArticleMutation,
 } from './api/publicArticleApi';
 
-export { getPublicArticle } from './api/getPublicArticle';
-
 export type {
   PublicArticleEntity,
   PublicArticleDetailEntity,

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { ArticleView } from '@widgets/article-view';
 import { ArticleContent } from '@widgets/article-content';
 import { PublicHeader } from '@widgets/public-header';
-import { getPublicArticle } from '@entities/published-document';
+import { getPublicArticle } from '@entities/published-document/server';
 
 type ArticleViewPageProps = {
   params: Promise<{ slug: string }>;
