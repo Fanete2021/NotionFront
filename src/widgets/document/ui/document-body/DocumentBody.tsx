@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { DocumentHeader } from '../document-header/DocumentHeader';
 import { TextEditor } from '@features/text-editor';
@@ -9,6 +9,7 @@ import { useUploadAttachment } from '@/entities/attachment';
 import { useGetMeQuery } from '@/entities/user';
 import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 import { Page } from '@/shared/const/pageType';
+import { useDebounce } from '@shared/lib';
 
 type DocumentBodyProps = {
   page: Page;
@@ -43,6 +44,9 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
   const [canEdit, setCanEdit] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
 
+  const [localEditor, setLocalEditor] = useState<{ id: string; name: string } | null>(null);
+  const [localUpdatedAt, setLocalUpdatedAt] = useState<string | null>(null);
+
   useEffect(() => {
     if (!provider) {
       // eslint-disable-next-line
@@ -63,19 +67,42 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
     };
   }, [provider]);
 
+  const markAsEdited = useCallback(() => {
+    if (!authData) return;
+    setLocalEditor({ id: authData.id, name: authData.name });
+    setLocalUpdatedAt(new Date().toISOString());
+  }, [authData]);
+
+  const debouncedMarkAsEdited = useDebounce(markAsEdited, 1000);
+
+  useEffect(() => {
+    if (!provider) return;
+
+    const onUpdate = (update: Uint8Array, origin: unknown) => {
+      if (origin === 'remote') return;
+      debouncedMarkAsEdited();
+    };
+
+    provider.doc.on('update', onUpdate);
+    return () => {
+      provider.doc.off('update', onUpdate);
+    };
+  }, [provider, debouncedMarkAsEdited]);
+
   const editable = canEdit && isSynced;
 
-  const serverUpdatedAt = content?.updatedAt ?? page.updatedAt;
+  const serverUpdatedAt = localUpdatedAt ?? content?.updatedAt ?? page.updatedAt;
 
-  const authorId = page.authorId ?? authData?.id ?? '';
-  const authorName =
-    members?.find((m) => m.userInfo.id === authorId)?.userInfo.name ??
+  const editorId = localEditor?.id ?? page.updatedById ?? page.authorId ?? authData?.id ?? '';
+  const editorName =
+    localEditor?.name ??
+    members?.find((m) => m.userInfo.id === editorId)?.userInfo.name ??
     authData?.name ??
     'Неизвестный';
 
   return (
     <main className={styles.main}>
-      <DocumentHeader page={page} updatedAt={serverUpdatedAt} authorName={authorName} />
+      <DocumentHeader page={page} updatedAt={serverUpdatedAt} authorName={editorName} />
       <div className={styles.document}>
         <TextEditor
           provider={provider}
