@@ -36,6 +36,8 @@ export const VersionPreview = ({
     );
   }
 
+  const previewTextLimit = version?.preview.trim().length > 198; // Бэкенд присылает только первые 200 символов
+  console.log(previewTextLimit);
   return (
     <div className={styles.root}>
       <div className={styles.previewHeader}>
@@ -70,6 +72,12 @@ export const VersionPreview = ({
         </Typography>
         <Typography variant="label" className={styles.documentText}>
           Документ вернётся к состоянию на {formatVersionFullDate(version.createdAt)}.
+        </Typography>
+        <Typography
+          variant="text-regular"
+          className={classNames(styles.documentText, styles.textHidden)}
+        >
+          {version.preview}
         </Typography>
         <Typography variant="label" className={styles.documentText}>
           Текущее содержимое сохранится в истории отдельной версией, поэтому восстановление можно
