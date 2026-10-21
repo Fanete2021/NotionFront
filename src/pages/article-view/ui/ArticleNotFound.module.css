@@ -1,0 +1,17 @@
+.notFound {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(720px, calc(100% - 32px));
+  margin: 80px auto;
+}
+
+.notFound a {
+  color: var(--color-primary);
+}
+
+.notFound a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

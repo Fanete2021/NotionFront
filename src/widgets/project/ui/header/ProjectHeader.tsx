@@ -1,15 +1,13 @@
 'use client';
 
-import { Fragment } from 'react';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
 import { ChangeVersionButton } from '@/features/change-version';
-import { usePageSession, UserPageData } from '@entities/page';
+import { usePageSession } from '@entities/page';
 import { Button } from '@shared/ui/button';
-import { Typography } from '@shared/ui/typography';
+import { Breadcrumbs } from '@shared/ui/breadcrumbs';
 import { Avatar } from '@shared/ui/avatar';
 import CommentIcon from '@shared/assets/icons/comment.svg';
-import ChevronRightIcon from '@shared/assets/icons/chevron-right-2.svg';
 import GlobusIcon from '@shared/assets/icons/globus.svg';
 import MoreIcon from '@shared/assets/icons/more.svg';
 
@@ -23,30 +21,20 @@ interface ProjectHeaderProps {
   breadcrumbs: string[];
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
+  onPublishClick?: () => void;
 }
 
 export const ProjectHeader = ({
   breadcrumbs,
   onCommentsClick,
   onHistoryClick,
+  onPublishClick,
 }: ProjectHeaderProps) => {
   const session = usePageSession();
   const users = session?.users ?? [];
   return (
     <header className={styles.header}>
-      <nav className={styles.nav}>
-        {breadcrumbs.map((crumb, index) => (
-          <Fragment key={`${crumb}-${index}`}>
-            {index > 0 && <ChevronRightIcon className={styles.chevron} />}
-            <Typography
-              variant="text-medium"
-              className={index === breadcrumbs.length - 1 ? styles.navCurrent : undefined}
-            >
-              {crumb}
-            </Typography>
-          </Fragment>
-        ))}
-      </nav>
+      <Breadcrumbs items={breadcrumbs.map((label) => ({ label }))} className={styles.nav} />
       <div className={styles.actions}>
         <div className={styles.avatars}>
           <div className={styles.avatars}>
@@ -68,6 +56,7 @@ export const ProjectHeader = ({
           variant="filled"
           size="sm"
           addonLeft={<GlobusIcon className={styles.icon} />}
+          onClick={onPublishClick}
         >
           Публикация
         </Button>
