@@ -1,36 +1,8 @@
 .container {
   padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-}
-
-.title,
-.line {
-  position: relative;
-  overflow: hidden;
-  background: var(--color-skeleton-base);
-  border-radius: 4px;
-}
-
-.title {
-  height: 32px;
-  width: 60%;
-  margin-bottom: 8px;
-}
-
-.line {
-  height: 16px;
-}
-
-.line:nth-child(2) {
-  width: 100%;
-}
-
-.line:nth-child(3) {
-  width: 90%;
-}
-
-.line:nth-child(4) {
-  width: 80%;
+  gap: 24px;
 }

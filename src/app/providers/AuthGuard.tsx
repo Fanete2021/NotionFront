@@ -31,6 +31,9 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     skip: !isCurrentRoutePrivate,
   });
 
+  const isUnauthorized =
+    isFetchBaseQueryError(userQuery.error) && userQuery.error.status === HTTP_STATUS.UNAUTHORIZED;
+
   useEffect(() => {
     if (pathname === '/') {
       router.replace(ROUTES.main);
@@ -38,32 +41,16 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   }, [pathname, router]);
 
   useEffect(() => {
-    if (!userQuery.isError) return;
-
-    const isUnauthorized =
-      isFetchBaseQueryError(userQuery.error) && userQuery.error.status === HTTP_STATUS.UNAUTHORIZED;
-
     if (isUnauthorized && pathname) {
       router.replace(`${ROUTES.login}?returnTo=${encodeURIComponent(pathname)}`);
     }
-  }, [userQuery.isError, userQuery.error, router, pathname]);
+  }, [isUnauthorized, router, pathname]);
 
-  if (pathname === null) {
-    return <NotFoundError />;
-  }
-
-  if (isCurrentRoutePublic) {
-    return children;
-  }
-
-  if (!isCurrentRoutePrivate) {
-    return <NotFoundError />;
-  }
+  if (pathname === null) return <NotFoundError />;
+  if (isCurrentRoutePublic) return children;
+  if (!isCurrentRoutePrivate) return <NotFoundError />;
 
   if (userQuery.isError) {
-    const isUnauthorized =
-      isFetchBaseQueryError(userQuery.error) && userQuery.error.status === HTTP_STATUS.UNAUTHORIZED;
-
     if (isUnauthorized) {
       return <Loader />;
     }
