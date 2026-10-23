@@ -37,7 +37,6 @@ export const VersionPreview = ({
   }
 
   const previewTextLimit = version?.preview.trim().length > 198; // Бэкенд присылает только первые 200 символов
-  console.log(previewTextLimit);
   return (
     <div className={styles.root}>
       <div className={styles.previewHeader}>
