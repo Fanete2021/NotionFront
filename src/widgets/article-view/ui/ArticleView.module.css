@@ -1,0 +1,22 @@
+.main {
+  width: min(720px, calc(100% - 48px));
+  margin: 32px auto 0;
+  padding-bottom: 128px;
+}
+
+.breadcrumbs {
+  margin-bottom: 44px;
+}
+
+@media (max-width: 600px) {
+  .main {
+    width: calc(100% - 32px);
+    margin-top: 24px;
+    padding-bottom: 64px;
+  }
+
+  .main .breadcrumbs {
+    margin-bottom: 32px;
+    font-size: 12px;
+  }
+}

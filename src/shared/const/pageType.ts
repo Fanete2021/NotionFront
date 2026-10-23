@@ -17,4 +17,6 @@ export interface Page {
   position: number;
   createdAt: string;
   updatedAt: string;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
 }

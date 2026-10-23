@@ -1,78 +1,87 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { DocumentHeader } from '../document-header/DocumentHeader';
 import { TextEditor } from '@features/text-editor';
-import { PageContent, PageContentJson, useUpdatePageContentMutation } from '@/entities/page';
+import { PageContent, useYjsProvider } from '@/entities/page';
 import { useUploadAttachment } from '@/entities/attachment';
+import { useGetMeQuery } from '@/entities/user';
+import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
 import { Page } from '@/shared/const/pageType';
-import { HTTP_STATUS } from '@/shared/const/httpStatus';
-import { isFetchBaseQueryError } from '@/shared/utils/error-utils';
-import { useDebounce } from '@/shared/lib';
-
-const SAVE_DELAY = 800;
-const TOO_LARGE_MESSAGE = 'Документ слишком большой, изменения не сохранены';
-const SAVE_ERROR_MESSAGE = 'Не удалось сохранить изменения';
 
 type DocumentBodyProps = {
   page: Page;
   content: PageContent | null;
 };
 
+const CURSOR_COLORS = ['#6366F1', '#10B981', '#F59E0B', '#EF4444', '#2563EB', '#8B5CF6'];
+
+const pickColor = (seed: string): string => {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash = (hash * 31 + seed.charCodeAt(i)) | 0;
+  }
+  return CURSOR_COLORS[Math.abs(hash) % CURSOR_COLORS.length];
+};
+
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
-  const [updateContent] = useUpdatePageContentMutation();
-  const uploadAttachment = useUploadAttachment(page.id);
-  const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
-  const [updatedAt, setUpdatedAt] = useState(content?.updatedAt ?? page.updatedAt);
+  const { data: authData } = useGetMeQuery();
 
-  const latestJsonRef = useRef<PageContentJson | null>(null);
-  const isDirtyRef = useRef(false);
+  const { data: members } = useGetWorkspaceMembersQuery(page.workspaceId, {
+    skip: !page.workspaceId,
+  });
 
-  const save = useCallback(
-    async (json: PageContentJson) => {
-      setIsSaving(true);
-      setSaveError(null);
-      isDirtyRef.current = false;
-      try {
-        const saved = await updateContent({ id: page.id, body: json }).unwrap();
-        setUpdatedAt(saved.updatedAt);
-      } catch (err) {
-        isDirtyRef.current = true;
-        const isTooLarge =
-          isFetchBaseQueryError(err) && err.status === HTTP_STATUS.PAYLOAD_TOO_LARGE;
-        setSaveError(isTooLarge ? TOO_LARGE_MESSAGE : SAVE_ERROR_MESSAGE);
-      } finally {
-        setIsSaving(false);
-      }
-    },
-    [page.id, updateContent],
+  const user = useMemo(
+    () => (authData ? { name: authData.name, color: pickColor(authData.id) } : null),
+    [authData],
   );
 
-  const debouncedSave = useDebounce(save, SAVE_DELAY);
+  const provider = useYjsProvider(page.id, { user });
+  const uploadAttachment = useUploadAttachment(page.id);
 
-  const handleChange = (json: PageContentJson) => {
-    latestJsonRef.current = json;
-    isDirtyRef.current = true;
-    debouncedSave(json);
-  };
+  const [canEdit, setCanEdit] = useState(false);
+  const [isSynced, setIsSynced] = useState(false);
 
   useEffect(() => {
+    if (!provider) {
+      // eslint-disable-next-line
+      setCanEdit(false);
+      setIsSynced(false);
+      return;
+    }
+
+    setCanEdit(provider.canEdit);
+    setIsSynced(provider.isSynced);
+
+    const unsubCanEdit = provider.onCanEditChange(setCanEdit);
+    const unsubSynced = provider.onSyncedChange(setIsSynced);
+
     return () => {
-      if (isDirtyRef.current && latestJsonRef.current) {
-        updateContent({ id: page.id, body: latestJsonRef.current });
-      }
+      unsubCanEdit();
+      unsubSynced();
     };
-  }, [page.id, updateContent]);
+  }, [provider]);
+
+  const editable = canEdit && isSynced;
+
+  const serverUpdatedAt = content?.updatedAt ?? page.updatedAt;
+
+  const authorId = page.authorId ?? authData?.id ?? '';
+  const authorName =
+    members?.find((m) => m.userInfo.id === authorId)?.userInfo.name ??
+    authData?.name ??
+    'Неизвестный';
 
   return (
     <main className={styles.main}>
-      <DocumentHeader page={page} updatedAt={updatedAt} saveError={saveError} isSaving={isSaving} />
+      <DocumentHeader page={page} updatedAt={serverUpdatedAt} authorName={authorName} />
       <div className={styles.document}>
         <TextEditor
+          provider={provider}
+          user={user}
+          editable={editable}
           content={content?.json ?? null}
-          onChange={handleChange}
           onUploadFile={uploadAttachment}
         />
       </div>

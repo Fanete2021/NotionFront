@@ -38,8 +38,8 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
     execute: revokeInvite,
     isLoading: isRevoking,
     error: revokeError,
+    fieldErrors: revokeFieldErrors,
   } = useMutationWithError(useRevokeWorkspaceInviteMutation, {
-    onSuccess: () => {},
     fieldMap: {
       [HTTP_STATUS.FORBIDDEN]: {
         field: 'type',
@@ -125,7 +125,7 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
         })}
       </div>
 
-      <FormError message={revokeError} />
+      <FormError message={revokeFieldErrors.type ?? revokeFieldErrors.id ?? revokeError} />
 
       <Button
         variant="outline"

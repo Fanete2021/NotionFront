@@ -1,0 +1,130 @@
+.header {
+  border-bottom: 1px solid var(--color-border-base);
+  background: var(--color-card);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 64px;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding: 12px 32px;
+  gap: 24px;
+}
+
+.search {
+  position: absolute;
+  left: 50%;
+  width: 240px;
+  transform: translateX(-50%);
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.login,
+.register,
+.profile {
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.login {
+  padding-block: 10px;
+  color: var(--color-text-body);
+}
+
+.login:hover {
+  color: var(--color-primary);
+}
+
+.register {
+  padding: 9px 16px;
+  background: var(--color-button-filled-bg);
+  color: var(--color-button-filled-text);
+  font-weight: 500;
+}
+
+.register:hover {
+  background: var(--color-button-filled-bg-hover);
+}
+
+.register:active {
+  background: var(--color-button-filled-bg-active);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-text-primary);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.email {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-text-muted);
+}
+
+.account a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+@media (max-width: 800px) {
+  .inner {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-inline: 20px;
+    gap: 12px 20px;
+  }
+
+  .search {
+    position: static;
+    width: min(240px, 100%);
+    flex: 1 1 200px;
+    transform: none;
+  }
+
+  .account {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .inner {
+    padding-inline: 16px;
+  }
+
+  .search {
+    order: 1;
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .account {
+    gap: 12px;
+    font-size: 13px;
+  }
+}

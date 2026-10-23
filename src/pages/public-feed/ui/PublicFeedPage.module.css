@@ -1,0 +1,10 @@
+.search.search {
+  padding: 7px 12px;
+  background: var(--color-bg-surface);
+  border-color: var(--color-border-base);
+  border-radius: 6px;
+}
+
+.search svg {
+  color: var(--color-search-icon);
+}

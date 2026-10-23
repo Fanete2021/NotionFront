@@ -1,14 +1,7 @@
 import type { CalendarCellData } from '@entities/calendar';
+import { toDateKey } from '@/shared/lib/date/toDateKey';
 
 const DAYS_IN_WEEK = 7;
-
-const getDateKey = (date: Date): string => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
 
 export const getMonthGridItems = (
   monthDate: Date = new Date(),
@@ -20,12 +13,12 @@ export const getMonthGridItems = (
   const firstWeekday = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const cellCount = Math.ceil((firstWeekday + daysInMonth) / DAYS_IN_WEEK) * DAYS_IN_WEEK;
-  const todayKey = getDateKey(today);
+  const todayKey = toDateKey(today);
 
   return Array.from({ length: cellCount }, (_, index) => {
     // Конструктор Date сам учитывает границы месяцев, годов и переходы на летнее время.
     const date = new Date(year, month, index - firstWeekday + 1);
-    const dateKey = getDateKey(date);
+    const dateKey = toDateKey(date);
     const weekday = date.getDay();
 
     return {

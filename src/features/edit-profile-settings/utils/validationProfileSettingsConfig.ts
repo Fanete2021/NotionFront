@@ -11,3 +11,5 @@ export const profileSettingsSchema = z.object({
   mentionNotifications: z.boolean(),
   telegramToken: z.string(),
 });
+
+export type ProfileSettings = z.infer<typeof profileSettingsSchema>;

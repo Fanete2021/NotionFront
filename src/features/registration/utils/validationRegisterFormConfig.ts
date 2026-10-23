@@ -17,8 +17,13 @@ export const registerUserSchema = z
         'Пароль должен содержать заглавные латинские буквы(ABC), спецсимволы (@) и числа',
       ),
     confirmPassword: z.string().min(1, 'Поле обязательно к заполнению!'),
+    acceptTerms: z.boolean().refine((value) => value, {
+      message: 'Примите Условия использования и Политику конфиденциальности',
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Пароли не совпадают!',
     path: ['confirmPassword'],
   });
+
+export type RegistrationFormValues = z.infer<typeof registerUserSchema>;

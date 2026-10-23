@@ -1,7 +1,8 @@
-export const pad = (n: number) => String(n).padStart(2, '0');
+import { toDateKey } from '@/shared/lib/date/toDateKey';
 
-export const toDateKey = (d: Date) =>
-  `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+export { toDateKey };
+
+export const pad = (n: number) => String(n).padStart(2, '0');
 
 export const toTimeKey = (iso: string) => {
   const d = new Date(iso);
