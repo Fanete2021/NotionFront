@@ -1,0 +1,9 @@
+.layout {
+  min-height: 100dvh;
+  background: var(--color-card);
+  font-family: var(--font-inter), sans-serif;
+}
+
+.layout input {
+  font-family: inherit;
+}

@@ -34,6 +34,7 @@ export interface PageVersion {
   authorId: string;
   label: string | null;
   createdAt: string;
+  preview: string;
 }
 
 export interface PageVersionList {
@@ -51,6 +52,7 @@ export type PageJoinResponse =
   | {
       ok: true;
       users: UserPageData[];
+      canEdit: boolean;
     }
   | {
       ok: false;

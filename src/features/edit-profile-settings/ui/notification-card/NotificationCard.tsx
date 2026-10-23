@@ -1,7 +1,7 @@
-import { Control, Controller, useWatch } from 'react-hook-form';
+import { Control, Controller } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './NotificationCard.module.css';
-import { ProfileSettings } from '../../model/mock.api';
+import type { ProfileSettings } from '../../utils/validationProfileSettingsConfig';
 import { Card } from '@shared/ui/card';
 import { Typography } from '@shared/ui/typography';
 import { Toggle } from '@shared/ui/toggle';
@@ -24,10 +24,6 @@ const notificationFields = [
 ] as const;
 
 export function NotificationCard({ control }: NotificationCardProps) {
-  const [emailNotifications, mentionNotifications] = useWatch({
-    control,
-    name: ['emailNotifications', 'mentionNotifications'],
-  });
   return (
     <Card className={common.card} radius="m">
       <Typography variant="text-medium" className={common.cardTitle}>

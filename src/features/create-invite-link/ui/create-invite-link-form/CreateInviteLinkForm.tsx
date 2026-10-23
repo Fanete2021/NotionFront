@@ -1,13 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import classNames from 'classnames';
 import styles from './CreateInviteLinkForm.module.css';
 import { InviteLink } from '../invite-link/InviteLink';
+import {
+  createInviteLinkFormSchema,
+  type CreateInviteLinkFormValues,
+} from '../../utils/validationCreateInviteLinkFormConfig';
 import { useCreateWorkspaceInviteMutation } from '@/entities/workspace-invite';
-import type { InviteType } from '@/entities/workspace-invite';
 import { WorkspaceRole } from '@/entities/workspace-members';
 import { Typography } from '@shared/ui/typography';
 import { Button } from '@shared/ui/button';
+import { Radio } from '@shared/ui/radio';
 import { useMutationWithError } from '@/shared/lib/hooks';
 import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
@@ -27,12 +33,16 @@ export function CreateInviteLinkForm({
   className,
   curRole,
 }: CreateInviteLinkFormProps) {
-  const [selectedType, setSelectedType] = useState<InviteType>('PERMANENT');
+  const { control, handleSubmit } = useForm<CreateInviteLinkFormValues>({
+    resolver: zodResolver(createInviteLinkFormSchema),
+    defaultValues: { type: 'PERMANENT' },
+  });
 
   const {
     execute: createInvite,
     isLoading,
     error,
+    fieldErrors,
   } = useMutationWithError(useCreateWorkspaceInviteMutation, {
     onSuccess: () => {
       onSuccess?.();
@@ -49,12 +59,12 @@ export function CreateInviteLinkForm({
     },
   });
 
-  const handleCreate = async () => {
+  const onSubmit: SubmitHandler<CreateInviteLinkFormValues> = async (values) => {
     try {
       await createInvite({
         workspaceId,
-        body: {
-          type: selectedType,
+        data: {
+          type: values.type,
           role: curRole,
         },
       });
@@ -64,44 +74,66 @@ export function CreateInviteLinkForm({
   };
 
   return (
-    <div className={`${styles.form} ${className || ''}`}>
+    <form className={classNames(styles.form, className)} onSubmit={handleSubmit(onSubmit)}>
       <Typography variant="text-micro" className={styles.title}>
         ТИП
       </Typography>
 
-      <div className={styles.linksContainer}>
-        <div
-          className={`${styles.inviteOption} ${selectedType === 'PERMANENT' ? styles.active : ''}`}
-          onClick={() => setSelectedType('PERMANENT')}
-        >
-          <InviteLink title="🔗 Постоянная" subtitle="Действует бессрочно" />
-        </div>
-        <div
-          className={`${styles.inviteOption} ${selectedType === 'TEMPORARY' ? styles.active : ''}`}
-          onClick={() => setSelectedType('TEMPORARY')}
-        >
-          <InviteLink title="⏱ Временная" subtitle="Действует 1 день" />
-        </div>
-      </div>
+      <Controller
+        name="type"
+        control={control}
+        render={({ field, fieldState }) => (
+          <>
+            <div className={styles.linksContainer} role="radiogroup" aria-label="Тип ссылки">
+              <Radio
+                ref={field.ref}
+                name={field.name}
+                value="PERMANENT"
+                checked={field.value === 'PERMANENT'}
+                onChange={() => field.onChange('PERMANENT')}
+                onBlur={field.onBlur}
+                disabled={isLoading}
+                className={classNames(styles.inviteOption, {
+                  [styles.active]: field.value === 'PERMANENT',
+                })}
+                label={<InviteLink title="🔗 Постоянная" subtitle="Действует бессрочно" />}
+              />
+              <Radio
+                name={field.name}
+                value="TEMPORARY"
+                checked={field.value === 'TEMPORARY'}
+                onChange={() => field.onChange('TEMPORARY')}
+                onBlur={field.onBlur}
+                disabled={isLoading}
+                className={classNames(styles.inviteOption, {
+                  [styles.active]: field.value === 'TEMPORARY',
+                })}
+                label={<InviteLink title="⏱ Временная" subtitle="Действует 1 день" />}
+              />
+            </div>
+            <FormError message={fieldState.error?.message ?? fieldErrors.type ?? null} />
+          </>
+        )}
+      />
 
-      <FormError message={error} />
+      <FormError message={fieldErrors.workspaceId ?? error} />
 
       <div className={styles.divider} />
       <div className={styles.actions}>
         {onCancel && (
-          <Button variant="outline" onClick={onCancel} disabled={isLoading}>
+          <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
             Отмена
           </Button>
         )}
         <Button
           className={styles.createButton}
           variant="filled"
-          onClick={handleCreate}
+          type="submit"
           disabled={isLoading || !workspaceId}
         >
           {isLoading ? 'Создание...' : 'Создать ссылку'}
         </Button>
       </div>
-    </div>
+    </form>
   );
 }

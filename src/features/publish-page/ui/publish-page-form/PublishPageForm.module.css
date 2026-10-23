@@ -1,0 +1,203 @@
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.fields .accessCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--color-bg-surface);
+}
+
+.accessIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.accessIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.accessText {
+  min-width: 0;
+}
+
+.accessText .accessTitle {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.accessText .accessDescription {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--color-text-muted);
+}
+
+.toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.seo {
+  border: 0;
+  min-width: 0;
+}
+
+.legend {
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.seoFields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field .label {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.field .input,
+.field .slugInput,
+.textarea {
+  min-height: 40px;
+  border-radius: 6px;
+  padding: 9px 11px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.field input {
+  min-width: 0;
+  font-family: inherit;
+  line-height: 20px;
+}
+
+.field .slugInput {
+  gap: 0;
+}
+
+.urlPrefix {
+  white-space: nowrap;
+  color: var(--color-placeholder);
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  min-height: 80px;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-text-area);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.textarea::placeholder {
+  color: var(--color-placeholder);
+}
+
+.textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+  border-color: transparent;
+}
+
+.field .input:has(input[aria-invalid='true']),
+.field .slugInput:has(input[aria-invalid='true']),
+.textarea[aria-invalid='true'] {
+  border-color: var(--color-danger);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border-base);
+}
+
+.footer .hint {
+  max-width: 250px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-placeholder);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.actions .cancelButton,
+.actions .submitButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.actions .cancelButton {
+  color: var(--color-text-muted);
+}
+
+.actions .submitButton {
+  gap: 6px;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+}
+
+.actions button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 480px) {
+  .fields {
+    padding: 20px 16px;
+  }
+
+  .fields .accessCard {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-inline: 16px;
+  }
+
+  .actions {
+    align-self: flex-end;
+  }
+}

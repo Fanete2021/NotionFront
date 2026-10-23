@@ -25,6 +25,7 @@ describe('buildEventFormDefaults', () => {
         taskType: 'meet',
         repeatable: 'no-repeat',
         notifications: false,
+        reminderMinutes: '15',
         telegramSend: true,
       });
     });

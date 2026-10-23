@@ -14,7 +14,7 @@ import {
   useGetCalendarEventsQuery,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
-import { useAppDispatch, useAppSelector } from '@shared/lib';
+import { toDateKey, useAppDispatch, useAppSelector } from '@shared/lib';
 
 interface DayTasksPanelProps {
   onManageNotifications: () => void;
@@ -26,7 +26,7 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
   const selectedProjectIds = useAppSelector(selectDayPanelProjectIds);
   const { selectedDate } = useCalendar();
 
-  const dayKey = selectedDate ?? new Date().toISOString().slice(0, 10);
+  const dayKey = selectedDate ?? toDateKey(new Date());
   const from = new Date(`${dayKey}T00:00:00`).toISOString();
   const to = new Date(`${dayKey}T23:59:59.999`).toISOString();
 

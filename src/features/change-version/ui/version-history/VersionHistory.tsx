@@ -59,10 +59,11 @@ export const VersionHistory = ({ page, onRestored }: VersionHistoryProps) => {
 
   const versions: VersionItem[] = (data?.pages ?? [])
     .flatMap(({ items }) => items)
-    .map(({ id, createdAt, authorId }) => ({
+    .map(({ id, createdAt, authorId, preview }) => ({
       id,
       createdAt,
       authorName: getAuthorName(authorId),
+      preview,
     }));
 
   const selectedVersion = versions.find(({ id }) => id === selectedId) ?? versions[0] ?? null;

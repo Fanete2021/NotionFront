@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import { DraggableAttributes } from '@dnd-kit/core';
 import { SidebarItemData } from '../../../../model';
@@ -12,7 +12,7 @@ import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import { Button } from '@shared/ui/button';
 import DragHandleIcon from '@/shared/assets/icons/drag-handle.svg';
-import { useAppDispatch, useAppSelector } from '@/shared/lib';
+import { useAppDispatch, useAppSelector, useDismissibleLayer } from '@/shared/lib';
 
 interface SidebarDocumentProps {
   item: SidebarItemData;
@@ -30,7 +30,10 @@ export function SidebarDocument({
   const dispatch = useAppDispatch();
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useDismissibleLayer<HTMLDivElement>({
+    enabled: contextMenu !== null,
+    onDismiss: () => setContextMenu(null),
+  });
   const [deletePage] = useDeletePageMutation();
 
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
@@ -38,30 +41,6 @@ export function SidebarDocument({
     e.stopPropagation();
     setContextMenu({ x: e.clientX, y: e.clientY });
   }, []);
-
-  useEffect(() => {
-    if (!contextMenu) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setContextMenu(null);
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setContextMenu(null);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [contextMenu]);
 
   const handleEdit = useCallback(() => {
     setContextMenu(null);

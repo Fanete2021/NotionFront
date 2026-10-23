@@ -6,3 +6,5 @@ export const loginUserSchema = z.object({
   password: z.string().min(1, 'Введите пароль!'),
   rememberMe: z.boolean(),
 });
+
+export type LoginFormValues = z.infer<typeof loginUserSchema>;

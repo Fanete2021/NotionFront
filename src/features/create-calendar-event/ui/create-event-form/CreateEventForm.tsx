@@ -318,7 +318,7 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
         />
       </div>
 
-      <NotificationsCard className={styles.full} />
+      <NotificationsCard control={control} className={styles.full} />
 
       <FormError
         message={

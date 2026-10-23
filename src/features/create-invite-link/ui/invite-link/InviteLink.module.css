@@ -10,12 +10,14 @@
 }
 
 .title {
+  font-size: 14px;
   color: var(--color-invite-link-title);
   font-weight: 600;
   line-height: 21px;
 }
 
 .subtitle {
+  font-size: 12px;
   line-height: 18px;
   color: var(--color-invite-link-subtitle);
 }

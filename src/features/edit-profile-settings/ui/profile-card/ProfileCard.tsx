@@ -1,7 +1,7 @@
 import { Control, Controller, useWatch } from 'react-hook-form';
 import common from '../common.module.css';
 import styles from './ProfileCard.module.css';
-import { ProfileSettings } from '../../model/mock.api';
+import type { ProfileSettings } from '../../utils/validationProfileSettingsConfig';
 import { Card } from '@shared/ui/card';
 import { Avatar } from '@shared/ui/avatar';
 import { Typography } from '@shared/ui/typography';

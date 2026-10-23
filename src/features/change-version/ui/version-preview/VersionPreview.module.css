@@ -50,6 +50,8 @@
   border: 1px solid var(--color-border-base);
   border-radius: 8px;
   background: var(--color-bg-surface);
+
+  max-width: 100%;
 }
 
 .pageIcon {
@@ -70,5 +72,16 @@
 }
 
 .documentText {
+  display: block;
+
   color: var(--color-text-muted);
+  max-width: 100%;
+  min-width: 0;
 }
+
+.textHidden {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

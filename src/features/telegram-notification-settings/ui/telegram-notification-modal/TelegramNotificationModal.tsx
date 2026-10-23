@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import styles from './TelegramNotification.module.css';
 import { TelegramNotificationForm } from '../telegram-notification-form/TelegramNotificationForm';
 import { Modal } from '@shared/ui/modal';
@@ -13,6 +14,8 @@ interface TelegramNotificationModalProps {
 }
 
 export const TelegramNotificationModal = ({ isOpen, onClose }: TelegramNotificationModalProps) => {
+  const formId = useId();
+
   return (
     <Modal
       className={styles.modal}
@@ -41,8 +44,8 @@ export const TelegramNotificationModal = ({ isOpen, onClose }: TelegramNotificat
           </Button>
           <Button
             className={styles.saveButton}
-            type="button"
-            onClick={onClose}
+            type="submit"
+            form={formId}
             variant="filled"
             addonLeft={<CheckIcon aria-hidden="true" />}
           >
@@ -51,7 +54,7 @@ export const TelegramNotificationModal = ({ isOpen, onClose }: TelegramNotificat
         </div>
       }
     >
-      <TelegramNotificationForm />
+      <TelegramNotificationForm id={formId} onSubmit={onClose} />
     </Modal>
   );
 };
