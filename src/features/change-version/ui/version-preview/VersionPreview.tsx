@@ -74,7 +74,9 @@ export const VersionPreview = ({
         </Typography>
         <Typography
           variant="text-regular"
-          className={classNames(styles.documentText, styles.textHidden)}
+          className={classNames(styles.documentText, {
+            [styles.textHidden]: previewTextLimit,
+          })}
         >
           {version.preview}
         </Typography>
