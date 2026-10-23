@@ -3,10 +3,12 @@
 import { useParams } from 'next/navigation';
 import styles from './Project.module.css';
 import { ProjectWorkspace, ProjectDocument } from '@widgets/project';
-import { DocumentHeader, DocumentBodySkeleton } from '@/widgets/document';
+
+import { DocumentHeader } from '@/widgets/document';
 import { NotFoundError } from '@/widgets/error';
 import { useGetPageByIdQuery } from '@/entities/page';
 import { useGetProjectByIdQuery } from '@/entities/project';
+import { Loader } from '@/shared/ui/loader';
 
 export const ProjectPage = () => {
   const params = useParams<{ id: string }>();
@@ -16,16 +18,7 @@ export const ProjectPage = () => {
   const projectId = page?.projectId ?? '';
   const { data: project } = useGetProjectByIdQuery(projectId, { skip: !projectId });
 
-  if (isLoading) {
-    return (
-      <ProjectWorkspace breadcrumbs={[]} page={null}>
-        <main className={styles.main}>
-          <DocumentBodySkeleton />
-        </main>
-      </ProjectWorkspace>
-    );
-  }
-
+  if (isLoading) return <Loader />;
   if (!page) return <NotFoundError />;
 
   const breadcrumbs = ['Документы', project?.name].filter((crumb): crumb is string =>
