@@ -10,7 +10,7 @@ import { Typography } from '@shared/ui/typography';
 type ChangeVersionModalProps = {
   open: boolean;
   onClose: () => void;
-  page: Page;
+  page: Page | null;
   onRestored?: (content: PageContent) => void;
 };
 
@@ -24,6 +24,8 @@ export const ChangeVersionModal = ({
     onRestored?.(content);
     onClose();
   };
+
+  if (!page) return null;
 
   return (
     <Modal

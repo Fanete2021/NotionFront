@@ -1,7 +1,7 @@
 'use client';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './LoginForm.module.css';
@@ -17,9 +17,8 @@ import Lock from '@shared/assets/icons/lock.svg';
 import { Typography } from '@shared/ui/typography';
 import { ROUTES } from '@shared/routes';
 import { useMutationWithError } from '@/shared/lib';
-import { FormError } from '@/shared/ui/form-error';
-import { HTTP_STATUS } from '@/shared/const/httpStatus';
-import { takeAuthReturnTo } from '@/shared/lib/authReturnTo';
+import { FormError } from '@shared/ui/form-error';
+import { HTTP_STATUS } from '@shared/const/httpStatus';
 import Eye from '@shared/assets/icons/eye.svg';
 
 export const LoginForm = () => {
@@ -32,6 +31,8 @@ export const LoginForm = () => {
     resolver: zodResolver(loginUserSchema),
   });
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams?.get('returnTo');
 
   const {
     execute: login,
@@ -39,7 +40,8 @@ export const LoginForm = () => {
     error: errorMessage,
   } = useMutationWithError<AuthResult, { body: LoginDto }>(useLoginMutation, {
     onSuccess: () => {
-      router.replace(takeAuthReturnTo() ?? ROUTES.main);
+      const safeReturnTo = returnTo?.startsWith('/') ? returnTo : null;
+      router.replace(safeReturnTo ?? ROUTES.main);
       reset();
     },
     fieldMap: {

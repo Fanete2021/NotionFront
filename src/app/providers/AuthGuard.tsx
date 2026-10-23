@@ -2,14 +2,12 @@
 
 import { useEffect, type ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { selectSessionStatus } from '../store';
 import { NotFoundError, UnexpectedError } from '@widgets/error';
 import { useGetMeQuery } from '@entities/user';
 import { PRIVATE_ROUTES, PUBLIC_ROUTES, ROUTES } from '@shared/routes';
-import { useAppSelector } from '@/shared/lib';
-import { Loader } from '@/shared/ui/loader';
-import { toast } from '@/shared/ui/toast';
-import { rememberAuthReturnTo } from '@/shared/lib/authReturnTo';
+import { Loader } from '@shared/ui/loader';
+import { HTTP_STATUS } from '@shared/const/httpStatus';
+import { isFetchBaseQueryError } from '@shared/utils/error-utils';
 
 type AuthGuardProps = {
   children: ReactNode;
@@ -25,29 +23,16 @@ const isPrivateRoute = (pathname: string) =>
 export const AuthGuard = ({ children }: AuthGuardProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const status = useAppSelector(selectSessionStatus);
 
   const isCurrentRoutePublic = pathname !== null && isPublicRoute(pathname);
   const isCurrentRoutePrivate = pathname !== null && isPrivateRoute(pathname);
 
   const userQuery = useGetMeQuery(undefined, {
-    skip: !isCurrentRoutePrivate || status === 'anonymous',
+    skip: !isCurrentRoutePrivate,
   });
 
-  useEffect(() => {
-    if (status !== 'anonymous' || !isCurrentRoutePrivate || !pathname) {
-      return;
-    }
-
-    toast.add({
-      type: 'error',
-      title: 'Ошибка перехода на страницу!',
-      description: 'Пожалуйста войдите в аккаунт или создайте новый для доступа к этой странице',
-    });
-
-    rememberAuthReturnTo(`${pathname}${window.location.search}`);
-    router.replace(ROUTES.login);
-  }, [isCurrentRoutePrivate, pathname, router, status]);
+  const isUnauthorized =
+    isFetchBaseQueryError(userQuery.error) && userQuery.error.status === HTTP_STATUS.UNAUTHORIZED;
 
   useEffect(() => {
     if (pathname === '/') {
@@ -55,39 +40,33 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
     }
   }, [pathname, router]);
 
-  if (pathname === null) {
-    return <NotFoundError />;
-  }
+  useEffect(() => {
+    if (isUnauthorized && pathname) {
+      router.replace(`${ROUTES.login}?returnTo=${encodeURIComponent(pathname)}`);
+    }
+  }, [isUnauthorized, router, pathname]);
 
-  if (isCurrentRoutePublic) {
-    return children;
-  }
-
-  if (!isCurrentRoutePrivate) {
-    return <NotFoundError />;
-  }
-
-  if (status === 'anonymous') {
-    return <Loader />;
-  }
+  if (pathname === null) return <NotFoundError />;
+  if (isCurrentRoutePublic) return children;
+  if (!isCurrentRoutePrivate) return <NotFoundError />;
 
   if (userQuery.isError) {
+    if (isUnauthorized) {
+      return <Loader />;
+    }
+
     return (
       <UnexpectedError
-        code={500}
+        code={HTTP_STATUS.INTERNAL_SERVER_ERROR}
         error={new Error('Не удалось проверить сессию')}
         onRetry={() => void userQuery.refetch()}
       />
     );
   }
 
-  if (status === 'unknown' || userQuery.isLoading || userQuery.isUninitialized) {
+  if (userQuery.isLoading || userQuery.isUninitialized) {
     return <Loader />;
   }
 
-  if (status === 'authenticated' && userQuery.data) {
-    return children;
-  }
-
-  return <Loader />;
+  return children;
 };
