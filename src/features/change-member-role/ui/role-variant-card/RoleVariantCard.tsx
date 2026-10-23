@@ -21,16 +21,16 @@ export function RoleVariantCard({ role, isSelected, onSelect }: RoleVariantCardP
       <div className={styles.info}>
         <div className={styles.roleContainer}>
           <Typography variant="text-medium" className={styles.role}>
-            {roleLabels[role.role as WorkspaceRole]}
+            {roleLabels[role.role]}
           </Typography>
           <Badge
             className={styles.badge}
             fontSize="10px"
             fontWeight="500"
             padding="1px 6px"
-            text={roleLabels[role.role as WorkspaceRole]}
-            color={roleColors[role.role as WorkspaceRole].color}
-            bgColor={roleColors[role.role as WorkspaceRole].bgColor}
+            text={roleLabels[role.role]}
+            color={roleColors[role.role].color}
+            bgColor={roleColors[role.role].bgColor}
           />
         </div>
         <Typography variant="caption" className={styles.description}>

@@ -42,12 +42,13 @@ export const Badge = ({
         }
       : undefined;
 
-  const textStyle = fontSize
-    ? {
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-      }
-    : undefined;
+  const textStyle =
+    fontSize || fontWeight
+      ? {
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+        }
+      : undefined;
 
   return (
     <div

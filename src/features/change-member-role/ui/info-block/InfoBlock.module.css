@@ -14,3 +14,9 @@
   font-weight: 500;
   line-height: 18px;
 }
+
+.infoIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}

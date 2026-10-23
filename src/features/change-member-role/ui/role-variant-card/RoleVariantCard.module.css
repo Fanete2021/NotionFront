@@ -47,9 +47,10 @@
   text-align: left;
 }
 
-.cardSelected.cardSelected {
+.card.cardSelected {
   border: 1px solid var(--color-role-variant-card-active-border);
   background-color: var(--color-role-variant-card-selected);
+  pointer-events: none;
   cursor: default;
 }
 

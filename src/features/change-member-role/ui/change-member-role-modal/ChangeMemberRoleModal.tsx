@@ -4,12 +4,15 @@ import { ChoosedMemberCard } from '../member-card/ChoosedMemberCard';
 import { SaveChoosedRoleButton } from '@/features/change-member-role/ui/save-choosed-role-button/SaveChoosedRoleButton';
 import { ChooseRoleVariant } from '../choose-role-variant/ChooseRoleVariant';
 import { InfoBlock } from '@/features/change-member-role/ui/info-block/InfoBlock';
-import { useUpdateMemberRoleMutation, WorkspaceMember } from '@/entities/workspace-members';
-import { WorkspaceRole } from '@/entities/workspace-members';
+import {
+  useUpdateMemberRoleMutation,
+  WorkspaceMember,
+  WorkspaceRole,
+} from '@/entities/workspace-members';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@/shared/ui/button';
 import { Typography } from '@/shared/ui/typography';
-import { useAppSelector, useMutationWithError } from '@/shared/lib';
+import { useMutationWithError } from '@/shared/lib';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { FormError } from '@/shared/ui/form-error';
 
@@ -21,7 +24,6 @@ interface ChangeMemberRoleModalProps {
 
 export function ChangeMemberRoleModal({ member, isOpen, onClose }: ChangeMemberRoleModalProps) {
   const [selectedRole, setSelectedRole] = useState<WorkspaceRole | null>(null);
-  const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
 
   const {
     execute: updateMemberRole,
@@ -56,10 +58,10 @@ export function ChangeMemberRoleModal({ member, isOpen, onClose }: ChangeMemberR
   };
 
   const handleSaveButtonAction = async () => {
-    if (!member || !selectedRole || !currentWorkspaceId) return;
+    if (!member || !selectedRole) return;
 
     await updateMemberRole({
-      workspaceId: currentWorkspaceId,
+      workspaceId: member.workspaceId,
       userId: member.userInfo.id,
       body: { role: selectedRole },
     });
@@ -78,7 +80,7 @@ export function ChangeMemberRoleModal({ member, isOpen, onClose }: ChangeMemberR
       footerDivider
       footer={
         <div className={styles.buttons}>
-          <Button variant="outline" onClick={handleCancelButtonAction}>
+          <Button variant="outline" onClick={handleCancelButtonAction} disabled={isLoading}>
             Отмена
           </Button>
           <SaveChoosedRoleButton
@@ -94,8 +96,8 @@ export function ChangeMemberRoleModal({ member, isOpen, onClose }: ChangeMemberR
         <ChoosedMemberCard member={member} />
         <ChooseRoleVariant selectedRole={selectedRole} onSelect={setSelectedRole} />
         <InfoBlock />
-        <FormError message={fieldErrors.root ?? error} />
       </div>
+      <FormError message={fieldErrors.root ?? error} />
     </Modal>
   );
 }
