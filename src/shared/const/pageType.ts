@@ -14,6 +14,7 @@ export interface Page {
   icon?: string | null;
   type: PageType;
   authorId: string;
+  updatedById: string | null;
   position: number;
   createdAt: string;
   updatedAt: string;

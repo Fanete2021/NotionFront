@@ -22,6 +22,7 @@ const makePage = (overrides: Partial<Page> & Pick<Page, 'id' | 'title'>): Page =
   icon: null,
   type: 'DOC',
   authorId: 'author-1',
+  updatedById: null,
   position: 0,
   createdAt: '2026-10-06T00:00:00.000Z',
   updatedAt: '2026-10-06T00:00:00.000Z',
