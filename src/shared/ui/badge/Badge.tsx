@@ -14,9 +14,22 @@ interface BadgeProps extends React.ComponentPropsWithRef<'div'> {
   color?: string;
   bgColor?: string;
   border?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  padding?: string;
 }
 
-export const Badge = ({ className, status, text, color, bgColor, border }: BadgeProps) => {
+export const Badge = ({
+  className,
+  status,
+  text,
+  color,
+  bgColor,
+  border,
+  fontSize,
+  fontWeight,
+  padding,
+}: BadgeProps) => {
   const isConnected = status === 'connected';
 
   const customStyle =
@@ -25,8 +38,16 @@ export const Badge = ({ className, status, text, color, bgColor, border }: Badge
           color: color ?? 'inherit',
           backgroundColor: bgColor ?? 'transparent',
           border: border ?? 'none',
+          padding: padding ?? '3px 8px',
         }
       : undefined;
+
+  const textStyle = fontSize
+    ? {
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      }
+    : undefined;
 
   return (
     <div
@@ -34,7 +55,7 @@ export const Badge = ({ className, status, text, color, bgColor, border }: Badge
       style={customStyle}
     >
       {isConnected && <span className={styles.dot} />}
-      <Typography variant="caption" className={styles.text}>
+      <Typography variant="caption" className={styles.text} style={textStyle}>
         {text}
       </Typography>
     </div>

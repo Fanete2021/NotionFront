@@ -1,0 +1,30 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-choosed-member-card-bg);
+  border: 1px solid var(--color-choosed-member-card-border);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.memberData {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.name {
+  font-weight: 600;
+  line-height: 21px;
+}
+
+.email {
+  line-height: 18px;
+}

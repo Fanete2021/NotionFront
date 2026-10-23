@@ -1,6 +1,8 @@
+import { useDispatch } from 'react-redux';
 import styles from './MemberCard.module.css';
-import { roleLabels, WorkspaceRole, roleColors } from '../../model/role';
+import { openModal } from '@/features/change-member-role';
 import { WorkspaceMember } from '@/entities/workspace-members';
+import { roleLabels, WorkspaceRole, roleColors } from '@shared/const/role';
 import { Avatar } from '@shared/ui/avatar';
 import { Typography } from '@shared/ui/typography';
 import { Badge } from '@shared/ui/badge';
@@ -13,11 +15,16 @@ interface MemberCardProps {
 
 export const MemberCard = ({ member }: MemberCardProps) => {
   const { userInfo, role } = member;
+  const dispatch = useDispatch();
 
   const name = `${userInfo.name}`;
   const email = `${userInfo.email}`;
   const roleLabel = roleLabels[role as WorkspaceRole] || role;
   const colors = roleColors[role as WorkspaceRole] || roleColors.VIEWER;
+
+  const handleMoreButtonClick = () => {
+    dispatch(openModal(member));
+  };
 
   return (
     <div className={styles.card}>
@@ -32,7 +39,7 @@ export const MemberCard = ({ member }: MemberCardProps) => {
       </div>
       <div className={styles.memberStatus}>
         <Badge text={roleLabel} color={colors.color} bgColor={colors.bgColor} />
-        <Button variant="clear" className={styles.moreBtn}>
+        <Button variant="clear" className={styles.moreBtn} onClick={handleMoreButtonClick}>
           <MoreIcon className={styles.moreIcon} />
         </Button>
       </div>

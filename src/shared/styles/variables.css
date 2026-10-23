@@ -260,6 +260,24 @@
   --color-workspace-members-header: #6B7280;
   --color-workspace-members-header-border: #E8E8E4;
 
+  /* ChangeMemberRoleModal */
+  --color-change-member-role-modal-info: #FDE68A;
+  --color-change-member-role-modal-info-bg: rgba(253, 230, 138, 0.2);
+  --color-change-member-role-modal-info-label: #92400E;
+
+  /* ChoosedMemberCard */
+  --color-choosed-member-card-bg: #F7F7F5;
+  --color-choosed-member-card-border: #E8E8E4;
+
+  /* RoleVariantCard */
+  --color-role-variant-card-bg: #F6F6FF;
+  --color-role-variant-card-border: #E8E8E4;
+  --color-role-variant-card-active-border: #4B47E5;
+  --color-role-variant-card-checkbox-selected: #4B47E5;
+  --color-role-variant-card-selected: rgba(75, 71, 229, 0.1);
+  --color-role-variant-card-radio-icon-border: #D1D1CC;
+  --color-role-variant-card-description: #787774;
+
   /* WorkspaceInfo */
   --color-workspace-info-title: #1A1A1A;
 
