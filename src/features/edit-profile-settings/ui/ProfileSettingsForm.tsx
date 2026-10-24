@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import { useEffect } from 'react';
 import styles from './ProfileSettingsForm.module.css';
 import { ProfileCard } from './profile-card';
-import { NotificationCard } from './notification-card';
-import { TelegramCard } from './telegram-card';
 import { defaultProfileSettings } from '../model/mock.api';
 import {
   profileSettingsSchema,
@@ -103,8 +101,6 @@ export function ProfileSettingsForm({ className }: ProfileSettingsFormProps) {
         </Typography>
       </div>
       <ProfileCard control={control} />
-      <NotificationCard control={control} />
-      <TelegramCard control={control} />
 
       <FormError message={updateError} />
 
