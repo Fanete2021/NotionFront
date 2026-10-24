@@ -1,0 +1,98 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border-base);
+  border-left: 3px solid transparent;
+  background: var(--color-card);
+  scroll-margin: 8px;
+}
+
+.active {
+  border-left-color: var(--color-comment-anchor-border);
+  background: var(--color-comment-thread-active-bg);
+}
+
+.resolved .comment {
+  opacity: 0.75;
+}
+
+.quote {
+  display: -webkit-box;
+  overflow: hidden;
+  padding: 0 0 0 8px;
+  border: none;
+  border-left: 2px solid var(--color-comment-anchor-border);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: left;
+  color: var(--color-text-muted);
+  background: none;
+  cursor: pointer;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.quoteMissing {
+  border-left-color: var(--color-border-strong);
+  font-style: italic;
+  cursor: default;
+}
+
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.iconButton {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  padding: 0;
+  color: var(--color-text-muted);
+}
+
+.iconButton:hover {
+  color: var(--color-text-primary);
+}
+
+.icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.confirm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.confirmText {
+  flex: 1;
+  color: var(--color-comment-text);
+}
+
+.resolvedBy {
+  color: var(--color-success);
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+}
+
+.actions .action {
+  padding: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-text-muted);
+}
+
+.actions .action:hover {
+  color: var(--color-primary);
+}
