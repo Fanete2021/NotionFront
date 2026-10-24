@@ -20,6 +20,7 @@ export const {
   useCreateCalendarEventMutation,
   useUpdateCalendarEventMutation,
   useDeleteCalendarEventMutation,
+  useSetCalendarEventCompletedMutation,
 } = calendarApi;
 
 export type {
@@ -30,6 +31,7 @@ export type {
   CreateCalendarEventArgs,
   UpdateCalendarEventArgs,
   DeleteCalendarEventArgs,
+  SetCalendarEventCompletedArgs,
 } from './model/types/calendar.types';
 
 export { eventToBadgeTask, eventToDayTask } from './model/utils/eventMappers';
