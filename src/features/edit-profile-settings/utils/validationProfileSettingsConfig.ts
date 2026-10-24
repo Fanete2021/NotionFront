@@ -7,9 +7,6 @@ export const profileSettingsSchema = z.object({
   email: z.string().min(1, 'Введите email!').regex(emailRegex, 'Введите корректный email'),
   avatarUrl: z.string().trim(),
   avatarFile: z.file().optional(),
-  emailNotifications: z.boolean(),
-  mentionNotifications: z.boolean(),
-  telegramToken: z.string(),
 });
 
 export type ProfileSettings = z.infer<typeof profileSettingsSchema>;
