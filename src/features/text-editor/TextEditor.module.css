@@ -361,6 +361,17 @@
   height: 14px;
 }
 
+.commentAnchor {
+  border-bottom: 2px solid var(--color-comment-anchor-border);
+  background-color: var(--color-comment-anchor-bg);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.commentAnchorActive {
+  background-color: var(--color-comment-anchor-active-bg);
+}
+
 @media (max-width: 1439px) {
   .editor :global(h1) {
     font-size: 32px;

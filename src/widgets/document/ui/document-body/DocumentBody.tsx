@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { DocumentHeader } from '../document-header/DocumentHeader';
 import { TextEditor } from '@features/text-editor';
+import { usePageComments } from '@features/page-comments';
 import { PageContent, useYjsProvider } from '@/entities/page';
 import { useUploadAttachment } from '@/entities/attachment';
 import { useGetMeQuery } from '@/entities/user';
@@ -40,6 +41,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
 
   const provider = useYjsProvider(page.id, { user });
   const uploadAttachment = useUploadAttachment(page.id);
+  const comments = usePageComments();
 
   const [canEdit, setCanEdit] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
@@ -110,6 +112,11 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
           editable={editable}
           content={content?.json ?? null}
           onUploadFile={uploadAttachment}
+          onEditorReady={comments.setEditor}
+          commentAnchorIds={comments.highlightedAnchorIds}
+          activeCommentAnchorId={comments.activeAnchorId}
+          onCommentAdd={comments.startDraft}
+          onCommentAnchorClick={comments.openThread}
         />
       </div>
     </main>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEditor, EditorContent, useEditorState } from '@tiptap/react';
-import type { Content } from '@tiptap/core';
+import type { Content, Editor } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
@@ -29,6 +29,12 @@ import { Typography } from '@shared/ui/typography';
 import XCloseIcon from '@shared/assets/icons/x-close-2.svg';
 import PlusIcon from '@shared/assets/icons/plus.svg';
 import DivideIcon from '@shared/assets/icons/divide.svg';
+import CommentIcon from '@shared/assets/icons/comment.svg';
+import {
+  CommentAnchor,
+  createCommentAnchorId,
+  setCommentAnchorClickHandler,
+} from '@shared/lib/tiptap/comment-anchor';
 
 const textColors = [
   { value: null, colorName: 'Сбросить цвет' },
@@ -47,7 +53,16 @@ type TextEditorProps = {
   onUploadFile?: UploadFile;
   provider?: YjsSocketProvider | null;
   user?: { name: string; color: string } | null;
+  onEditorReady?: (editor: Editor | null) => void;
+  /** Якоря комментариев, которые нужно подсветить. */
+  commentAnchorIds?: string[];
+  activeCommentAnchorId?: string | null;
+  /** Включает кнопку «Комментировать» в меню выделения. Якорь уже поставлен в текст. */
+  onCommentAdd?: (anchorId: string) => void;
+  onCommentAnchorClick?: (anchorId: string) => void;
 };
+
+const NO_ANCHORS: string[] = [];
 
 const uploadLocalFile: UploadFile = (file) => Promise.resolve(URL.createObjectURL(file));
 
@@ -62,14 +77,21 @@ export const TextEditor = ({
   onUploadFile,
   provider,
   user,
+  onEditorReady,
+  commentAnchorIds = NO_ANCHORS,
+  activeCommentAnchorId = null,
+  onCommentAdd,
+  onCommentAnchorClick,
 }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);
 
   const onChangeRef = useRef(onChange);
+  const onEditorReadyRef = useRef(onEditorReady);
   useEffect(() => {
     onChangeRef.current = onChange;
-  }, [onChange]);
+    onEditorReadyRef.current = onEditorReady;
+  }, [onChange, onEditorReady]);
 
   const initialJsonRef = useRef<string | null>(null);
   const isCollaborative = Boolean(provider);
@@ -96,6 +118,11 @@ export const TextEditor = ({
 
         TableKit.configure({
           table: { resizable: true },
+        }),
+
+        CommentAnchor.configure({
+          highlightClass: styles.commentAnchor,
+          activeClass: styles.commentAnchorActive,
         }),
 
         ...(provider
@@ -148,6 +175,25 @@ export const TextEditor = ({
   }, [editor, editable]);
 
   useEffect(() => {
+    if (!editor || editor.isDestroyed) return;
+    onEditorReadyRef.current?.(editor);
+    return () => onEditorReadyRef.current?.(null);
+  }, [editor]);
+
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return;
+    setCommentAnchorClickHandler(editor, onCommentAnchorClick ?? null);
+  }, [editor, onCommentAnchorClick]);
+
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return;
+    editor.commands.setCommentHighlights({
+      anchorIds: commentAnchorIds,
+      activeAnchorId: activeCommentAnchorId,
+    });
+  }, [editor, commentAnchorIds, activeCommentAnchorId]);
+
+  useEffect(() => {
     if (!editor) return;
 
     const handleUpdate = () => {
@@ -175,6 +221,7 @@ export const TextEditor = ({
       link: ed?.isActive('link') ?? false,
       color: (ed?.getAttributes('textStyle')?.color as string | undefined) ?? null,
       table: ed?.isActive('table') ?? false,
+      hasSelection: ed ? !ed.state.selection.empty : false,
     }),
   });
 
@@ -196,6 +243,19 @@ export const TextEditor = ({
     }
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  };
+
+  const handleCommentClick = () => {
+    if (!editor || !onCommentAdd) return;
+
+    const anchorId = createCommentAnchorId();
+    if (!editor.chain().focus().setCommentAnchor(anchorId).run()) return;
+
+    // Снимаем выделение, чтобы меню закрылось, а фокус ушёл в форму комментария.
+    editor.commands.setTextSelection(editor.state.selection.to);
+    setIsColorOpen(false);
+    setIsTableOpen(false);
+    onCommentAdd(anchorId);
   };
 
   const handleShouldShow = () => {
@@ -332,6 +392,19 @@ export const TextEditor = ({
             >
               <PaletteIcon className={styles.bubbleIcon} />
             </Button>
+            {onCommentAdd && activeMarks?.hasSelection ? (
+              <Button
+                variant="clear"
+                size="sm"
+                square
+                aria-label="Комментировать"
+                title="Комментировать"
+                className={styles.bubbleButton}
+                onClick={handleCommentClick}
+              >
+                <CommentIcon className={styles.bubbleIcon} />
+              </Button>
+            ) : null}
 
             {isColorOpen && (
               <div className={styles.colorPanel}>
