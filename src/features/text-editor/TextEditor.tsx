@@ -175,13 +175,13 @@ export const TextEditor = ({
   }, [editor, editable]);
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || editor.isDestroyed) return;
     onEditorReadyRef.current?.(editor);
     return () => onEditorReadyRef.current?.(null);
   }, [editor]);
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || editor.isDestroyed) return;
     setCommentAnchorClickHandler(editor, onCommentAnchorClick ?? null);
   }, [editor, onCommentAnchorClick]);
 

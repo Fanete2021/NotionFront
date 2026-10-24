@@ -45,12 +45,16 @@ declare module '@tiptap/core' {
 
 const highlightKey = new PluginKey<HighlightState>('commentAnchorHighlight');
 
-/** Задаёт, что делать при клике по подсвеченному якорю. */
+/**
+ * Задаёт, что делать при клике по подсвеченному якорю.
+ * У уничтоженного редактора storage пустой — тогда ничего не делаем.
+ */
 export const setCommentAnchorClickHandler = (
   editor: Editor,
   handler: ((anchorId: string) => void) | null,
 ): void => {
-  editor.storage.commentAnchor.onAnchorClick = handler;
+  const storage = editor.storage.commentAnchor as CommentAnchorStorage | undefined;
+  if (storage) storage.onAnchorClick = handler;
 };
 
 const buildDecorations = (
