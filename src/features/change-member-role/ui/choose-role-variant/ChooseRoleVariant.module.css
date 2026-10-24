@@ -1,0 +1,10 @@
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chooseRoleLabel {
+  font-weight: 600;
+  line-height: 21px;
+}

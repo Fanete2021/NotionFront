@@ -2,6 +2,7 @@ export type WorkspaceRole = 'OWNER' | 'ADMIN' | 'EDITOR' | 'VIEWER';
 
 export interface WorkspaceMember {
   id: string;
+  workspaceId: string;
   role: WorkspaceRole;
   createdAt: string;
   userInfo: {

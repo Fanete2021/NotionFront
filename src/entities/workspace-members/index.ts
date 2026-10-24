@@ -5,3 +5,6 @@ export {
   useUpdateMemberRoleMutation,
   useRemoveMemberMutation,
 } from './api/workspaceMembersApi';
+
+export { selectChoosedMember } from './model/selectors/selectChoosedMember';
+export { selectIsChangeMemberRoleModalOpen } from './model/selectors/selectIsChangeMemberRoleModalOpen';
