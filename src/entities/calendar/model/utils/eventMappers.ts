@@ -24,7 +24,7 @@ export const eventToDayTask = (e: CalendarEvent, projectName = 'Без прое�
     label: e.title,
     time: `${fmt(start)} – ${fmt(end)}`,
     projectName,
-    isCompleted: false,
+    isCompleted: e.isCompleted,
     viewed: false,
   };
 };

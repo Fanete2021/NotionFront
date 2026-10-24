@@ -6,6 +6,7 @@ export interface CalendarEvent {
   startAt: string;
   endAt: string;
   allDay: boolean;
+  isCompleted: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -42,6 +43,12 @@ export interface UpdateCalendarEventArgs {
   id: string;
   workspaceId: string;
   body: UpdateCalendarEventDto;
+}
+
+export interface SetCalendarEventCompletedArgs {
+  id: string;
+  workspaceId: string;
+  isCompleted: boolean;
 }
 
 export interface DeleteCalendarEventArgs {

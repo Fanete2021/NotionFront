@@ -10,6 +10,7 @@ const makeEvent = (overrides: Partial<CalendarEvent> = {}): CalendarEvent => ({
   startAt: new Date(2026, 8, 9, 14, 0).toISOString(),
   endAt: new Date(2026, 8, 9, 14, 30).toISOString(),
   allDay: false,
+  isCompleted: false,
   createdAt: new Date(2026, 8, 1).toISOString(),
   updatedAt: new Date(2026, 8, 1).toISOString(),
   ...overrides,
