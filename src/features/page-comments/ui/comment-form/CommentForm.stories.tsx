@@ -15,7 +15,7 @@ const meta = {
     ),
   ],
   args: {
-    onSubmit: fn(),
+    onSubmit: fn(async () => {}),
   },
 } satisfies Meta<typeof CommentForm>;
 
@@ -42,7 +42,6 @@ export const Editing: Story = {
   },
 };
 
-/** Отправка никогда не завершается — после нажатия видно заблокированное поле. */
 export const Submitting: Story = {
   args: {
     onSubmit: fn(() => new Promise<void>(() => {})),

@@ -6,13 +6,7 @@ export {
   useDeletePageCommentMutation,
 } from './api/pageCommentApi';
 
-export type {
-  PageComment,
-  PageCommentAuthor,
-  PageCommentThread,
-  CreatePageCommentDto,
-  PageCommentRealtimeEvent,
-} from './model/page-comment.types';
+export type { PageComment, PageCommentThread } from './model/page-comment.types';
 export { MAX_COMMENT_BODY_LENGTH } from './model/page-comment.types';
 
 export { usePageCommentsRealtime } from './model/hooks/usePageCommentsRealtime';

@@ -4,7 +4,6 @@ import { baseApi } from '@/shared/api';
 
 type CommentArgs = { pageId: string; commentId: string };
 
-// Список правим ответом сервера сразу, без перезапроса: то же событие потом придёт по сокету.
 export const pageCommentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPageComments: builder.query<PageComment[], string>({

@@ -5,8 +5,8 @@ import StarterKit from '@tiptap/starter-kit';
 import { CommentAnchor } from './CommentAnchor';
 import {
   collectCommentAnchorTexts,
-  createCommentAnchorId,
   findCommentAnchorRanges,
+  getCommentAnchorsSelector,
 } from './commentAnchorUtils';
 
 const schema = getSchema([StarterKit, CommentAnchor]);
@@ -73,8 +73,18 @@ describe('collectCommentAnchorTexts', () => {
   });
 });
 
-describe('createCommentAnchorId', () => {
-  it('выдаёт разные id', () => {
-    expect(createCommentAnchorId()).not.toBe(createCommentAnchorId());
+describe('getCommentAnchorsSelector', () => {
+  it('собирает селектор по id якорей', () => {
+    expect(getCommentAnchorsSelector(['a-1', 'b_2'])).toBe(
+      '[data-comment-anchor="a-1"], [data-comment-anchor="b_2"]',
+    );
+  });
+
+  it('пропускает id с опасными символами', () => {
+    expect(getCommentAnchorsSelector(['"] body {', 'ok'])).toBe('[data-comment-anchor="ok"]');
+  });
+
+  it('возвращает пустую строку без якорей', () => {
+    expect(getCommentAnchorsSelector([])).toBe('');
   });
 });

@@ -1,19 +1,14 @@
 'use client';
 
-import { CommentForm } from '../comment-form/CommentForm';
+import { CommentForm, type CommentFormProps } from '../comment-form/CommentForm';
 import { getCommentErrorMessage } from '../../lib/getCommentErrorMessage';
 import { useCreatePageCommentMutation } from '@entities/page-comment';
 import { toast } from '@shared/ui/toast';
 
-type NewCommentFormProps = {
+type NewCommentFormProps = Omit<CommentFormProps, 'onSubmit' | 'initialValue'> & {
   pageId: string;
-  /** Якорь в тексте. Без него комментарий относится ко всей странице. */
   anchorId?: string;
-  placeholder?: string;
-  autoFocus?: boolean;
   onCreated?: () => void;
-  onCancel?: () => void;
-  className?: string;
 };
 
 export const NewCommentForm = ({

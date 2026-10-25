@@ -1,6 +1,5 @@
 'use client';
 
-import classNames from 'classnames';
 import styles from './ProjectHeader.module.css';
 import { ShareButton } from '@/features/change-version';
 import { ChangeVersionButton } from '@/features/change-version';
@@ -20,9 +19,6 @@ interface Avatar {
 
 interface ProjectHeaderProps {
   breadcrumbs: string[];
-  isCommentsOpen?: boolean;
-  /** Сколько открытых обсуждений на странице. */
-  commentsCount?: number;
   onCommentsClick?: () => void;
   onHistoryClick?: () => void;
   onPublishClick?: () => void;
@@ -30,8 +26,6 @@ interface ProjectHeaderProps {
 
 export const ProjectHeader = ({
   breadcrumbs,
-  isCommentsOpen,
-  commentsCount = 0,
   onCommentsClick,
   onHistoryClick,
   onPublishClick,
@@ -72,18 +66,10 @@ export const ProjectHeader = ({
           variant="clear"
           size="sm"
           square
-          aria-label={commentsCount ? `Комментарии: ${commentsCount}` : 'Комментарии'}
-          aria-pressed={isCommentsOpen}
-          className={classNames(styles.iconButton, styles.commentsButton, {
-            [styles.iconButtonActive]: isCommentsOpen,
-          })}
+          aria-label="Комментарии"
+          className={styles.iconButton}
         >
           <CommentIcon className={styles.icon} />
-          {commentsCount > 0 ? (
-            <span className={styles.commentsCount} aria-hidden>
-              {commentsCount > 99 ? '99+' : commentsCount}
-            </span>
-          ) : null}
         </Button>
         <Button variant="clear" size="sm" square aria-label="Ещё" className={styles.iconButton}>
           <MoreIcon className={styles.icon} />

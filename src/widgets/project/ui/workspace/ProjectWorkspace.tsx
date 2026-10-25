@@ -23,7 +23,7 @@ const WorkspaceLayout = ({
   page,
   onVersionRestored,
 }: ProjectWorkspaceProps) => {
-  const comments = usePageComments();
+  const { state, actions } = usePageComments();
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isPublicationOpen, setIsPublicationOpen] = useState(false);
   return (
@@ -31,15 +31,13 @@ const WorkspaceLayout = ({
       <div className={styles.main}>
         <ProjectHeader
           breadcrumbs={breadcrumbs}
-          isCommentsOpen={comments.isOpen}
-          commentsCount={comments.openThreadsCount}
-          onCommentsClick={comments.toggle}
+          onCommentsClick={actions.toggle}
           onHistoryClick={() => setIsHistoryOpen(true)}
           onPublishClick={() => setIsPublicationOpen(true)}
         />
         <div className={styles.content}>{children}</div>
       </div>
-      {comments.isOpen ? <ProjectComments /> : null}
+      {state.isOpen && <ProjectComments />}
       <ChangeVersionModal
         open={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}
@@ -55,7 +53,6 @@ const WorkspaceLayout = ({
   );
 };
 
-// Комментарии нужны и шапке, и панели, и редактору внутри children — поэтому провайдер здесь.
 export const ProjectWorkspace = (props: ProjectWorkspaceProps) => (
   <PageCommentsProvider key={props.page.id} pageId={props.page.id}>
     <WorkspaceLayout {...props} />

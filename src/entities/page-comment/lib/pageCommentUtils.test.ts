@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { PageComment } from '../model/page-comment.types';
 import { groupPageCommentThreads } from './groupPageCommentThreads';
-import { applyPageCommentEvent, upsertPageComment } from './pageCommentsCache';
+import { removePageComment, upsertPageComment } from './pageCommentsCache';
 
-const author = { id: 'u1', name: 'Анна', email: 'anna@example.com', avatarUrl: null };
+const anna = { id: 'u1', name: 'Анна', email: 'anna@example.com', avatarUrl: null };
+const boris = { id: 'u2', name: 'Борис', email: 'boris@example.com', avatarUrl: null };
 
 const makeComment = (overrides: Partial<PageComment>): PageComment => ({
   id: 'c1',
@@ -15,7 +16,7 @@ const makeComment = (overrides: Partial<PageComment>): PageComment => ({
   resolvedBy: null,
   createdAt: '2026-10-01T10:00:00.000Z',
   updatedAt: '2026-10-01T10:00:00.000Z',
-  authorInfo: author,
+  authorInfo: anna,
   ...overrides,
 });
 
@@ -31,8 +32,7 @@ describe('groupPageCommentThreads', () => {
       ['root', 'reply'],
       ['page'],
     ]);
-    expect(threads[0].anchorId).toBe('a');
-    expect(threads[1].anchorId).toBeNull();
+    expect(threads.map(({ anchorId }) => anchorId)).toEqual(['a', null]);
   });
 
   it('считает ветку решённой, только когда решены все комментарии', () => {
@@ -44,6 +44,36 @@ describe('groupPageCommentThreads', () => {
 
     expect(partly.resolved).toBe(false);
     expect(fully.resolved).toBe(true);
+  });
+
+  it('берёт того, кто закрыл ветку последним', () => {
+    const [thread] = groupPageCommentThreads([
+      makeComment({
+        id: '1',
+        anchorId: 'a',
+        resolved: true,
+        resolvedAt: '2026-10-02T10:00:00.000Z',
+        resolvedBy: anna,
+      }),
+      makeComment({
+        id: '2',
+        anchorId: 'a',
+        resolved: true,
+        resolvedAt: '2026-10-03T10:00:00.000Z',
+        resolvedBy: boris,
+      }),
+    ]);
+
+    expect(thread.resolvedBy).toEqual(boris);
+  });
+
+  it('не показывает автора закрытия у открытой ветки', () => {
+    const [thread] = groupPageCommentThreads([
+      makeComment({ id: '1', anchorId: 'a', resolved: true, resolvedBy: anna }),
+      makeComment({ id: '2', anchorId: 'a' }),
+    ]);
+
+    expect(thread.resolvedBy).toBeNull();
   });
 
   it('держит комментарии к странице отдельными ветками', () => {
@@ -69,28 +99,10 @@ describe('upsertPageComment', () => {
   });
 });
 
-describe('applyPageCommentEvent', () => {
-  it('обновляет комментарий по событию updated', () => {
-    const list = [makeComment({})];
-    applyPageCommentEvent(list, {
-      pageId: 'p1',
-      action: 'updated',
-      commentId: 'c1',
-      actorId: 'u2',
-      comment: makeComment({ resolved: true, updatedAt: '2026-10-01T12:00:00.000Z' }),
-    });
-
-    expect(list[0].resolved).toBe(true);
-  });
-
-  it('удаляет комментарий по событию deleted', () => {
+describe('removePageComment', () => {
+  it('удаляет комментарий по id', () => {
     const list = [makeComment({ id: 'c1' }), makeComment({ id: 'c2' })];
-    applyPageCommentEvent(list, {
-      pageId: 'p1',
-      action: 'deleted',
-      commentId: 'c1',
-      actorId: 'u1',
-    });
+    removePageComment(list, 'c1');
 
     expect(list.map(({ id }) => id)).toEqual(['c2']);
   });

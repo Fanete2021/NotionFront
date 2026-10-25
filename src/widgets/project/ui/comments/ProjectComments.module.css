@@ -3,7 +3,6 @@
   flex-direction: column;
   flex-shrink: 0;
   width: 320px;
-  min-height: 0;
   border-left: 1px solid var(--color-border-base);
   background: var(--color-bg-surface);
 }
@@ -35,51 +34,23 @@
 .tabs {
   flex-shrink: 0;
   display: flex;
-  gap: 16px;
-  padding: 0 16px;
+  gap: 8px;
+  padding: 8px 16px;
   border-bottom: 1px solid var(--color-border-base);
 }
 
-.tab {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: -1px;
-  padding: 10px 0;
-  border: none;
-  border-bottom: 2px solid transparent;
-  font-family: inherit;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 20px;
+.tabs .tab {
+  font-weight: 400;
   color: var(--color-text-muted);
-  background: none;
-  cursor: pointer;
 }
 
-.tab:hover {
-  color: var(--color-text-primary);
-}
-
-.tabActive {
-  border-bottom-color: var(--color-primary);
-  color: var(--color-text-primary);
-}
-
-.tabCount {
-  min-width: 18px;
-  padding: 0 5px;
-  box-sizing: border-box;
-  border-radius: 9px;
-  font-size: 11px;
-  line-height: 18px;
-  text-align: center;
-  background: var(--color-bg-muted);
+.tabs .tabActive {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
 }
 
 .list {
   flex: 1;
-  min-height: 0;
   overflow-y: auto;
 }
 
@@ -89,9 +60,6 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-}
-
-.placeholderText {
   color: var(--color-text-muted);
 }
 
@@ -101,27 +69,17 @@
   gap: 8px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--color-border-base);
-  border-left: 3px solid var(--color-comment-anchor-border);
-  background: var(--color-comment-thread-active-bg);
-  scroll-margin: 8px;
+  background: var(--color-card);
 }
 
-.draftQuote {
-  display: -webkit-box;
-  overflow: hidden;
-  margin: 0;
+.quote {
   padding-left: 8px;
   border-left: 2px solid var(--color-comment-anchor-border);
-  font-size: 12px;
-  line-height: 18px;
   color: var(--color-text-muted);
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
 }
 
 .footer {
   flex-shrink: 0;
   padding: 16px;
   border-top: 1px solid var(--color-border-base);
-  background: var(--color-card);
 }

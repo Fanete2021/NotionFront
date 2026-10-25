@@ -9,7 +9,6 @@ export interface PageComment {
   id: string;
   pageId: string;
   body: string;
-  /** Id якоря в тексте. null — комментарий ко всей странице. */
   anchorId: string | null;
   resolved: boolean;
   resolvedAt: string | null;
@@ -24,23 +23,20 @@ export interface CreatePageCommentDto {
   anchorId?: string;
 }
 
-export type PageCommentRealtimeAction = 'created' | 'updated' | 'deleted';
-
-/** Событие сокета page:comment. Для deleted поле comment не приходит. */
 export interface PageCommentRealtimeEvent {
   pageId: string;
-  action: PageCommentRealtimeAction;
+  action: 'created' | 'updated' | 'deleted';
   commentId: string;
   actorId: string;
   comment?: PageComment;
 }
 
-/** Обсуждение: все комментарии к одному якорю или один комментарий к странице. */
 export interface PageCommentThread {
   id: string;
   anchorId: string | null;
   comments: PageComment[];
   resolved: boolean;
+  resolvedBy: PageCommentAuthor | null;
 }
 
 export const MAX_COMMENT_BODY_LENGTH = 5000;

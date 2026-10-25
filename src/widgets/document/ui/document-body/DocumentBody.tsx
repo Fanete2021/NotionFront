@@ -41,7 +41,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
 
   const provider = useYjsProvider(page.id, { user });
   const uploadAttachment = useUploadAttachment(page.id);
-  const comments = usePageComments();
+  const { state: commentsState, actions: commentsActions } = usePageComments();
 
   const [canEdit, setCanEdit] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
@@ -112,11 +112,11 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
           editable={editable}
           content={content?.json ?? null}
           onUploadFile={uploadAttachment}
-          onEditorReady={comments.setEditor}
-          commentAnchorIds={comments.highlightedAnchorIds}
-          activeCommentAnchorId={comments.activeAnchorId}
-          onCommentAdd={comments.startDraft}
-          onCommentAnchorClick={comments.openThread}
+          comments={{
+            anchorIds: commentsState.highlightedAnchorIds,
+            onAdd: commentsActions.startDraft,
+            onEditorChange: commentsActions.setEditor,
+          }}
         />
       </div>
     </main>

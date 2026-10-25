@@ -1,7 +1,6 @@
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 import { getErrorMessage, isFetchBaseQueryError } from '@shared/utils/error-utils';
 
-/** Понятный текст ошибки для действий с комментариями. */
 export const getCommentErrorMessage = (error: unknown): string => {
   if (!isFetchBaseQueryError(error)) return 'Не удалось выполнить действие';
 

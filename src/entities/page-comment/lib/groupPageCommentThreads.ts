@@ -1,37 +1,29 @@
 import type { PageComment, PageCommentThread } from '../model/page-comment.types';
 
-/**
- * Собирает обсуждения: комментарии с одним anchorId — одна ветка,
- * комментарий к странице — отдельная ветка. Ветка решена, когда решены все её комментарии.
- */
+const byDate = (a: string | null, b: string | null) => Date.parse(a ?? '') - Date.parse(b ?? '');
+
+const getLastResolver = (comments: PageComment[]) =>
+  comments
+    .filter((comment) => comment.resolvedAt)
+    .sort((a, b) => byDate(b.resolvedAt, a.resolvedAt))[0]?.resolvedBy ?? null;
+
 export const groupPageCommentThreads = (comments: PageComment[]): PageCommentThread[] => {
-  const sorted = [...comments].sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
-  const threads: Omit<PageCommentThread, 'resolved'>[] = [];
-  const byAnchor = new Map<string, Omit<PageCommentThread, 'resolved'>>();
+  const groups = new Map<string, PageComment[]>();
 
-  for (const comment of sorted) {
-    if (!comment.anchorId) {
-      threads.push({ id: comment.id, anchorId: null, comments: [comment] });
-      continue;
-    }
-
-    const existing = byAnchor.get(comment.anchorId);
-    if (existing) {
-      existing.comments.push(comment);
-      continue;
-    }
-
-    const thread = {
-      id: `anchor:${comment.anchorId}`,
-      anchorId: comment.anchorId,
-      comments: [comment],
-    };
-    byAnchor.set(comment.anchorId, thread);
-    threads.push(thread);
+  for (const comment of [...comments].sort((a, b) => byDate(a.createdAt, b.createdAt))) {
+    const key = comment.anchorId ? `anchor:${comment.anchorId}` : comment.id;
+    groups.set(key, [...(groups.get(key) ?? []), comment]);
   }
 
-  return threads.map((thread) => ({
-    ...thread,
-    resolved: thread.comments.every(({ resolved }) => resolved),
-  }));
+  return [...groups.entries()].map(([id, threadComments]) => {
+    const resolved = threadComments.every((comment) => comment.resolved);
+
+    return {
+      id,
+      anchorId: threadComments[0].anchorId,
+      comments: threadComments,
+      resolved,
+      resolvedBy: resolved ? getLastResolver(threadComments) : null,
+    };
+  });
 };
