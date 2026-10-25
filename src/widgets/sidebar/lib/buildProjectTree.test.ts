@@ -8,7 +8,7 @@ const makeProject = (project: Partial<Project> & Pick<Project, 'id' | 'name'>): 
   parentProjectId: null,
   color: null,
   icon: null,
-  order: 0,
+  position: 0,
   createdAt: '2026-06-01T00:00:00.000Z',
   updatedAt: '2026-06-01T00:00:00.000Z',
   ...project,
@@ -62,13 +62,13 @@ describe('buildProjectTree', () => {
     });
   });
 
-  it('должна сортировать проекты по order, а документы по position', () => {
+  it('должна сортировать проекты по position, а документы по position', () => {
     const tree = buildProjectTree(
       [
-        makeProject({ id: 'second', name: 'Б', order: 2 }),
-        makeProject({ id: 'first', name: 'А', order: 1 }),
-        makeProject({ id: 'nested-2', name: 'Г', parentProjectId: 'first', order: 2 }),
-        makeProject({ id: 'nested-1', name: 'В', parentProjectId: 'first', order: 1 }),
+        makeProject({ id: 'second', name: 'Б', position: 2 }),
+        makeProject({ id: 'first', name: 'А', position: 1 }),
+        makeProject({ id: 'nested-2', name: 'Г', parentProjectId: 'first', position: 2 }),
+        makeProject({ id: 'nested-1', name: 'В', parentProjectId: 'first', position: 1 }),
       ],
       [
         makePage({ id: 'page-2', title: 'Второй', projectId: 'first', position: 2 }),

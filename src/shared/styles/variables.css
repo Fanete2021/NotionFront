@@ -365,4 +365,11 @@
 
   /* TipTap */
   --color-tiptap-caret-bg: #FFFFFF;
+
+  /* NestZone */
+--color-nest-zone-border: #E8E8E4;
+--color-nest-zone-bg: #F7F7F5;
+--color-nest-zone-over-bg: rgba(75, 71, 229, 0.1);
+--color-nest-zone-over-border: #4B47E5;
+--color-nest-zone-over-text: #4B47E5;
 }

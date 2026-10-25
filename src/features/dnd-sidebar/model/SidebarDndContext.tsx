@@ -8,12 +8,14 @@ interface SidebarDndContextValue {
   activeId: string | null;
   overId: string | null;
   activeType: DndItemType | null;
+  activeProjectParentId: string | null | undefined;
 }
 
 const SidebarDndContext = createContext<SidebarDndContextValue>({
   activeId: null,
   overId: null,
   activeType: null,
+  activeProjectParentId: undefined,
 });
 
 export const SidebarDndProvider = SidebarDndContext.Provider;

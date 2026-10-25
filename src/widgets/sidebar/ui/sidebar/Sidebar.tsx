@@ -22,7 +22,7 @@ import { staticSidebarItems } from '../../model';
 import { buildProjectTree } from '../../lib';
 import { SidebarSkeleton } from '../sidebar-skeleton/SidebarSkeleton';
 import { SidebarItem } from '../sidebar-item/SidebarItem';
-import { closeAllGroups, DragPreview } from '@/features/dnd-sidebar';
+import { DragPreview, flattenProjects } from '@/features/dnd-sidebar';
 import { WorkspaceSwitcher } from '@/features/switch-workspace';
 import { DocumentFormModal } from '@/features/manage-document';
 import { ProjectFormModal } from '@/features/manage-project';
@@ -31,7 +31,11 @@ import {
   SidebarDndProvider,
   type DndItemType,
 } from '@/features/dnd-sidebar';
-import { useGetProjectsByWorkspaceQuery, useReorderProjectsMutation } from '@/entities/project';
+import {
+  useGetProjectsByWorkspaceQuery,
+  useReorderProjectsMutation,
+  useUpdateProjectMutation,
+} from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import {
   useGetPagesByWorkspaceQuery,
@@ -40,10 +44,9 @@ import {
 } from '@/entities/page';
 import { useGetMeQuery } from '@/entities/user';
 import type { Project } from '@/entities/project';
-import { Input } from '@/shared/ui/input';
 import type { Page } from '@/shared/const/pageType';
 import SearchIcon from '@/shared/assets/icons/search.svg';
-import { useAppDispatch, useAppSelector } from '@/shared/lib';
+import { useAppSelector } from '@/shared/lib';
 import { ROUTES } from '@shared/routes';
 
 interface SidebarProps {
@@ -51,18 +54,31 @@ interface SidebarProps {
 }
 
 const DROP_ANIMATION_DURATION = 300;
+const NEST_PREFIX = 'nest-';
+const GROUP_PREFIX = 'group-';
 
 export function Sidebar({ className }: SidebarProps) {
   const currentWorkspaceId = useAppSelector((state) => state.currentWorkspace.id);
-
-  const dispatch = useAppDispatch();
+  const [updateProject] = useUpdateProjectMutation();
 
   const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspacesQuery();
   const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
 
   const [localProjects, setLocalProjects] = useState<Project[]>([]);
+
   const [localPages, setLocalPages] = useState<Page[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  const activeProject = useMemo(() => {
+    if (!activeId) return null;
+    return flattenProjects(localProjects).find((p) => p.id === activeId) ?? null;
+  }, [activeId, localProjects]);
+
+  const activeProjectParentId = useMemo(
+    () => (activeProject ? (activeProject.parentProjectId ?? null) : undefined),
+    [activeProject],
+  );
+
   const [overId, setOverId] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<DndItemType | null>(null);
 
@@ -143,23 +159,31 @@ export function Sidebar({ className }: SidebarProps) {
   const collisionDetection: CollisionDetection = useCallback((args) => {
     const pointerCollisions = pointerWithin(args);
 
-    const itemCollision = pointerCollisions.find((c) => !String(c.id).startsWith('group-'));
+    const nestCollision = pointerCollisions.find((c) => String(c.id).startsWith(NEST_PREFIX));
+    if (nestCollision) return [nestCollision];
+
+    const itemCollision = pointerCollisions.find(
+      (c) => !String(c.id).startsWith(GROUP_PREFIX) && !String(c.id).startsWith(NEST_PREFIX),
+    );
     if (itemCollision) return [itemCollision];
 
-    const groupCollision = pointerCollisions.find((c) => String(c.id).startsWith('group-'));
-    if (groupCollision) return [groupCollision];
+    const groupCollisions = pointerCollisions.filter((c) => String(c.id).startsWith(GROUP_PREFIX));
+    if (groupCollisions.length > 0) {
+      const deepest = groupCollisions.reduce((best, current) => {
+        const bestLevel = (best.data?.current as { level?: number })?.level ?? 0;
+        const currentLevel = (current.data?.current as { level?: number })?.level ?? 0;
+        return currentLevel > bestLevel ? current : best;
+      });
+      return [deepest];
+    }
 
     return closestCenter(args);
   }, []);
 
-  const handleDragStart = useCallback(
-    (event: DragStartEvent) => {
-      setActiveId(String(event.active.id));
-      setActiveType((event.active.data.current?.type as DndItemType) ?? null);
-      dispatch(closeAllGroups());
-    },
-    [dispatch],
-  );
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveId(String(event.active.id));
+    setActiveType((event.active.data.current?.type as DndItemType) ?? null);
+  }, []);
 
   const handleDragOver = useCallback((event: DragOverEvent) => {
     setOverId(event.over ? String(event.over.id) : null);
@@ -202,6 +226,7 @@ export function Sidebar({ className }: SidebarProps) {
       reorderPages,
       updatePage,
       scheduleActiveIdReset,
+      updateProject,
     });
   };
 
@@ -217,7 +242,7 @@ export function Sidebar({ className }: SidebarProps) {
   );
 
   return (
-    <SidebarDndProvider value={{ activeId, overId, activeType }}>
+    <SidebarDndProvider value={{ activeId, overId, activeType, activeProjectParentId }}>
       <aside className={classNames(styles.sidebar, className)}>
         <WorkspaceSwitcher />
         <div className={styles.top}>

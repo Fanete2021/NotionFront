@@ -5,20 +5,12 @@ import { SidebarItemData } from '../../../../model';
 import styles from './SidebarGroup.module.css';
 import { GroupDropdown } from './components/group-dropdown/GroupDropdown';
 import { GroupContextMenu } from './components/group-context-menu/GroupContextMenu';
-import { SortableGroupHeader } from '../../../sortable/SortableGroupHeader';
 import { SortableGroupItem } from '../../../sortable/SortableGroupItem';
+import { GroupHeader } from '@/widgets/sidebar/ui/sidebar-item/components/group/components/group-header/GroupHeader';
 import { openCreateDocumentModal } from '@/features/manage-document';
 import { openEditProjectModal } from '@/features/manage-project';
 import { toggleGroup } from '@/features/dnd-sidebar';
 import { useDeleteProjectMutation } from '@/entities/project';
-import ChevronRightIcon from '@/shared/assets/icons/chevron-right-2.svg';
-import ChevronDownIcon from '@/shared/assets/icons/chevron-down.svg';
-import PencilIcon from '@/shared/assets/icons/pencil-3.svg';
-import TrashIcon from '@/shared/assets/icons/trash-2.svg';
-import DocsIcon from '@/shared/assets/icons/docs.svg';
-import DotsIcon from '@/shared/assets/icons/dots.svg';
-import { Button } from '@shared/ui/button';
-import { Typography } from '@shared/ui/typography';
 import { useAppDispatch, useDismissibleLayer, useAppSelector } from '@/shared/lib';
 
 const DROPDOWN_OFFSET_BOTTOM = 4;
@@ -101,23 +93,28 @@ export function SidebarGroup({ item, level }: SidebarGroupProps) {
   return (
     <>
       <SortableGroupItem item={item} level={level} isOpen={isOpen}>
-        <div className={styles.group} onClick={handleToggle}>
-          <SortableGroupHeader
-            item={item}
-            isOpen={isOpen}
-            isDropdownOpen={isDropdownOpen}
-            onToggle={handleToggle}
-            onContextMenu={handleContextMenu}
-            onMoreClick={handleMoreClick}
-          >
-            <GroupDropdown
-              isOpen={isDropdownOpen}
-              position={dropdownPosition}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          </SortableGroupHeader>
-        </div>
+        {({ dragListeners, dragAttributes }) => (
+          <div className={styles.group} onClick={handleToggle}>
+            <GroupHeader
+              item={item}
+              ref={moreRef}
+              isOpen={isOpen}
+              isDropdownOpen={isDropdownOpen}
+              dragListeners={dragListeners}
+              dragAttributes={dragAttributes}
+              onToggle={handleToggle}
+              onContextMenu={handleContextMenu}
+              onMoreClick={handleMoreClick}
+            >
+              <GroupDropdown
+                isOpen={isDropdownOpen}
+                position={dropdownPosition}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            </GroupHeader>
+          </div>
+        )}
       </SortableGroupItem>
 
       <GroupContextMenu

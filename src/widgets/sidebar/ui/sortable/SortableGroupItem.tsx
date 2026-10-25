@@ -1,52 +1,107 @@
 'use client';
 
 import { useDroppable } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import type { DraggableAttributes } from '@dnd-kit/core';
+import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 import classNames from 'classnames';
 import { SidebarItem } from '../sidebar-item/SidebarItem';
 import type { SidebarItemData } from '../../model';
 import styles from './SortableGroupItem.module.css';
 import { useSidebarDnd } from '@features/dnd-sidebar';
 
+interface SortableGroupItemRenderProps {
+  dragListeners?: SyntheticListenerMap;
+  dragAttributes?: DraggableAttributes;
+}
+
 interface SortableGroupItemProps {
   item: SidebarItemData;
   level: number;
   isOpen: boolean;
-  children: React.ReactNode;
+  children: React.ReactNode | ((props: SortableGroupItemRenderProps) => React.ReactNode);
 }
 
 export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGroupItemProps) => {
-  const { activeId, overId, activeType } = useSidebarDnd();
+  const { activeId, overId, activeType, activeProjectParentId } = useSidebarDnd();
 
   const isDraggingDocument = activeType === 'document';
+  const isDraggingGroup = activeType === 'group';
 
   const isOverSelfGroup = overId === `group-${item.id}`;
+  const isOverNestZone = overId === `nest-${item.id}`;
   const isOverOwnChild =
     overId !== null &&
     !overId.startsWith('group-') &&
+    !overId.startsWith('nest-') &&
     (overId === item.id ||
       (item.children?.some((child: SidebarItemData) => child.id === overId) ?? false));
 
   const isDraggingSelf = activeId === item.id;
 
   const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
+  const showHighlight = isOverThisGroup && isDraggingDocument;
 
-  const { setNodeRef: setGroupDroppableRef } = useDroppable({
-    id: `group-${item.id}`,
-    data: { type: 'group', projectId: item.id },
+  const isActiveChildOfThis = activeProjectParentId === item.id;
+  const showNestZone =
+    isDraggingGroup &&
+    !isDraggingSelf &&
+    !isActiveChildOfThis &&
+    (isOverThisGroup || isOverNestZone);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef: setSortableRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: item.id,
+    data: { type: 'group' },
+    animateLayoutChanges: () => false,
   });
+
+  const { setNodeRef: setNestDroppableRef, isOver: isOverNest } = useDroppable({
+    id: `nest-${item.id}`,
+    data: { type: 'nest', projectId: item.id, level },
+  });
+
+  const sortableStyle = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0 : 1,
+  };
 
   const childrenList = item.children ?? [];
   const hasChildren = childrenList.length > 0;
 
+  const content =
+    typeof children === 'function'
+      ? children({ dragListeners: listeners, dragAttributes: attributes })
+      : children;
+
   return (
     <div
-      ref={setGroupDroppableRef}
+      ref={setSortableRef}
       className={classNames(styles.groupWrapper, {
-        [styles.groupWrapperOver]: isOverThisGroup,
+        [styles.groupWrapperOver]: showHighlight,
       })}
+      style={sortableStyle}
     >
-      {children}
+      {content}
+
+      {showNestZone && (
+        <div
+          ref={setNestDroppableRef}
+          className={classNames(styles.nestZone, {
+            [styles.nestZoneOver]: isOverNest,
+          })}
+        >
+          Вложить в «{item.title}»
+        </div>
+      )}
 
       {isOpen && hasChildren && (
         <SortableContext

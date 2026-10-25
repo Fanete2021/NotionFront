@@ -4,8 +4,12 @@ import { findDragTargets } from '../findDragTargets/findDragTargets';
 import {
   getPageSiblings,
   getProjectSiblings,
+  isProjectDescendant,
+  isProjectsSynced,
   isSyncedById,
   moveItem,
+  moveProjectInTree,
+  moveProjectToRoot,
 } from '../reorderUtils/reorderUtils';
 import { Project } from '@/entities/project';
 import { Page } from '@/shared/const/pageType';
@@ -26,6 +30,10 @@ type UpdatePageTrigger = (args: {
   body: { projectId: string };
 }) => { unwrap: () => Promise<unknown> };
 
+type UpdateProjectTrigger = (args: { id: string; body: { parentProjectId: string | null } }) => {
+  unwrap: () => Promise<unknown>;
+};
+
 interface HandleDragEndParams {
   event: DragEndEvent;
   currentWorkspaceId: string;
@@ -38,6 +46,7 @@ interface HandleDragEndParams {
   reorderProjects: ReorderProjectsTrigger;
   reorderPages: ReorderPagesTrigger;
   updatePage: UpdatePageTrigger;
+  updateProject: UpdateProjectTrigger;
   scheduleActiveIdReset: (id: string) => void;
 }
 
@@ -53,6 +62,7 @@ export async function handleDragEnd({
   reorderProjects,
   reorderPages,
   updatePage,
+  updateProject,
   scheduleActiveIdReset,
 }: HandleDragEndParams): Promise<void> {
   const { active, over } = event;
@@ -63,7 +73,7 @@ export async function handleDragEnd({
     return;
   }
 
-  if (!isSyncedById(localProjects, serverProjects) || !isSyncedById(localPages, serverPages)) {
+  if (!isProjectsSynced(localProjects, serverProjects) || !isSyncedById(localPages, serverPages)) {
     console.warn('Локальный state рассинхронизирован с сервером, пропускаем reorder');
     scheduleActiveIdReset(droppedId);
     return;
@@ -74,6 +84,37 @@ export async function handleDragEnd({
     localProjects,
     localPages,
   );
+
+  if (activeProject && targetProject && activeProject.id !== targetProject.id) {
+    if (activeProject.parentProjectId === targetProject.id) {
+      scheduleActiveIdReset(droppedId);
+      return;
+    }
+
+    if (isProjectDescendant(localProjects, activeProject.id, targetProject.id)) {
+      scheduleActiveIdReset(droppedId);
+      return;
+    }
+
+    flushSync(() => {
+      setLocalProjects((prev) => moveProjectInTree(prev, activeProject.id, targetProject.id));
+    });
+
+    scheduleActiveIdReset(droppedId);
+
+    try {
+      await updateProject({
+        id: activeProject.id,
+        body: { parentProjectId: targetProject.id },
+      }).unwrap();
+    } catch (err) {
+      console.error('Ошибка вложения проекта (updateProject):', err);
+      setLocalProjects(serverProjects);
+      return;
+    }
+
+    return;
+  }
 
   if (activePage && targetProject) {
     if (activePage.projectId === targetProject.id) {
@@ -134,7 +175,74 @@ export async function handleDragEnd({
 
   if (activeProject && overProject) {
     if (activeProject.parentProjectId !== overProject.parentProjectId) {
+      if (activeProject.parentProjectId === overProject.id) {
+        const siblings = getProjectSiblings(localProjects, overProject.id);
+        const oldIndex = siblings.findIndex((p) => p.id === activeProject.id);
+
+        if (oldIndex === -1 || oldIndex === 0) {
+          scheduleActiveIdReset(droppedId);
+          return;
+        }
+
+        const reordered = moveItem(siblings, oldIndex, 0);
+
+        flushSync(() => {
+          setLocalProjects((prev) =>
+            prev.map((p) => {
+              const idx = reordered.findIndex((r) => r.id === p.id);
+              return idx !== -1 ? { ...p, position: idx } : p;
+            }),
+          );
+        });
+
+        scheduleActiveIdReset(droppedId);
+
+        try {
+          await reorderProjects({
+            workspaceId: currentWorkspaceId,
+            body: {
+              parentProjectId: overProject.id,
+              orderedIds: reordered.map((p) => p.id),
+            },
+          }).unwrap();
+        } catch (err) {
+          console.error('Ошибка reorder (в начало родителя):', err);
+          setLocalProjects(serverProjects);
+        }
+        return;
+      }
+
+      const newParentId = overProject.parentProjectId ?? null;
+
+      if (
+        newParentId === activeProject.id ||
+        (newParentId && isProjectDescendant(localProjects, activeProject.id, newParentId))
+      ) {
+        scheduleActiveIdReset(droppedId);
+        return;
+      }
+
+      flushSync(() => {
+        setLocalProjects((prev) =>
+          newParentId
+            ? moveProjectInTree(prev, activeProject.id, newParentId)
+            : moveProjectToRoot(prev, activeProject.id),
+        );
+      });
+
       scheduleActiveIdReset(droppedId);
+
+      try {
+        await updateProject({
+          id: activeProject.id,
+          body: { parentProjectId: newParentId },
+        }).unwrap();
+      } catch (err) {
+        console.error('Ошибка перемещения проекта:', err);
+        setLocalProjects(serverProjects);
+        return;
+      }
+
       return;
     }
 
@@ -153,7 +261,7 @@ export async function handleDragEnd({
       setLocalProjects((prev) =>
         prev.map((p) => {
           const idx = reordered.findIndex((r) => r.id === p.id);
-          return idx !== -1 ? { ...p, order: idx } : p;
+          return idx !== -1 ? { ...p, position: idx } : p;
         }),
       );
     });

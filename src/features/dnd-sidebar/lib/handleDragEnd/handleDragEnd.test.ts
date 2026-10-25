@@ -13,7 +13,7 @@ const makeProject = (overrides: Partial<Project> & Pick<Project, 'id' | 'name'>)
   parentProjectId: null,
   color: null,
   icon: null,
-  order: 0,
+  position: 0,
   createdAt: '2026-10-06T00:00:00.000Z',
   updatedAt: '2026-10-06T00:00:00.000Z',
   ...overrides,
@@ -49,6 +49,7 @@ const baseParams = () => {
   const { trigger: reorderProjects } = makeTrigger();
   const { trigger: reorderPages } = makeTrigger();
   const { trigger: updatePage } = makeTrigger();
+  const { trigger: updateProject } = makeTrigger();
 
   return {
     currentWorkspaceId: 'workspace-1',
@@ -61,6 +62,7 @@ const baseParams = () => {
     reorderProjects,
     reorderPages,
     updatePage,
+    updateProject,
     scheduleActiveIdReset: vi.fn(),
   };
 };
@@ -78,6 +80,7 @@ describe('handleDragEnd', () => {
     expect(params.scheduleActiveIdReset).toHaveBeenCalledWith('a');
     expect(params.reorderProjects).not.toHaveBeenCalled();
     expect(params.reorderPages).not.toHaveBeenCalled();
+    expect(params.updateProject).not.toHaveBeenCalled();
   });
 
   it('вызывает scheduleActiveIdReset, если active.id === over.id', async () => {
@@ -152,8 +155,8 @@ describe('handleDragEnd', () => {
   it('делает reorder проектов внутри одного родителя', async () => {
     const params = baseParams();
     params.localProjects = [
-      makeProject({ id: 'a', name: 'A', order: 0 }),
-      makeProject({ id: 'b', name: 'B', order: 1 }),
+      makeProject({ id: 'a', name: 'A', position: 0 }),
+      makeProject({ id: 'b', name: 'B', position: 1 }),
     ];
     params.serverProjects = [...params.localProjects];
 
@@ -163,19 +166,44 @@ describe('handleDragEnd', () => {
       workspaceId: 'workspace-1',
       body: { parentProjectId: null, orderedIds: ['b', 'a'] },
     });
+    expect(params.updateProject).not.toHaveBeenCalled();
   });
 
-  it('не делает reorder проектов с разными родителями', async () => {
+  it('перемещает проект к родителю overProject, если родители разные', async () => {
     const params = baseParams();
     params.localProjects = [
       makeProject({ id: 'a', name: 'A', parentProjectId: 'root-1' }),
       makeProject({ id: 'b', name: 'B', parentProjectId: 'root-2' }),
+      makeProject({ id: 'root-1', name: 'Root 1' }),
+      makeProject({ id: 'root-2', name: 'Root 2' }),
     ];
     params.serverProjects = [...params.localProjects];
 
     await handleDragEnd({ ...params, event: makeEvent('a', 'b') });
 
+    expect(params.updateProject).toHaveBeenCalledWith({
+      id: 'a',
+      body: { parentProjectId: 'root-2' },
+    });
     expect(params.reorderProjects).not.toHaveBeenCalled();
+  });
+
+  it('переставляет проект в начало его родителя, если тащат на родителя', async () => {
+    const params = baseParams();
+    params.localProjects = [
+      makeProject({ id: 'root', name: 'Root', position: 0 }),
+      makeProject({ id: 'a', name: 'A', parentProjectId: 'root', position: 0 }),
+      makeProject({ id: 'b', name: 'B', parentProjectId: 'root', position: 1 }),
+    ];
+    params.serverProjects = [...params.localProjects];
+
+    await handleDragEnd({ ...params, event: makeEvent('b', 'root') });
+
+    expect(params.reorderProjects).toHaveBeenCalledWith({
+      workspaceId: 'workspace-1',
+      body: { parentProjectId: 'root', orderedIds: ['b', 'a'] },
+    });
+    expect(params.updateProject).not.toHaveBeenCalled();
   });
 
   it('делает reorder страниц внутри одного проекта', async () => {
@@ -192,6 +220,37 @@ describe('handleDragEnd', () => {
       workspaceId: 'workspace-1',
       body: { projectId: 'proj-1', orderedIds: ['p2', 'p1'] },
     });
+  });
+
+  it('вкладывает проект в другой через nest-зону', async () => {
+    const params = baseParams();
+    params.localProjects = [
+      makeProject({ id: 'a', name: 'A', position: 0 }),
+      makeProject({ id: 'b', name: 'B', position: 1 }),
+    ];
+    params.serverProjects = [...params.localProjects];
+
+    await handleDragEnd({ ...params, event: makeEvent('a', `nest-b`) });
+
+    expect(params.updateProject).toHaveBeenCalledWith({
+      id: 'a',
+      body: { parentProjectId: 'b' },
+    });
+    expect(params.reorderProjects).not.toHaveBeenCalled();
+  });
+
+  it('не вкладывает проект в своего потомка (цикл)', async () => {
+    const params = baseParams();
+    params.localProjects = [
+      makeProject({ id: 'a', name: 'A', position: 0 }),
+      makeProject({ id: 'b', name: 'B', parentProjectId: 'a', position: 0 }),
+    ];
+    params.serverProjects = [...params.localProjects];
+
+    await handleDragEnd({ ...params, event: makeEvent('a', `nest-b`) });
+
+    expect(params.updateProject).not.toHaveBeenCalled();
+    expect(params.scheduleActiveIdReset).toHaveBeenCalledWith('a');
   });
 
   it('откатывает setLocalPages при ошибке updatePage', async () => {
