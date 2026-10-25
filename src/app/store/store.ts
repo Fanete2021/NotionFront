@@ -7,6 +7,7 @@ import { DocumentModalsState } from '@/features/manage-document';
 import { SidebarUiState, sidebarUiReducer } from '@/features/dnd-sidebar';
 import type { CalendarFiltersState, CreateEventModalState } from '@features/create-calendar-event';
 import { DayPanelFiltersState } from '@/features/create-calendar-event';
+import { ChangeMemberRoleState } from '@/features/change-member-role';
 import { currentWorkspaceReducer } from '@/entities/workspace';
 import { sessionReducer } from '@shared/api';
 import { baseApi } from '@shared/api/baseApi';
@@ -61,5 +62,6 @@ export type RootState = StaticRootState & {
   createEventModal?: CreateEventModalState;
   calendarFilters?: CalendarFiltersState;
   dayPanelFilters?: DayPanelFiltersState;
+  changeMemberRole?: ChangeMemberRoleState;
 };
 export type AppDispatch = AppStore['dispatch'];
