@@ -7,14 +7,19 @@ import { openCreateEventModal } from '@features/create-calendar-event';
 import { EditTelegramNotificationSettingsButton } from '@features/telegram-notification-settings';
 import { openEditEventModal } from '@/features/create-calendar-event';
 import {
+  type CalendarEvent,
+  type SetCalendarEventCompletedArgs,
   DayTask,
   DayTaskData,
   eventToDayTask,
   selectDayPanelProjectIds,
   useGetCalendarEventsQuery,
+  useSetCalendarEventCompletedMutation,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
-import { toDateKey, useAppDispatch, useAppSelector } from '@shared/lib';
+import { toDateKey, useAppDispatch, useAppSelector, useMutationWithError } from '@shared/lib';
+import { toast } from '@shared/ui/toast';
+import { getErrorMessage } from '@/shared/utils/error-utils';
 
 interface DayTasksPanelProps {
   onManageNotifications: () => void;
@@ -78,11 +83,37 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
     [dispatch, events],
   );
 
+  const { execute: setEventCompleted } = useMutationWithError<
+    CalendarEvent,
+    SetCalendarEventCompletedArgs
+  >(useSetCalendarEventCompletedMutation);
+
+  const handleCompletedChange = useCallback(
+    async (task: DayTaskData, isCompleted: boolean) => {
+      if (!workspaceId) return;
+      try {
+        await setEventCompleted({ id: task.id, workspaceId, isCompleted });
+      } catch (error) {
+        toast.add({
+          type: 'error',
+          title: 'Не удалось обновить задачу',
+          description: getErrorMessage(error),
+        });
+      }
+    },
+    [setEventCompleted, workspaceId],
+  );
+
   return (
     <div className={styles.panel}>
       <DayTasksHeader />
       {tasks.map((t, i) => (
-        <DayTask key={t.id ?? `${t.label}-${i}`} dayTask={t} onClick={handleEditDayTask} />
+        <DayTask
+          key={t.id ?? `${t.label}-${i}`}
+          dayTask={t}
+          onClick={handleEditDayTask}
+          onCompletedChange={handleCompletedChange}
+        />
       ))}
       <footer className={styles.footer}>
         <EditTelegramNotificationSettingsButton onClick={onManageNotifications} />

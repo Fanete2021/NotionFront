@@ -3,6 +3,7 @@ import {
   CreateCalendarEventArgs,
   DeleteCalendarEventArgs,
   GetCalendarEventsArgs,
+  SetCalendarEventCompletedArgs,
   UpdateCalendarEventArgs,
 } from '../model/types/calendar.types';
 import { baseApi } from '@/shared/api';
@@ -51,6 +52,35 @@ export const calendarApi = baseApi.injectEndpoints({
         { type: 'CalendarEvent', id },
         { type: 'CalendarEvent', id: `LIST:${workspaceId}` },
       ],
+    }),
+
+    setCalendarEventCompleted: builder.mutation<CalendarEvent, SetCalendarEventCompletedArgs>({
+      query: ({ id, isCompleted }) => ({
+        url: `/events/${id}/completion`,
+        method: 'PATCH',
+        body: { isCompleted },
+      }),
+      extraOptions: { requiresAuth: true },
+      // Чекбокс переключается сразу во всех списках с этим событием, при ошибке откатываем
+      async onQueryStarted({ id, isCompleted }, { dispatch, getState, queryFulfilled }) {
+        const patches = calendarApi.util
+          .selectInvalidatedBy(getState(), [{ type: 'CalendarEvent', id }])
+          .filter(({ endpointName }) => endpointName === 'getCalendarEvents')
+          .map(({ originalArgs }) =>
+            dispatch(
+              calendarApi.util.updateQueryData('getCalendarEvents', originalArgs, (draft) => {
+                const event = draft.find((e) => e.id === id);
+                if (event) event.isCompleted = isCompleted;
+              }),
+            ),
+          );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patches.forEach((patch) => patch.undo());
+        }
+      },
     }),
 
     deleteCalendarEvent: builder.mutation<void, DeleteCalendarEventArgs>({

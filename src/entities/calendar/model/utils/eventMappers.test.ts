@@ -10,6 +10,7 @@ const makeEvent = (overrides: Partial<CalendarEvent> = {}): CalendarEvent => ({
   startAt: new Date(2026, 9, 12, 14, 0).toISOString(),
   endAt: new Date(2026, 9, 12, 14, 30).toISOString(),
   allDay: false,
+  isCompleted: false,
   createdAt: new Date(2026, 9, 1).toISOString(),
   updatedAt: new Date(2026, 9, 1).toISOString(),
   ...overrides,
@@ -122,11 +123,13 @@ describe('eventToDayTask', () => {
       expect(result.label).toBe('Ревью');
     });
 
-    it('проставляет isCompleted=false и viewed=false', () => {
-      const result = eventToDayTask(makeEvent());
+    it('переносит isCompleted из события', () => {
+      expect(eventToDayTask(makeEvent({ isCompleted: true })).isCompleted).toBe(true);
+      expect(eventToDayTask(makeEvent({ isCompleted: false })).isCompleted).toBe(false);
+    });
 
-      expect(result.isCompleted).toBe(false);
-      expect(result.viewed).toBe(false);
+    it('проставляет viewed=false', () => {
+      expect(eventToDayTask(makeEvent()).viewed).toBe(false);
     });
 
     it('формирует time из startAt и endAt в формате HH:mm – HH:mm', () => {
