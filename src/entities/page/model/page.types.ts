@@ -1,4 +1,27 @@
-import { PageType } from '@/shared/const/pageType';
+import { Page, PageType } from '@/shared/const/pageType';
+
+export interface SearchPagesParams {
+  workspaceId: string;
+  q: string;
+  type?: 'all' | 'documents' | 'content';
+  projectId?: string;
+  from?: string;
+  to?: string;
+  limit?: number;
+}
+
+export interface PageSearchResult extends Pick<
+  Page,
+  'workspaceId' | 'title' | 'type' | 'updatedAt' | 'icon'
+> {
+  pageId: string;
+  projectId?: string | null;
+  parentPageId?: string | null;
+  matchedIn: 'title' | 'content';
+  snippet?: string | null;
+  matchOffset?: number | null;
+  path: { type: 'project' | 'page'; id: string; name: string }[];
+}
 
 export interface ReorderPagesDto {
   projectId: string;

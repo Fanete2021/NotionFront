@@ -1,10 +1,8 @@
-import type { ComponentType, SVGProps } from 'react';
-
 export interface SearchItem {
   id: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  icon?: string | null;
   title: string;
   path: string;
-  description: string;
+  description?: string | null;
   lastTimeEdited: string;
 }
