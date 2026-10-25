@@ -7,6 +7,8 @@ import { openCreateEventModal } from '@features/create-calendar-event';
 import { EditTelegramNotificationSettingsButton } from '@features/telegram-notification-settings';
 import { openEditEventModal } from '@/features/create-calendar-event';
 import {
+  type CalendarEvent,
+  type SetCalendarEventCompletedArgs,
   DayTask,
   DayTaskData,
   eventToDayTask,
@@ -15,8 +17,9 @@ import {
   useSetCalendarEventCompletedMutation,
 } from '@entities/calendar';
 import { useGetProjectsByWorkspaceQuery } from '@entities/project';
-import { toDateKey, useAppDispatch, useAppSelector } from '@shared/lib';
+import { toDateKey, useAppDispatch, useAppSelector, useMutationWithError } from '@shared/lib';
 import { toast } from '@shared/ui/toast';
+import { getErrorMessage } from '@/shared/utils/error-utils';
 
 interface DayTasksPanelProps {
   onManageNotifications: () => void;
@@ -80,18 +83,21 @@ export const DayTasksPanel = ({ onManageNotifications }: DayTasksPanelProps) => 
     [dispatch, events],
   );
 
-  const [setEventCompleted] = useSetCalendarEventCompletedMutation();
+  const { execute: setEventCompleted } = useMutationWithError<
+    CalendarEvent,
+    SetCalendarEventCompletedArgs
+  >(useSetCalendarEventCompletedMutation);
 
   const handleCompletedChange = useCallback(
     async (task: DayTaskData, isCompleted: boolean) => {
       if (!workspaceId) return;
       try {
-        await setEventCompleted({ id: task.id, workspaceId, isCompleted }).unwrap();
-      } catch {
+        await setEventCompleted({ id: task.id, workspaceId, isCompleted });
+      } catch (error) {
         toast.add({
           type: 'error',
           title: 'Не удалось обновить задачу',
-          description: 'Попробуйте ещё раз',
+          description: getErrorMessage(error),
         });
       }
     },
