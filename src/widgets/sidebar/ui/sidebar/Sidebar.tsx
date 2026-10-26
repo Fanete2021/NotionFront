@@ -53,8 +53,14 @@ interface SidebarProps {
   className?: string;
 }
 
+interface GroupDroppableData {
+  type: 'group';
+  projectId: string;
+  level: number;
+  isOpen: boolean;
+}
+
 const DROP_ANIMATION_DURATION = 300;
-const NEST_PREFIX = 'nest-';
 const GROUP_PREFIX = 'group-';
 
 export function Sidebar({ className }: SidebarProps) {
@@ -78,6 +84,13 @@ export function Sidebar({ className }: SidebarProps) {
     () => (activeProject ? (activeProject.parentProjectId ?? null) : undefined),
     [activeProject],
   );
+
+  const activePage = useMemo(() => {
+    if (!activeId) return null;
+    return localPages.find((p) => p.id === activeId) ?? null;
+  }, [activeId, localPages]);
+
+  const activePageProjectId = activePage ? (activePage.projectId ?? null) : undefined;
 
   const [overId, setOverId] = useState<string | null>(null);
   const [activeType, setActiveType] = useState<DndItemType | null>(null);
@@ -159,23 +172,24 @@ export function Sidebar({ className }: SidebarProps) {
   const collisionDetection: CollisionDetection = useCallback((args) => {
     const pointerCollisions = pointerWithin(args);
 
-    const nestCollision = pointerCollisions.find((c) => String(c.id).startsWith(NEST_PREFIX));
+    const nestCollision = pointerCollisions.find((c) => String(c.id).startsWith('nest-'));
     if (nestCollision) return [nestCollision];
 
-    const itemCollision = pointerCollisions.find(
-      (c) => !String(c.id).startsWith(GROUP_PREFIX) && !String(c.id).startsWith(NEST_PREFIX),
-    );
+    const itemCollision = pointerCollisions.find((c) => !String(c.id).startsWith(GROUP_PREFIX));
     if (itemCollision) return [itemCollision];
 
     const groupCollisions = pointerCollisions.filter((c) => String(c.id).startsWith(GROUP_PREFIX));
     if (groupCollisions.length > 0) {
       const deepest = groupCollisions.reduce((best, current) => {
-        const bestLevel = (best.data?.current as { level?: number })?.level ?? 0;
-        const currentLevel = (current.data?.current as { level?: number })?.level ?? 0;
+        const bestLevel = (best.data?.current as GroupDroppableData)?.level ?? 0;
+        const currentLevel = (current.data?.current as GroupDroppableData)?.level ?? 0;
         return currentLevel > bestLevel ? current : best;
       });
       return [deepest];
     }
+
+    const rootCollision = pointerCollisions.find((c) => String(c.id) === 'projects-root');
+    if (rootCollision) return [rootCollision];
 
     return closestCenter(args);
   }, []);
@@ -242,7 +256,9 @@ export function Sidebar({ className }: SidebarProps) {
   );
 
   return (
-    <SidebarDndProvider value={{ activeId, overId, activeType, activeProjectParentId }}>
+    <SidebarDndProvider
+      value={{ activeId, overId, activeType, activeProjectParentId, activePageProjectId }}
+    >
       <aside className={classNames(styles.sidebar, className)}>
         <WorkspaceSwitcher />
         <div className={styles.top}>

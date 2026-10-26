@@ -24,7 +24,8 @@ interface SortableGroupItemProps {
 }
 
 export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGroupItemProps) => {
-  const { activeId, overId, activeType, activeProjectParentId } = useSidebarDnd();
+  const { activeId, overId, activeType, activeProjectParentId, activePageProjectId } =
+    useSidebarDnd();
 
   const isDraggingDocument = activeType === 'document';
   const isDraggingGroup = activeType === 'group';
@@ -40,12 +41,15 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
 
   const isDraggingSelf = activeId === item.id;
 
-  const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
-  const showHighlight = isOverThisGroup && isDraggingDocument;
+  const isActiveChildOfThis =
+    (isDraggingGroup && activeProjectParentId === item.id) ||
+    (isDraggingDocument && activePageProjectId === item.id);
 
-  const isActiveChildOfThis = activeProjectParentId === item.id;
+  const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
+  const showHighlight = isOverThisGroup && !isActiveChildOfThis;
+
   const showNestZone =
-    isDraggingGroup &&
+    (isDraggingGroup || isDraggingDocument) &&
     !isDraggingSelf &&
     !isActiveChildOfThis &&
     (isOverThisGroup || isOverNestZone);
@@ -68,6 +72,17 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
     data: { type: 'nest', projectId: item.id, level },
   });
 
+  const { setNodeRef: setGroupDroppableRef } = useDroppable({
+    id: `group-${item.id}`,
+    data: { type: 'group', projectId: item.id, level, isOpen },
+    disabled: isOpen,
+  });
+
+  const setRefs = (node: HTMLDivElement | null) => {
+    setSortableRef(node);
+    if (!isOpen) setGroupDroppableRef(node);
+  };
+
   const sortableStyle = {
     transform: CSS.Translate.toString(transform),
     transition,
@@ -84,7 +99,7 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
 
   return (
     <div
-      ref={setSortableRef}
+      ref={setRefs}
       className={classNames(styles.groupWrapper, {
         [styles.groupWrapperOver]: showHighlight,
       })}
@@ -95,9 +110,7 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
       {showNestZone && (
         <div
           ref={setNestDroppableRef}
-          className={classNames(styles.nestZone, {
-            [styles.nestZoneOver]: isOverNest,
-          })}
+          className={classNames(styles.nestZone, { [styles.nestZoneOver]: isOverNest })}
         >
           Вложить в «{item.title}»
         </div>

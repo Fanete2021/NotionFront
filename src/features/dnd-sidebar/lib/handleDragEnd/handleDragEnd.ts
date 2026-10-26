@@ -79,12 +79,10 @@ export async function handleDragEnd({
     return;
   }
 
-  const { activeProject, overProject, activePage, overPage, targetProject } = findDragTargets(
-    event,
-    localProjects,
-    localPages,
-  );
+  const { activeProject, overProject, activePage, overPage, targetProject, isOverRoot } =
+    findDragTargets(event, localProjects, localPages);
 
+  // ─── 1. Вложение проекта
   if (activeProject && targetProject && activeProject.id !== targetProject.id) {
     if (activeProject.parentProjectId === targetProject.id) {
       scheduleActiveIdReset(droppedId);
@@ -116,6 +114,7 @@ export async function handleDragEnd({
     return;
   }
 
+  // ─── 2. Документ → группа ───
   if (activePage && targetProject) {
     if (activePage.projectId === targetProject.id) {
       scheduleActiveIdReset(droppedId);
@@ -173,45 +172,34 @@ export async function handleDragEnd({
     return;
   }
 
+  // ─── 3. Проект → пустое место секции «Проекты» (вытащить в корень) ───
+  if (activeProject && isOverRoot) {
+    if (activeProject.parentProjectId === null) {
+      scheduleActiveIdReset(droppedId);
+      return;
+    }
+
+    flushSync(() => {
+      setLocalProjects((prev) => moveProjectToRoot(prev, activeProject.id));
+    });
+
+    scheduleActiveIdReset(droppedId);
+
+    try {
+      await updateProject({
+        id: activeProject.id,
+        body: { parentProjectId: null },
+      }).unwrap();
+    } catch (err) {
+      console.error('Ошибка вытаскивания в корень:', err);
+      setLocalProjects(serverProjects);
+    }
+    return;
+  }
+
+  // ─── 4. Проект → проект ───
   if (activeProject && overProject) {
     if (activeProject.parentProjectId !== overProject.parentProjectId) {
-      if (activeProject.parentProjectId === overProject.id) {
-        const siblings = getProjectSiblings(localProjects, overProject.id);
-        const oldIndex = siblings.findIndex((p) => p.id === activeProject.id);
-
-        if (oldIndex === -1 || oldIndex === 0) {
-          scheduleActiveIdReset(droppedId);
-          return;
-        }
-
-        const reordered = moveItem(siblings, oldIndex, 0);
-
-        flushSync(() => {
-          setLocalProjects((prev) =>
-            prev.map((p) => {
-              const idx = reordered.findIndex((r) => r.id === p.id);
-              return idx !== -1 ? { ...p, position: idx } : p;
-            }),
-          );
-        });
-
-        scheduleActiveIdReset(droppedId);
-
-        try {
-          await reorderProjects({
-            workspaceId: currentWorkspaceId,
-            body: {
-              parentProjectId: overProject.id,
-              orderedIds: reordered.map((p) => p.id),
-            },
-          }).unwrap();
-        } catch (err) {
-          console.error('Ошибка reorder (в начало родителя):', err);
-          setLocalProjects(serverProjects);
-        }
-        return;
-      }
-
       const newParentId = overProject.parentProjectId ?? null;
 
       if (
@@ -246,6 +234,7 @@ export async function handleDragEnd({
       return;
     }
 
+    // 4b. Тот же уровень → перестановка
     const siblings = getProjectSiblings(localProjects, activeProject.parentProjectId);
     const oldIndex = siblings.findIndex((p) => p.id === activeProject.id);
     const newIndex = siblings.findIndex((p) => p.id === overProject.id);
@@ -283,6 +272,7 @@ export async function handleDragEnd({
     return;
   }
 
+  // ─── 5. Документ → документ (тот же проект) ───
   if (activePage && overPage) {
     if (activePage.projectId === overPage.projectId) {
       if (!activePage.projectId) {
@@ -327,6 +317,7 @@ export async function handleDragEnd({
       return;
     }
 
+    // ─── 6. Документ → документ в другом проекте ───
     if (!activePage.projectId || !overPage.projectId) {
       scheduleActiveIdReset(droppedId);
       return;

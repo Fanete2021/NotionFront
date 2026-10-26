@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo } from 'react';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useDroppable } from '@dnd-kit/core';
 import { SidebarItemData } from '../../../../model';
 import styles from './SidebarSection.module.css';
 import { SidebarItem } from '../../SidebarItem';
@@ -22,6 +23,11 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
   const workspaceId = useAppSelector((state) => state.currentWorkspace.id);
   const { data: workspaces } = useGetWorkspacesQuery();
   const workspaceIsChoosed = (workspaces?.length ?? 0) > 0;
+
+  const { setNodeRef: setRootDroppableRef } = useDroppable({
+    id: 'projects-root',
+    data: { type: 'root' },
+  });
 
   const handleCreateProject = useCallback(
     (e: React.MouseEvent) => {
@@ -47,7 +53,7 @@ export function SidebarSection({ item, level }: SidebarSectionProps) {
   );
 
   return (
-    <div className={styles.section}>
+    <div className={styles.section} ref={setRootDroppableRef}>
       <div className={styles.sectionHeader}>
         <Typography className={styles.sectionTitle} variant="label">
           {item.title}

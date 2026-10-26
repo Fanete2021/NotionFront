@@ -4,8 +4,9 @@ import { flattenProjects } from '../reorderUtils/reorderUtils';
 import { Project } from '@/entities/project';
 import { Page } from '@/shared/const/pageType';
 
-const NEST_PREFIX = 'nest-';
 const GROUP_PREFIX = 'group-';
+const NEST_PREFIX = 'nest-';
+const ROOT_ID = 'projects-root';
 
 export function findDragTargets(
   event: DragEndEvent,
@@ -21,9 +22,7 @@ export function findDragTargets(
       activePage: undefined,
       overPage: undefined,
       targetProject: undefined,
-      isOverGroup: false,
-      isOverNest: false,
-      isOverGroupDroppable: false,
+      isOverRoot: false,
     };
   }
 
@@ -35,8 +34,8 @@ export function findDragTargets(
   const overPage = allPages.find((p) => p.id === over.id);
 
   const overIdStr = String(over.id);
+  const isOverRoot = overIdStr === ROOT_ID;
   const isOverNest = overIdStr.startsWith(NEST_PREFIX);
-  const isOverGroup = overIdStr.startsWith(GROUP_PREFIX);
   const isOverGroupDroppable = overIdStr.startsWith(GROUP_PREFIX);
 
   const targetProjectId = isOverNest
@@ -59,8 +58,6 @@ export function findDragTargets(
     activePage,
     overPage,
     targetProject,
-    isOverGroup: isOverGroup || isOverNest,
-    isOverNest,
-    isOverGroupDroppable,
+    isOverRoot,
   };
 }
