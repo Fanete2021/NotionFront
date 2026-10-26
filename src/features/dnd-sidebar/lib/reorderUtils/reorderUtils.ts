@@ -35,6 +35,7 @@ export function getPageSiblings(allPages: Page[], projectId: string): Page[] {
 export function moveItem<T>(items: T[], from: number, to: number): T[] {
   const result = [...items];
   const [item] = result.splice(from, 1);
+  if (item === undefined) return result;
   result.splice(to, 0, item);
   return result;
 }

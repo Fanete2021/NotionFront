@@ -9,6 +9,7 @@ const makeProject = (project: Partial<Project> & Pick<Project, 'id' | 'name'>): 
   color: null,
   icon: null,
   position: 0,
+  childProjects: [],
   createdAt: '2026-06-01T00:00:00.000Z',
   updatedAt: '2026-06-01T00:00:00.000Z',
   ...project,
@@ -33,11 +34,16 @@ describe('buildProjectTree', () => {
     expect(buildProjectTree([], [])).toEqual([]);
   });
 
-  it('должна оставлять на верхнем уровне только проекты без родителя', () => {
+  it('должна строить дерево из childProjects (бэк отдаёт дерево)', () => {
     const tree = buildProjectTree(
       [
-        makeProject({ id: 'root', name: 'Продукт' }),
-        makeProject({ id: 'child', name: 'Дизайн-система', parentProjectId: 'root' }),
+        makeProject({
+          id: 'root',
+          name: 'Продукт',
+          childProjects: [
+            makeProject({ id: 'child', name: 'Дизайн-система', parentProjectId: 'root' }),
+          ],
+        }),
       ],
       [],
     );
@@ -65,10 +71,16 @@ describe('buildProjectTree', () => {
   it('должна сортировать проекты по position, а документы по position', () => {
     const tree = buildProjectTree(
       [
+        makeProject({
+          id: 'first',
+          name: 'А',
+          position: 1,
+          childProjects: [
+            makeProject({ id: 'nested-2', name: 'Г', parentProjectId: 'first', position: 2 }),
+            makeProject({ id: 'nested-1', name: 'В', parentProjectId: 'first', position: 1 }),
+          ],
+        }),
         makeProject({ id: 'second', name: 'Б', position: 2 }),
-        makeProject({ id: 'first', name: 'А', position: 1 }),
-        makeProject({ id: 'nested-2', name: 'Г', parentProjectId: 'first', position: 2 }),
-        makeProject({ id: 'nested-1', name: 'В', parentProjectId: 'first', position: 1 }),
       ],
       [
         makePage({ id: 'page-2', title: 'Второй', projectId: 'first', position: 2 }),
