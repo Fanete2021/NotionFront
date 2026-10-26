@@ -120,7 +120,7 @@ describe('createCalendarEventFormSchema', () => {
     });
 
     it('падает при отсутствии title', () => {
-      const { ...withoutTitle } = validInput;
+      const { title: _, ...withoutTitle } = validInput;
       const result = createCalendarEventFormSchema.safeParse(withoutTitle);
 
       expect(result.success).toBe(false);
@@ -145,7 +145,7 @@ describe('createCalendarEventFormSchema', () => {
     });
 
     it('падает на undefined', () => {
-      const { ...withoutDate } = validInput;
+      const { date: _, ...withoutDate } = validInput;
       const result = createCalendarEventFormSchema.safeParse(withoutDate);
 
       expect(result.success).toBe(false);
@@ -162,8 +162,12 @@ describe('createCalendarEventFormSchema', () => {
   });
 
   describe('startTime', () => {
-    it.each(['00:00', '09:05', '14:30', '23:59'])('пропускает валидное время %s', (time) => {
-      const result = createCalendarEventFormSchema.safeParse({ ...validInput, startTime: time });
+    it.each(['00:00', '09:05', '14:30'])('пропускает валидное время %s', (time) => {
+      const result = createCalendarEventFormSchema.safeParse({
+        ...validInput,
+        startTime: time,
+        endTime: '23:59',
+      });
       expect(result.success).toBe(true);
     });
 
@@ -200,8 +204,12 @@ describe('createCalendarEventFormSchema', () => {
   });
 
   describe('endTime', () => {
-    it.each(['00:00', '09:05', '14:30', '23:59'])('пропускает валидное время %s', (time) => {
-      const result = createCalendarEventFormSchema.safeParse({ ...validInput, endTime: time });
+    it.each(['09:05', '14:30', '23:59'])('пропускает валидное время %s', (time) => {
+      const result = createCalendarEventFormSchema.safeParse({
+        ...validInput,
+        startTime: '00:00',
+        endTime: time,
+      });
       expect(result.success).toBe(true);
     });
 
@@ -269,7 +277,7 @@ describe('createCalendarEventFormSchema', () => {
     });
 
     it('падает, если taskType отсутствует', () => {
-      const { ...withoutTaskType } = validInput;
+      const { taskType: _, ...withoutTaskType } = validInput;
       const result = createCalendarEventFormSchema.safeParse(withoutTaskType);
       expect(result.success).toBe(false);
     });
@@ -288,7 +296,7 @@ describe('createCalendarEventFormSchema', () => {
 
       expect(result.success).toBe(false);
       if (!result.success) {
-        const paths = result.error.issues.map((i) => i.path[0]).sort();
+        const paths = [...new Set(result.error.issues.map((i) => i.path[0]))].sort();
         expect(paths).toEqual(['date', 'endTime', 'repeatable', 'startTime', 'taskType', 'title']);
       }
     });

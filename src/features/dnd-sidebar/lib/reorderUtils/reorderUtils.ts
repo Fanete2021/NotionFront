@@ -15,6 +15,7 @@ export function getPageSiblings(allPages: Page[], projectId: string): Page[] {
 }
 
 export function moveItem<T>(items: T[], from: number, to: number): T[] {
+  if (items.length === 0) return [];
   const result = [...items];
   const [item] = result.splice(from, 1);
   result.splice(to, 0, item);

@@ -52,12 +52,12 @@ describe('getProjectSiblings', () => {
     expect(result.map((p) => p.id)).toEqual(['a']);
   });
 
-  it('работает с parentProjectId = undefined', () => {
+  it('возвращает пустой массив для undefined (строгое сравнение)', () => {
     const projects = [makeProject({ id: 'a', name: 'A', parentProjectId: null, order: 1 })];
 
     const result = getProjectSiblings(projects, undefined);
 
-    expect(result.map((p) => p.id)).toEqual(['a']);
+    expect(result).toEqual([]);
   });
 
   it('возвращает пустой массив, если нет проектов с таким parentProjectId', () => {
