@@ -47,6 +47,8 @@ describe('findDragTargets', () => {
       overPage: undefined,
       targetProject: undefined,
       isOverRoot: false,
+      isOverOutdent: false,
+      outdentProject: undefined,
     });
   });
 
@@ -132,5 +134,21 @@ describe('findDragTargets', () => {
     const result = findDragTargets(makeEvent('a', 'b'), projects, []);
 
     expect(result.isOverRoot).toBe(false);
+  });
+
+  it('определяет isOverOutdent и outdentProject по префиксу outdent-', () => {
+    const projects = [makeProject({ id: 'proj-1', name: 'P' })];
+    const result = findDragTargets(makeEvent('page-1', 'outdent-proj-1'), projects, []);
+
+    expect(result.isOverOutdent).toBe(true);
+    expect(result.outdentProject?.id).toBe('proj-1');
+  });
+
+  it('isOverOutdent = false для обычного sortable', () => {
+    const projects = [makeProject({ id: 'a', name: 'A' }), makeProject({ id: 'b', name: 'B' })];
+    const result = findDragTargets(makeEvent('a', 'b'), projects, []);
+
+    expect(result.isOverOutdent).toBe(false);
+    expect(result.outdentProject).toBeUndefined();
   });
 });

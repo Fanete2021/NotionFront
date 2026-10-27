@@ -172,23 +172,43 @@ export function Sidebar({ className }: SidebarProps) {
   const collisionDetection: CollisionDetection = useCallback((args) => {
     const pointerCollisions = pointerWithin(args);
 
-    const nestCollision = pointerCollisions.find((c) => String(c.id).startsWith('nest-'));
+    const outdentCollision = pointerCollisions.find((collision) =>
+      String(collision.id).startsWith('outdent-'),
+    );
+
+    if (outdentCollision) return [outdentCollision];
+
+    const nestCollision = pointerCollisions.find((collision) =>
+      String(collision.id).startsWith('nest-'),
+    );
+
     if (nestCollision) return [nestCollision];
 
-    const itemCollision = pointerCollisions.find((c) => !String(c.id).startsWith(GROUP_PREFIX));
+    const itemCollision = pointerCollisions.find(
+      (collision) => !String(collision.id).startsWith(GROUP_PREFIX),
+    );
+
     if (itemCollision) return [itemCollision];
 
-    const groupCollisions = pointerCollisions.filter((c) => String(c.id).startsWith(GROUP_PREFIX));
+    const groupCollisions = pointerCollisions.filter((collision) =>
+      String(collision.id).startsWith(GROUP_PREFIX),
+    );
+
     if (groupCollisions.length > 0) {
       const deepest = groupCollisions.reduce((best, current) => {
         const bestLevel = (best.data?.current as GroupDroppableData)?.level ?? 0;
         const currentLevel = (current.data?.current as GroupDroppableData)?.level ?? 0;
+
         return currentLevel > bestLevel ? current : best;
       });
+
       return [deepest];
     }
 
-    const rootCollision = pointerCollisions.find((c) => String(c.id) === 'projects-root');
+    const rootCollision = pointerCollisions.find(
+      (collision) => String(collision.id) === 'projects-root',
+    );
+
     if (rootCollision) return [rootCollision];
 
     return closestCenter(args);

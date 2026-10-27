@@ -1,74 +1,36 @@
-import { flushSync } from 'react-dom';
-import { DragEndEvent } from '@dnd-kit/core';
 import { findDragTargets } from '../findDragTargets/findDragTargets';
-import {
-  getPageSiblings,
-  getProjectSiblings,
-  isProjectDescendant,
-  isProjectsSynced,
-  isSyncedById,
-  moveItem,
-  moveProjectInTree,
+import { isProjectsSynced, isSyncedById } from '../reorderUtils/reorderUtils';
+import type { HandleDragEndContext, HandleDragEndHandler, HandleDragEndParams } from './types';
+import { outdentProject } from './handlers/outdentProject';
+import { outdentPage } from './handlers/outdentPage';
+import { nestProject } from './handlers/nestProject';
+import { movePageToGroup } from './handlers/movePageToGroup';
+import { moveProjectToRoot } from './handlers/moveProjectToRoot';
+import { moveProjectToProject } from './handlers/moveProjectToProject';
+import { reorderProjectSameLevel } from './handlers/reorderProjectSameLevel';
+import { reorderPageSameGroup } from './handlers/reorderPageSameGroup';
+import { movePageToAnotherGroup } from './handlers/movePageToAnotherGroup';
+
+const handlers: HandleDragEndHandler[] = [
+  outdentProject,
+  outdentPage,
+  nestProject,
+  movePageToGroup,
   moveProjectToRoot,
-} from '../reorderUtils/reorderUtils';
-import { Project } from '@/entities/project';
-import { Page } from '@/shared/const/pageType';
+  moveProjectToProject,
+  reorderProjectSameLevel,
+  reorderPageSameGroup,
+  movePageToAnotherGroup,
+];
 
-type ReorderProjectsTrigger = (args: {
-  workspaceId: string;
-  body: { parentProjectId: string | null; orderedIds: string[] };
-}) => { unwrap: () => Promise<unknown> };
+export async function handleDragEnd(params: HandleDragEndParams): Promise<void> {
+  const { event, localProjects, localPages, serverProjects, serverPages, scheduleActiveIdReset } =
+    params;
 
-type ReorderPagesTrigger = (args: {
-  workspaceId: string;
-  body: { projectId: string; orderedIds: string[] };
-}) => { unwrap: () => Promise<unknown> };
-
-type UpdatePageTrigger = (args: {
-  id: string;
-  workspaceId: string;
-  body: { projectId: string };
-}) => { unwrap: () => Promise<unknown> };
-
-type UpdateProjectTrigger = (args: { id: string; body: { parentProjectId: string | null } }) => {
-  unwrap: () => Promise<unknown>;
-};
-
-interface HandleDragEndParams {
-  event: DragEndEvent;
-  currentWorkspaceId: string;
-  localProjects: Project[];
-  localPages: Page[];
-  serverProjects: Project[];
-  serverPages: Page[];
-  setLocalProjects: React.Dispatch<React.SetStateAction<Project[]>>;
-  setLocalPages: React.Dispatch<React.SetStateAction<Page[]>>;
-  reorderProjects: ReorderProjectsTrigger;
-  reorderPages: ReorderPagesTrigger;
-  updatePage: UpdatePageTrigger;
-  updateProject: UpdateProjectTrigger;
-  scheduleActiveIdReset: (id: string) => void;
-}
-
-export async function handleDragEnd({
-  event,
-  currentWorkspaceId,
-  localProjects,
-  localPages,
-  serverProjects,
-  serverPages,
-  setLocalProjects,
-  setLocalPages,
-  reorderProjects,
-  reorderPages,
-  updatePage,
-  updateProject,
-  scheduleActiveIdReset,
-}: HandleDragEndParams): Promise<void> {
   const { active, over } = event;
   const droppedId = String(active.id);
 
-  if (!over || active.id === over.id || !currentWorkspaceId) {
+  if (!over || active.id === over.id || !params.currentWorkspaceId) {
     scheduleActiveIdReset(droppedId);
     return;
   }
@@ -79,295 +41,12 @@ export async function handleDragEnd({
     return;
   }
 
-  const { activeProject, overProject, activePage, overPage, targetProject, isOverRoot } =
-    findDragTargets(event, localProjects, localPages);
+  const targets = findDragTargets(event, localProjects, localPages);
+  const ctx: HandleDragEndContext = { ...params, targets, droppedId };
 
-  // ─── 1. Вложение проекта
-  if (activeProject && targetProject && activeProject.id !== targetProject.id) {
-    if (activeProject.parentProjectId === targetProject.id) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    if (isProjectDescendant(localProjects, activeProject.id, targetProject.id)) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    flushSync(() => {
-      setLocalProjects((prev) => moveProjectInTree(prev, activeProject.id, targetProject.id));
-    });
-
-    scheduleActiveIdReset(droppedId);
-
-    try {
-      await updateProject({
-        id: activeProject.id,
-        body: { parentProjectId: targetProject.id },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка вложения проекта (updateProject):', err);
-      setLocalProjects(serverProjects);
-      return;
-    }
-
-    return;
-  }
-
-  // ─── 2. Документ → группа ───
-  if (activePage && targetProject) {
-    if (activePage.projectId === targetProject.id) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    const siblings = getPageSiblings(localPages, targetProject.id).filter(
-      (p) => p.id !== activePage.id,
-    );
-
-    let insertIndex = siblings.length;
-    if (overPage && overPage.projectId === targetProject.id) {
-      const overIdx = siblings.findIndex((p) => p.id === overPage.id);
-      if (overIdx !== -1) insertIndex = overIdx;
-    }
-
-    const newOrder = [...siblings];
-    newOrder.splice(insertIndex, 0, activePage);
-
-    flushSync(() => {
-      setLocalPages((prev) =>
-        prev.map((p) => {
-          const idx = newOrder.findIndex((n) => n.id === p.id);
-          if (idx === -1) return p;
-          return { ...p, projectId: targetProject.id, position: idx };
-        }),
-      );
-    });
-
-    scheduleActiveIdReset(droppedId);
-
-    try {
-      await updatePage({
-        id: activePage.id,
-        workspaceId: currentWorkspaceId,
-        body: { projectId: targetProject.id },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка перемещения в группу (updatePage):', err);
-      setLocalPages(serverPages);
-      return;
-    }
-
-    try {
-      await reorderPages({
-        workspaceId: currentWorkspaceId,
-        body: {
-          projectId: targetProject.id,
-          orderedIds: newOrder.map((p) => p.id),
-        },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка перемещения в группу (reorderPages):', err);
-    }
-    return;
-  }
-
-  // ─── 3. Проект → пустое место секции «Проекты» (вытащить в корень) ───
-  if (activeProject && isOverRoot) {
-    if (activeProject.parentProjectId === null) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    flushSync(() => {
-      setLocalProjects((prev) => moveProjectToRoot(prev, activeProject.id));
-    });
-
-    scheduleActiveIdReset(droppedId);
-
-    try {
-      await updateProject({
-        id: activeProject.id,
-        body: { parentProjectId: null },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка вытаскивания в корень:', err);
-      setLocalProjects(serverProjects);
-    }
-    return;
-  }
-
-  // ─── 4. Проект → проект ───
-  if (activeProject && overProject) {
-    if (activeProject.parentProjectId !== overProject.parentProjectId) {
-      const newParentId = overProject.parentProjectId ?? null;
-
-      if (
-        newParentId === activeProject.id ||
-        (newParentId && isProjectDescendant(localProjects, activeProject.id, newParentId))
-      ) {
-        scheduleActiveIdReset(droppedId);
-        return;
-      }
-
-      flushSync(() => {
-        setLocalProjects((prev) =>
-          newParentId
-            ? moveProjectInTree(prev, activeProject.id, newParentId)
-            : moveProjectToRoot(prev, activeProject.id),
-        );
-      });
-
-      scheduleActiveIdReset(droppedId);
-
-      try {
-        await updateProject({
-          id: activeProject.id,
-          body: { parentProjectId: newParentId },
-        }).unwrap();
-      } catch (err) {
-        console.error('Ошибка перемещения проекта:', err);
-        setLocalProjects(serverProjects);
-        return;
-      }
-
-      return;
-    }
-
-    // 4b. Тот же уровень → перестановка
-    const siblings = getProjectSiblings(localProjects, activeProject.parentProjectId);
-    const oldIndex = siblings.findIndex((p) => p.id === activeProject.id);
-    const newIndex = siblings.findIndex((p) => p.id === overProject.id);
-
-    if (oldIndex === -1 || newIndex === -1) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    const reordered = moveItem(siblings, oldIndex, newIndex);
-
-    flushSync(() => {
-      setLocalProjects((prev) =>
-        prev.map((p) => {
-          const idx = reordered.findIndex((r) => r.id === p.id);
-          return idx !== -1 ? { ...p, position: idx } : p;
-        }),
-      );
-    });
-
-    scheduleActiveIdReset(droppedId);
-
-    try {
-      await reorderProjects({
-        workspaceId: currentWorkspaceId,
-        body: {
-          parentProjectId: activeProject.parentProjectId ?? null,
-          orderedIds: reordered.map((p) => p.id),
-        },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка reorder проектов:', err);
-      setLocalProjects(serverProjects);
-    }
-    return;
-  }
-
-  // ─── 5. Документ → документ (тот же проект) ───
-  if (activePage && overPage) {
-    if (activePage.projectId === overPage.projectId) {
-      if (!activePage.projectId) {
-        scheduleActiveIdReset(droppedId);
-        return;
-      }
-
-      const siblings = getPageSiblings(localPages, activePage.projectId);
-      const oldIndex = siblings.findIndex((p) => p.id === activePage.id);
-      const newIndex = siblings.findIndex((p) => p.id === overPage.id);
-
-      if (oldIndex === -1 || newIndex === -1) {
-        scheduleActiveIdReset(droppedId);
-        return;
-      }
-
-      const reordered = moveItem(siblings, oldIndex, newIndex);
-
-      flushSync(() => {
-        setLocalPages((prev) =>
-          prev.map((p) => {
-            const idx = reordered.findIndex((r) => r.id === p.id);
-            return idx !== -1 ? { ...p, position: idx } : p;
-          }),
-        );
-      });
-
-      scheduleActiveIdReset(droppedId);
-
-      try {
-        await reorderPages({
-          workspaceId: currentWorkspaceId,
-          body: {
-            projectId: activePage.projectId,
-            orderedIds: reordered.map((p) => p.id),
-          },
-        }).unwrap();
-      } catch (err) {
-        console.error('Ошибка reorder страниц:', err);
-        setLocalPages(serverPages);
-      }
-      return;
-    }
-
-    // ─── 6. Документ → документ в другом проекте ───
-    if (!activePage.projectId || !overPage.projectId) {
-      scheduleActiveIdReset(droppedId);
-      return;
-    }
-
-    const targetSiblings = getPageSiblings(localPages, overPage.projectId).filter(
-      (p) => p.id !== activePage.id,
-    );
-    const overIndex = targetSiblings.findIndex((p) => p.id === overPage.id);
-    const insertIndex = overIndex !== -1 ? overIndex : targetSiblings.length;
-
-    const newOrder = [...targetSiblings];
-    newOrder.splice(insertIndex, 0, activePage);
-
-    flushSync(() => {
-      setLocalPages((prev) =>
-        prev.map((p) => {
-          const idx = newOrder.findIndex((n) => n.id === p.id);
-          if (idx === -1) return p;
-          return { ...p, projectId: overPage.projectId, position: idx };
-        }),
-      );
-    });
-
-    scheduleActiveIdReset(droppedId);
-
-    try {
-      await updatePage({
-        id: activePage.id,
-        workspaceId: currentWorkspaceId,
-        body: { projectId: overPage.projectId },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка перемещения страницы (updatePage):', err);
-      setLocalPages(serverPages);
-      return;
-    }
-
-    try {
-      await reorderPages({
-        workspaceId: currentWorkspaceId,
-        body: {
-          projectId: overPage.projectId,
-          orderedIds: newOrder.map((p) => p.id),
-        },
-      }).unwrap();
-    } catch (err) {
-      console.error('Ошибка перемещения страницы (reorderPages):', err);
-    }
-    return;
+  for (const handler of handlers) {
+    const handled = await handler(ctx);
+    if (handled) return;
   }
 
   scheduleActiveIdReset(droppedId);

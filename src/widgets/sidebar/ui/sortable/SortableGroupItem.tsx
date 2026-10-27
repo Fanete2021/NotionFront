@@ -45,6 +45,8 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
     (isDraggingGroup && activeProjectParentId === item.id) ||
     (isDraggingDocument && activePageProjectId === item.id);
 
+  const showOutdentZone = isActiveChildOfThis && !isDraggingSelf;
+
   const isOverThisGroup = (isOverSelfGroup || isOverOwnChild) && !isDraggingSelf;
   const showHighlight = isOverThisGroup && !isActiveChildOfThis;
 
@@ -65,6 +67,16 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
     id: item.id,
     data: { type: 'group' },
     animateLayoutChanges: () => false,
+  });
+
+  const { setNodeRef: setOutdentDroppableRef, isOver: isOverOutdent } = useDroppable({
+    id: `outdent-${item.id}`,
+    data: {
+      type: 'outdent',
+      projectId: item.id,
+      level,
+    },
+    disabled: !showOutdentZone,
   });
 
   const { setNodeRef: setNestDroppableRef, isOver: isOverNest } = useDroppable({
@@ -106,6 +118,17 @@ export const SortableGroupItem = ({ item, level, isOpen, children }: SortableGro
       style={sortableStyle}
     >
       {content}
+
+      {showOutdentZone && (
+        <div
+          ref={setOutdentDroppableRef}
+          className={classNames(styles.outdentZone, {
+            [styles.outdentZoneOver]: isOverOutdent,
+          })}
+        >
+          <span>Вынести из «{item.title}»</span>
+        </div>
+      )}
 
       {showNestZone && (
         <div
