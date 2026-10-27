@@ -1,14 +1,22 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const PRIVATE_ROUTES = ['/main', '/documents', '/projects', '/trash'];
+const PRIVATE_ROUTES = [
+  '/main',
+  '/documents',
+  '/projects',
+  '/trash',
+  '/join',
+  '/search',
+  '/settings',
+  '/calendar',
+];
 
 const REFRESH_COOKIE_NAME = 'refreshToken';
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasSession = Boolean(request.cookies.get(REFRESH_COOKIE_NAME)?.value);
-
   const isPrivate = PRIVATE_ROUTES.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );

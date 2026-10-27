@@ -6,6 +6,8 @@ import {
   PageContentJson,
   PageVersionList,
   RestorePageVersionDto,
+  SearchPagesParams,
+  PageSearchResult,
 } from '../model/page.types';
 import { Page } from '@/shared/const/pageType';
 import { baseApi } from '@/shared/api';
@@ -43,6 +45,8 @@ export const pageApi = baseApi.injectEndpoints({
           : [
               { type: 'PageContent', id },
               { type: 'PageVersion', id },
+              { type: 'Page', id },
+              { type: 'Page', id: 'LIST' },
             ],
     }),
 
@@ -60,6 +64,20 @@ export const pageApi = baseApi.injectEndpoints({
               { type: 'Page' as const, id: `WORKSPACE_${workspaceId}` },
             ]
           : [{ type: 'Page' as const, id: `WORKSPACE_${workspaceId}` }],
+    }),
+
+    searchPages: builder.query<PageSearchResult[], SearchPagesParams>({
+      query: ({ workspaceId, ...params }) => ({
+        url: `workspaces/${workspaceId}/pages/search`,
+        method: 'GET',
+        params,
+      }),
+      extraOptions: { requiresAuth: true },
+      providesTags: (result, error, { workspaceId }) => [
+        { type: 'Page', id: 'LIST' },
+        { type: 'Page', id: `WORKSPACE_${workspaceId}` },
+        ...(result ?? []).map(({ pageId }) => ({ type: 'Page' as const, id: pageId })),
+      ],
     }),
 
     createPage: builder.mutation<Page, { body: CreatePageDto }>({
@@ -143,6 +161,8 @@ export const pageApi = baseApi.injectEndpoints({
           : [
               { type: 'PageContent', id: pageId },
               { type: 'PageVersion', id: pageId },
+              { type: 'Page', id: pageId },
+              { type: 'Page', id: 'LIST' },
             ],
     }),
   }),
@@ -151,6 +171,7 @@ export const pageApi = baseApi.injectEndpoints({
 
 export const {
   useGetPagesByWorkspaceQuery,
+  useSearchPagesQuery,
   useGetPageByIdQuery,
   useGetPageContentQuery,
   useCreatePageMutation,

@@ -1,5 +1,6 @@
 export {
   useGetPagesByWorkspaceQuery,
+  useSearchPagesQuery,
   useGetPageByIdQuery,
   useGetPageContentQuery,
   useCreatePageMutation,
@@ -21,6 +22,8 @@ export type {
   PageVersionList,
   UserPageData,
   RestorePageVersionDto,
+  SearchPagesParams,
+  PageSearchResult,
 } from './model/page.types';
 
 export { usePagePresence } from './model/hooks/usePagePresence';

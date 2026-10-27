@@ -3,9 +3,16 @@
 import { useId } from 'react';
 import styles from './ProjectFilter.module.css';
 import { Typography } from '@shared/ui/typography';
-import { Select } from '@shared/ui/select';
+import { Select, type SelectOption } from '@shared/ui/select';
 
-export const ProjectFilter = () => {
+interface ProjectFilterProps {
+  value: string;
+  onChange: (value: string) => void;
+  options: SelectOption[];
+  disabled?: boolean;
+}
+
+export const ProjectFilter = ({ value, onChange, options, disabled }: ProjectFilterProps) => {
   const selectId = useId();
 
   return (
@@ -16,8 +23,10 @@ export const ProjectFilter = () => {
       <Select
         id={selectId}
         size="s"
-        defaultValue=""
-        options={[{ value: '', label: 'Все проекты' }]}
+        value={value}
+        onChange={onChange}
+        disabled={disabled}
+        options={[{ value: '', label: 'Все проекты' }, ...options]}
       />
     </div>
   );
