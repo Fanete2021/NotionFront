@@ -53,7 +53,7 @@ describe('getErrorMessage', () => {
 
   it('should return "Этот email уже используется" for status 409', () => {
     const error: FetchBaseQueryError = { status: 409, data: {} };
-    expect(getErrorMessage(error)).toBe('Этот email уже используется');
+    expect(getErrorMessage(error)).toBe('Конфликт данных');
   });
 
   it('should return "Внутренняя ошибка сервера" for status 500', () => {

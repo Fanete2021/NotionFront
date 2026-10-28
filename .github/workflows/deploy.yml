@@ -46,9 +46,11 @@ jobs:
 
       - run: pnpm typecheck
 
+      - run: pnpm test:ci
+
       - run: pnpm build
         env:
-          NEXT_PUBLIC_BASE_API_URL: ${{ vars.NEXT_PUBLIC_BASE_API_URL }},
+          NEXT_PUBLIC_BASE_API_URL: ${{ vars.NEXT_PUBLIC_BASE_API_URL }}
           NEXT_PUBLIC_BASE_SOCKET_URL: ${{vars.NEXT_PUBLIC_BASE_SOCKET_URL}}
 
   build:

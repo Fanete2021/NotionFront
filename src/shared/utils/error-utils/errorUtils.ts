@@ -5,7 +5,8 @@ export const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryEr
   return typeof error === 'object' && error !== null && 'status' in error;
 };
 
-export function getErrorMessage(error: unknown): string {
+export function getErrorMessage(error: unknown): string | null {
+  if (error == null) return null;
   if (!isFetchBaseQueryError(error)) {
     return 'Произошла ошибка';
   }
@@ -43,6 +44,9 @@ export function processMutationError(
   error: unknown,
   fieldMap?: FieldErrorMap,
 ): MutationErrorResult {
+  if (error == null) {
+    return { message: null, fieldErrors: {} };
+  }
   if (!isFetchBaseQueryError(error)) {
     return {
       message: 'Произошла ошибка',

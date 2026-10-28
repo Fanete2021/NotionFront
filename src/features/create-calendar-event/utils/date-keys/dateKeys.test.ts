@@ -84,8 +84,7 @@ describe('toIsoRange', () => {
 
   it('кидает ошибку на невалидном времени (NaN Date)', () => {
     const date = new Date(2026, 9, 12);
-    const { startAt } = toIsoRange(date, 'abc', '14:30');
-    expect(Number.isNaN(new Date(startAt).getTime())).toBe(true);
+    expect(() => toIsoRange(date, 'abc', '14:30')).toThrow();
   });
 });
 
