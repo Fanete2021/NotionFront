@@ -4,7 +4,7 @@ import styles from './utils.module.css';
 import { getIconByName } from '@/shared/ui/icon-picker';
 
 const BASE_PADDING = 8;
-const LEVEL_OFFSET = 24;
+const LEVEL_OFFSET = 12;
 const MIN_PADDING = 4;
 
 export function getPadding(level: number) {

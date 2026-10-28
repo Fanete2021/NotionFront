@@ -3,19 +3,7 @@ import { Project } from '@/entities/project';
 import { Page } from '@/shared/const/pageType';
 import { ROUTES } from '@/shared/routes';
 
-/**
- * Собирает дерево сайдбара: проекты вкладываются друг в друга через parentProjectId,
- * документы всегда лежат листьями внутри своего проекта.
- */
 export function buildProjectTree(projects: Project[], pages: Page[]): SidebarItemData[] {
-  const subProjects = new Map<string | null, Project[]>();
-  projects.forEach((project) => {
-    const parentId = project.parentProjectId ?? null;
-    const siblings = subProjects.get(parentId) ?? [];
-    siblings.push(project);
-    subProjects.set(parentId, siblings);
-  });
-
   const projectPages = new Map<string, Page[]>();
   pages.forEach((page) => {
     if (!page.projectId) return;
@@ -36,9 +24,9 @@ export function buildProjectTree(projects: Project[], pages: Page[]): SidebarIte
   });
 
   const toProjectItem = (project: Project): SidebarItemData => {
-    const childProjects = (subProjects.get(project.id) ?? [])
+    const childProjects = (project.childProjects ?? [])
       .slice()
-      .sort((a, b) => a.order - b.order)
+      .sort((a, b) => a.position - b.position)
       .map(toProjectItem);
 
     const documents = (projectPages.get(project.id) ?? [])
@@ -57,8 +45,8 @@ export function buildProjectTree(projects: Project[], pages: Page[]): SidebarIte
     };
   };
 
-  return (subProjects.get(null) ?? [])
+  return projects
     .slice()
-    .sort((a, b) => a.order - b.order)
+    .sort((a, b) => a.position - b.position)
     .map(toProjectItem);
 }

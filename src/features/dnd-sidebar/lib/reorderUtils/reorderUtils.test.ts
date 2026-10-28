@@ -8,7 +8,7 @@ const makeProject = (overrides: Partial<Project> & Pick<Project, 'id' | 'name'>)
   parentProjectId: null,
   color: null,
   icon: null,
-  order: 0,
+  position: 0,
   createdAt: '2026-10-06T00:00:00.000Z',
   updatedAt: '2026-10-06T00:00:00.000Z',
   ...overrides,
@@ -29,11 +29,11 @@ const makePage = (overrides: Partial<Page> & Pick<Page, 'id' | 'title'>): Page =
 });
 
 describe('getProjectSiblings', () => {
-  it('фильтрует проекты по parentProjectId и сортирует по order', () => {
+  it('фильтрует проекты по parentProjectId и сортирует по position', () => {
     const projects = [
-      makeProject({ id: 'a', name: 'A', parentProjectId: 'root', order: 2 }),
-      makeProject({ id: 'b', name: 'B', parentProjectId: 'root', order: 1 }),
-      makeProject({ id: 'c', name: 'C', parentProjectId: 'other', order: 0 }),
+      makeProject({ id: 'a', name: 'A', parentProjectId: 'root', position: 2 }),
+      makeProject({ id: 'b', name: 'B', parentProjectId: 'root', position: 1 }),
+      makeProject({ id: 'c', name: 'C', parentProjectId: 'other', position: 0 }),
     ];
 
     const result = getProjectSiblings(projects, 'root');
@@ -43,8 +43,8 @@ describe('getProjectSiblings', () => {
 
   it('работает с parentProjectId = null', () => {
     const projects = [
-      makeProject({ id: 'a', name: 'A', parentProjectId: null, order: 1 }),
-      makeProject({ id: 'b', name: 'B', parentProjectId: 'root', order: 0 }),
+      makeProject({ id: 'a', name: 'A', parentProjectId: null, position: 1 }),
+      makeProject({ id: 'b', name: 'B', parentProjectId: 'root', position: 0 }),
     ];
 
     const result = getProjectSiblings(projects, null);
@@ -52,8 +52,8 @@ describe('getProjectSiblings', () => {
     expect(result.map((p) => p.id)).toEqual(['a']);
   });
 
-  it('возвращает пустой массив для undefined (строгое сравнение)', () => {
-    const projects = [makeProject({ id: 'a', name: 'A', parentProjectId: null, order: 1 })];
+  it('работает с parentProjectId = undefined', () => {
+    const projects = [makeProject({ id: 'a', name: 'A', parentProjectId: null, position: 1 })];
 
     const result = getProjectSiblings(projects, undefined);
 

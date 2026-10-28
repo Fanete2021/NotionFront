@@ -8,7 +8,9 @@ export interface DragTargets {
   activePage: Page | undefined;
   overPage: Page | undefined;
   targetProject: Project | undefined;
-  isOverGroup: boolean;
+  isOverRoot: boolean;
+  outdentProject: Project | undefined;
+  isOverOutdent: boolean;
 }
 
 export interface SharedDragParams {
