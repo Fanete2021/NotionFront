@@ -68,3 +68,39 @@
 .subtitle {
   color: var(--color-text-muted);
 }
+
+.editorButton[data-ai='true'] {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: var(--color-primary-light);
+}
+
+.editorButton[data-ai='true'] .icon {
+  background: var(--color-primary);
+  border-radius: 8px;
+}
+
+.editorButton[data-ai='true'] .title,
+.editorButton[data-ai='true'] .subtitle {
+  color: var(--color-primary);
+}
+
+.editorButton[data-ai='true'] .title {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.editorButton[data-ai='true'] .subtitle {
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.shortcut {
+  margin-left: auto;
+  padding: 1px 6px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 4px;
+  background: var(--color-card);
+  color: var(--color-primary);
+  font-size: 11px;
+  line-height: 18px;
+}

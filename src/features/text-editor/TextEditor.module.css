@@ -44,6 +44,30 @@
   flex-shrink: 0;
 }
 
+.actionsDivider {
+  width: 1px;
+  height: 20px;
+  align-self: center;
+  margin-inline: 4px;
+  background: var(--color-border-base);
+}
+
+.emptyAiButton.emptyAiButton {
+  padding: 3px 8px;
+  gap: 5px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 4px;
+  background: var(--color-card);
+  color: var(--color-primary);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.emptyAiButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .colorPanel {
   display: flex;
   align-items: center;

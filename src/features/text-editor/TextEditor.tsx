@@ -1,10 +1,11 @@
 'use client';
 
-import { useEditor, EditorContent, useEditorState } from '@tiptap/react';
+import { useEditor, EditorContent, useEditorState, type Editor } from '@tiptap/react';
 import type { Content } from '@tiptap/core';
 import Image from '@tiptap/extension-image';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
+import { Markdown } from '@tiptap/markdown';
 import { TableKit } from '@tiptap/extension-table';
 import DragHandle from '@tiptap/extension-drag-handle-react';
 import { TextStyle, Color } from '@tiptap/extension-text-style';
@@ -12,7 +13,7 @@ import Collaboration from '@tiptap/extension-collaboration';
 import CollaborationCaret from '@tiptap/extension-collaboration-caret';
 import { TextSelection, type Selection } from '@tiptap/pm/state';
 import classNames from 'classnames';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
 import { SlashCommands } from './lib/slash-commands';
@@ -21,6 +22,7 @@ import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
 import { UploadFileContext, type UploadFile } from './model/uploadFileContext';
 import type { YjsSocketProvider } from '@/entities/page';
+import AiIcon from '@shared/assets/icons/wand.svg';
 import { Button } from '@shared/ui/button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
@@ -45,6 +47,10 @@ type TextEditorProps = {
   editable?: boolean;
   onChange?: (json: Record<string, unknown>) => void;
   onUploadFile?: UploadFile;
+  onAskAi?: (editor: Editor) => void;
+  renderBubbleActions?: (editor: Editor, onOpen: () => void) => ReactNode;
+  renderOverlay?: (editor: Editor) => ReactNode;
+  isOverlayOpen?: (editor: Editor) => boolean;
   provider?: YjsSocketProvider | null;
   user?: { name: string; color: string } | null;
 };
@@ -60,6 +66,10 @@ export const TextEditor = ({
   editable = true,
   onChange,
   onUploadFile,
+  onAskAi,
+  renderBubbleActions,
+  renderOverlay,
+  isOverlayOpen,
   provider,
   user,
 }: TextEditorProps) => {
@@ -82,11 +92,14 @@ export const TextEditor = ({
           dropcursor: { color: '#6366F1', width: 2 },
           ...(isCollaborative ? { undoRedo: false } : {}),
         }),
+        Markdown,
 
         TaskList,
         TaskItem.configure({ nested: true }),
 
-        SlashCommands,
+        SlashCommands.configure({
+          onAskAi,
+        }),
         TextStyle,
         Color,
         Image,
@@ -138,17 +151,26 @@ export const TextEditor = ({
   );
 
   useEffect(() => {
-    if (editor && initialJsonRef.current === null && !isCollaborative) {
+    if (editor && !editor.isDestroyed && initialJsonRef.current === null && !isCollaborative) {
       initialJsonRef.current = JSON.stringify(editor.getJSON());
     }
   }, [editor, isCollaborative]);
 
   useEffect(() => {
-    editor?.setEditable(editable);
+    if (editor && !editor.isDestroyed) editor.setEditable(editable);
   }, [editor, editable]);
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || editor.isDestroyed) return;
+
+    const slashCommands = editor.extensionManager.extensions.find(
+      (extension) => extension.name === SlashCommands.name,
+    );
+    if (slashCommands) slashCommands.options.onAskAi = onAskAi;
+  }, [editor, onAskAi]);
+
+  useEffect(() => {
+    if (!editor || editor.isDestroyed) return;
 
     const handleUpdate = () => {
       if (!editor.isActive('table')) {
@@ -175,6 +197,9 @@ export const TextEditor = ({
       link: ed?.isActive('link') ?? false,
       color: (ed?.getAttributes('textStyle')?.color as string | undefined) ?? null,
       table: ed?.isActive('table') ?? false,
+      hasSelectedText: ed
+        ? isTextSelection(ed.state.selection) && !ed.state.selection.empty
+        : false,
     }),
   });
 
@@ -199,7 +224,7 @@ export const TextEditor = ({
   };
 
   const handleShouldShow = () => {
-    if (!editable || !editor) return false;
+    if (!editable || !editor || isOverlayOpen?.(editor)) return false;
     if (editor.isActive('table')) return true;
 
     const selection = editor?.state.selection;
@@ -220,7 +245,12 @@ export const TextEditor = ({
           <DragHandle editor={editor}>
             <div className={styles.dragHandle}>⋮⋮</div>
           </DragHandle>
-          <BubbleMenu editor={editor} className={styles.bubble} shouldShow={handleShouldShow}>
+          <BubbleMenu
+            editor={editor}
+            pluginKey="textEditorBubble"
+            className={styles.bubble}
+            shouldShow={handleShouldShow}
+          >
             <Button
               variant="clear"
               size="sm"
@@ -442,7 +472,46 @@ export const TextEditor = ({
                 )}
               </div>
             )}
+            {renderBubbleActions && (
+              <>
+                <div className={styles.actionsDivider} />
+                {renderBubbleActions(editor, () => {
+                  setIsColorOpen(false);
+                  setIsTableOpen(false);
+                })}
+              </>
+            )}
           </BubbleMenu>
+          <BubbleMenu
+            editor={editor}
+            pluginKey="aiEmptyLine"
+            options={{ placement: 'top-start', offset: 6 }}
+            shouldShow={() => {
+              const { empty, $from } = editor.state.selection;
+              return (
+                editable &&
+                Boolean(onAskAi) &&
+                editor.isFocused &&
+                !isOverlayOpen?.(editor) &&
+                empty &&
+                $from.parent.type.name === 'paragraph' &&
+                $from.parent.content.size === 0
+              );
+            }}
+          >
+            <Button
+              variant="clear"
+              className={styles.emptyAiButton}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => {
+                onAskAi?.(editor);
+                editor.commands.setMeta('aiEmptyLine', 'hide');
+              }}
+            >
+              <AiIcon aria-hidden /> Спросить ИИ
+            </Button>
+          </BubbleMenu>
+          {editable && renderOverlay?.(editor)}
         </>
       )}
       <UploadFileContext value={onUploadFile ?? uploadLocalFile}>

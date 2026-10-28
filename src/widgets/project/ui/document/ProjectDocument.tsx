@@ -1,6 +1,7 @@
 'use client';
 
 import { TextEditor } from '@features/text-editor';
+import { useEditorAi } from '@features/ai-assistant';
 
 const initialContent = `
   <h2>Обзор</h2>
@@ -10,5 +11,6 @@ const initialContent = `
 `;
 
 export const ProjectDocument = () => {
-  return <TextEditor content={initialContent} />;
+  const ai = useEditorAi();
+  return <TextEditor {...ai} content={initialContent} />;
 };

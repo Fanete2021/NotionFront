@@ -15,3 +15,5 @@ pnpm-workspace.yaml
 .env.tmp.*
 
 /AGENTS.MD
+
+certificates
