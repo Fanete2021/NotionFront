@@ -57,7 +57,7 @@ describe('getProjectSiblings', () => {
 
     const result = getProjectSiblings(projects, undefined);
 
-    expect(result).toEqual([]);
+    expect(result.map((p) => p.id)).toEqual(['a']);
   });
 
   it('возвращает пустой массив, если нет проектов с таким parentProjectId', () => {
