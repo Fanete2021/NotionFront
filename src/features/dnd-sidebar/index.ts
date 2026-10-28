@@ -14,3 +14,4 @@ export { DragPreview } from './ui/drag-preview/DragPreview';
 export { closeAllGroups, toggleGroup } from './model/slices/sidebarUiSlice';
 export type { SidebarUiState } from './model/slices/sidebarUiSlice';
 export { sidebarUiReducer } from './model/slices/sidebarUiSlice';
+export { flattenProjects } from './lib/reorderUtils/reorderUtils';

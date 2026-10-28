@@ -5,7 +5,8 @@ export interface Project {
   parentProjectId?: string | null;
   color?: string | null;
   icon?: string | null;
-  order: number;
+  position: number;
+  childProjects?: Project[];
   createdAt: string;
   updatedAt: string;
 }

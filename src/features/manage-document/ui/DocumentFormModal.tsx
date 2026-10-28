@@ -19,11 +19,12 @@ import {
   documentFormSchema,
 } from '../utils/validationDocumentFormConfig';
 import { CreatePageDto, useCreatePageMutation, useUpdatePageMutation } from '@/entities/page';
+import { useCreateProjectMutation } from '@/entities/project';
 import { useGetWorkspacesQuery } from '@/entities/workspace';
 import { Page, PageType, PAGE_TYPE } from '@/shared/const/pageType';
 import { Modal } from '@/shared/ui/modal';
 import { Button } from '@shared/ui/button';
-import { Input } from '@/shared/ui/input';
+import { Input } from '@shared/ui/input';
 import { IconPicker, DOCUMENT_ICONS } from '@/shared/ui/icon-picker';
 import { Select } from '@/shared/ui/select';
 import { Typography } from '@shared/ui/typography';
@@ -109,10 +110,10 @@ export const DocumentFormModal: FC = () => {
 
   const {
     execute: createPage,
-    isLoading: isCreating,
-    error: createError,
-    fieldErrors: createFieldErrors,
-    resetError: resetCreateError,
+    isLoading: isCreatingPage,
+    error: createPageError,
+    fieldErrors: createPageFieldErrors,
+    resetError: resetCreatePageError,
   } = useMutationWithError<Page, { body: CreatePageDto }>(useCreatePageMutation, {
     onSuccess: (createdPage) => {
       dispatch(closeCreateDocumentModal());
@@ -130,6 +131,32 @@ export const DocumentFormModal: FC = () => {
       [HTTP_STATUS.FORBIDDEN]: {
         field: 'title',
         message: 'Нет прав на создание документа в этом проекте',
+      },
+    },
+  });
+
+  const {
+    execute: createProject,
+    isLoading: isCreatingProject,
+    error: createProjectError,
+    fieldErrors: createProjectFieldErrors,
+    resetError: resetCreateProjectError,
+  } = useMutationWithError(useCreateProjectMutation, {
+    onSuccess: () => {
+      dispatch(closeCreateDocumentModal());
+    },
+    fieldMap: {
+      [HTTP_STATUS.BAD_REQUEST]: {
+        field: 'title',
+        message: 'Название раздела не может быть пустым',
+      },
+      [HTTP_STATUS.NOT_FOUND]: {
+        field: 'title',
+        message: 'Родительский проект не найден',
+      },
+      [HTTP_STATUS.FORBIDDEN]: {
+        field: 'title',
+        message: 'Нет прав на создание раздела в этом проекте',
       },
     },
   });
@@ -160,14 +187,18 @@ export const DocumentFormModal: FC = () => {
     },
   });
 
-  const isLoading = isCreate ? isCreating : isUpdating;
-  const mutationError = isCreate ? createError : updateError;
-  const fieldErrors = isCreate ? createFieldErrors : updateFieldErrors;
+  const isLoading = isCreate ? isCreatingPage || isCreatingProject : isUpdating;
+
+  const mutationError = isCreate ? (createProjectError ?? createPageError) : updateError;
+  const fieldErrors = isCreate
+    ? { ...createPageFieldErrors, ...createProjectFieldErrors }
+    : updateFieldErrors;
 
   useEffect(() => {
     if (!isOpen) return;
 
-    resetCreateError();
+    resetCreatePageError();
+    resetCreateProjectError();
     resetUpdateError();
     reset({
       title: isCreate ? '' : currentTitle,
@@ -183,7 +214,8 @@ export const DocumentFormModal: FC = () => {
     currentIcon,
     currentWorkspaceId,
     reset,
-    resetCreateError,
+    resetCreatePageError,
+    resetCreateProjectError,
     resetUpdateError,
   ]);
 
@@ -194,13 +226,26 @@ export const DocumentFormModal: FC = () => {
           setError('root', { message: 'Проект не найден' });
           return;
         }
+
+        if (values.type === DOCUMENT_TYPE.SECTION) {
+          await createProject({
+            workspaceId: values.workspaceId,
+            body: {
+              name: values.title,
+              parentProjectId: projectId,
+              icon: values.icon ?? undefined,
+            },
+          });
+          return;
+        }
+
         await createPage({
           body: {
             title: values.title,
             workspaceId: values.workspaceId,
             projectId,
             icon: values.icon ?? undefined,
-            type: DOCUMENT_TO_PAGE_TYPE[values.type],
+            type: PAGE_TYPE.DOC,
           },
         });
       } else {
@@ -231,11 +276,11 @@ export const DocumentFormModal: FC = () => {
   const header = (
     <div className={styles.heading}>
       <Typography variant="text-medium" className={styles.title}>
-        {isCreate ? 'Создать документ' : 'Редактировать документ'}
+        {isCreate ? 'Создать' : 'Редактировать документ'}
       </Typography>
       <Typography variant="caption" className={styles.subtitle}>
         {isCreate
-          ? 'Добавьте новый документ в рабочее пространство'
+          ? 'Добавьте новый документ или раздел в рабочее пространство'
           : 'Измените параметры документа'}
       </Typography>
     </div>
@@ -289,7 +334,7 @@ export const DocumentFormModal: FC = () => {
                 error={fieldState.error?.message ?? fieldErrors.title}
                 type="text"
                 label="Название"
-                placeholder="Название документа..."
+                placeholder="Название..."
                 autoFocus
                 disabled={isLoading}
               />
@@ -298,41 +343,46 @@ export const DocumentFormModal: FC = () => {
           <FormError message={errors.root?.message ?? mutationError} />
         </div>
 
-        <div className={styles.field}>
-          <Typography variant="caption" className={styles.label}>
-            Тип
-          </Typography>
-          <Controller
-            name="type"
-            control={control}
-            render={({ field }) => (
-              <div className={styles.segmented} role="group" aria-label="Тип">
-                <Button
-                  variant="clear"
-                  className={classNames(styles.segment, {
-                    [styles.segmentActive]: field.value === DOCUMENT_TYPE.DOCUMENT,
-                  })}
-                  aria-pressed={field.value === DOCUMENT_TYPE.DOCUMENT}
-                  onClick={() => field.onChange(DOCUMENT_TYPE.DOCUMENT)}
-                  disabled={isLoading}
-                >
-                  Документ
-                </Button>
-                <Button
-                  variant="clear"
-                  className={classNames(styles.segment, {
-                    [styles.segmentActive]: field.value === DOCUMENT_TYPE.SECTION,
-                  })}
-                  aria-pressed={field.value === DOCUMENT_TYPE.SECTION}
-                  onClick={() => field.onChange(DOCUMENT_TYPE.SECTION)}
-                  disabled={isLoading}
-                >
-                  Раздел
-                </Button>
-              </div>
-            )}
-          />
-        </div>
+        {/* Сегмент «Тип» показываем только при создании:
+            при редактировании Page(ARTICLE) не конвертируется в Project,
+            поэтому переключение типа при edit было бы ложью. */}
+        {isCreate && (
+          <div className={styles.field}>
+            <Typography variant="caption" className={styles.label}>
+              Тип
+            </Typography>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <div className={styles.segmented} role="group" aria-label="Тип">
+                  <Button
+                    variant="clear"
+                    className={classNames(styles.segment, {
+                      [styles.segmentActive]: field.value === DOCUMENT_TYPE.DOCUMENT,
+                    })}
+                    aria-pressed={field.value === DOCUMENT_TYPE.DOCUMENT}
+                    onClick={() => field.onChange(DOCUMENT_TYPE.DOCUMENT)}
+                    disabled={isLoading}
+                  >
+                    Документ
+                  </Button>
+                  <Button
+                    variant="clear"
+                    className={classNames(styles.segment, {
+                      [styles.segmentActive]: field.value === DOCUMENT_TYPE.SECTION,
+                    })}
+                    aria-pressed={field.value === DOCUMENT_TYPE.SECTION}
+                    onClick={() => field.onChange(DOCUMENT_TYPE.SECTION)}
+                    disabled={isLoading}
+                  >
+                    Раздел
+                  </Button>
+                </div>
+              )}
+            />
+          </div>
+        )}
 
         <div className={styles.field}>
           <Typography variant="caption" className={styles.label}>
