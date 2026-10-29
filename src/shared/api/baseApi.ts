@@ -16,6 +16,7 @@ export const baseApi = createApi({
     'WorkspaceInvite',
     'CalendarEvent',
     'PublishedPage',
+    'PageComment',
   ],
   endpoints: () => ({}),
 });
