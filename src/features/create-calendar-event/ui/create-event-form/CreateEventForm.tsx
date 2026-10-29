@@ -156,6 +156,8 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
           endAt,
           allDay: false,
           projectId: values.project ?? null,
+          telegramReminder: values.telegramReminder,
+          reminderMinutes: values.reminderMinutes,
         },
       });
     } else {
@@ -166,6 +168,8 @@ export const CreateEventForm = ({ event }: CreateEventFormProps) => {
           startAt,
           endAt,
           allDay: false,
+          telegramReminder: values.telegramReminder,
+          reminderMinutes: values.reminderMinutes,
           ...(values.project ? { projectId: values.project } : {}),
         },
       });

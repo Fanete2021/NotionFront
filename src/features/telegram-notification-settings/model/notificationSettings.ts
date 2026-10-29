@@ -1,17 +1,3 @@
-import type { TelegramNotificationSettingsFormValues } from '../utils/validationTelegramNotificationSettingsConfig';
-
-export const initialNotificationSettings: TelegramNotificationSettingsFormValues = {
-  isConnected: true,
-  eventReminders: true,
-  dailySummary: true,
-  taskUpdates: false,
-  scheduleConflicts: true,
-  reminderMinutes: '15',
-  quietHours: true,
-  quietHoursStart: '23:00',
-  quietHoursEnd: '08:00',
-};
-
 export const notificationTypes = [
   {
     key: 'eventReminders',

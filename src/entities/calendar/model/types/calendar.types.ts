@@ -7,6 +7,8 @@ export interface CalendarEvent {
   endAt: string;
   allDay: boolean;
   isCompleted: boolean;
+  telegramReminder?: boolean;
+  reminderMinutes?: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -17,6 +19,8 @@ export interface UpdateCalendarEventDto {
   endAt: string;
   allDay: boolean;
   projectId: string | null;
+  telegramReminder: boolean;
+  reminderMinutes: number;
 }
 
 export interface CreateCalendarEventDto {
@@ -25,6 +29,8 @@ export interface CreateCalendarEventDto {
   endAt: string;
   allDay?: boolean;
   projectId?: string;
+  telegramReminder: boolean;
+  reminderMinutes: number;
 }
 
 export interface GetCalendarEventsArgs {

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, KeyboardEvent } from 'react';
 import classNames from 'classnames';
 import styles from './Toggle.module.css';
 
@@ -20,12 +20,21 @@ export const Toggle: FC<ToggleProps> = ({
   checked,
   disabled = false,
   onToggle,
+  onKeyDown,
   className,
   ...restProps
 }) => {
   const handleClick = () => {
     if (!disabled && onToggle) {
       onToggle();
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown?.(event);
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      handleClick();
     }
   };
 
@@ -44,6 +53,7 @@ export const Toggle: FC<ToggleProps> = ({
       aria-disabled={disabled}
       tabIndex={disabled ? -1 : 0}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
       {...restProps}
     >
       <div className={classNames(styles.thumb, thumbMods)} />

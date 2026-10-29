@@ -1,39 +1,30 @@
 'use client';
 
-import { type KeyboardEvent, useId } from 'react';
+import { useId } from 'react';
 import { Controller, type SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './TelegramNotificationForm.module.css';
-import {
-  initialNotificationSettings,
-  notificationTypes,
-  reminderOptions,
-} from '../../model/notificationSettings';
+import { notificationTypes, reminderOptions } from '../../model/notificationSettings';
 import {
   changeTelegramNotificationSettingsFormSchema,
   type TelegramNotificationSettingsFormInput,
   type TelegramNotificationSettingsFormValues,
 } from '../../utils/validationTelegramNotificationSettingsConfig';
-import { Button } from '@shared/ui/button';
+import { TelegramConnection } from '../telegram-connection/TelegramConnection';
+import type { NotificationSettings } from '@entities/telegram';
 import { Input } from '@shared/ui/input';
 import { Select } from '@shared/ui/select';
 import { Toggle } from '@shared/ui/toggle';
-import TelegramIcon from '@shared/assets/icons/telegram.svg';
-
-const handleToggleKeyDown = (event: KeyboardEvent<HTMLDivElement>, onToggle: () => void) => {
-  if (event.key === ' ' || event.key === 'Enter') {
-    event.preventDefault();
-    onToggle();
-  }
-};
 
 interface TelegramNotificationFormProps {
   id: string;
+  settings: NotificationSettings;
   onSubmit: SubmitHandler<TelegramNotificationSettingsFormValues>;
 }
 
 export const TelegramNotificationForm = ({
   id: formId,
+  settings,
   onSubmit,
 }: TelegramNotificationFormProps) => {
   const id = useId();
@@ -43,11 +34,18 @@ export const TelegramNotificationForm = ({
     TelegramNotificationSettingsFormValues
   >({
     resolver: zodResolver(changeTelegramNotificationSettingsFormSchema),
-    defaultValues: initialNotificationSettings,
+    defaultValues: {
+      ...settings,
+      reminderMinutes: String(
+        settings.reminderMinutes,
+      ) as TelegramNotificationSettingsFormInput['reminderMinutes'],
+      quietHoursStart: settings.quietHoursStart ?? '23:00',
+      quietHoursEnd: settings.quietHoursEnd ?? '08:00',
+    },
   });
-  const [quietHours, quietHoursEnd] = useWatch({
+  const [quietHoursEnabled, quietHoursEnd] = useWatch({
     control,
-    name: ['quietHours', 'quietHoursEnd'],
+    name: ['quietHoursEnabled', 'quietHoursEnd'],
   });
 
   return (
@@ -56,34 +54,7 @@ export const TelegramNotificationForm = ({
         <h3 id={`${id}-connection`} className={styles.sectionTitle}>
           Подключение
         </h3>
-        <Controller
-          name="isConnected"
-          control={control}
-          render={({ field }) => (
-            <div className={styles.connectionCard}>
-              <span className={styles.telegramIcon} aria-hidden="true">
-                <TelegramIcon />
-              </span>
-              <div className={styles.account}>
-                <span className={styles.accountName}>@alex_kim</span>
-                <span className={styles.connectionStatus} data-connected={field.value}>
-                  {field.value ? 'Подключён' : 'Не подключён'}
-                </span>
-              </div>
-              <Button
-                className={styles.connectionButton}
-                type="button"
-                variant="outline"
-                color={field.value ? 'danger' : 'normal'}
-                size="sm"
-                onClick={() => field.onChange(!field.value)}
-                onBlur={field.onBlur}
-              >
-                {field.value ? 'Отключить' : 'Подключить'}
-              </Button>
-            </div>
-          )}
-        />
+        <TelegramConnection />
       </section>
 
       <fieldset className={styles.notificationSection}>
@@ -108,9 +79,6 @@ export const TelegramNotificationForm = ({
                     checked={field.value ?? false}
                     onToggle={() => field.onChange(!field.value)}
                     onBlur={field.onBlur}
-                    onKeyDown={(event) =>
-                      handleToggleKeyDown(event, () => field.onChange(!field.value))
-                    }
                     aria-labelledby={`${id}-${key}`}
                     aria-describedby={`${id}-${key}-description`}
                   />
@@ -153,7 +121,7 @@ export const TelegramNotificationForm = ({
             </p>
           </div>
           <Controller
-            name="quietHours"
+            name="quietHoursEnabled"
             control={control}
             render={({ field }) => (
               <Toggle
@@ -161,9 +129,6 @@ export const TelegramNotificationForm = ({
                 checked={field.value ?? false}
                 onToggle={() => field.onChange(!field.value)}
                 onBlur={field.onBlur}
-                onKeyDown={(event) =>
-                  handleToggleKeyDown(event, () => field.onChange(!field.value))
-                }
                 aria-labelledby={`${id}-quiet-hours`}
                 aria-describedby={`${id}-quiet-description`}
               />
@@ -181,8 +146,8 @@ export const TelegramNotificationForm = ({
                 type="time"
                 size="m"
                 aria-label="Начало режима тишины"
-                disabled={!quietHours}
-                required={quietHours}
+                disabled={!quietHoursEnabled}
+                required={quietHoursEnabled}
                 error={fieldState.error?.message}
               />
             )}
@@ -200,14 +165,14 @@ export const TelegramNotificationForm = ({
                 type="time"
                 size="m"
                 aria-label="Конец режима тишины"
-                disabled={!quietHours}
-                required={quietHours}
+                disabled={!quietHoursEnabled}
+                required={quietHoursEnabled}
                 error={fieldState.error?.message}
               />
             )}
           />
           <p className={styles.scheduleHint}>
-            {quietHours
+            {quietHoursEnabled
               ? `Уведомления будут отложены до ${quietHoursEnd}`
               : 'Режим тишины выключен'}
           </p>

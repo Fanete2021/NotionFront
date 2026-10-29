@@ -25,9 +25,8 @@ describe('buildEventFormDefaults', () => {
         endTime: '14:30',
         taskType: 'meet',
         repeatable: 'no-repeat',
-        notifications: false,
         reminderMinutes: '15',
-        telegramSend: true,
+        telegramReminder: true,
       });
     });
 
@@ -85,8 +84,19 @@ describe('buildEventFormDefaults', () => {
       const result = buildEventFormDefaults(event);
       expect(result.taskType).toBe('meet');
       expect(result.repeatable).toBe('no-repeat');
-      expect(result.notifications).toBe(false);
-      expect(result.telegramSend).toBe(true);
+    });
+
+    it('берёт настройки напоминания из события', () => {
+      const event = makeEvent({ telegramReminder: true, reminderMinutes: 60 });
+      const result = buildEventFormDefaults(event);
+      expect(result.telegramReminder).toBe(true);
+      expect(result.reminderMinutes).toBe('60');
+    });
+
+    it('выключает напоминание, если событие его не содержит', () => {
+      const result = buildEventFormDefaults(makeEvent());
+      expect(result.telegramReminder).toBe(false);
+      expect(result.reminderMinutes).toBe('15');
     });
   });
 
