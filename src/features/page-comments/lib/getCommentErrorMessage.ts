@@ -12,6 +12,6 @@ export const getCommentErrorMessage = (error: unknown): string => {
     case HTTP_STATUS.BAD_REQUEST:
       return 'Комментарий не может быть пустым';
     default:
-      return getErrorMessage(error);
+      return getErrorMessage(error) ?? 'Не удалось выполнить действие';
   }
 };
