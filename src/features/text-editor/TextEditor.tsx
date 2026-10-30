@@ -297,7 +297,7 @@ export const TextEditor = ({
             >
               <PaletteIcon className={styles.bubbleIcon} />
             </BubbleButton>
-            {comments && activeMarks?.hasSelection && (
+            {comments && activeMarks?.hasSelectedText && (
               <BubbleButton label="Комментировать" onClick={addComment}>
                 <CommentIcon className={styles.bubbleIcon} />
               </BubbleButton>
