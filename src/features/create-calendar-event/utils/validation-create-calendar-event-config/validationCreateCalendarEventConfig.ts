@@ -1,4 +1,5 @@
 import * as z from 'zod';
+import { REMINDER_MINUTES } from '@entities/telegram';
 
 const parseLocalDate = (val: unknown): Date | undefined => {
   if (val instanceof Date) return val;
@@ -42,9 +43,8 @@ export const createCalendarEventFormSchema = z
       .transform((v) => (v === '' ? undefined : v)),
     taskType: z.string().trim().min(1, 'Выберите элемент из списка'),
     repeatable: z.string().trim().min(1, 'Выберите элемент из списка'),
-    notifications: z.boolean().default(false),
-    reminderMinutes: z.enum(['5', '15', '30', '60']).default('15'),
-    telegramSend: z.boolean().default(false),
+    reminderMinutes: z.enum(REMINDER_MINUTES).default('15').transform(Number),
+    telegramReminder: z.boolean().default(false),
   })
   .refine((values) => values.endTime > values.startTime, {
     message: 'Время окончания должно быть позже начала',

@@ -6,7 +6,6 @@ import type {
   CreateCalendarEventFormOutput,
 } from '../../utils/validation-create-calendar-event-config/validationCreateCalendarEventConfig';
 import { Typography } from '@shared/ui/typography';
-import { Checkbox } from '@shared/ui/checkbox';
 import { Card } from '@shared/ui/card';
 import { Select } from '@shared/ui/select';
 import { Toggle } from '@shared/ui/toggle';
@@ -30,22 +29,9 @@ export const NotificationsCard = ({ control, className }: NotificationsCardProps
       </Typography>
 
       <div className={styles.row}>
-        <Controller
-          name="notifications"
-          control={control}
-          render={({ field }) => (
-            <Checkbox
-              ref={field.ref}
-              name={field.name}
-              checked={field.value ?? false}
-              onCheckedChange={field.onChange}
-              onBlur={field.onBlur}
-              labelClassName={styles.reminderLabel}
-            >
-              Напомнить мне
-            </Checkbox>
-          )}
-        />
+        <Typography className={styles.reminderLabel} variant="text-medium">
+          Напомнить
+        </Typography>
         <Controller
           name="reminderMinutes"
           control={control}
@@ -57,7 +43,12 @@ export const NotificationsCard = ({ control, className }: NotificationsCardProps
               value={field.value ?? '15'}
               onChange={field.onChange}
               onBlur={field.onBlur}
-              options={[{ value: '15', label: 'За 15 мин' }]}
+              options={[
+                { value: '5', label: 'За 5 мин' },
+                { value: '15', label: 'За 15 мин' },
+                { value: '30', label: 'За 30 мин' },
+                { value: '60', label: 'За 1 час' },
+              ]}
             />
           )}
         />
@@ -75,7 +66,7 @@ export const NotificationsCard = ({ control, className }: NotificationsCardProps
           </Typography>
         </div>
         <Controller
-          name="telegramSend"
+          name="telegramReminder"
           control={control}
           render={({ field }) => (
             <Toggle
@@ -83,12 +74,6 @@ export const NotificationsCard = ({ control, className }: NotificationsCardProps
               checked={field.value ?? false}
               onToggle={() => field.onChange(!field.value)}
               onBlur={field.onBlur}
-              onKeyDown={(event) => {
-                if (event.key === ' ' || event.key === 'Enter') {
-                  event.preventDefault();
-                  field.onChange(!field.value);
-                }
-              }}
               aria-label="Отправить в Telegram"
             />
           )}

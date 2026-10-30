@@ -9,8 +9,8 @@ const validInput = {
   project: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
   taskType: 'meet',
   repeatable: 'no-repeat',
-  notifications: false,
-  telegramSend: false,
+  reminderMinutes: '30',
+  telegramReminder: true,
 };
 
 describe('createCalendarEventFormSchema', () => {
@@ -52,15 +52,33 @@ describe('createCalendarEventFormSchema', () => {
       }
     });
 
-    it('подставляет default false для notifications и telegramSend', () => {
-      const { ...withoutFlags } = validInput;
-      const result = createCalendarEventFormSchema.safeParse(withoutFlags);
+    it('подставляет дефолты для telegramReminder и reminderMinutes', () => {
+      const { telegramReminder: _, reminderMinutes: __, ...withoutReminder } = validInput;
+      const result = createCalendarEventFormSchema.safeParse(withoutReminder);
 
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.notifications).toBe(false);
-        expect(result.data.telegramSend).toBe(false);
+        expect(result.data.telegramReminder).toBe(false);
+        expect(result.data.reminderMinutes).toBe(15);
       }
+    });
+
+    it('преобразует reminderMinutes в число', () => {
+      const result = createCalendarEventFormSchema.safeParse(validInput);
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.reminderMinutes).toBe(30);
+      }
+    });
+
+    it('падает на неподдерживаемом reminderMinutes', () => {
+      const result = createCalendarEventFormSchema.safeParse({
+        ...validInput,
+        reminderMinutes: '10',
+      });
+
+      expect(result.success).toBe(false);
     });
 
     it('парсит date из строки ISO', () => {

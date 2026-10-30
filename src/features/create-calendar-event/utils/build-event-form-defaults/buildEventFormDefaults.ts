@@ -7,9 +7,8 @@ const CREATE_DEFAULTS: Partial<CreateCalendarEventFormInput> = {
   endTime: '14:30',
   taskType: 'meet',
   repeatable: 'no-repeat',
-  notifications: false,
   reminderMinutes: '15',
-  telegramSend: true,
+  telegramReminder: true,
 };
 
 export const buildEventFormDefaults = (
@@ -31,8 +30,9 @@ export const buildEventFormDefaults = (
     project: event.projectId ?? undefined,
     taskType: 'meet',
     repeatable: 'no-repeat',
-    notifications: false,
-    reminderMinutes: '15',
-    telegramSend: true,
+    reminderMinutes: String(
+      event.reminderMinutes ?? 15,
+    ) as CreateCalendarEventFormInput['reminderMinutes'],
+    telegramReminder: event.telegramReminder ?? false,
   };
 };

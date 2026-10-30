@@ -16,6 +16,8 @@ export const baseApi = createApi({
     'WorkspaceInvite',
     'CalendarEvent',
     'PublishedPage',
+    'TelegramStatus',
+    'NotificationSettings',
     'PageComment',
   ],
   endpoints: () => ({}),
