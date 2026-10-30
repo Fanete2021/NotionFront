@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { processMutationError } from '@/shared/utils/error-utils';
 import { FieldErrorMap } from '../../utils/error-utils/errorUtils';
 
@@ -14,6 +14,7 @@ type UseMutationWithErrorReturn<T, Args> = {
   fieldErrors: Record<string, string>;
   hasError: boolean;
   resetError: () => void;
+  abort: () => void;
 };
 
 export function useMutationWithError<T = unknown, Args = unknown>(
@@ -22,6 +23,7 @@ export function useMutationWithError<T = unknown, Args = unknown>(
   options: MutationOptions<T> = {},
 ): UseMutationWithErrorReturn<T, Args> {
   const [mutate, { isLoading, reset }] = mutationHook();
+  const requestRef = useRef<{ abort?: () => void } | null>(null);
   const [error, setError] = useState<{
     message: string | null;
     fieldErrors: Record<string, string>;
@@ -33,9 +35,13 @@ export function useMutationWithError<T = unknown, Args = unknown>(
   const execute = useCallback(
     async (args: Args): Promise<T> => {
       setError({ message: null, fieldErrors: {} });
+      let request: { abort?: () => void } | null = null;
 
       try {
-        const result = await mutate(args).unwrap();
+        const pending = mutate(args);
+        request = pending;
+        requestRef.current = request;
+        const result = await pending.unwrap();
         options.onSuccess?.(result);
         return result;
       } catch (err) {
@@ -46,6 +52,8 @@ export function useMutationWithError<T = unknown, Args = unknown>(
         });
 
         return Promise.reject(err);
+      } finally {
+        if (requestRef.current === request) requestRef.current = null;
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,6 +65,10 @@ export function useMutationWithError<T = unknown, Args = unknown>(
     reset?.();
   }, [reset]);
 
+  const abort = useCallback(() => {
+    requestRef.current?.abort?.();
+  }, []);
+
   return {
     execute,
     isLoading,
@@ -64,5 +76,6 @@ export function useMutationWithError<T = unknown, Args = unknown>(
     fieldErrors: error.fieldErrors,
     hasError: !!error.message || Object.keys(error.fieldErrors).length > 0,
     resetError,
+    abort,
   };
 }
