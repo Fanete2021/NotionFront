@@ -9,7 +9,8 @@ const makeProject = (overrides: Partial<Project> & Pick<Project, 'id' | 'name'>)
   parentProjectId: null,
   color: null,
   icon: null,
-  order: 0,
+  position: 0,
+  childProjects: [],
   createdAt: '2026-10-06T00:00:00.000Z',
   updatedAt: '2026-10-06T00:00:00.000Z',
   ...overrides,
@@ -45,7 +46,9 @@ describe('findDragTargets', () => {
       activePage: undefined,
       overPage: undefined,
       targetProject: undefined,
-      isOverGroup: false,
+      isOverRoot: false,
+      isOverOutdent: false,
+      outdentProject: undefined,
     });
   });
 
@@ -58,7 +61,7 @@ describe('findDragTargets', () => {
     expect(result.overProject?.id).toBe('b');
     expect(result.activePage).toBeUndefined();
     expect(result.overPage).toBeUndefined();
-    expect(result.isOverGroup).toBe(false);
+    expect(result.isOverRoot).toBe(false);
   });
 
   it('находит activePage и overPage по id', () => {
@@ -75,21 +78,38 @@ describe('findDragTargets', () => {
     expect(result.overProject).toBeUndefined();
   });
 
-  it('определяет isOverGroup по префиксу group-', () => {
+  it('определяет targetProject по префиксу group-', () => {
     const projects = [makeProject({ id: 'proj-1', name: 'P' })];
 
     const result = findDragTargets(makeEvent('page-1', 'group-proj-1'), projects, []);
 
-    expect(result.isOverGroup).toBe(true);
     expect(result.targetProject?.id).toBe('proj-1');
   });
 
-  it('targetProject = overProject, если over — не группа', () => {
+  it('определяет targetProject по префиксу nest-', () => {
+    const projects = [makeProject({ id: 'proj-1', name: 'P' })];
+
+    const result = findDragTargets(makeEvent('page-1', 'nest-proj-1'), projects, []);
+
+    expect(result.targetProject?.id).toBe('proj-1');
+  });
+
+  it('targetProject = undefined для проекта на sortable (перестановка)', () => {
     const projects = [makeProject({ id: 'a', name: 'A' }), makeProject({ id: 'b', name: 'B' })];
 
     const result = findDragTargets(makeEvent('a', 'b'), projects, []);
 
-    expect(result.isOverGroup).toBe(false);
+    expect(result.targetProject).toBeUndefined();
+  });
+
+  it('targetProject = overProject для документа на sortable группы', () => {
+    const projects = [makeProject({ id: 'a', name: 'A' }), makeProject({ id: 'b', name: 'B' })];
+    const pages = [makePage({ id: 'p1', title: 'P1', projectId: 'a' })];
+
+    const result = findDragTargets(makeEvent('p1', 'b'), projects, pages);
+
+    expect(result.activePage?.id).toBe('p1');
+    expect(result.overProject?.id).toBe('b');
     expect(result.targetProject?.id).toBe('b');
   });
 
@@ -98,7 +118,37 @@ describe('findDragTargets', () => {
 
     const result = findDragTargets(makeEvent('a', 'group-unknown'), projects, []);
 
-    expect(result.isOverGroup).toBe(true);
     expect(result.targetProject).toBeUndefined();
+  });
+
+  it('isOverRoot = true для projects-root', () => {
+    const result = findDragTargets(makeEvent('a', 'projects-root'), [], []);
+
+    expect(result.isOverRoot).toBe(true);
+    expect(result.targetProject).toBeUndefined();
+  });
+
+  it('isOverRoot = false для обычного sortable', () => {
+    const projects = [makeProject({ id: 'a', name: 'A' }), makeProject({ id: 'b', name: 'B' })];
+
+    const result = findDragTargets(makeEvent('a', 'b'), projects, []);
+
+    expect(result.isOverRoot).toBe(false);
+  });
+
+  it('определяет isOverOutdent и outdentProject по префиксу outdent-', () => {
+    const projects = [makeProject({ id: 'proj-1', name: 'P' })];
+    const result = findDragTargets(makeEvent('page-1', 'outdent-proj-1'), projects, []);
+
+    expect(result.isOverOutdent).toBe(true);
+    expect(result.outdentProject?.id).toBe('proj-1');
+  });
+
+  it('isOverOutdent = false для обычного sortable', () => {
+    const projects = [makeProject({ id: 'a', name: 'A' }), makeProject({ id: 'b', name: 'B' })];
+    const result = findDragTargets(makeEvent('a', 'b'), projects, []);
+
+    expect(result.isOverOutdent).toBe(false);
+    expect(result.outdentProject).toBeUndefined();
   });
 });

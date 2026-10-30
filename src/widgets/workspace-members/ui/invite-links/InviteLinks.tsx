@@ -15,8 +15,6 @@ import { useAppDispatch } from '@/shared/lib';
 import { useMutationWithError } from '@/shared/lib/hooks';
 import { FormError } from '@/shared/ui/form-error';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
-import { isFetchBaseQueryError } from '@shared/utils/error-utils';
-import { toast } from '@shared/ui/toast';
 
 interface InviteLinksProps {
   workspaceId: string;
@@ -28,7 +26,6 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   const {
     data: invites,
     isLoading,
-    isError,
     error: getInviteError,
   } = useGetWorkspaceInvitesQuery(workspaceId, {
     skip: !workspaceId,
@@ -61,43 +58,17 @@ export const InviteLinks = ({ workspaceId }: InviteLinksProps) => {
   };
 
   const handleCreateLink = () => {
-    if (isForbidden) {
-      toast.add({
-        type: 'info',
-        title: 'Приглашения',
-        description: permissionMessage,
-      });
-      return;
-    }
     dispatch(openInviteLinkModal({ workspaceId }));
   };
 
   const links = invites ?? [];
 
-  const isForbidden =
-    isFetchBaseQueryError(getInviteError) && getInviteError.status === HTTP_STATUS.FORBIDDEN;
-  const permissionMessage =
-    'У вас недостаточно прав для просмотра и создания ссылок для приглашения в рабочее пространство';
+  if (getInviteError) {
+    return null;
+  }
 
   if (isLoading) {
     return <div className={styles.loading}>Загрузка...</div>;
-  }
-
-  if (isForbidden) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.titleBlock}>
-          <Typography variant="label" className={styles.sectionTitle}>
-            🔒 Ссылки для вступления
-          </Typography>
-        </div>
-        <div className={styles.forbiddenMessage}>{permissionMessage}</div>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return null;
   }
 
   return (

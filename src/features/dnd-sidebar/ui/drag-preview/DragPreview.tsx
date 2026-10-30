@@ -1,6 +1,7 @@
 'use client';
 
 import styles from './DragPreview.module.css';
+import { flattenProjects } from '../../lib/reorderUtils/reorderUtils';
 import { Project } from '@/entities/project';
 import { Page, PAGE_TYPE } from '@/shared/const/pageType';
 import { Typography } from '@/shared/ui/typography';
@@ -14,7 +15,8 @@ interface DragPreviewProps {
 }
 
 export function DragPreview({ id, projects, pages }: DragPreviewProps) {
-  const project = projects.find((p) => p.id === id);
+  const flatProjects = flattenProjects(projects);
+  const project = flatProjects.find((p) => p.id === id);
   const page = pages.find((p) => p.id === id);
 
   if (project) {

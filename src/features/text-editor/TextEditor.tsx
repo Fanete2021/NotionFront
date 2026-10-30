@@ -17,6 +17,8 @@ import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { TaskItem, TaskList } from '@tiptap/extension-list';
 import styles from './TextEditor.module.css';
 import { SlashCommands } from './lib/slash-commands';
+import { useEditorComments, type EditorComments } from './lib/useEditorComments';
+import { formatItems, tableItems } from './model/bubble-items';
 import ImageUploadNode from './ui/image-upload-node/ImageUploadNode';
 import VideoUploadNode from './ui/video-upload-node/VideoUploadNode';
 import VideoNode from './ui/video-node/VideoNode';
@@ -27,10 +29,10 @@ import { Button } from '@shared/ui/button';
 import ChainIcon from '@shared/assets/icons/chain-icon.svg';
 import PaletteIcon from '@shared/assets/icons/palette.svg';
 import TableIcon from '@shared/assets/icons/editor-table.svg';
+import CommentIcon from '@shared/assets/icons/comment.svg';
 import { Typography } from '@shared/ui/typography';
 import XCloseIcon from '@shared/assets/icons/x-close-2.svg';
-import PlusIcon from '@shared/assets/icons/plus.svg';
-import DivideIcon from '@shared/assets/icons/divide.svg';
+import { CommentAnchor } from '@shared/lib/tiptap/comment-anchor';
 
 const textColors = [
   { value: null, colorName: 'Сбросить цвет' },
@@ -53,7 +55,31 @@ type TextEditorProps = {
   isOverlayOpen?: (editor: Editor) => boolean;
   provider?: YjsSocketProvider | null;
   user?: { name: string; color: string } | null;
+  comments?: EditorComments;
 };
+
+type BubbleButtonProps = {
+  label: string;
+  isActive?: boolean;
+  className?: string;
+  onClick: () => void;
+  children: ReactNode;
+};
+
+const BubbleButton = ({ label, isActive, className, onClick, children }: BubbleButtonProps) => (
+  <Button
+    variant="clear"
+    size="sm"
+    square
+    aria-label={label}
+    className={classNames(styles.bubbleButton, className, {
+      [styles.bubbleButtonActive]: isActive,
+    })}
+    onClick={onClick}
+  >
+    {children}
+  </Button>
+);
 
 const uploadLocalFile: UploadFile = (file) => Promise.resolve(URL.createObjectURL(file));
 
@@ -72,6 +98,7 @@ export const TextEditor = ({
   isOverlayOpen,
   provider,
   user,
+  comments,
 }: TextEditorProps) => {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isTableOpen, setIsTableOpen] = useState(false);
@@ -106,6 +133,7 @@ export const TextEditor = ({
         ImageUploadNode,
         VideoUploadNode,
         VideoNode,
+        CommentAnchor,
 
         TableKit.configure({
           table: { resizable: true },
@@ -150,6 +178,8 @@ export const TextEditor = ({
     [provider],
   );
 
+  const { addComment, highlightSelector } = useEditorComments(editor, comments);
+
   useEffect(() => {
     if (editor && !editor.isDestroyed && initialJsonRef.current === null && !isCollaborative) {
       initialJsonRef.current = JSON.stringify(editor.getJSON());
@@ -187,13 +217,7 @@ export const TextEditor = ({
   const activeMarks = useEditorState({
     editor,
     selector: ({ editor: ed }) => ({
-      heading1: ed?.isActive('heading', { level: 1 }) ?? false,
-      heading2: ed?.isActive('heading', { level: 2 }) ?? false,
-      paragraph: ed?.isActive('paragraph') ?? false,
-      bold: ed?.isActive('bold') ?? false,
-      italic: ed?.isActive('italic') ?? false,
-      underline: ed?.isActive('underline') ?? false,
-      code: ed?.isActive('code') ?? false,
+      formats: formatItems.map((item) => (ed ? item.isActive(ed) : false)),
       link: ed?.isActive('link') ?? false,
       color: (ed?.getAttributes('textStyle')?.color as string | undefined) ?? null,
       table: ed?.isActive('table') ?? false,
@@ -240,128 +264,44 @@ export const TextEditor = ({
 
   return (
     <div className={styles.root}>
+      {highlightSelector && (
+        <style>{`${highlightSelector} { background-color: var(--color-comment-anchor-bg); border-bottom: 2px solid var(--color-comment-anchor-border); }`}</style>
+      )}
       {editor && (
         <>
           <DragHandle editor={editor}>
             <div className={styles.dragHandle}>⋮⋮</div>
           </DragHandle>
-          <BubbleMenu
-            editor={editor}
-            pluginKey="textEditorBubble"
-            className={styles.bubble}
-            shouldShow={handleShouldShow}
-          >
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Заголовок 1"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: activeMarks?.heading1,
-              })}
-              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            >
-              H1
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Заголовок 2"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: activeMarks?.heading2,
-              })}
-              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            >
-              H2
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Обычный текст"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: activeMarks?.paragraph,
-              })}
-              onClick={() => editor.chain().focus().setParagraph().run()}
-            >
-              Т
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Жирный"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: activeMarks?.bold,
-              })}
-              onClick={() => editor.chain().focus().toggleBold().run()}
-            >
-              B
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Курсив"
-              className={classNames(styles.bubbleButton, styles.bubbleButtonItalic, {
-                [styles.bubbleButtonActive]: activeMarks?.italic,
-              })}
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-            >
-              I
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Подчёркнутый"
-              className={classNames(styles.bubbleButton, styles.bubbleButtonUnderline, {
-                [styles.bubbleButtonActive]: activeMarks?.underline,
-              })}
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-            >
-              U
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Код"
-              className={classNames(styles.bubbleButton, styles.bubbleButtonCode, {
-                [styles.bubbleButtonActive]: activeMarks?.code,
-              })}
-              onClick={() => editor.chain().focus().toggleCode().run()}
-            >
-              {'</>'}
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Ссылка"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: activeMarks?.link,
-              })}
-              onClick={handleLinkClick}
-            >
+          <BubbleMenu editor={editor} className={styles.bubble} shouldShow={handleShouldShow}>
+            {formatItems.map((item, index) => (
+              <BubbleButton
+                key={item.label}
+                label={item.label}
+                isActive={activeMarks?.formats[index]}
+                className={item.className && styles[item.className]}
+                onClick={() => item.execute(editor)}
+              >
+                {item.text}
+              </BubbleButton>
+            ))}
+            <BubbleButton label="Ссылка" isActive={activeMarks?.link} onClick={handleLinkClick}>
               <ChainIcon className={styles.bubbleIcon} />
-            </Button>
-            <Button
-              variant="clear"
-              size="sm"
-              square
-              aria-label="Цвет текста"
-              className={classNames(styles.bubbleButton, {
-                [styles.bubbleButtonActive]: isColorOpen || currentColor !== null,
-              })}
+            </BubbleButton>
+            <BubbleButton
+              label="Цвет текста"
+              isActive={isColorOpen || currentColor !== null}
               onClick={() => {
                 setIsColorOpen((open) => !open);
                 setIsTableOpen(false);
               }}
             >
               <PaletteIcon className={styles.bubbleIcon} />
-            </Button>
+            </BubbleButton>
+            {comments && activeMarks?.hasSelection && (
+              <BubbleButton label="Комментировать" onClick={addComment}>
+                <CommentIcon className={styles.bubbleIcon} />
+              </BubbleButton>
+            )}
 
             {isColorOpen && (
               <div className={styles.colorPanel}>
@@ -397,64 +337,30 @@ export const TextEditor = ({
 
             {activeMarks?.table && (
               <div className={styles.tableMenuWrapper}>
-                <Button
-                  variant="clear"
-                  size="sm"
-                  square
-                  aria-label="Действия с таблицей"
-                  className={classNames(styles.bubbleButton, {
-                    [styles.bubbleButtonActive]: isTableOpen,
-                  })}
+                <BubbleButton
+                  label="Действия с таблицей"
+                  isActive={isTableOpen}
                   onClick={() => {
                     setIsTableOpen((open) => !open);
                     setIsColorOpen(false);
                   }}
                 >
                   <TableIcon className={styles.bubbleIcon} />
-                </Button>
+                </BubbleButton>
 
                 {isTableOpen && (
                   <div className={styles.tablePanel}>
-                    <Button
-                      variant="clear"
-                      className={styles.tablePanelItem}
-                      onClick={() =>
-                        runTableCommand(() => editor.chain().focus().addRowAfter().run())
-                      }
-                    >
-                      <PlusIcon className={styles.icon} />
-                      Добавить строку
-                    </Button>
-                    <Button
-                      variant="clear"
-                      className={styles.tablePanelItem}
-                      onClick={() =>
-                        runTableCommand(() => editor.chain().focus().addColumnAfter().run())
-                      }
-                    >
-                      <PlusIcon className={styles.icon} />
-                      Добавить столбец
-                    </Button>
-                    <Button
-                      variant="clear"
-                      className={styles.tablePanelItem}
-                      onClick={() =>
-                        runTableCommand(() => editor.chain().focus().deleteRow().run())
-                      }
-                    >
-                      <DivideIcon className={styles.icon} />
-                      Удалить строку
-                    </Button>
-                    <Button
-                      variant="clear"
-                      className={styles.tablePanelItem}
-                      onClick={() =>
-                        runTableCommand(() => editor.chain().focus().deleteColumn().run())
-                      }
-                    >
-                      <DivideIcon className={styles.icon} />
-                      Удалить столбец
-                    </Button>
+                    {tableItems.map(({ label, icon: Icon, execute }) => (
+                      <Button
+                        key={label}
+                        variant="clear"
+                        className={styles.tablePanelItem}
+                        onClick={() => runTableCommand(() => execute(editor))}
+                      >
+                        <Icon className={styles.icon} />
+                        {label}
+                      </Button>
+                    ))}
                     <div className={styles.tablePanelDivider} />
                     <Button
                       variant="clear"
