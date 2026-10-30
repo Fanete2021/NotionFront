@@ -115,6 +115,8 @@
   --color-header-icon-button: #6B7280;
   --color-editor-text: #1F2937;
   --color-comment-meta: #9CA3AF;
+  --color-comment-anchor-bg: #F59E0B2E;
+  --color-comment-anchor-border: #F59E0B;
 
   /* fonts */
   --font-sans: 'Inter';

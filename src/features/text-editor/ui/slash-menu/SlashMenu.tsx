@@ -1,4 +1,4 @@
-import { SlashItem } from '../../model/slash-items';
+import { aiSlashItem, type SlashItem } from '../../model/slash-items';
 import styles from './SlashMenu.module.css';
 import { Button } from '@shared/ui/button';
 import { Typography } from '@shared/ui/typography';
@@ -20,10 +20,11 @@ export const SlashMenu = ({
     return null;
   }
   return (
-    <div className={styles.menu} role="listbox">
+    <div className={styles.menu} role="listbox" aria-label="Команды редактора">
       {items.map((item, index) => {
         const Icon = item.icon;
         const isSelected = index === selectedIndex;
+        const isAi = item === aiSlashItem;
 
         return (
           <Button
@@ -32,6 +33,7 @@ export const SlashMenu = ({
             className={styles.editorButton}
             type="button"
             data-selected={isSelected}
+            data-ai={isAi || undefined}
             aria-selected={isSelected}
             role="option"
             onMouseEnter={() => onSelectedIndexChange(index)}
@@ -39,7 +41,7 @@ export const SlashMenu = ({
             onClick={() => command?.(item)}
           >
             <div className={styles.icon}>
-              <Icon className={styles.img} aria-hidden />
+              <Icon className={isAi ? undefined : styles.img} aria-hidden />
             </div>
 
             <div className={styles.text}>
@@ -51,6 +53,7 @@ export const SlashMenu = ({
                 {item.subtitle}
               </Typography>
             </div>
+            {isAi && <span className={styles.shortcut}>/ai</span>}
           </Button>
         );
       })}

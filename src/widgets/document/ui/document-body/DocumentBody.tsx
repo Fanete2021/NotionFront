@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './DocumentBody.module.css';
 import { DocumentHeader } from '../document-header/DocumentHeader';
 import { TextEditor } from '@features/text-editor';
+import { useEditorAi } from '@features/ai-assistant';
+import { usePageComments } from '@features/page-comments';
 import { PageContent, useYjsProvider } from '@/entities/page';
 import { useUploadAttachment } from '@/entities/attachment';
 import { useGetMeQuery } from '@/entities/user';
@@ -27,6 +29,7 @@ const pickColor = (seed: string): string => {
 };
 
 export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
+  const ai = useEditorAi();
   const { data: authData } = useGetMeQuery();
 
   const { data: members } = useGetWorkspaceMembersQuery(page.workspaceId, {
@@ -40,6 +43,7 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
 
   const provider = useYjsProvider(page.id, { user });
   const uploadAttachment = useUploadAttachment(page.id);
+  const { state: commentsState, actions: commentsActions } = usePageComments();
 
   const [canEdit, setCanEdit] = useState(false);
   const [isSynced, setIsSynced] = useState(false);
@@ -105,11 +109,17 @@ export const DocumentBody = ({ page, content }: DocumentBodyProps) => {
       <DocumentHeader page={page} updatedAt={serverUpdatedAt} authorName={editorName} />
       <div className={styles.document}>
         <TextEditor
+          {...ai}
           provider={provider}
           user={user}
           editable={editable}
           content={content?.json ?? null}
           onUploadFile={uploadAttachment}
+          comments={{
+            anchorIds: commentsState.highlightedAnchorIds,
+            onAdd: commentsActions.startDraft,
+            onEditorChange: commentsActions.setEditor,
+          }}
         />
       </div>
     </main>

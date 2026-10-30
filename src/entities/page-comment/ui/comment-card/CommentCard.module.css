@@ -1,0 +1,49 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.meta {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-comment-text);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.time {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-comment-meta);
+}
+
+.actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.body {
+  margin: 0;
+  color: var(--color-comment-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

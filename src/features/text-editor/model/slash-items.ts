@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/react';
 import { ComponentType, SVGProps } from 'react';
+import AiIcon from '@shared/assets/icons/slash-ai.svg';
 import EditorTypography from '@shared/assets/icons/editor-typography.svg';
 import EditorH1 from '@shared/assets/icons/editor-heading-1.svg';
 import EditorH2 from '@shared/assets/icons/editor-heading-2.svg';
@@ -16,10 +17,18 @@ export type SlashItem = {
   title: string;
   subtitle: string;
   icon: SlashIcon;
-  execute: (props: { editor: Editor }) => void;
+  execute: (props: { editor: Editor; onAskAi?: (editor: Editor) => void }) => void;
+};
+
+export const aiSlashItem: SlashItem = {
+  title: 'Спросить ИИ',
+  subtitle: 'Написать текст по промпту',
+  icon: AiIcon,
+  execute: ({ editor, onAskAi }) => onAskAi?.(editor),
 };
 
 export const items: SlashItem[] = [
+  aiSlashItem,
   {
     title: 'Текст',
     subtitle: 'Просто начните писать обычный текст',

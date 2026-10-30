@@ -1,10 +1,13 @@
-import { Extension, ReactRenderer } from '@tiptap/react';
+import { Extension, ReactRenderer, type Editor } from '@tiptap/react';
 import Suggestion, { SuggestionProps } from '@tiptap/suggestion';
-import { items, SlashItem } from '../model/slash-items';
+import { aiSlashItem, items, SlashItem } from '../model/slash-items';
 import { SlashMenu } from '../ui/slash-menu/SlashMenu';
 
-export const SlashCommands = Extension.create({
+export const SlashCommands = Extension.create<{ onAskAi?: (editor: Editor) => void }>({
   name: 'SlashCommands',
+  addOptions() {
+    return { onAskAi: undefined };
+  },
   addProseMirrorPlugins() {
     return [
       Suggestion({
@@ -13,13 +16,18 @@ export const SlashCommands = Extension.create({
         startOfLine: true,
 
         items: ({ query }) => {
-          return items.filter((item) => item.title.toLowerCase().includes(query.toLowerCase()));
+          const search = query.toLowerCase();
+          return items.filter((item) =>
+            item === aiSlashItem
+              ? 'ai'.startsWith(search)
+              : item.title.toLowerCase().includes(search),
+          );
         },
 
         command: ({ editor, range, props: command }) => {
           editor.chain().focus().deleteRange(range).run();
 
-          command.execute({ editor });
+          command.execute({ editor, onAskAi: this.options.onAskAi });
         },
         render: () => {
           let component: ReactRenderer | null = null;

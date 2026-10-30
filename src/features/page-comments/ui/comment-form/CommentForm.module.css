@@ -1,0 +1,46 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border-base);
+  border-radius: 8px;
+  resize: vertical;
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--color-comment-text);
+  background: var(--color-text-area);
+}
+
+.textarea::placeholder {
+  color: var(--color-placeholder);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.textarea:disabled {
+  opacity: 0.7;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.actions .button {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+}

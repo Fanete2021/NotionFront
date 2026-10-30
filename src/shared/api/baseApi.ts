@@ -18,6 +18,7 @@ export const baseApi = createApi({
     'PublishedPage',
     'TelegramStatus',
     'NotificationSettings',
+    'PageComment',
   ],
   endpoints: () => ({}),
 });
