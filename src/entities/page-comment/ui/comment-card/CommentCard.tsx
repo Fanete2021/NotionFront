@@ -31,7 +31,7 @@ export const CommentCard = ({ comment, actions, children }: CommentCardProps) =>
         </div>
         {actions && <div className={styles.actions}>{actions}</div>}
       </div>
-      {children ?? (
+      {children || (
         <Typography variant="text-medium" className={styles.body}>
           {body}
         </Typography>
