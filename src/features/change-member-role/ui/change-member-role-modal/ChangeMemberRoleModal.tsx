@@ -35,7 +35,7 @@ export function ChangeMemberRoleModal({ member, isOpen, onClose }: ChangeMemberR
     fieldMap: {
       [HTTP_STATUS.FORBIDDEN]: {
         field: 'root',
-        message: 'Вы не являетесь участником этого воркспейса',
+        message: 'Недостаточно прав для изменения роли этого участника',
       },
       [HTTP_STATUS.UNAUTHORIZED]: {
         field: 'root',

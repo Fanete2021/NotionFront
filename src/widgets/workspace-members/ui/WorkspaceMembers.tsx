@@ -8,6 +8,7 @@ import { WorkspaceMembersHeader } from '../ui/workspace-members-header/Workspace
 import { WorkspaceMembersSkeleton } from './workspace-members-skeleton/WorkspaceMembersSkeleton';
 import { CreateInviteLinkModal } from '@/features/create-invite-link';
 import { useGetWorkspaceMembersQuery } from '@/entities/workspace-members';
+import { useGetMeQuery } from '@/entities/user';
 import { isFetchBaseQueryError } from '@/shared/utils/error-utils';
 import { HTTP_STATUS } from '@/shared/const/httpStatus';
 
@@ -24,6 +25,11 @@ export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMember
   } = useGetWorkspaceMembersQuery(workspaceId, {
     skip: !workspaceId,
   });
+
+  const { data: currentUser } = useGetMeQuery();
+
+  const currentRole = members?.find((m) => m.userInfo.id === currentUser?.id)?.role;
+  const canManageMembers = currentRole === 'OWNER' || currentRole === 'ADMIN';
 
   if (isLoading) {
     return <WorkspaceMembersSkeleton />;
@@ -45,7 +51,7 @@ export const WorkspaceMembers = ({ workspaceId, workspaceName }: WorkspaceMember
       <div className={styles.container}>
         <WorkspaceInfo workspaceName={workspaceName} memberCount={members?.length ?? 0} />
         <InviteLinks workspaceId={workspaceId} />
-        <MemberList members={members ?? []} />
+        <MemberList members={members ?? []} canManageMembers={canManageMembers} />
       </div>
 
       <CreateInviteLinkModal />

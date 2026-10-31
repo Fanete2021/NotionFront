@@ -15,9 +15,10 @@ import { useAppSelector, useAppStore } from '@/shared/lib';
 
 interface MemberListProps {
   members: WorkspaceMember[];
+  canManageMembers?: boolean;
 }
 
-export const MemberList = ({ members }: MemberListProps) => {
+export const MemberList = ({ members, canManageMembers = false }: MemberListProps) => {
   const store = useAppStore();
   const isChangeMemberRoleModalOpen = useAppSelector(selectIsChangeMemberRoleModalOpen);
   const member = useAppSelector(selectChoosedMember);
@@ -38,7 +39,7 @@ export const MemberList = ({ members }: MemberListProps) => {
       </Typography>
       <div className={styles.list}>
         {members.map((member) => (
-          <MemberCard key={member.id} member={member} />
+          <MemberCard key={member.id} member={member} canManageMembers={canManageMembers} />
         ))}
       </div>
       <ChangeMemberRoleModal

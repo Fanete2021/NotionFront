@@ -11,9 +11,10 @@ import { Button } from '@shared/ui/button';
 
 interface MemberCardProps {
   member: WorkspaceMember;
+  canManageMembers?: boolean;
 }
 
-export const MemberCard = ({ member }: MemberCardProps) => {
+export const MemberCard = ({ member, canManageMembers = false }: MemberCardProps) => {
   const { userInfo, role } = member;
   const dispatch = useDispatch();
 
@@ -39,9 +40,11 @@ export const MemberCard = ({ member }: MemberCardProps) => {
       </div>
       <div className={styles.memberStatus}>
         <Badge text={roleLabel} color={colors.color} bgColor={colors.bgColor} />
-        <Button variant="clear" className={styles.moreBtn} onClick={handleMoreButtonClick}>
-          <MoreIcon className={styles.moreIcon} />
-        </Button>
+        {canManageMembers && (
+          <Button variant="clear" className={styles.moreBtn} onClick={handleMoreButtonClick}>
+            <MoreIcon className={styles.moreIcon} />
+          </Button>
+        )}
       </div>
     </div>
   );
