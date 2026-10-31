@@ -3,6 +3,8 @@ import HomeIcon from '@/shared/assets/icons/home.svg';
 import CalendarIcon from '@/shared/assets/icons/calendar.svg';
 import TrashIcon from '@/shared/assets/icons/trash-2.svg';
 import GearIcon from '@/shared/assets/icons/gear-icon-2.svg';
+import GlobeIcon from '@/shared/assets/icons/globus.svg';
+import { ROUTES } from '@/shared/routes';
 
 export const staticSidebarItems: SidebarItemData[] = [
   {
@@ -35,6 +37,13 @@ export const staticSidebarItems: SidebarItemData[] = [
     type: 'link',
     href: '/trash',
     icon: TrashIcon,
+  },
+  {
+    id: 'publications',
+    title: 'Публикации',
+    type: 'link',
+    href: ROUTES.publicFeed,
+    icon: GlobeIcon,
   },
   {
     id: 'settings',
