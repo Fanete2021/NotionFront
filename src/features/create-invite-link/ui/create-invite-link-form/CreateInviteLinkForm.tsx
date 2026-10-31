@@ -63,7 +63,7 @@ export function CreateInviteLinkForm({
     try {
       await createInvite({
         workspaceId,
-        data: {
+        body: {
           type: values.type,
           role: curRole,
         },
